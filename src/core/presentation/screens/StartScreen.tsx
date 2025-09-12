@@ -63,7 +63,7 @@ const StartScreen = () => {
         activeOpacity={0.9}
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
-        onPress={() => router.push('/login')}
+        onPress={() => router.push('/onboarding')}
         accessibilityLabel="Begin Your Adventure"
       >
         <Animated.View style={[styles.button, animatedStyle]}>

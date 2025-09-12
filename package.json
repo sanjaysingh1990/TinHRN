@@ -43,7 +43,8 @@
     "reflect-metadata": "^0.2.2",
     "tsyringe": "^4.10.0",
     "@react-native-picker/picker": "2.11.1",
-    "expo-linear-gradient": "~15.0.7"
+    "expo-linear-gradient": "~15.0.7",
+    "react-native-pager-view": "6.9.1"
   },
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.28.0",
