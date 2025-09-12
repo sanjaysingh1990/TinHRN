@@ -1,7 +1,4 @@
 
-import React from 'react';
-import SampleScreen from '../../src/sample/presentation/screens/SampleScreen';
+import Tab1Screen from '../../src/home/presentation/screens/Tab1Screen';
 
-export default function Index() {
-  return <SampleScreen />;
-}
+export default Tab1Screen;
