@@ -1,17 +1,20 @@
 
-import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ImageBackground,
-  TouchableOpacity,
-  Animated,
-  useColorScheme,
-} from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialIcons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
+import React from 'react';
+import { Dimensions } from 'react-native';
+const { height } = Dimensions.get('window');
+
+import {
+  Animated,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  useColorScheme,
+  View,
+} from 'react-native';
 import { theme } from '../../../theme';
 
 const StartScreen = () => {
@@ -42,7 +45,7 @@ const StartScreen = () => {
 
   return (
     <ImageBackground
-      source={require('../../../../assets/images/himalaya-bg.jpg')} // Replace with your image
+      source={require('../../../../assets/images/start_screen_background.jpg')} // Replace with your image
       style={styles.background}
     >
       <LinearGradient
@@ -84,21 +87,22 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    height: '70%',
+    height: '80%',
   },
   stitchOverlay: {
     position: 'absolute',
-    top: '50%',
+    bottom: height * 0.8,
     left: 20,
     right: 20,
     height: 1,
     borderTopWidth: 2,
     borderStyle: 'dashed',
-    borderColor: 'rgba(183, 175, 158, 0.5)',
+    borderColor: '#b7af9e',
+    opacity: 0.5,
   },
   contentContainer: {
     position: 'absolute',
-    top: '25%',
+    bottom: 200,
     alignItems: 'center',
     paddingHorizontal: 20,
   },
