@@ -15,5 +15,6 @@ export const theme = {
     secondary: '#b7af9e',
     inputBackground: '#2a261f',
     borderColor: '#444444',
+    inputBackgroundDark: '#383329',
   },
 };

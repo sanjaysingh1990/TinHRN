@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { 
   View, 
@@ -103,25 +104,24 @@ const LoginScreen: React.FC = () => {
       color: colors.secondary,
       marginHorizontal: 10,
     },
-    socialButton: {
+    socialButtonsContainer: {
       flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'center',
-      padding: 15,
-      borderRadius: 10,
+      justifyContent: 'space-around',
+      marginBottom: 20,
+    },
+    socialButton: {
+      width: 60,
+      height: 60,
+      borderRadius: 30,
       borderWidth: 1,
       borderColor: colorScheme === 'dark' ? colors.borderColor : 'transparent',
-      backgroundColor: colors.inputBackground,
-      marginBottom: 10,
+      backgroundColor: colors.inputBackgroundDark,
+      justifyContent: 'center',
+      alignItems: 'center',
     },
     socialIcon: {
-      width: 24,
-      height: 24,
-      marginRight: 10,
-    },
-    socialButtonText: {
+      fontSize: 24,
       color: colors.text,
-      fontWeight: 'bold',
     },
     footer: {
       flexDirection: 'row',
@@ -187,18 +187,17 @@ const LoginScreen: React.FC = () => {
         <View style={styles.stitch} />
       </View>
 
-      <TouchableOpacity style={styles.socialButton} accessibilityLabel="Login with Google">
-        <Text style={styles.socialIcon}>G</Text>
-        <Text style={styles.socialButtonText}>Continue with Google</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.socialButton} accessibilityLabel="Login with Facebook">
-        <Text style={styles.socialIcon}>F</Text>
-        <Text style={styles.socialButtonText}>Continue with Facebook</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.socialButton} accessibilityLabel="Login with Apple">
-        <Text style={styles.socialIcon}>A</Text>
-        <Text style={styles.socialButtonText}>Continue with Apple</Text>
-      </TouchableOpacity>
+      <View style={styles.socialButtonsContainer}>
+        <TouchableOpacity style={styles.socialButton} accessibilityLabel="Login with Google">
+          <Text style={styles.socialIcon}>G</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.socialButton} accessibilityLabel="Login with Facebook">
+          <Text style={styles.socialIcon}>F</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.socialButton} accessibilityLabel="Login with Apple">
+          <Text style={styles.socialIcon}>A</Text>
+        </TouchableOpacity>
+      </View>
 
       <View style={styles.footer}>
         <Text style={styles.footerText}>Don’t have an account? </Text>
