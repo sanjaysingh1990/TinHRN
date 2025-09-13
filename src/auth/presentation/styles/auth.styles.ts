@@ -1,7 +1,6 @@
-
 import { StyleSheet } from 'react-native';
 
-export const getAuthStyles = (colors: any, colorScheme: string | null | undefined) => StyleSheet.create({
+export const getAuthStyles = (colors: any, colorScheme: string | null | undefined) => ({
   container: {
     flex: 1,
     backgroundColor: colors.background,
@@ -107,5 +106,26 @@ export const getAuthStyles = (colors: any, colorScheme: string | null | undefine
     color: colors.primary,
     fontWeight: 'bold',
     textDecorationLine: 'underline',
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.borderColor,
+  },
+  backButton: {
+    position: 'absolute',
+    left: 15,
+  },
+  backButtonText: {
+    color: colors.text,
+    fontSize: 24,
+  },
+  headerTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: colors.text,
   },
 });
