@@ -1,11 +1,13 @@
+
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
+import { 
+  View, 
+  Text, 
   ScrollView,
   KeyboardAvoidingView,
   Platform,
-  useColorScheme
+  useColorScheme,
+  TouchableOpacity
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { theme } from '../../../theme';
@@ -15,8 +17,9 @@ import AuthInput from '../components/AuthInput';
 import AuthButton from '../components/AuthButton';
 import SocialButtons from '../components/SocialButtons';
 import AuthFooter from '../components/AuthFooter';
-import { Picker } from '@react-native-picker/picker';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import CountryPicker from 'react-native-country-picker-modal';
+import { MaterialIcons } from '@expo/vector-icons';
 
 const SignupScreen: React.FC = () => {
   const router = useRouter();
@@ -27,7 +30,8 @@ const SignupScreen: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [country, setCountry] = useState('USA');
+  const [countryCode, setCountryCode] = useState('US');
+  const [country, setCountry] = useState(null);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
@@ -36,6 +40,9 @@ const SignupScreen: React.FC = () => {
   const [phoneFocused, setPhoneFocused] = useState(false);
   const [passwordFocused, setPasswordFocused] = useState(false);
   const [confirmPasswordFocused, setConfirmPasswordFocused] = useState(false);
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleSignup = () => {
     // TODO: Implement signup logic
@@ -59,6 +66,7 @@ const SignupScreen: React.FC = () => {
             onBlur={() => setNameFocused(false)}
             accessibilityLabel="Name input"
             focused={nameFocused}
+            style={{marginTop: 20}}
           />
           <AuthInput
             placeholder="Email"
@@ -71,48 +79,67 @@ const SignupScreen: React.FC = () => {
             accessibilityLabel="Email input"
             focused={emailFocused}
           />
-          <AuthInput
-            placeholder="Phone Number"
-            value={phone}
-            onChangeText={setPhone}
-            onFocus={() => setPhoneFocused(true)}
-            onBlur={() => setPhoneFocused(false)}
-            keyboardType="phone-pad"
-            accessibilityLabel="Phone number input"
-            focused={phoneFocused}
-          />
-          <View style={styles.pickerContainer}>
-            <Picker
-              selectedValue={country}
-              onValueChange={(itemValue) => setCountry(itemValue)}
-              style={styles.picker}
-              dropdownIconColor={colors.primary}
-            >
-              <Picker.Item label="USA" value="USA" />
-              <Picker.Item label="Canada" value="Canada" />
-              <Picker.Item label="Mexico" value="Mexico" />
-            </Picker>
+          <View style={styles.phoneInputContainer}>
+            <CountryPicker
+              withFilter
+              withFlag
+              withCountryNameButton={false}
+              withAlphaFilter
+              withCallingCode
+              withEmoji
+              onSelect={(country) => {
+                setCountryCode(country.cca2);
+                setCountry(country);
+              }}
+              countryCode={countryCode}
+            />
+            <AuthInput
+              placeholder="Phone Number"
+              value={phone}
+              onChangeText={setPhone}
+              onFocus={() => setPhoneFocused(true)}
+              onBlur={() => setPhoneFocused(false)}
+              keyboardType="phone-pad"
+              accessibilityLabel="Phone number input"
+              focused={phoneFocused}
+              style={{flex: 1}}
+            />
           </View>
-          <AuthInput
-            placeholder="Password"
-            value={password}
-            onChangeText={setPassword}
-            onFocus={() => setPasswordFocused(true)}
-            onBlur={() => setPasswordFocused(false)}
-            secureTextEntry
-            accessibilityLabel="Password input"
-            focused={passwordFocused}
-          />
-          <AuthInput
-            placeholder="Confirm Password"
-            value={confirmPassword}
-            onChangeText={setConfirmPassword}
-            onFocus={() => setConfirmPasswordFocused(true)}
-            onBlur={() => setConfirmPasswordFocused(false)}
-            secureTextEntry
-            accessibilityLabel="Confirm password input"
-            focused={confirmPasswordFocused}
-          />
+          
+          <View style={styles.passwordContainer}>
+            <AuthInput
+              placeholder="Password"
+              value={password}
+              onChangeText={setPassword}
+              onFocus={() => setPasswordFocused(true)}
+              onBlur={() => setPasswordFocused(false)}
+              secureTextEntry={!showPassword}
+              accessibilityLabel="Password input"
+              focused={passwordFocused}
+              style={{flex: 1}}
+            />
+            <TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={styles.eyeIcon}>
+              <MaterialIcons name={showPassword ? 'visibility-off' : 'visibility'} size={24} color={colors.secondary} />
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.passwordNote}>Use 8 or more characters with a mix of letters, numbers & symbols.</Text>
+
+          <View style={styles.passwordContainer}>
+            <AuthInput
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChangeText={setConfirmPassword}
+              onFocus={() => setConfirmPasswordFocused(true)}
+              onBlur={() => setConfirmPasswordFocused(false)}
+              secureTextEntry={!showConfirmPassword}
+              accessibilityLabel="Confirm password input"
+              focused={confirmPasswordFocused}
+              style={{flex: 1}}
+            />
+            <TouchableOpacity onPress={() => setShowConfirmPassword(!showConfirmPassword)} style={styles.eyeIcon}>
+              <MaterialIcons name={showConfirmPassword ? 'visibility-off' : 'visibility'} size={24} color={colors.secondary} />
+            </TouchableOpacity>
+          </View>
 
           <AuthButton title="Sign Up" onPress={handleSignup} accessibilityLabel="Sign up button" />
 

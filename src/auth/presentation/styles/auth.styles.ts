@@ -86,8 +86,7 @@ export const getAuthStyles = (colors: any, colorScheme: string | null | undefine
     borderRadius: 30,
     borderWidth: 1,
     borderColor: colorScheme === 'dark' ? colors.borderColor : 'transparent',
-    backgroundColor: colors.inputBackgroundDark,
-    justifyContent: 'center',
+          backgroundColor: colors.inputBackground,    justifyContent: 'center',
     alignItems: 'center',
   },
   socialIcon: {
@@ -106,6 +105,10 @@ export const getAuthStyles = (colors: any, colorScheme: string | null | undefine
     color: colors.primary,
     fontWeight: 'bold',
     textDecorationLine: 'underline',
+  },
+  forgotPassword: {
+    alignSelf: 'flex-end',
+    marginBottom: 20,
   },
   header: {
     flexDirection: 'row',
@@ -127,5 +130,32 @@ export const getAuthStyles = (colors: any, colorScheme: string | null | undefine
     fontSize: 18,
     fontWeight: 'bold',
     color: colors.text,
+  },
+  phoneInputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.inputBackground,
+    borderRadius: 10,
+    marginBottom: 15,
+    borderWidth: 1,
+    borderColor: 'transparent',
+  },
+  passwordContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.inputBackground,
+    borderRadius: 10,
+    marginBottom: 15,
+    borderWidth: 1,
+    borderColor: 'transparent',
+  },
+  eyeIcon: {
+    padding: 10,
+  },
+  passwordNote: {
+    color: colors.secondary,
+    fontSize: 12,
+    marginBottom: 15,
+    paddingHorizontal: 10,
   },
 });
