@@ -66,8 +66,7 @@ const SignupScreen: React.FC = () => {
       padding: 20,
     },
     input: {
-      height: 50,
-      backgroundColor: colors.inputBackgroundDark,
+      backgroundColor: colors.inputBackground,
       borderRadius: 12,
       paddingHorizontal: 15,
       color: colors.text,
@@ -79,7 +78,7 @@ const SignupScreen: React.FC = () => {
       borderColor: colors.primary,
     },
     pickerContainer: {
-      backgroundColor: colors.inputBackgroundDark,
+      backgroundColor: colors.inputBackground,
       borderRadius: 12,
       marginBottom: 15,
       borderWidth: 1,
@@ -127,7 +126,7 @@ const SignupScreen: React.FC = () => {
       borderRadius: 30,
       borderWidth: 1,
       borderColor: colorScheme === 'dark' ? colors.borderColor : 'transparent',
-      backgroundColor: colors.inputBackgroundDark,
+      backgroundColor: colors.inputBackground,
       justifyContent: 'center',
       alignItems: 'center',
     },

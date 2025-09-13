@@ -115,7 +115,7 @@ const LoginScreen: React.FC = () => {
       borderRadius: 30,
       borderWidth: 1,
       borderColor: colorScheme === 'dark' ? colors.borderColor : 'transparent',
-      backgroundColor: colors.inputBackgroundDark,
+      backgroundColor: colors.inputBackground,
       justifyContent: 'center',
       alignItems: 'center',
     },
