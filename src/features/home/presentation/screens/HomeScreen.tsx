@@ -1,23 +1,24 @@
-import React, { useEffect, useState } from 'react';
+
+import { MaterialIcons } from '@expo/vector-icons';
+import React, { useEffect, useRef, useState } from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  useColorScheme,
-  ImageBackground,
-  TouchableOpacity,
+  ActivityIndicator,
   FlatList,
   Image,
-  ActivityIndicator
+  ImageBackground,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  useColorScheme,
+  View
 } from 'react-native';
-import { theme } from '../../../../theme';
-import { HomeViewModel } from '../viewmodels/HomeViewModel';
-import { Tour } from '../../domain/entities/Tour';
-import container from '../../../../container';
-import { HomeViewModelToken } from '../../home.di';
-import { MaterialIcons } from '@expo/vector-icons';
-import TourCardSkeleton from '../components/TourCardSkeleton';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import container from '../../../../container';
+import { theme } from '../../../../theme';
+import { Tour } from '../../domain/entities/Tour';
+import { HomeViewModelToken } from '../../home.di';
+import TourCardSkeleton from '../components/TourCardSkeleton';
+import { HomeViewModel } from '../viewmodels/HomeViewModel';
 
 const HomeScreen: React.FC = () => {
   const colorScheme = useColorScheme() ?? 'light';
@@ -25,26 +26,26 @@ const HomeScreen: React.FC = () => {
   const [tours, setTours] = useState<Tour[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
-  const [page, setPage] = useState(1);
+  const page = useRef(1);
   const [hasMore, setHasMore] = useState(true);
 
   const homeViewModel = container.resolve<HomeViewModel>(HomeViewModelToken);
 
-  const loadTours = (pageNum: number) => {
+  const loadTours = () => {
     if (!hasMore || loadingMore) return;
 
-    if (pageNum === 1) {
+    if (page.current === 1) {
       setLoading(true);
     } else {
       setLoadingMore(true);
     }
 
-    homeViewModel.getHotToursPaginated(pageNum, 10).then(newTours => {
+    homeViewModel.getHotToursPaginated(page.current, 10).then(newTours => {
       if (newTours.length === 0) {
         setHasMore(false);
       } else {
-        setTours(prevTours => pageNum === 1 ? newTours : [...prevTours, ...newTours]);
-        setPage(pageNum + 1);
+        setTours(prevTours => [...prevTours, ...newTours]);
+        page.current += 1;
       }
       setLoading(false);
       setLoadingMore(false);
@@ -52,7 +53,7 @@ const HomeScreen: React.FC = () => {
   };
 
   useEffect(() => {
-    loadTours(1);
+    loadTours();
   }, []);
 
   const styles = StyleSheet.create({
@@ -88,7 +89,7 @@ const HomeScreen: React.FC = () => {
       borderStyle: 'dashed',
     },
     heroSection: {
-      height: 200,
+      height: 300,
       justifyContent: 'center',
       alignItems: 'center',
       margin: 15,
@@ -172,7 +173,7 @@ const HomeScreen: React.FC = () => {
       </View>
 
       <ImageBackground 
-        source={{ uri: 'https://images.unsplash.com/photo-1604537466158-c3a759f4c3d7?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' }}
+        source={{ uri: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD2R-D8bon07gNln5JYqh2DiwvqM5mD-4EtOIjoAPGd1e-IrwZseSxR8ONqLPRRLEQIturvHZWU1YaxJ4rQ04GAeWG_-1OroireJvI9p-tIbeYAr9-ryL9A0-ZhWhtaVzVlWyEf0B3BHjONWCgXJeA0h7UTbaSfTCYBP0y05epzqCjgkpxPQlwsocRiwiOcPDLzkcc8bz7RweQ2XS3mSt1ae7b_WqpaZTjeMw2a4YKn4LZQFS4CUzSVkehP3SQU99sezw5okLxauKCC' }}
         style={styles.heroSection}
       >
         <Text style={styles.heroTitle}>Discover the Himalayas</Text>
@@ -201,6 +202,8 @@ const HomeScreen: React.FC = () => {
     </View>
   );
 
+  const skeletonData = Array.from({ length: 10 }, (_, i) => ({ id: `skeleton-${i}` }));
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -210,14 +213,14 @@ const HomeScreen: React.FC = () => {
         </TouchableOpacity>
       </View>
       <FlatList
-        data={loading ? Array.from({ length: 10 }) : tours}
+        data={loading ? skeletonData : tours}
         numColumns={2}
         renderItem={({ item }) => (
           loading ? renderSkeleton() :
           <View style={styles.tourCard}>
             <Image source={{ uri: item.image }} style={styles.tourImage} />
             <View style={styles.tourInfo}>
-              <View>
+              <View style={{flex: 1}}>
                 <Text style={styles.tourName}>{item.name}</Text>
                 <Text style={styles.tourDuration}>{item.duration}</Text>
               </View>
@@ -227,11 +230,11 @@ const HomeScreen: React.FC = () => {
             </View>
           </View>
         )}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={{ paddingHorizontal: 7.5 }}
         ListHeaderComponent={renderHeader}
         ListFooterComponent={renderFooter}
-        onEndReached={() => loadTours(page)}
+        onEndReached={loadTours}
         onEndReachedThreshold={0.5}
       />
     </SafeAreaView>
