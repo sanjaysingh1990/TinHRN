@@ -33,6 +33,10 @@ const dummyTours: Tour[] = [
 @injectable()
 export class TourRepository implements ITourRepository {
   async getHotTours(): Promise<Tour[]> {
-    return Promise.resolve(dummyTours);
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(dummyTours);
+      }, 5000);
+    });
   }
 }

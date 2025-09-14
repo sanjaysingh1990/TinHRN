@@ -1,31 +1,36 @@
-import { MaterialIcons } from '@expo/vector-icons';
+
 import React, { useEffect, useState } from 'react';
 import {
-  FlatList,
-  Image,
-  ImageBackground,
-  StyleSheet,
+  View,
   Text,
-  TouchableOpacity,
+  StyleSheet,
   useColorScheme,
-  View
+  ImageBackground,
+  TouchableOpacity,
+  FlatList,
+  Image
 } from 'react-native';
-import container from '../../../../container';
 import { theme } from '../../../../theme';
-import { Tour } from '../../domain/entities/Tour';
-import { HomeViewModelToken } from '../../home.di';
 import { HomeViewModel } from '../viewmodels/HomeViewModel';
-
+import { Tour } from '../../domain/entities/Tour';
+import container from '../../../../container';
+import { HomeViewModelToken } from '../../home.di';
+import { MaterialIcons } from '@expo/vector-icons';
+import TourCardSkeleton from '../components/TourCardSkeleton';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const HomeScreen: React.FC = () => {
   const colorScheme = useColorScheme() ?? 'light';
   const colors = theme[colorScheme];
   const [tours, setTours] = useState<Tour[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const homeViewModel = container.resolve<HomeViewModel>(HomeViewModelToken);
-    homeViewModel.getHotTours().then(setTours);
+    homeViewModel.getHotTours().then(tours => {
+      setTours(tours);
+      setLoading(false);
+    });
   }, []);
 
   const styles = StyleSheet.create({
@@ -61,7 +66,7 @@ const HomeScreen: React.FC = () => {
       borderStyle: 'dashed',
     },
     heroSection: {
-      height: 300,
+      height: 200,
       justifyContent: 'center',
       alignItems: 'center',
       margin: 15,
@@ -140,7 +145,7 @@ const HomeScreen: React.FC = () => {
       </View>
 
       <ImageBackground 
-        source={{ uri: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD2R-D8bon07gNln5JYqh2DiwvqM5mD-4EtOIjoAPGd1e-IrwZseSxR8ONqLPRRLEQIturvHZWU1YaxJ4rQ04GAeWG_-1OroireJvI9p-tIbeYAr9-ryL9A0-ZhWhtaVzVlWyEf0B3BHjONWCgXJeA0h7UTbaSfTCYBP0y05epzqCjgkpxPQlwsocRiwiOcPDLzkcc8bz7RweQ2XS3mSt1ae7b_WqpaZTjeMw2a4YKn4LZQFS4CUzSVkehP3SQU99sezw5okLxauKCC' }}
+        source={{ uri: 'https://images.unsplash.com/photo-1604537466158-c3a759f4c3d7?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' }}
         style={styles.heroSection}
       >
         <Text style={styles.heroTitle}>Discover the Himalayas</Text>
@@ -154,6 +159,12 @@ const HomeScreen: React.FC = () => {
     </>
   );
 
+  const renderSkeleton = () => (
+    <View style={{flex: 1, margin: 7.5}}>
+      <TourCardSkeleton />
+    </View>
+  );
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -163,9 +174,10 @@ const HomeScreen: React.FC = () => {
         </TouchableOpacity>
       </View>
       <FlatList
-        data={tours}
+        data={loading ? [1, 2, 3, 4] : tours}
         numColumns={2}
         renderItem={({ item }) => (
+          loading ? renderSkeleton() :
           <View style={styles.tourCard}>
             <Image source={{ uri: item.image }} style={styles.tourImage} />
             <View style={styles.tourInfo}>
@@ -177,7 +189,7 @@ const HomeScreen: React.FC = () => {
             </View>
           </View>
         )}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item, index) => index.toString()}
         contentContainerStyle={{ paddingHorizontal: 7.5 }}
         ListHeaderComponent={renderHeader}
       />
