@@ -13,6 +13,10 @@ import { TourRepository } from "./features/home/data/repositories/TourRepository
 import { HomeViewModel } from "./features/home/presentation/viewmodels/HomeViewModel";
 import { TourRepositoryToken, HomeViewModelToken } from "./features/home/home.di";
 
+import { TourDetailsRepository } from "./features/tour-details/data/repositories/TourDetailsRepository";
+import { TourDetailsViewModel } from "./features/tour-details/presentation/viewmodels/TourDetailsViewModel";
+import { TourDetailsRepositoryToken, TourDetailsViewModelToken } from "./features/tour-details/tour-details.di";
+
 container.register(SampleRepositoryToken, {
   useClass: SampleRepository,
 });
@@ -26,5 +30,8 @@ container.register(SignupUseCaseToken, { useClass: SignupUseCase });
 
 container.register(TourRepositoryToken, { useClass: TourRepository });
 container.register(HomeViewModelToken, { useClass: HomeViewModel });
+
+container.register(TourDetailsRepositoryToken, { useClass: TourDetailsRepository });
+container.register(TourDetailsViewModelToken, { useClass: TourDetailsViewModel });
 
 export default container;

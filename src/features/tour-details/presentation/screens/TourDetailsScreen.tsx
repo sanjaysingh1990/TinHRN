@@ -1,50 +1,41 @@
 
-import { MaterialIcons } from '@expo/vector-icons';
-import { BlurView } from 'expo-blur';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  Image,
+  View,
+  Text,
+  StyleSheet,
   ImageBackground,
-  SafeAreaView,
+  TouchableOpacity,
   ScrollView,
   StatusBar,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
+  Image
 } from 'react-native';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { BlurView } from 'expo-blur';
+import { MaterialIcons } from '@expo/vector-icons';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import container from '../../../../container';
+import { TourDetailsViewModelToken } from '../../tour-details.di';
+import { TourDetailsViewModel } from '../viewmodels/TourDetailsViewModel';
+import { TourDetails } from '../../domain/entities/TourDetails';
+import TourDetailsSkeleton from '../components/TourDetailsSkeleton';
 
 const TourDetailsScreen = () => {
-  const onBackPress = () => console.log('Back button pressed');
+  const router = useRouter();
+  const { id, name, image } = useLocalSearchParams();
+  const [details, setDetails] = useState<TourDetails | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const viewModel = container.resolve<TourDetailsViewModel>(TourDetailsViewModelToken);
+    viewModel.getTourDetails(id as string).then(data => {
+      setDetails(data);
+      setLoading(false);
+    });
+  }, [id]);
+
+  const onBackPress = () => router.back();
   const onBookPress = () => console.log('Book This Tour button pressed');
-
-  const itineraryData = [
-    { day: '01', title: 'Arrival in Kathmandu', icon: 'terrain' },
-    { day: '02', title: 'Drive to Pokhara', icon: 'terrain' },
-    { day: '03', title: 'Trek to Ghandruk', icon: 'terrain' },
-    { day: '04', title: 'Trek to Chhomrong', icon: 'terrain' },
-  ];
-
-  const reviewsData = [
-    {
-      id: '1',
-      avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
-      name: 'Jane Doe',
-      date: '2 weeks ago',
-      rating: 5,
-      review:
-        'An absolutely breathtaking experience! The views were surreal and the guide was fantastic. Highly recommend this to anyone looking for an adventure.',
-    },
-    {
-      id: '2',
-      avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
-      name: 'John Smith',
-      date: '1 month ago',
-      rating: 4,
-      review:
-        'A well-organized trek. The itinerary was perfectly paced. The only downside was the weather on one of the days, but that’s beyond anyone’s control.',
-    },
-  ];
 
   const renderStars = (rating: number) => {
     const stars = [];
@@ -66,79 +57,81 @@ const TourDetailsScreen = () => {
       <StatusBar barStyle="light-content" />
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
         <ImageBackground
-          source={{ uri: 'https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' }}
+          source={{ uri: image as string || 'https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' }}
           style={styles.heroImage}
         />
 
-        <View style={styles.content}>
-          {/* Overview Section */}
-          <View style={styles.card}>
-            <View style={styles.badge}>
-              <Text style={styles.badgeText}>OVERVIEW</Text>
-            </View>
-            <Text style={styles.cardTitle}>Annapurna Base Camp</Text>
-            <Text style={styles.cardSubtitle}>14 Days • Max Altitude: 4,130m</Text>
-            <Text style={styles.cardBody}>
-              The Annapurna Base Camp trek is one of the most popular treks in the Annapurna region. The trail goes alongside terraced rice paddies, lush rhododendron forests, and high altitude landscapes with the Annapurna Range in view most of the time.
-            </Text>
-          </View>
-
-          {/* Itinerary Section */}
-          <View style={styles.card}>
-            <View style={styles.badge}>
-              <Text style={styles.badgeText}>ITINERARY</Text>
-            </View>
-            {itineraryData.map((item, index) => (
-              <View key={index} style={styles.itineraryItem}>
-                <View style={styles.itineraryMarker}>
-                  <View style={styles.itineraryIconContainer}>
-                    <MaterialIcons name={item.icon as any} size={16} color="#111714" />
-                  </View>
-                  {index < itineraryData.length - 1 && <View style={styles.itineraryLine} />}
-                </View>
-                <View style={styles.itineraryContent}>
-                  <Text style={styles.itineraryDay}>Day {item.day}</Text>
-                  <Text style={styles.itineraryTitle}>{item.title}</Text>
-                </View>
+        {loading ? <TourDetailsSkeleton /> : (
+          <View style={styles.content}>
+            {/* Overview Section */}
+            <View style={styles.card}>
+              <View style={styles.badge}>
+                <Text style={styles.badgeText}>OVERVIEW</Text>
               </View>
-            ))}
-          </View>
+              <Text style={styles.cardTitle}>{name}</Text>
+              <Text style={styles.cardSubtitle}>{details?.itinerary.length} Days • Max Altitude: 4,130m</Text>
+              <Text style={styles.cardBody}>
+                {details?.overview}
+              </Text>
+            </View>
 
-          {/* Pricing Section */}
-          <View style={styles.card}>
-            <View style={styles.badge}>
-              <Text style={styles.badgeText}>PRICING</Text>
-            </View>
-            <View style={styles.pricingRow}>
-              <Text style={styles.pricingLabel}>Standard Package</Text>
-              <Text style={styles.pricingValue}>$1,200 / person</Text>
-            </View>
-            <View style={styles.pricingRow}>
-              <Text style={styles.pricingLabel}>Premium Package</Text>
-              <Text style={styles.pricingValue}>$1,800 / person</Text>
-            </View>
-          </View>
-
-          {/* Reviews Section */}
-          <View style={styles.card}>
-            <View style={styles.badge}>
-              <Text style={styles.badgeText}>REVIEWS</Text>
-            </View>
-            {reviewsData.map((review) => (
-              <View key={review.id} style={styles.reviewItem}>
-                <Image source={{ uri: review.avatar }} style={styles.reviewAvatar} />
-                <View style={styles.reviewContent}>
-                  <View style={styles.reviewHeader}>
-                    <Text style={styles.reviewName}>{review.name}</Text>
-                    <Text style={styles.reviewDate}>{review.date}</Text>
-                  </View>
-                  <View style={styles.reviewStars}>{renderStars(review.rating)}</View>
-                  <Text style={styles.reviewText}>{review.review}</Text>
-                </View>
+            {/* Itinerary Section */}
+            <View style={styles.card}>
+              <View style={styles.badge}>
+                <Text style={styles.badgeText}>ITINERARY</Text>
               </View>
-            ))}
+              {details?.itinerary.map((item, index) => (
+                <View key={index} style={styles.itineraryItem}>
+                  <View style={styles.itineraryMarker}>
+                    <View style={styles.itineraryIconContainer}>
+                      <MaterialIcons name={item.icon as any} size={16} color="#111714" />
+                    </View>
+                    {index < details.itinerary.length - 1 && <View style={styles.itineraryLine} />}
+                  </View>
+                  <View style={styles.itineraryContent}>
+                    <Text style={styles.itineraryDay}>Day {item.day}</Text>
+                    <Text style={styles.itineraryTitle}>{item.title}</Text>
+                  </View>
+                </View>
+              ))}
+            </View>
+
+            {/* Pricing Section */}
+            <View style={styles.card}>
+              <View style={styles.badge}>
+                <Text style={styles.badgeText}>PRICING</Text>
+              </View>
+              <View style={styles.pricingRow}>
+                <Text style={styles.pricingLabel}>Standard Package</Text>
+                <Text style={styles.pricingValue}>{details?.pricing.standard}</Text>
+              </View>
+              <View style={styles.pricingRow}>
+                <Text style={styles.pricingLabel}>Premium Package</Text>
+                <Text style={styles.pricingValue}>{details?.pricing.premium}</Text>
+              </View>
+            </View>
+
+            {/* Reviews Section */}
+            <View style={styles.card}>
+              <View style={styles.badge}>
+                <Text style={styles.badgeText}>REVIEWS</Text>
+              </View>
+              {details?.reviews.map((review) => (
+                <View key={review.id} style={styles.reviewItem}>
+                  <Image source={{ uri: review.avatar }} style={styles.reviewAvatar} />
+                  <View style={styles.reviewContent}>
+                    <View style={styles.reviewHeader}>
+                      <Text style={styles.reviewName}>{review.name}</Text>
+                      <Text style={styles.reviewDate}>{review.date}</Text>
+                    </View>
+                    <View style={styles.reviewStars}>{renderStars(review.rating)}</View>
+                    <Text style={styles.reviewText}>{review.review}</Text>
+                  </View>
+                </View>
+              ))}
+            </View>
           </View>
-        </View>
+        )}
       </ScrollView>
 
       {/* Sticky Header */}
