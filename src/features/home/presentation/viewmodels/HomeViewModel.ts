@@ -13,4 +13,8 @@ export class HomeViewModel {
   async getHotTours(): Promise<Tour[]> {
     return this.tourRepository.getHotTours();
   }
+
+  async getHotToursPaginated(page: number, limit: number): Promise<Tour[]> {
+    return this.tourRepository.getHotToursPaginated(page, limit);
+  }
 }

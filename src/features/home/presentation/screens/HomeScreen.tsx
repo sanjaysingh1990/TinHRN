@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import {
   View,
@@ -8,7 +7,8 @@ import {
   ImageBackground,
   TouchableOpacity,
   FlatList,
-  Image
+  Image,
+  ActivityIndicator
 } from 'react-native';
 import { theme } from '../../../../theme';
 import { HomeViewModel } from '../viewmodels/HomeViewModel';
@@ -24,13 +24,35 @@ const HomeScreen: React.FC = () => {
   const colors = theme[colorScheme];
   const [tours, setTours] = useState<Tour[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+
+  const homeViewModel = container.resolve<HomeViewModel>(HomeViewModelToken);
+
+  const loadTours = (pageNum: number) => {
+    if (!hasMore || loadingMore) return;
+
+    if (pageNum === 1) {
+      setLoading(true);
+    } else {
+      setLoadingMore(true);
+    }
+
+    homeViewModel.getHotToursPaginated(pageNum, 10).then(newTours => {
+      if (newTours.length === 0) {
+        setHasMore(false);
+      } else {
+        setTours(prevTours => pageNum === 1 ? newTours : [...prevTours, ...newTours]);
+        setPage(pageNum + 1);
+      }
+      setLoading(false);
+      setLoadingMore(false);
+    });
+  };
 
   useEffect(() => {
-    const homeViewModel = container.resolve<HomeViewModel>(HomeViewModelToken);
-    homeViewModel.getHotTours().then(tours => {
-      setTours(tours);
-      setLoading(false);
-    });
+    loadTours(1);
   }, []);
 
   const styles = StyleSheet.create({
@@ -114,7 +136,9 @@ const HomeScreen: React.FC = () => {
       height: 150,
     },
     tourInfo: {
+      flex: 1,
       padding: 10,
+      justifyContent: 'space-between',
     },
     tourName: {
       fontSize: 16,
@@ -134,6 +158,9 @@ const HomeScreen: React.FC = () => {
     exploreButtonText: {
       color: colors.background,
       fontWeight: 'bold',
+    },
+    footerLoader: {
+      paddingVertical: 20,
     },
   });
 
@@ -159,6 +186,15 @@ const HomeScreen: React.FC = () => {
     </>
   );
 
+  const renderFooter = () => {
+    if (!loadingMore) return null;
+    return (
+      <View style={styles.footerLoader}>
+        <ActivityIndicator animating size="large" />
+      </View>
+    );
+  };
+
   const renderSkeleton = () => (
     <View style={{flex: 1, margin: 7.5}}>
       <TourCardSkeleton />
@@ -174,15 +210,17 @@ const HomeScreen: React.FC = () => {
         </TouchableOpacity>
       </View>
       <FlatList
-        data={loading ? [1, 2, 3, 4] : tours}
+        data={loading ? Array.from({ length: 10 }) : tours}
         numColumns={2}
         renderItem={({ item }) => (
           loading ? renderSkeleton() :
           <View style={styles.tourCard}>
             <Image source={{ uri: item.image }} style={styles.tourImage} />
             <View style={styles.tourInfo}>
-              <Text style={styles.tourName}>{item.name}</Text>
-              <Text style={styles.tourDuration}>{item.duration}</Text>
+              <View>
+                <Text style={styles.tourName}>{item.name}</Text>
+                <Text style={styles.tourDuration}>{item.duration}</Text>
+              </View>
               <TouchableOpacity style={styles.exploreButton}>
                 <Text style={styles.exploreButtonText}>Explore</Text>
               </TouchableOpacity>
@@ -192,6 +230,9 @@ const HomeScreen: React.FC = () => {
         keyExtractor={(item, index) => index.toString()}
         contentContainerStyle={{ paddingHorizontal: 7.5 }}
         ListHeaderComponent={renderHeader}
+        ListFooterComponent={renderFooter}
+        onEndReached={() => loadTours(page)}
+        onEndReachedThreshold={0.5}
       />
     </SafeAreaView>
   );
