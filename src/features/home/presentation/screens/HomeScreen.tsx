@@ -1,26 +1,25 @@
 
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import { MaterialIcons } from '@expo/vector-icons';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  useColorScheme,
-  ImageBackground,
-  TouchableOpacity,
+  ActivityIndicator,
   FlatList,
   Image,
-  ActivityIndicator,
-  TextInput
+  ImageBackground,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  useColorScheme,
+  View
 } from 'react-native';
-import { theme } from '../../../../theme';
-import { HomeViewModel } from '../viewmodels/HomeViewModel';
-import { Tour } from '../../domain/entities/Tour';
-import container from '../../../../container';
-import { HomeViewModelToken } from '../../home.di';
-import { MaterialIcons } from '@expo/vector-icons';
-import TourCardSkeleton from '../components/TourCardSkeleton';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import container from '../../../../container';
+import { theme } from '../../../../theme';
+import { Tour } from '../../domain/entities/Tour';
+import { HomeViewModelToken } from '../../home.di';
 import SearchBar from '../components/SearchBar';
+import TourCardSkeleton from '../components/TourCardSkeleton';
+import { HomeViewModel } from '../viewmodels/HomeViewModel';
 
 import { useRouter } from 'expo-router';
 
@@ -100,7 +99,7 @@ const HomeScreen: React.FC = () => {
       right: 15,
     },
     heroSection: {
-      height: 200,
+      height: 300,
       justifyContent: 'center',
       alignItems: 'center',
       margin: 15,
@@ -180,7 +179,7 @@ const HomeScreen: React.FC = () => {
     <>
       <SearchBar onSearch={handleSearch} searching={searching} />
       <ImageBackground 
-        source={{ uri: 'https://images.unsplash.com/photo-1604537466158-c3a759f4c3d7?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' }}
+        source={{ uri: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD2R-D8bon07gNln5JYqh2DiwvqM5mD-4EtOIjoAPGd1e-IrwZseSxR8ONqLPRRLEQIturvHZWU1YaxJ4rQ04GAeWG_-1OroireJvI9p-tIbeYAr9-ryL9A0-ZhWhtaVzVlWyEf0B3BHjONWCgXJeA0h7UTbaSfTCYBP0y05epzqCjgkpxPQlwsocRiwiOcPDLzkcc8bz7RweQ2XS3mSt1ae7b_WqpaZTjeMw2a4YKn4LZQFS4CUzSVkehP3SQU99sezw5okLxauKCC' }}
         style={styles.heroSection}
       >
         <Text style={styles.heroTitle}>Discover the Himalayas</Text>
@@ -231,7 +230,7 @@ const HomeScreen: React.FC = () => {
                 <Text style={styles.tourName}>{item.name}</Text>
                 <Text style={styles.tourDuration}>{item.duration}</Text>
               </View>
-              <TouchableOpacity style={styles.exploreButton} onPress={() => router.push(`/tour/${item.id}`)}>
+              <TouchableOpacity style={styles.exploreButton} onPress={() => router.push(`/tour/${item.id}?name=${item.name}&image=${item.image}`)}>
                 <Text style={styles.exploreButtonText}>Explore</Text>
               </TouchableOpacity>
             </View>

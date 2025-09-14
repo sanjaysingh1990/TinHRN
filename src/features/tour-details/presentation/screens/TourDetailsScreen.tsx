@@ -1,24 +1,24 @@
 
+import { MaterialIcons } from '@expo/vector-icons';
+import { BlurView } from 'expo-blur';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
+  Image,
   ImageBackground,
-  TouchableOpacity,
   ScrollView,
   StatusBar,
-  Image
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
 } from 'react-native';
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import { BlurView } from 'expo-blur';
-import { MaterialIcons } from '@expo/vector-icons';
-import { SafeAreaView } from 'react-native-safe-area-context';
+
 import container from '../../../../container';
-import { TourDetailsViewModelToken } from '../../tour-details.di';
-import { TourDetailsViewModel } from '../viewmodels/TourDetailsViewModel';
 import { TourDetails } from '../../domain/entities/TourDetails';
+import { TourDetailsViewModelToken } from '../../tour-details.di';
 import TourDetailsSkeleton from '../components/TourDetailsSkeleton';
+import { TourDetailsViewModel } from '../viewmodels/TourDetailsViewModel';
 
 const TourDetailsScreen = () => {
   const router = useRouter();
@@ -53,7 +53,7 @@ const TourDetailsScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <View style={styles.container}>
       <StatusBar barStyle="light-content" />
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
         <ImageBackground
@@ -150,12 +150,12 @@ const TourDetailsScreen = () => {
           <Text style={styles.bookButtonText}>Book This Tour</Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  safeArea: {
+  container: {
     flex: 1,
     backgroundColor: '#111714',
   },
@@ -333,10 +333,9 @@ const styles = StyleSheet.create({
   },
   footer: {
     position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    padding: 16,
+    bottom: 50,
+    left: 16,
+    right: 16,
     backgroundColor: 'rgba(17, 23, 20, 0.8)',
   },
   bookButton: {
