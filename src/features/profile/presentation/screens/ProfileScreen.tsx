@@ -123,9 +123,7 @@ const ProfileScreen = () => {
                 value={darkMode}
                 onValueChange={setDarkMode}
               />
-              <TouchableOpacity onPress={() => bottomSheetRef.current?.expand()}>
-                <AccountItem icon="language" title="Language" onPress={() => bottomSheetRef.current?.expand()} />
-              </TouchableOpacity>
+              <AccountItem icon="language" title="Language" onPress={() => bottomSheetRef.current?.snapToIndex(0)} />
             </View>
             <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
               <Text style={styles.logoutButtonText}>Logout</Text>
@@ -139,6 +137,7 @@ const ProfileScreen = () => {
         snapPoints={snapPoints}
         onChange={handleSheetChanges}
         enablePanDownToClose
+        style={{ flex: 1 }}
       >
         <View style={styles.bottomSheetContent}>
           <TouchableOpacity style={styles.languageOption} onPress={() => handleLanguageSelect('English')}>

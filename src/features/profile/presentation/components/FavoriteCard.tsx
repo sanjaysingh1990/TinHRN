@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     padding: 15,
     marginBottom: 15,
+    marginHorizontal: 10,
   },
   image: {
     borderRadius: 12,
