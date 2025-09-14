@@ -9,6 +9,8 @@ import { useColorScheme } from 'react-native';
 import * as SystemUI from 'expo-system-ui';
 import { theme } from '../src/theme';
 
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+
 export default function RootLayout() {
   const colorScheme = useColorScheme() ?? 'light';
   const colors = theme[colorScheme];
@@ -18,19 +20,21 @@ export default function RootLayout() {
   }, [colorScheme]);
 
   return (
-    <Provider store={store}>
-      <Stack 
-        screenOptions={{ 
-          headerShown: false,
-          animation: 'slide_from_right',
-        }}
-      >
-        <Stack.Screen name="index" />
-        <Stack.Screen name="intro" />
-        <Stack.Screen name="login" />
-        <Stack.Screen name="signup" />
-        <Stack.Screen name="(tabs)" />
-      </Stack>
-    </Provider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <Provider store={store}>
+        <Stack 
+          screenOptions={{ 
+            headerShown: false,
+            animation: 'slide_from_right',
+          }}
+        >
+          <Stack.Screen name="index" />
+          <Stack.Screen name="intro" />
+          <Stack.Screen name="login" />
+          <Stack.Screen name="signup" />
+          <Stack.Screen name="(tabs)" />
+        </Stack>
+      </Provider>
+    </GestureHandlerRootView>
   );
 }
