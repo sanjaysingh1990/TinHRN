@@ -23,6 +23,8 @@ import { HomeViewModel } from '../viewmodels/HomeViewModel';
 
 import { useRouter } from 'expo-router';
 
+import { StatusBar } from 'expo-status-bar';
+
 const HomeScreen: React.FC = () => {
   const router = useRouter();
   const colorScheme = useColorScheme() ?? 'light';
@@ -212,6 +214,7 @@ const HomeScreen: React.FC = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar style="light" />
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Tent'in Himalayas</Text>
         <TouchableOpacity style={styles.notificationIcon}>
