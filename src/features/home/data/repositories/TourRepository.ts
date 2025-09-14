@@ -96,4 +96,19 @@ export class TourRepository implements ITourRepository {
       }, 1000);
     });
   }
+
+  async searchTours(query: string): Promise<Tour[]> {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        if (!query) {
+          resolve(dummyTours.slice(0, 10));
+          return;
+        }
+        const filteredTours = dummyTours.filter(tour =>
+          tour.name.toLowerCase().includes(query.toLowerCase())
+        );
+        resolve(filteredTours);
+      }, 3000);
+    });
+  }
 }

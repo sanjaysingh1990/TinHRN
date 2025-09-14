@@ -1,24 +1,24 @@
-
-import { MaterialIcons } from '@expo/vector-icons';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
-  ActivityIndicator,
+  View,
+  Text,
+  StyleSheet,
+  useColorScheme,
+  ImageBackground,
+  TouchableOpacity,
   FlatList,
   Image,
-  ImageBackground,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  useColorScheme,
-  View
+  ActivityIndicator,
+  TextInput
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import container from '../../../../container';
 import { theme } from '../../../../theme';
-import { Tour } from '../../domain/entities/Tour';
-import { HomeViewModelToken } from '../../home.di';
-import TourCardSkeleton from '../components/TourCardSkeleton';
 import { HomeViewModel } from '../viewmodels/HomeViewModel';
+import { Tour } from '../../domain/entities/Tour';
+import container from '../../../../container';
+import { HomeViewModelToken } from '../../home.di';
+import { MaterialIcons } from '@expo/vector-icons';
+import TourCardSkeleton from '../components/TourCardSkeleton';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const HomeScreen: React.FC = () => {
   const colorScheme = useColorScheme() ?? 'light';
@@ -28,6 +28,8 @@ const HomeScreen: React.FC = () => {
   const [loadingMore, setLoadingMore] = useState(false);
   const page = useRef(1);
   const [hasMore, setHasMore] = useState(true);
+  const [searchText, setSearchText] = useState('');
+  const [searching, setSearching] = useState(false);
 
   const homeViewModel = container.resolve<HomeViewModel>(HomeViewModelToken);
 
@@ -49,6 +51,22 @@ const HomeScreen: React.FC = () => {
       }
       setLoading(false);
       setLoadingMore(false);
+    });
+  };
+
+  const handleSearch = () => {
+    if (!searchText) {
+      page.current = 1;
+      setTours([]);
+      setHasMore(true);
+      loadTours();
+      return;
+    }
+    setSearching(true);
+    homeViewModel.searchTours(searchText).then(newTours => {
+      setTours(newTours);
+      setHasMore(false);
+      setSearching(false);
     });
   };
 
@@ -77,19 +95,35 @@ const HomeScreen: React.FC = () => {
       position: 'absolute',
       right: 15,
     },
+    searchContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      margin: 15,
+    },
     searchBar: {
+      flex: 1,
       flexDirection: 'row',
       alignItems: 'center',
       backgroundColor: colors.inputBackground,
       borderRadius: 10,
       padding: 10,
-      margin: 15,
       borderWidth: 1,
       borderColor: colors.borderColor,
       borderStyle: 'dashed',
     },
+    searchInput: {
+      flex: 1,
+      color: colors.text,
+      marginLeft: 10,
+    },
+    filterButton: {
+      marginLeft: 10,
+      backgroundColor: colors.inputBackground,
+      padding: 10,
+      borderRadius: 10,
+    },
     heroSection: {
-      height: 300,
+      height: 200,
       justifyContent: 'center',
       alignItems: 'center',
       margin: 15,
@@ -163,17 +197,33 @@ const HomeScreen: React.FC = () => {
     footerLoader: {
       paddingVertical: 20,
     },
+    searchLoader: {
+      marginRight: 10,
+    },
   });
 
   const renderHeader = () => (
     <>
-      <View style={styles.searchBar}>
-        <MaterialIcons name="search" size={24} color={colors.secondary} />
-        <Text style={{ color: colors.secondary, marginLeft: 10 }}>Search destinations</Text>
+      <View style={styles.searchContainer}>
+        <View style={styles.searchBar}>
+          <MaterialIcons name="search" size={24} color={colors.secondary} />
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search destinations"
+            placeholderTextColor={colors.secondary}
+            value={searchText}
+            onChangeText={setSearchText}
+            onSubmitEditing={handleSearch}
+          />
+          {searching && <ActivityIndicator style={styles.searchLoader} />}
+        </View>
+        <TouchableOpacity style={styles.filterButton} onPress={() => console.log('Filter pressed')}>
+          <MaterialIcons name="filter-list" size={24} color={colors.secondary} />
+        </TouchableOpacity>
       </View>
 
       <ImageBackground 
-        source={{ uri: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD2R-D8bon07gNln5JYqh2DiwvqM5mD-4EtOIjoAPGd1e-IrwZseSxR8ONqLPRRLEQIturvHZWU1YaxJ4rQ04GAeWG_-1OroireJvI9p-tIbeYAr9-ryL9A0-ZhWhtaVzVlWyEf0B3BHjONWCgXJeA0h7UTbaSfTCYBP0y05epzqCjgkpxPQlwsocRiwiOcPDLzkcc8bz7RweQ2XS3mSt1ae7b_WqpaZTjeMw2a4YKn4LZQFS4CUzSVkehP3SQU99sezw5okLxauKCC' }}
+        source={{ uri: 'https://images.unsplash.com/photo-1604537466158-c3a759f4c3d7?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' }}
         style={styles.heroSection}
       >
         <Text style={styles.heroTitle}>Discover the Himalayas</Text>

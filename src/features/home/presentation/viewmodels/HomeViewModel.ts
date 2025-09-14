@@ -17,4 +17,8 @@ export class HomeViewModel {
   async getHotToursPaginated(page: number, limit: number): Promise<Tour[]> {
     return this.tourRepository.getHotToursPaginated(page, limit);
   }
+
+  async searchTours(query: string): Promise<Tour[]> {
+    return this.tourRepository.searchTours(query);
+  }
 }
