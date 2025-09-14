@@ -22,7 +22,10 @@ import TourCardSkeleton from '../components/TourCardSkeleton';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import SearchBar from '../components/SearchBar';
 
+import { useRouter } from 'expo-router';
+
 const HomeScreen: React.FC = () => {
+  const router = useRouter();
   const colorScheme = useColorScheme() ?? 'light';
   const colors = theme[colorScheme];
   const [tours, setTours] = useState<Tour[]>([]);
@@ -228,7 +231,7 @@ const HomeScreen: React.FC = () => {
                 <Text style={styles.tourName}>{item.name}</Text>
                 <Text style={styles.tourDuration}>{item.duration}</Text>
               </View>
-              <TouchableOpacity style={styles.exploreButton}>
+              <TouchableOpacity style={styles.exploreButton} onPress={() => router.push(`/tour/${item.id}`)}>
                 <Text style={styles.exploreButtonText}>Explore</Text>
               </TouchableOpacity>
             </View>
