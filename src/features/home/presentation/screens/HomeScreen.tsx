@@ -1,6 +1,5 @@
-
 import { MaterialIcons } from '@expo/vector-icons';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -8,7 +7,6 @@ import {
   ImageBackground,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   useColorScheme,
   View
@@ -18,6 +16,7 @@ import container from '../../../../container';
 import { theme } from '../../../../theme';
 import { Tour } from '../../domain/entities/Tour';
 import { HomeViewModelToken } from '../../home.di';
+import SearchBar from '../components/SearchBar';
 import TourCardSkeleton from '../components/TourCardSkeleton';
 import { HomeViewModel } from '../viewmodels/HomeViewModel';
 
@@ -29,7 +28,6 @@ const HomeScreen: React.FC = () => {
   const [loadingMore, setLoadingMore] = useState(false);
   const page = useRef(1);
   const [hasMore, setHasMore] = useState(true);
-  const [searchText, setSearchText] = useState('');
   const [searching, setSearching] = useState(false);
 
   const homeViewModel = container.resolve<HomeViewModel>(HomeViewModelToken);
@@ -55,8 +53,8 @@ const HomeScreen: React.FC = () => {
     });
   };
 
-  const handleSearch = () => {
-    if (!searchText) {
+  const handleSearch = (query: string) => {
+    if (!query) {
       page.current = 1;
       setTours([]);
       setHasMore(true);
@@ -64,19 +62,11 @@ const HomeScreen: React.FC = () => {
       return;
     }
     setSearching(true);
-    homeViewModel.searchTours(searchText).then(newTours => {
+    homeViewModel.searchTours(query).then(newTours => {
       setTours(newTours);
       setHasMore(false);
       setSearching(false);
     });
-  };
-
-  const clearSearch = () => {
-    setSearchText('');
-    page.current = 1;
-    setTours([]);
-    setHasMore(true);
-    loadTours();
   };
 
   useEffect(() => {
@@ -103,34 +93,6 @@ const HomeScreen: React.FC = () => {
     notificationIcon: {
       position: 'absolute',
       right: 15,
-    },
-    searchContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      margin: 15,
-    },
-    searchBar: {
-      flex: 1,
-      flexDirection: 'row',
-      alignItems: 'center',
-      backgroundColor: colors.inputBackground,
-      borderRadius: 10,
-      paddingVertical: 8,
-      paddingHorizontal: 10,
-      borderWidth: 1,
-      borderColor: colors.borderColor,
-      borderStyle: 'dashed',
-    },
-    searchInput: {
-      flex: 1,
-      color: colors.text,
-      marginLeft: 10,
-    },
-    filterButton: {
-      marginLeft: 10,
-      backgroundColor: colors.inputBackground,
-      padding: 10,
-      borderRadius: 10,
     },
     heroSection: {
       height: 300,
@@ -207,39 +169,11 @@ const HomeScreen: React.FC = () => {
     footerLoader: {
       paddingVertical: 20,
     },
-    searchLoader: {
-      marginRight: 10,
-    },
-    clearButton: {
-      marginRight: 10,
-    },
   });
 
-  const renderHeader = useCallback(() => (
+  const renderHeader = () => (
     <>
-      <View style={styles.searchContainer}>
-        <View style={styles.searchBar}>
-          <MaterialIcons name="search" size={24} color={colors.secondary} />
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Search destinations"
-            placeholderTextColor={colors.secondary}
-            value={searchText}
-            onChangeText={setSearchText}
-            onSubmitEditing={handleSearch}
-          />
-          {searching && <ActivityIndicator style={styles.searchLoader} />}
-          {searchText.length > 0 && !searching && (
-            <TouchableOpacity onPress={clearSearch} style={styles.clearButton}>
-              <MaterialIcons name="close" size={24} color={colors.secondary} />
-            </TouchableOpacity>
-          )}
-        </View>
-        <TouchableOpacity style={styles.filterButton} onPress={() => console.log('Filter pressed')}>
-          <MaterialIcons name="filter-list" size={24} color={colors.secondary} />
-        </TouchableOpacity>
-      </View>
-
+      <SearchBar onSearch={handleSearch} searching={searching} />
       <ImageBackground 
         source={{ uri: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD2R-D8bon07gNln5JYqh2DiwvqM5mD-4EtOIjoAPGd1e-IrwZseSxR8ONqLPRRLEQIturvHZWU1YaxJ4rQ04GAeWG_-1OroireJvI9p-tIbeYAr9-ryL9A0-ZhWhtaVzVlWyEf0B3BHjONWCgXJeA0h7UTbaSfTCYBP0y05epzqCjgkpxPQlwsocRiwiOcPDLzkcc8bz7RweQ2XS3mSt1ae7b_WqpaZTjeMw2a4YKn4LZQFS4CUzSVkehP3SQU99sezw5okLxauKCC' }}
         style={styles.heroSection}
@@ -253,7 +187,7 @@ const HomeScreen: React.FC = () => {
 
       <Text style={styles.sectionTitle}>Hot Tours</Text>
     </>
-  ), [searchText, searching, colors]);
+  );
 
   const renderFooter = () => {
     if (!loadingMore) return null;
