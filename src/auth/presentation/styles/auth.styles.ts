@@ -4,6 +4,7 @@ export const getAuthStyles = (colors: any, colorScheme: string | null | undefine
   container: {
     flex: 1,
     backgroundColor: colors.background,
+    paddingHorizontal: 20,
   },
   logoContainer: {
     alignItems: 'center',

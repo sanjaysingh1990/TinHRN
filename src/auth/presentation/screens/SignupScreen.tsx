@@ -1,24 +1,24 @@
+import { MaterialIcons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { 
-  View, 
-  Text, 
-  ScrollView,
+import {
   KeyboardAvoidingView,
   Platform,
+  ScrollView,
+  Text,
+  TouchableOpacity,
   useColorScheme,
-  TouchableOpacity
+  View
 } from 'react-native';
-import { useRouter } from 'expo-router';
+import CountryPicker from 'react-native-country-picker-modal';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { theme } from '../../../theme';
-import { getAuthStyles } from '../styles/auth.styles';
+import AuthButton from '../components/AuthButton';
+import AuthFooter from '../components/AuthFooter';
 import AuthHeader from '../components/AuthHeader';
 import AuthInput from '../components/AuthInput';
-import AuthButton from '../components/AuthButton';
 import SocialButtons from '../components/SocialButtons';
-import AuthFooter from '../components/AuthFooter';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import CountryPicker from 'react-native-country-picker-modal';
-import { MaterialIcons } from '@expo/vector-icons';
+import { getAuthStyles } from '../styles/auth.styles';
 
 const SignupScreen: React.FC = () => {
   const router = useRouter();
@@ -57,6 +57,7 @@ const SignupScreen: React.FC = () => {
       >
         <AuthHeader title="Create Account" />
         <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <View style={{ height: 15 }} />
           <AuthInput
             placeholder="Name"
             value={name}
@@ -65,7 +66,7 @@ const SignupScreen: React.FC = () => {
             onBlur={() => setNameFocused(false)}
             accessibilityLabel="Name input"
             focused={nameFocused}
-            style={{marginTop: 20}}
+            
           />
           <AuthInput
             placeholder="Email"
