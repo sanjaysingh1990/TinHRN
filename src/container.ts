@@ -9,6 +9,10 @@ import { LoginUseCase } from "./auth/application/usecases/LoginUseCase";
 import { SignupUseCase } from "./auth/application/usecases/SignupUseCase";
 import { AuthRepositoryToken, LoginUseCaseToken, SignupUseCaseToken } from "./auth/tokens";
 
+import { TourRepository } from "./features/home/data/repositories/TourRepository";
+import { HomeViewModel } from "./features/home/presentation/viewmodels/HomeViewModel";
+import { TourRepositoryToken, HomeViewModelToken } from "./features/home/home.di";
+
 container.register(SampleRepositoryToken, {
   useClass: SampleRepository,
 });
@@ -19,5 +23,8 @@ container.register(GetSampleDataUseCaseToken, {
 container.register(AuthRepositoryToken, { useClass: AuthRepository });
 container.register(LoginUseCaseToken, { useClass: LoginUseCase });
 container.register(SignupUseCaseToken, { useClass: SignupUseCase });
+
+container.register(TourRepositoryToken, { useClass: TourRepository });
+container.register(HomeViewModelToken, { useClass: HomeViewModel });
 
 export default container;
