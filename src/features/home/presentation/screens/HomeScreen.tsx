@@ -16,6 +16,8 @@ import { Tour } from '../../domain/entities/Tour';
 import { HomeViewModelToken } from '../../home.di';
 import { HomeViewModel } from '../viewmodels/HomeViewModel';
 
+import { SafeAreaView } from 'react-native-safe-area-context';
+
 const HomeScreen: React.FC = () => {
   const colorScheme = useColorScheme() ?? 'light';
   const colors = theme[colorScheme];
@@ -41,6 +43,7 @@ const HomeScreen: React.FC = () => {
       fontSize: 18,
       fontWeight: 'bold',
       color: colors.text,
+      marginTop: 10,
     },
     notificationIcon: {
       position: 'absolute',
@@ -152,7 +155,7 @@ const HomeScreen: React.FC = () => {
   );
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Tent'in Himalayas</Text>
         <TouchableOpacity style={styles.notificationIcon}>
@@ -178,7 +181,7 @@ const HomeScreen: React.FC = () => {
         contentContainerStyle={{ paddingHorizontal: 7.5 }}
         ListHeaderComponent={renderHeader}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
