@@ -12,6 +12,7 @@ export interface TentOption {
   pricePerNight: number;
   maxOccupancy: number;
   features: string[];
+  isSelected?: boolean;
 }
 
 export interface AddOn {

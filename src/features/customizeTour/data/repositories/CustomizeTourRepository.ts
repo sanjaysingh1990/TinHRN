@@ -33,16 +33,37 @@ export class CustomizeTourRepository implements ICustomizeTourRepository {
     };
   }
 
+  async bookTour(selection: CustomizationSelection): Promise<{ success: boolean; bookingId: string }> {
+    // Simulate 3-second API call delay
+    await new Promise(resolve => setTimeout(resolve, 3000));
+    
+    return {
+      success: true,
+      bookingId: `booking_${Date.now()}`
+    };
+  }
+
   private generateAvailableDates(): Date[] {
     const dates: Date[] = [];
     const today = new Date();
     
-    // Generate next 30 days as available dates
-    for (let i = 0; i < 30; i++) {
-      const date = new Date(today);
-      date.setDate(today.getDate() + i);
-      dates.push(date);
+    // Generate 4-5 random future dates within next 30 days
+    const randomCount = 4 + Math.floor(Math.random() * 2); // 4 or 5 dates
+    const usedDays = new Set<number>();
+    
+    while (dates.length < randomCount) {
+      const randomDay = 1 + Math.floor(Math.random() * 30); // 1-30 days from today
+      
+      if (!usedDays.has(randomDay)) {
+        usedDays.add(randomDay);
+        const date = new Date(today);
+        date.setDate(today.getDate() + randomDay);
+        dates.push(date);
+      }
     }
+    
+    // Sort dates chronologically
+    dates.sort((a, b) => a.getTime() - b.getTime());
     
     return dates;
   }
@@ -55,7 +76,8 @@ export class CustomizeTourRepository implements ICustomizeTourRepository {
         description: 'Comfortable 2-person tent with basic amenities',
         pricePerNight: 50,
         maxOccupancy: 2,
-        features: ['Waterproof', 'Sleeping bags included', 'Basic lighting']
+        features: ['Waterproof', 'Sleeping bags included', 'Basic lighting'],
+        isSelected: false
       },
       {
         id: 'deluxe-tent',
@@ -63,7 +85,8 @@ export class CustomizeTourRepository implements ICustomizeTourRepository {
         description: 'Spacious tent with premium comfort features',
         pricePerNight: 85,
         maxOccupancy: 3,
-        features: ['Waterproof', 'Premium bedding', 'Solar charging', 'Private bathroom access']
+        features: ['Waterproof', 'Premium bedding', 'Solar charging', 'Private bathroom access'],
+        isSelected: false
       },
       {
         id: 'luxury-tent',
@@ -71,7 +94,8 @@ export class CustomizeTourRepository implements ICustomizeTourRepository {
         description: 'Ultimate glamping experience with all amenities',
         pricePerNight: 150,
         maxOccupancy: 4,
-        features: ['Waterproof', 'King-size bed', 'Private bathroom', 'Mini-fridge', 'Heating/AC']
+        features: ['Waterproof', 'King-size bed', 'Private bathroom', 'Mini-fridge', 'Heating/AC'],
+        isSelected: false
       }
     ];
   }

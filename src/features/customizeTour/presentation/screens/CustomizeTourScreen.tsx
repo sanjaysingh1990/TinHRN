@@ -35,10 +35,16 @@ const CustomizeTourScreen: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [saving, setSaving] = useState(false);
+  const [forceUpdate, setForceUpdate] = useState(0);
 
   useEffect(() => {
+    // Set up the update callback for ViewModel
+    customizeTourViewModel.setUpdateCallback(() => {
+      setForceUpdate(prev => prev + 1);
+    });
+    
     loadData();
-  }, []);
+  }, []);;
 
   const loadData = async () => {
     setLoading(true);
@@ -57,14 +63,14 @@ const CustomizeTourScreen: React.FC = () => {
       return;
     }
 
-    setSaving(true);
     try {
-      await customizeTourViewModel.saveCustomization();
-      Alert.alert('Success', 'Customization saved successfully!');
+      const result = await customizeTourViewModel.bookTour();
+      if (result.success) {
+        // Navigate to booking confirmation with bookingId
+        router.push(`/booking-confirmation?bookingId=${result.bookingId}`);
+      }
     } catch (error) {
-      Alert.alert('Error', 'Failed to save customization. Please try again.');
-    } finally {
-      setSaving(false);
+      Alert.alert('Error', 'Failed to book tour. Please try again.');
     }
   };
 
@@ -452,7 +458,8 @@ const CustomizeTourScreen: React.FC = () => {
     const styles = StyleSheet.create({
       supportContainer: {
         paddingHorizontal: 20,
-        marginBottom: 100, // Space for footer
+        marginBottom: 160, // Increased space for footer and prevent cutting
+        paddingBottom: 20, // Additional padding
       },
       supportCard: {
         backgroundColor: colors.cardBackgroundColor,
@@ -631,13 +638,13 @@ const CustomizeTourScreen: React.FC = () => {
         <TouchableOpacity
           style={[
             mainStyles.continueButton,
-            (!customizeTourViewModel.isSelectionComplete() || saving) && mainStyles.continueButtonDisabled
+            (!customizeTourViewModel.isSelectionComplete() || customizeTourViewModel.isBookingLoading) && mainStyles.continueButtonDisabled
           ]}
           onPress={handleContinue}
-          disabled={!customizeTourViewModel.isSelectionComplete() || saving}
+          disabled={!customizeTourViewModel.isSelectionComplete() || customizeTourViewModel.isBookingLoading}
         >
           <Text style={mainStyles.continueButtonText}>
-            {saving ? 'Saving...' : 'Continue'}
+            {customizeTourViewModel.isBookingLoading ? 'Booking...' : 'Continue'}
           </Text>
         </TouchableOpacity>
       </View>

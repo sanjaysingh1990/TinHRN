@@ -18,11 +18,23 @@ export class CustomizeTourViewModel {
     selectedAddOns: [],
     totalPrice: 0
   };
+  private _bookingLoading: boolean = false;
+  private _updateCallback: (() => void) | null = null;
 
   constructor(
     @inject(CustomizeTourRepositoryToken) 
     private repository: ICustomizeTourRepository
   ) {}
+
+  setUpdateCallback(callback: () => void): void {
+    this._updateCallback = callback;
+  }
+
+  private notifyUpdate(): void {
+    if (this._updateCallback) {
+      this._updateCallback();
+    }
+  }
 
   get customizationData(): CustomizeTourData | null {
     return this._customizationData;
@@ -36,8 +48,17 @@ export class CustomizeTourViewModel {
     return this._selection;
   }
 
+  get totalPrice(): number {
+    return this._selection.totalPrice;
+  }
+
+  get isBookingLoading(): boolean {
+    return this._bookingLoading;
+  }
+
   async loadCustomizationData(): Promise<void> {
     this._isLoading = true;
+    this.notifyUpdate();
     try {
       this._customizationData = await this.repository.getCustomizationData();
     } catch (error) {
@@ -45,17 +66,29 @@ export class CustomizeTourViewModel {
       throw error;
     } finally {
       this._isLoading = false;
+      this.notifyUpdate();
     }
   }
 
   selectDate(date: Date): void {
     this._selection.selectedDate = date;
     this.calculateTotalPrice();
+    this.notifyUpdate();
   }
 
   selectTent(tent: TentOption): void {
+    // Reset tent selection state for all tents
+    if (this._customizationData) {
+      this._customizationData.tentOptions.forEach(t => {
+        t.isSelected = false;
+      });
+    }
+    
+    // Set selected tent
+    tent.isSelected = true;
     this._selection.selectedTent = tent;
     this.calculateTotalPrice();
+    this.notifyUpdate();
   }
 
   toggleAddOn(addOnId: string): void {
@@ -78,6 +111,7 @@ export class CustomizeTourViewModel {
     }
     
     this.calculateTotalPrice();
+    this.notifyUpdate();
   }
 
   private calculateTotalPrice(): void {
@@ -110,6 +144,25 @@ export class CustomizeTourViewModel {
     }
   }
 
+  async bookTour(): Promise<{ success: boolean; bookingId: string }> {
+    if (!this._selection.selectedDate || !this._selection.selectedTent) {
+      throw new Error('Please select a date and tent before booking');
+    }
+
+    this._bookingLoading = true;
+    this.notifyUpdate();
+    try {
+      const result = await this.repository.bookTour(this._selection);
+      return result;
+    } catch (error) {
+      console.error('Error booking tour:', error);
+      throw error;
+    } finally {
+      this._bookingLoading = false;
+      this.notifyUpdate();
+    }
+  }
+
   isSelectionComplete(): boolean {
     return this._selection.selectedDate !== null && this._selection.selectedTent !== null;
   }
@@ -122,11 +175,16 @@ export class CustomizeTourViewModel {
       totalPrice: 0
     };
 
-    // Reset add-on selection state
+    // Reset add-on and tent selection state
     if (this._customizationData) {
       this._customizationData.addOns.forEach(addOn => {
         addOn.isSelected = false;
       });
+      this._customizationData.tentOptions.forEach(tent => {
+        tent.isSelected = false;
+      });
     }
+    
+    this.notifyUpdate();
   }
 }
