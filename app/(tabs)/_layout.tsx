@@ -2,12 +2,10 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import React from 'react';
-import { useColorScheme } from 'react-native';
-import { theme } from '../../src/theme';
+import { useTheme } from '../../src/hooks/useTheme';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme() ?? 'light';
-  const colors = theme[colorScheme];
+  const { colors } = useTheme();
 
   return (
      <Tabs
@@ -31,7 +29,7 @@ export default function TabLayout() {
         name="explore"
         options={{
           title: 'Explore',
-          tabBarIcon: ({ color }) => <MaterialIcons name="explore" size={24} color={color} />,
+          tabBarIcon: ({ color }) => <MaterialIcons name="search" size={24} color={color} />,
         }}
       />
       <Tabs.Screen
