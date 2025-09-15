@@ -2,8 +2,10 @@
 import React, { useEffect, useRef } from 'react';
 import { View, StyleSheet, Animated, Easing } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useTheme } from '../../../../hooks/useTheme';
 
 const ProfileSkeleton = () => {
+  const { colors, isDarkMode } = useTheme();
   const animatedValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -22,6 +24,58 @@ const ProfileSkeleton = () => {
     outputRange: [-200, 200],
   });
 
+  const styles = StyleSheet.create({
+    container: {
+      padding: 16,
+    },
+    card: {
+      backgroundColor: colors.cardBackgroundColor,
+      borderRadius: 16,
+      padding: 20,
+      marginBottom: 24,
+      overflow: 'hidden',
+    },
+    badge: {
+      position: 'absolute',
+      top: -14,
+      alignSelf: 'center',
+      width: 100,
+      height: 28,
+      borderRadius: 14,
+      backgroundColor: colors.shimmerColor,
+    },
+    grid: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      justifyContent: 'space-around',
+      marginTop: 20,
+    },
+    achievementItem: {
+      alignItems: 'center',
+      width: '25%',
+      marginBottom: 20,
+    },
+    achievementIcon: {
+      width: 50,
+      height: 50,
+      borderRadius: 25,
+      backgroundColor: colors.shimmerColor,
+      marginBottom: 8,
+    },
+    textLine: {
+      width: '80%',
+      height: 10,
+      backgroundColor: colors.shimmerColor,
+      borderRadius: 4,
+    },
+    favoriteCard: {
+      height: 150,
+      borderRadius: 12,
+      backgroundColor: colors.shimmerColor,
+      marginBottom: 15,
+    },
+  });
+
   const Shimmer = () => (
     <Animated.View
       style={{
@@ -30,7 +84,10 @@ const ProfileSkeleton = () => {
       }}
     >
       <LinearGradient
-        colors={['transparent', 'rgba(255, 255, 255, 0.1)', 'transparent']}
+        colors={isDarkMode 
+          ? ['transparent', 'rgba(255, 255, 255, 0.1)', 'transparent']
+          : ['transparent', 'rgba(255, 255, 255, 0.8)', 'transparent']
+        }
         start={{ x: 0, y: 0.5 }}
         end={{ x: 1, y: 0.5 }}
         style={{ flex: 1 }}
@@ -64,57 +121,5 @@ const ProfileSkeleton = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 16,
-  },
-  card: {
-    backgroundColor: '#1C2620',
-    borderRadius: 16,
-    padding: 20,
-    marginBottom: 24,
-    overflow: 'hidden',
-  },
-  badge: {
-    position: 'absolute',
-    top: -14,
-    alignSelf: 'center',
-    width: 100,
-    height: 28,
-    borderRadius: 14,
-    backgroundColor: '#3a362f',
-  },
-  grid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
-    marginTop: 20,
-  },
-  achievementItem: {
-    alignItems: 'center',
-    width: '25%',
-    marginBottom: 20,
-  },
-  achievementIcon: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: '#3a362f',
-    marginBottom: 8,
-  },
-  textLine: {
-    width: '80%',
-    height: 10,
-    backgroundColor: '#3a362f',
-    borderRadius: 4,
-  },
-  favoriteCard: {
-    height: 150,
-    borderRadius: 12,
-    backgroundColor: '#3a362f',
-    marginBottom: 15,
-  },
-});
 
 export default ProfileSkeleton;

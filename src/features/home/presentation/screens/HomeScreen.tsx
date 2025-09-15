@@ -9,12 +9,11 @@ import {
     StyleSheet,
     Text,
     TouchableOpacity,
-    useColorScheme,
     View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useTheme } from '../../../../hooks/useTheme';
 import container from '../../../../container';
-import { theme } from '../../../../theme';
 import { Tour } from '../../domain/entities/Tour';
 import { HomeViewModelToken } from '../../home.di';
 import SearchBar from '../components/SearchBar';
@@ -27,8 +26,7 @@ import { StatusBar } from 'expo-status-bar';
 
 const HomeScreen: React.FC = () => {
   const router = useRouter();
-  const colorScheme = useColorScheme() ?? 'light';
-  const colors = theme[colorScheme];
+  const { colors, colorScheme } = useTheme();
   const [tours, setTours] = useState<Tour[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -219,7 +217,7 @@ const HomeScreen: React.FC = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar style="light" />
+      <StatusBar style={colorScheme === 'dark' ? "light" : "dark"} />
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Tent'in Himalayas</Text>
         <TouchableOpacity style={styles.notificationIcon} onPress={() => router.push('/notifications')}>

@@ -2,6 +2,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Switch } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useTheme } from '../../../../hooks/useTheme';
 
 interface PreferenceItemProps {
   icon: string;
@@ -11,34 +12,39 @@ interface PreferenceItemProps {
 }
 
 const PreferenceItem: React.FC<PreferenceItemProps> = ({ icon, title, value, onValueChange }) => {
+  const { colors, isDarkMode } = useTheme();
+  
+  const styles = StyleSheet.create({
+    container: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingVertical: 15,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.borderColor,
+    },
+    title: {
+      flex: 1,
+      fontSize: 16,
+      color: colors.text,
+      marginLeft: 15,
+    },
+  });
+
   return (
     <View style={styles.container}>
-      <MaterialIcons name={icon as any} size={24} color="#9eb7a8" />
+      <MaterialIcons name={icon as any} size={24} color={colors.secondary} />
       <Text style={styles.title}>{title}</Text>
       <Switch
         value={value}
         onValueChange={onValueChange}
-        trackColor={{ false: '#3a362f', true: '#38e07b' }}
-        thumbColor={value ? '#fff' : '#9eb7a8'}
+        trackColor={{ 
+          false: isDarkMode ? '#3a362f' : '#e0e0e0', 
+          true: colors.primary 
+        }}
+        thumbColor={value ? '#fff' : colors.secondary}
       />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#3d5245',
-  },
-  title: {
-    flex: 1,
-    fontSize: 16,
-    color: '#fff',
-    marginLeft: 15,
-  },
-});
 
 export default PreferenceItem;
