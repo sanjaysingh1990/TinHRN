@@ -217,7 +217,7 @@ const HomeScreen: React.FC = () => {
       <StatusBar style="light" />
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Tent'in Himalayas</Text>
-        <TouchableOpacity style={styles.notificationIcon}>
+        <TouchableOpacity style={styles.notificationIcon} onPress={() => router.push('/notifications')}>
           <MaterialIcons name="notifications-none" size={24} color={colors.text} />
         </TouchableOpacity>
       </View>

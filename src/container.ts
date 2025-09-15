@@ -29,6 +29,11 @@ import { GetPastBookingsUseCase } from "./features/mybookings/domain/usecases/Ge
 import { MyBookingsViewModel } from "./features/mybookings/presentation/viewmodels/MyBookingsViewModel";
 import { MyBookingsRepositoryToken, GetUpcomingBookingsUseCaseToken, GetPastBookingsUseCaseToken, MyBookingsViewModelToken } from "./features/mybookings/mybookings.di";
 
+import { NotificationsRepository } from "./features/notifications/data/repositories/NotificationsRepository";
+import { GetNotificationsUseCase } from "./features/notifications/domain/usecases/GetNotificationsUseCase";
+import { NotificationsViewModel } from "./features/notifications/presentation/viewmodels/NotificationsViewModel";
+import { NotificationsRepositoryToken, GetNotificationsUseCaseToken, NotificationsViewModelToken } from "./features/notifications/notifications.di";
+
 container.register(SampleRepositoryToken, {
   useClass: SampleRepository,
 });
@@ -55,5 +60,9 @@ container.register(MyBookingsRepositoryToken, { useClass: MyBookingsRepository }
 container.register(GetUpcomingBookingsUseCaseToken, { useClass: GetUpcomingBookingsUseCase });
 container.register(GetPastBookingsUseCaseToken, { useClass: GetPastBookingsUseCase });
 container.register(MyBookingsViewModelToken, { useClass: MyBookingsViewModel });
+
+container.register(NotificationsRepositoryToken, { useClass: NotificationsRepository });
+container.register(GetNotificationsUseCaseToken, { useClass: GetNotificationsUseCase });
+container.register(NotificationsViewModelToken, { useClass: NotificationsViewModel });
 
 export default container;
