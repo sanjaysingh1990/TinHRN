@@ -7,6 +7,7 @@ import 'reflect-metadata';
 import '../src/container';
 import { store, RootState } from '../src/providers/store';
 import { theme } from '../src/theme';
+import { I18nProvider } from '../src/hooks/useI18n';
 
 
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -47,6 +48,13 @@ const AppContent = () => {
           animation: 'slide_from_bottom',
         }}
       />
+      <Stack.Screen 
+        name="about-us" 
+        options={{
+          presentation: 'modal',
+          animation: 'slide_from_right',
+        }}
+      />
     </Stack>
   );
 };
@@ -56,7 +64,9 @@ export default function RootLayout() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <PortalProvider>
         <Provider store={store}>
-          <AppContent />
+          <I18nProvider>
+            <AppContent />
+          </I18nProvider>
         </Provider>
       </PortalProvider>
     </GestureHandlerRootView>

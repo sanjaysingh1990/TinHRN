@@ -10,7 +10,9 @@ import {
   Alert
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useRouter } from 'expo-router';
 import { useTheme } from '../../../../hooks/useTheme';
+import { useI18n } from '../../../../hooks/useI18n';
 import container from '../../../../container';
 import { ProfileViewModelToken } from '../../profile.di';
 import { ProfileViewModel } from '../viewmodels/ProfileViewModel';
@@ -26,12 +28,14 @@ import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const ProfileScreen = () => {
+  const router = useRouter();
   const { isDarkMode, colors, colorScheme, toggleDarkMode } = useTheme();
+  const { locale, setLocale } = useI18n();
   const [achievements, setAchievements] = useState<Achievement[]>([]);
   const [favorites, setFavorites] = useState<Favorite[]>([]);
   const [loading, setLoading] = useState(true);
   const [notifications, setNotifications] = useState(true);
-  const [language, setLanguage] = useState('English');
+  const [language, setLanguage] = useState(locale === 'hi' ? 'Hindi' : 'English');
 
   const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ['25%', '50%'], []);
@@ -42,6 +46,7 @@ const ProfileScreen = () => {
 
   const handleLanguageSelect = (lang: string) => {
     setLanguage(lang);
+    setLocale(lang === 'Hindi' ? 'hi' : 'en');
     bottomSheetRef.current?.close();
   };
 
@@ -199,7 +204,7 @@ const ProfileScreen = () => {
                 <View style={styles.badge}>
                   <Text style={styles.badgeText}>OTHERS</Text>
                 </View>
-                <AccountItem icon="info-outline" title="About Us" onPress={() => {}} />
+                <AccountItem icon="info-outline" title="About Us" onPress={() => router.push('/about-us')} />
                 <AccountItem icon="help-outline" title="FAQ" onPress={() => {}} />
                 <AccountItem icon="description" title="Terms and Conditions" onPress={() => {}} />
               </View>
