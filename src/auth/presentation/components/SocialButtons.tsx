@@ -1,9 +1,9 @@
 
-import React from 'react';
-import { View, Text, TouchableOpacity, useColorScheme } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { getAuthStyles } from '../styles/auth.styles';
+import React from 'react';
+import { TouchableOpacity, useColorScheme, View } from 'react-native';
 import { theme } from '../../../theme';
+import { getAuthStyles } from '../styles/auth.styles';
 
 const SocialButtons = () => {
   const colorScheme = useColorScheme() ?? 'light';

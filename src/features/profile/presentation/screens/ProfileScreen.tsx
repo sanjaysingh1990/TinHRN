@@ -1,32 +1,32 @@
-import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  StatusBar,
-  FlatList,
-  TouchableOpacity,
-  Alert,
-  Linking
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { useRouter } from 'expo-router';
-import { useTheme } from '../../../../hooks/useTheme';
-import { useI18n } from '../../../../hooks/useI18n';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+    Alert,
+    FlatList,
+    Linking,
+    ScrollView,
+    StatusBar,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View
+} from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import container from '../../../../container';
-import { ProfileViewModelToken } from '../../profile.di';
-import { ProfileViewModel } from '../viewmodels/ProfileViewModel';
+import { useI18n } from '../../../../hooks/useI18n';
+import { useTheme } from '../../../../hooks/useTheme';
 import { Achievement } from '../../domain/models/Achievement';
 import { Favorite } from '../../domain/models/Favorite';
-import ProfileHeader from '../components/ProfileHeader';
+import { ProfileViewModelToken } from '../../profile.di';
+import AccountItem from '../components/AccountItem';
 import AchievementItem from '../components/AchievementItem';
 import FavoriteCard from '../components/FavoriteCard';
-import AccountItem from '../components/AccountItem';
 import PreferenceItem from '../components/PreferenceItem';
+import ProfileHeader from '../components/ProfileHeader';
 import ProfileSkeleton from '../components/ProfileSkeleton';
-import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { ProfileViewModel } from '../viewmodels/ProfileViewModel';
 
 const ProfileScreen = () => {
   const router = useRouter();

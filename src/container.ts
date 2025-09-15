@@ -14,7 +14,7 @@ import { HomeViewModelToken, TourRepositoryToken } from "./features/home/home.di
 import { HomeViewModel } from "./features/home/presentation/viewmodels/HomeViewModel";
 
 import { ExploreRepository } from "./features/explore/data/repositories/ExploreRepository";
-import { ExploreViewModelToken, ExploreRepositoryToken } from "./features/explore/explore.di";
+import { ExploreRepositoryToken, ExploreViewModelToken } from "./features/explore/explore.di";
 import { ExploreViewModel } from "./features/explore/presentation/viewmodels/ExploreViewModel";
 
 import { TourDetailsRepository } from "./features/tour-details/data/repositories/TourDetailsRepository";
@@ -23,12 +23,12 @@ import { TourDetailsRepositoryToken, TourDetailsViewModelToken } from "./feature
 
 import { ProfileRepository } from "./features/profile/data/repositories/ProfileRepository";
 import { GetAchievementsUseCase } from "./features/profile/domain/usecases/GetAchievementsUseCase";
-import { GetFavoritesUseCase } from "./features/profile/domain/usecases/GetFavoritesUseCase";
 import { GetFaqListUseCase } from "./features/profile/domain/usecases/GetFaqListUseCase";
-import { ProfileViewModel } from "./features/profile/presentation/viewmodels/ProfileViewModel";
+import { GetFavoritesUseCase } from "./features/profile/domain/usecases/GetFavoritesUseCase";
 import { AboutUsViewModel } from "./features/profile/presentation/viewmodels/AboutUsViewModel";
 import { FaqViewModel } from "./features/profile/presentation/viewmodels/FaqViewModel";
-import { GetAchievementsUseCaseToken, GetFavoritesUseCaseToken, GetFaqListUseCaseToken, ProfileRepositoryToken, ProfileViewModelToken, AboutUsViewModelToken, FaqViewModelToken } from "./features/profile/profile.di";
+import { ProfileViewModel } from "./features/profile/presentation/viewmodels/ProfileViewModel";
+import { AboutUsViewModelToken, FaqViewModelToken, GetAchievementsUseCaseToken, GetFaqListUseCaseToken, GetFavoritesUseCaseToken, ProfileRepositoryToken, ProfileViewModelToken } from "./features/profile/profile.di";
 
 import { MyBookingsRepository } from "./features/mybookings/data/repositories/MyBookingsRepository";
 import { GetPastBookingsUseCase } from "./features/mybookings/domain/usecases/GetPastBookingsUseCase";
@@ -41,8 +41,13 @@ import { GetNotificationsUseCase } from "./features/notifications/domain/usecase
 import { GetNotificationsUseCaseToken, NotificationsRepositoryToken, NotificationsViewModelToken } from "./features/notifications/notifications.di";
 import { NotificationsViewModel } from "./features/notifications/presentation/viewmodels/NotificationsViewModel";
 
-import { BookingConfirmationViewModel } from "./features/bookingConfirmation/presentation/viewmodels/BookingConfirmationViewModel";
 import { BookingConfirmationViewModelToken } from "./features/bookingConfirmation/bookingConfirmation.di";
+import { BookingConfirmationViewModel } from "./features/bookingConfirmation/presentation/viewmodels/BookingConfirmationViewModel";
+
+import { GalleryRepositoryToken, GalleryViewModelToken, GetGalleryDataUseCaseToken, GetPostByIdUseCaseToken } from "./features/gallery/data/di/tokens";
+import { GalleryRepository } from "./features/gallery/data/repositories/GalleryRepository";
+import { GetGalleryDataUseCase, GetPostByIdUseCase } from "./features/gallery/domain/usecases/GalleryUseCases";
+import { GalleryViewModel } from "./features/gallery/presentation/viewmodels/GalleryViewModel";
 
 container.register(SampleRepositoryToken, {
   useClass: SampleRepository,
@@ -82,5 +87,10 @@ container.register(GetNotificationsUseCaseToken, { useClass: GetNotificationsUse
 container.register(NotificationsViewModelToken, { useClass: NotificationsViewModel });
 
 container.register(BookingConfirmationViewModelToken, { useClass: BookingConfirmationViewModel });
+
+container.register(GalleryRepositoryToken, { useClass: GalleryRepository });
+container.register(GetGalleryDataUseCaseToken, { useClass: GetGalleryDataUseCase });
+container.register(GetPostByIdUseCaseToken, { useClass: GetPostByIdUseCase });
+container.register(GalleryViewModelToken, { useClass: GalleryViewModel });
 
 export default container;

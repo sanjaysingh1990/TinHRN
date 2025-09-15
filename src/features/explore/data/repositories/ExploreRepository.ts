@@ -1,5 +1,5 @@
 import { injectable } from 'tsyringe';
-import { ExploreData, Category, Destination, TopTrek } from '../../domain/entities/Explore';
+import { Category, Destination, ExploreData, TopTrek } from '../../domain/entities/Explore';
 import { IExploreRepository } from '../../domain/repositories/IExploreRepository';
 
 const dummyCategories: Category[] = [

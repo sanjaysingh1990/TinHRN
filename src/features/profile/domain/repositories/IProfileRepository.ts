@@ -1,8 +1,8 @@
 
 import { Achievement } from '../models/Achievement';
+import { Faq } from '../models/Faq';
 import { Favorite } from '../models/Favorite';
 import { TeamMember } from '../models/TeamMember';
-import { Faq } from '../models/Faq';
 
 export interface IProfileRepository {
   getAchievements(): Promise<Achievement[]>;

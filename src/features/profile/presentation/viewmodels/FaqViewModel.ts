@@ -1,7 +1,7 @@
 import { inject, injectable } from 'tsyringe';
+import { Faq } from '../../domain/models/Faq';
 import { GetFaqListUseCase } from '../../domain/usecases/GetFaqListUseCase';
 import { GetFaqListUseCaseToken } from '../../profile.di';
-import { Faq } from '../../domain/models/Faq';
 
 @injectable()
 export class FaqViewModel {

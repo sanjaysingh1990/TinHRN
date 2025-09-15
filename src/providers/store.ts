@@ -1,7 +1,7 @@
 
 import { configureStore } from '@reduxjs/toolkit';
-import sampleReducer from '../sample/presentation/state/sample.slice';
 import authReducer from '../auth/presentation/state/auth.slice';
+import sampleReducer from '../sample/presentation/state/sample.slice';
 import themeReducer from '../theme/theme.slice';
 
 export const store = configureStore({

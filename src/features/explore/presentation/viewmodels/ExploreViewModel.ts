@@ -1,4 +1,4 @@
-import { injectable, inject } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 import { ExploreData } from '../../domain/entities/Explore';
 import { IExploreRepository } from '../../domain/repositories/IExploreRepository';
 import { ExploreRepositoryToken } from '../../explore.di';

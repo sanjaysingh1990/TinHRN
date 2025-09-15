@@ -1,16 +1,15 @@
 
-import { useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
-import React, { useRef, useState, useEffect } from 'react';
+import { useRouter } from 'expo-router';
+import React, { useEffect, useRef, useState } from 'react';
 import {
-  Image,
+  Animated,
+  Dimensions,
   StyleSheet,
   Text,
   TouchableOpacity,
   useColorScheme,
-  View,
-  Dimensions,
-  Animated
+  View
 } from 'react-native';
 import PagerView from 'react-native-pager-view';
 import { theme } from '../../../theme';

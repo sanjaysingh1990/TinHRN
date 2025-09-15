@@ -1,4 +1,3 @@
-import { StyleSheet } from 'react-native';
 
 export const getAuthStyles = (colors: any, colorScheme: string | null | undefined) => ({
   container: {

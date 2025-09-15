@@ -1,9 +1,9 @@
 
 import { injectable } from 'tsyringe';
 import { Achievement } from '../../domain/models/Achievement';
+import { Faq } from '../../domain/models/Faq';
 import { Favorite } from '../../domain/models/Favorite';
 import { TeamMember } from '../../domain/models/TeamMember';
-import { Faq } from '../../domain/models/Faq';
 import { IProfileRepository } from '../../domain/repositories/IProfileRepository';
 
 const dummyAchievements: Achievement[] = [

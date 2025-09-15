@@ -1,7 +1,7 @@
-import { injectable, inject } from 'tsyringe';
-import { IProfileRepository } from '../repositories/IProfileRepository';
+import { inject, injectable } from 'tsyringe';
 import { ProfileRepositoryToken } from '../../profile.di';
 import { Faq } from '../models/Faq';
+import { IProfileRepository } from '../repositories/IProfileRepository';
 
 @injectable()
 export class GetFaqListUseCase {

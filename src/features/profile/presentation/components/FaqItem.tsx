@@ -1,6 +1,6 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import React, { useState } from 'react';
-import { Animated, LayoutAnimation, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { LayoutAnimation, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useTheme } from '../../../../hooks/useTheme';
 import { Faq } from '../../domain/models/Faq';
 

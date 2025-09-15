@@ -1,22 +1,20 @@
 
 import React, { useEffect, useState } from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
   SectionList,
   StatusBar,
-  TouchableOpacity
+  StyleSheet,
+  Text,
+  View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useTheme } from '../../../../hooks/useTheme';
 import container from '../../../../container';
-import { MyBookingsViewModelToken } from '../../mybookings.di';
-import { MyBookingsViewModel } from '../viewmodels/MyBookingsViewModel';
+import { useTheme } from '../../../../hooks/useTheme';
 import { Booking } from '../../domain/models/Booking';
+import { MyBookingsViewModelToken } from '../../mybookings.di';
 import BookingCard from '../components/BookingCard';
 import ShimmerBookingCard from '../components/ShimmerBookingCard';
-import { MaterialIcons } from '@expo/vector-icons';
+import { MyBookingsViewModel } from '../viewmodels/MyBookingsViewModel';
 
 
 const MyBookingsScreen = () => {

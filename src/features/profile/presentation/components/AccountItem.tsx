@@ -1,7 +1,7 @@
 
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import React from 'react';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { useTheme } from '../../../../hooks/useTheme';
 
 interface AccountItemProps {

@@ -1,9 +1,9 @@
 
 import React from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { useTheme } from '../../../../hooks/useTheme';
 import { Booking } from '../../domain/models/Booking';
 import BookingCard from './BookingCard';
-import { useTheme } from '../../../../hooks/useTheme';
 
 interface BookingsSectionProps {
   title: string;

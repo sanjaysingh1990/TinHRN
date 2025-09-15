@@ -1,9 +1,9 @@
 
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Achievement } from '../../domain/models/Achievement';
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 import { useTheme } from '../../../../hooks/useTheme';
+import { Achievement } from '../../domain/models/Achievement';
 
 interface AchievementItemProps {
   achievement: Achievement;

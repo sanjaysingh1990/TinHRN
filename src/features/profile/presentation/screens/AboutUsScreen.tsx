@@ -4,19 +4,19 @@ import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useRef, useState } from 'react';
 import {
-  FlatList,
-  Image,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
+    FlatList,
+    Image,
+    SafeAreaView,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
 } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import container from '../../../../container';
-import { useTheme } from '../../../../hooks/useTheme';
 import { useI18n } from '../../../../hooks/useI18n';
+import { useTheme } from '../../../../hooks/useTheme';
 import { TeamMember } from '../../domain/models/TeamMember';
 import { AboutUsViewModelToken } from '../../profile.di';
 import TeamMemberBottomSheet from '../components/TeamMemberBottomSheet';

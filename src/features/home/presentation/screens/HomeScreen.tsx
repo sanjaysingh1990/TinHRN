@@ -12,8 +12,8 @@ import {
     View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useTheme } from '../../../../hooks/useTheme';
 import container from '../../../../container';
+import { useTheme } from '../../../../hooks/useTheme';
 import { Tour } from '../../domain/entities/Tour';
 import { HomeViewModelToken } from '../../home.di';
 import SearchBar from '../components/SearchBar';

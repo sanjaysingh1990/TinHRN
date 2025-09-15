@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Image, SafeAreaView, StatusBar, useColorScheme } from 'react-native';
 import { useRouter } from 'expo-router';
+import React, { useState } from 'react';
+import { Image, SafeAreaView, StatusBar, Text, TouchableOpacity, useColorScheme, View } from 'react-native';
 import { theme } from '../../../theme';
-import { getAuthStyles } from '../styles/auth.styles';
-import AuthInput from '../components/AuthInput';
 import AuthButton from '../components/AuthButton';
-import SocialButtons from '../components/SocialButtons';
 import AuthFooter from '../components/AuthFooter';
+import AuthInput from '../components/AuthInput';
+import SocialButtons from '../components/SocialButtons';
+import { getAuthStyles } from '../styles/auth.styles';
 
 const LoginScreen: React.FC = () => {
   const router = useRouter();

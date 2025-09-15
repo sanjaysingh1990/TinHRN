@@ -3,16 +3,16 @@ import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import {
-  FlatList,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
+    FlatList,
+    SafeAreaView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
 } from 'react-native';
 import container from '../../../../container';
-import { useTheme } from '../../../../hooks/useTheme';
 import { useI18n } from '../../../../hooks/useI18n';
+import { useTheme } from '../../../../hooks/useTheme';
 import { Faq } from '../../domain/models/Faq';
 import { FaqViewModelToken } from '../../profile.di';
 import FaqItem from '../components/FaqItem';

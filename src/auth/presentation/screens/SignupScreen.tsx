@@ -2,13 +2,13 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  useColorScheme,
-  View
+    KeyboardAvoidingView,
+    Platform,
+    ScrollView,
+    Text,
+    TouchableOpacity,
+    useColorScheme,
+    View
 } from 'react-native';
 import CountryPicker from 'react-native-country-picker-modal';
 import { SafeAreaView } from 'react-native-safe-area-context';

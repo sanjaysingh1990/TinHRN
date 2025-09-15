@@ -5,9 +5,9 @@ import 'react-native-reanimated'; // 👈 must be first
 import { Provider, useSelector } from 'react-redux';
 import 'reflect-metadata';
 import '../src/container';
-import { store, RootState } from '../src/providers/store';
-import { theme } from '../src/theme';
 import { I18nProvider } from '../src/hooks/useI18n';
+import { RootState, store } from '../src/providers/store';
+import { theme } from '../src/theme';
 
 
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -57,6 +57,13 @@ const AppContent = () => {
       />
       <Stack.Screen 
         name="faq" 
+        options={{
+          presentation: 'modal',
+          animation: 'slide_from_right',
+        }}
+      />
+      <Stack.Screen 
+        name="post-details" 
         options={{
           presentation: 'modal',
           animation: 'slide_from_right',

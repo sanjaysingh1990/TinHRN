@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState, AppDispatch } from '../providers/store';
-import { loadThemeFromStorage, saveThemeToStorage, toggleTheme, setTheme } from '../theme/theme.slice';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../providers/store';
 import { theme } from '../theme';
+import { loadThemeFromStorage, saveThemeToStorage, setTheme } from '../theme/theme.slice';
 
 export const useTheme = () => {
   const dispatch = useDispatch<AppDispatch>();

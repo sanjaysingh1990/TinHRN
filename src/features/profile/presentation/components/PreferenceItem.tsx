@@ -1,7 +1,7 @@
 
-import React from 'react';
-import { View, Text, StyleSheet, Switch } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import React from 'react';
+import { StyleSheet, Switch, Text, View } from 'react-native';
 import { useTheme } from '../../../../hooks/useTheme';
 
 interface PreferenceItemProps {
