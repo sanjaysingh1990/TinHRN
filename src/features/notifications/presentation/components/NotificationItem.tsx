@@ -1,7 +1,7 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, useColorScheme, View } from 'react-native';
-import { theme } from '../../../../theme';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useTheme } from '../../../../hooks/useTheme';
 import { Notification } from '../../domain/models/Notification';
 
 interface NotificationItemProps {
@@ -44,8 +44,7 @@ const getIconColor = (type: Notification['type']): string => {
 };
 
 const NotificationItem: React.FC<NotificationItemProps> = ({ notification, onPress }) => {
-  const colorScheme = useColorScheme() ?? 'light';
-  const colors = theme[colorScheme];
+  const { colors, isDarkMode } = useTheme();
   
   const styles = StyleSheet.create({
     container: {
@@ -82,7 +81,7 @@ const NotificationItem: React.FC<NotificationItemProps> = ({ notification, onPre
     },
     time: {
       fontSize: 12,
-      color: colorScheme === 'dark' ? '#808080' : '#666666',
+      color: isDarkMode ? '#808080' : '#666666',
     },
     unreadIndicator: {
       width: 8,

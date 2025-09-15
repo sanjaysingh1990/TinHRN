@@ -1,11 +1,10 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useEffect, useRef } from 'react';
-import { Animated, Easing, StyleSheet, useColorScheme, View } from 'react-native';
-import { theme } from '../../../../theme';
+import { Animated, Easing, StyleSheet, View } from 'react-native';
+import { useTheme } from '../../../../hooks/useTheme';
 
 const NotificationShimmer: React.FC = () => {
-  const colorScheme = useColorScheme() ?? 'light';
-  const colors = theme[colorScheme];
+  const { colors, isDarkMode } = useTheme();
   const animatedValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -24,8 +23,8 @@ const NotificationShimmer: React.FC = () => {
     outputRange: [-200, 200],
   });
 
-  const shimmerColor = colorScheme === 'dark' ? '#2A261F' : '#E5E5E5';
-  const gradientColors = colorScheme === 'dark' 
+  const shimmerColor = isDarkMode ? '#2A261F' : '#E5E5E5';
+  const gradientColors = isDarkMode 
     ? ['transparent', 'rgba(255, 255, 255, 0.1)', 'transparent'] as const
     : ['transparent', 'rgba(255, 255, 255, 0.8)', 'transparent'] as const;
 

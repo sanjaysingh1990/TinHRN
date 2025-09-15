@@ -2,8 +2,10 @@
 import React, { useEffect, useRef } from 'react';
 import { View, StyleSheet, Animated, Easing } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useTheme } from '../../../../hooks/useTheme';
 
 const ShimmerBookingCard = () => {
+  const { colors, isDarkMode } = useTheme();
   const animatedValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -22,6 +24,44 @@ const ShimmerBookingCard = () => {
     outputRange: [-200, 200],
   });
 
+  const styles = StyleSheet.create({
+    card: {
+      flexDirection: 'row',
+      backgroundColor: colors.cardBackgroundColor,
+      borderRadius: 16,
+      padding: 15,
+      marginBottom: 15,
+      overflow: 'hidden',
+    },
+    image: {
+      width: 100,
+      height: 100,
+      borderRadius: 12,
+      backgroundColor: colors.shimmerColor,
+    },
+    info: {
+      flex: 1,
+      marginLeft: 15,
+    },
+    textLine: {
+      height: 12,
+      backgroundColor: colors.shimmerColor,
+      borderRadius: 4,
+      marginBottom: 8,
+    },
+    actions: {
+      flexDirection: 'row',
+      marginTop: 10,
+    },
+    button: {
+      width: 100,
+      height: 36,
+      borderRadius: 20,
+      backgroundColor: colors.shimmerColor,
+      marginRight: 10,
+    },
+  });
+
   const Shimmer = () => (
     <Animated.View
       style={{
@@ -30,7 +70,10 @@ const ShimmerBookingCard = () => {
       }}
     >
       <LinearGradient
-        colors={['transparent', 'rgba(255, 255, 255, 0.1)', 'transparent']}
+        colors={isDarkMode 
+          ? ['transparent', 'rgba(255, 255, 255, 0.1)', 'transparent']
+          : ['transparent', 'rgba(255, 255, 255, 0.8)', 'transparent']
+        }
         start={{ x: 0, y: 0.5 }}
         end={{ x: 1, y: 0.5 }}
         style={{ flex: 1 }}
@@ -54,43 +97,5 @@ const ShimmerBookingCard = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  card: {
-    flexDirection: 'row',
-    backgroundColor: '#1C2620',
-    borderRadius: 16,
-    padding: 15,
-    marginBottom: 15,
-    overflow: 'hidden',
-  },
-  image: {
-    width: 100,
-    height: 100,
-    borderRadius: 12,
-    backgroundColor: '#3a362f',
-  },
-  info: {
-    flex: 1,
-    marginLeft: 15,
-  },
-  textLine: {
-    height: 12,
-    backgroundColor: '#3a362f',
-    borderRadius: 4,
-    marginBottom: 8,
-  },
-  actions: {
-    flexDirection: 'row',
-    marginTop: 10,
-  },
-  button: {
-    width: 100,
-    height: 36,
-    borderRadius: 20,
-    backgroundColor: '#3a362f',
-    marginRight: 10,
-  },
-});
 
 export default ShimmerBookingCard;

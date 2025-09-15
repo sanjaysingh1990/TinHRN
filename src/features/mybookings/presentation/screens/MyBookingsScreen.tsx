@@ -9,6 +9,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useTheme } from '../../../../hooks/useTheme';
 import container from '../../../../container';
 import { MyBookingsViewModelToken } from '../../mybookings.di';
 import { MyBookingsViewModel } from '../viewmodels/MyBookingsViewModel';
@@ -19,6 +20,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 
 const MyBookingsScreen = () => {
+  const { colors, isDarkMode } = useTheme();
   const [upcomingBookings, setUpcomingBookings] = useState<Booking[]>([]);
   const [pastBookings, setPastBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
@@ -47,7 +49,7 @@ const MyBookingsScreen = () => {
   ];
 
   const renderSectionHeader = ({ section }: { section: { title: string } }) => (
-    <Text style={styles.sectionTitle}>{section.title}</Text>
+    <Text style={[styles.sectionTitle, { color: colors.text }]}>{section.title}</Text>
   );
 
   const renderBookingItem = ({ item }: { item: Booking }) => (
@@ -62,10 +64,10 @@ const MyBookingsScreen = () => {
   );
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <StatusBar barStyle="light-content" />
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>My Bookings</Text>
+    <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.background }]}>
+      <StatusBar barStyle={isDarkMode ? "light-content" : "dark-content"} />
+      <View style={[styles.header, { borderBottomColor: colors.borderColor }]}>
+        <Text style={[styles.headerTitle, { color: colors.text }]}>My Bookings</Text>
       </View>
       {loading ? (
         renderShimmerItems()
@@ -86,7 +88,6 @@ const MyBookingsScreen = () => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#111714',
   },
   header: {
     flexDirection: 'row',
@@ -94,17 +95,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#3d5245',
   },
   headerTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#fff',
   },
   sectionTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#fff',
     marginBottom: 15,
     marginTop: 20,
   },

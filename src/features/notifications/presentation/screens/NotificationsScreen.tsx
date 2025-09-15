@@ -8,11 +8,10 @@ import {
     StyleSheet,
     Text,
     TouchableOpacity,
-    useColorScheme,
     View,
 } from 'react-native';
 import container from '../../../../container';
-import { theme } from '../../../../theme';
+import { useTheme } from '../../../../hooks/useTheme';
 import { Notification } from '../../domain/models/Notification';
 import { NotificationsViewModelToken } from '../../notifications.di';
 import NotificationItem from '../components/NotificationItem';
@@ -21,8 +20,7 @@ import { NotificationsViewModel } from '../viewmodels/NotificationsViewModel';
 
 const NotificationsScreen: React.FC = () => {
   const router = useRouter();
-  const colorScheme = useColorScheme() ?? 'light';
-  const colors = theme[colorScheme];
+  const { colors, isDarkMode } = useTheme();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -61,7 +59,7 @@ const NotificationsScreen: React.FC = () => {
   if (isLoading) {
     return (
       <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
-        <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
+        <StatusBar style={isDarkMode ? 'light' : 'dark'} />
         
         {/* Header */}
         <View style={[styles.header, { borderBottomColor: colors.borderColor }]}>
@@ -87,7 +85,7 @@ const NotificationsScreen: React.FC = () => {
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
-      <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
+      <StatusBar style={isDarkMode ? 'light' : 'dark'} />
       
       {/* Header */}
       <View style={[styles.header, { backgroundColor: colors.background, borderBottomColor: colors.borderColor }]}>
