@@ -2,8 +2,10 @@
 import React, { useEffect, useRef } from 'react';
 import { View, StyleSheet, Animated, Easing } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useTheme } from '../../../../hooks/useTheme';
 
 const TourDetailsSkeleton = () => {
+  const { colors, isDarkMode } = useTheme();
   const animatedValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -30,13 +32,47 @@ const TourDetailsSkeleton = () => {
       }}
     >
       <LinearGradient
-        colors={['transparent', 'rgba(255, 255, 255, 0.1)', 'transparent']}
+        colors={isDarkMode 
+          ? ['transparent', 'rgba(255, 255, 255, 0.1)', 'transparent']
+          : ['transparent', 'rgba(255, 255, 255, 0.8)', 'transparent']
+        }
         start={{ x: 0, y: 0.5 }}
         end={{ x: 1, y: 0.5 }}
         style={{ flex: 1 }}
       />
     </Animated.View>
   );
+
+  const styles = StyleSheet.create({
+    content: {
+      padding: 16,
+    },
+    card: {
+      backgroundColor: colors.cardBackgroundColor,
+      borderRadius: 16,
+      borderWidth: 1,
+      borderColor: colors.borderColor,
+      borderStyle: 'dashed',
+      padding: 20,
+      marginBottom: 24,
+      overflow: 'hidden',
+    },
+    badge: {
+      position: 'absolute',
+      top: -14,
+      alignSelf: 'center',
+      width: 100,
+      height: 28,
+      borderRadius: 14,
+      backgroundColor: colors.shimmerColor,
+    },
+    textLine: {
+      height: 16,
+      backgroundColor: colors.shimmerColor,
+      borderRadius: 4,
+      marginBottom: 10,
+    },
+  });
 
   return (
     <View style={styles.content}>
@@ -59,33 +95,5 @@ const TourDetailsSkeleton = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  content: {
-    padding: 16,
-  },
-  card: {
-    backgroundColor: '#1C2620',
-    borderRadius: 16,
-    padding: 20,
-    marginBottom: 24,
-    overflow: 'hidden',
-  },
-  badge: {
-    position: 'absolute',
-    top: -14,
-    alignSelf: 'center',
-    width: 100,
-    height: 28,
-    borderRadius: 14,
-    backgroundColor: '#3a362f',
-  },
-  textLine: {
-    height: 16,
-    backgroundColor: '#3a362f',
-    borderRadius: 4,
-    marginBottom: 10,
-  },
-});
 
 export default TourDetailsSkeleton;

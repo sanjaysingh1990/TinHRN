@@ -165,6 +165,7 @@ const TourDetailsScreen = () => {
     itineraryMarker: {
       alignItems: 'center',
       marginRight: 16,
+      position: 'relative',
     },
     itineraryIconContainer: {
       width: 32,
@@ -175,10 +176,12 @@ const TourDetailsScreen = () => {
       alignItems: 'center',
     },
     itineraryLine: {
-      flex: 1,
+      position: 'absolute',
+      top: 32, // Start right after the icon (32px height)
+      bottom: -32, // Extend to overlap with next item's icon position
       width: 2,
       backgroundColor: colors.borderColor,
-      marginTop: 4,
+      left: 15, // Center align with the icon (32px width / 2 - 1px line width)
     },
     itineraryContent: {
       flex: 1,
