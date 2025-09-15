@@ -10,6 +10,7 @@ import {
   Alert
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useTheme } from '../../../../hooks/useTheme';
 import container from '../../../../container';
 import { ProfileViewModelToken } from '../../profile.di';
 import { ProfileViewModel } from '../viewmodels/ProfileViewModel';
@@ -25,11 +26,11 @@ import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const ProfileScreen = () => {
+  const { isDarkMode, colors, colorScheme, toggleDarkMode } = useTheme();
   const [achievements, setAchievements] = useState<Achievement[]>([]);
   const [favorites, setFavorites] = useState<Favorite[]>([]);
   const [loading, setLoading] = useState(true);
   const [notifications, setNotifications] = useState(true);
-  const [darkMode, setDarkMode] = useState(true);
   const [language, setLanguage] = useState('English');
 
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -68,10 +69,76 @@ const ProfileScreen = () => {
     });
   }, []);
 
+  const createStyles = (colors: any) => StyleSheet.create({
+    safeArea: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    scrollView: {
+      flex: 1,
+    },
+    content: {
+      padding: 16,
+    },
+    card: {
+      backgroundColor: colors.cardBackgroundColor,
+      borderRadius: 16,
+      borderWidth: 1,
+      borderColor: colors.borderColor,
+      borderStyle: 'dashed',
+      padding: 20,
+      marginBottom: 24,
+      alignItems: 'center',
+    },
+    badge: {
+      position: 'absolute',
+      top: -14,
+      backgroundColor: colors.primary,
+      borderRadius: 14,
+      paddingVertical: 4,
+      paddingHorizontal: 12,
+    },
+    badgeText: {
+      color: colors.background,
+      fontWeight: 'bold',
+      fontSize: 12,
+    },
+    grid: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      justifyContent: 'space-around',
+      marginTop: 20,
+    },
+    logoutButton: {
+      backgroundColor: '#ff4d4d',
+      borderRadius: 12,
+      paddingVertical: 16,
+      alignItems: 'center',
+      marginTop: 10,
+    },
+    logoutButtonText: {
+      color: '#fff',
+      fontSize: 18,
+      fontWeight: 'bold',
+    },
+    bottomSheetContent: {
+      flex: 1,
+      alignItems: 'center',
+      padding: 20,
+    },
+    languageOption: {
+      padding: 15,
+      width: '100%',
+      alignItems: 'center',
+    },
+  });
+
+  const styles = createStyles(colors);
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <SafeAreaView style={styles.safeArea}>
-        <StatusBar barStyle="light-content" />
+      <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.background }]}>
+        <StatusBar barStyle={isDarkMode ? "light-content" : "dark-content"} />
         <ScrollView style={styles.scrollView}>
           <ProfileHeader />
           {loading ? <ProfileSkeleton /> : (
@@ -122,8 +189,8 @@ const ProfileScreen = () => {
                 <PreferenceItem
                   icon="brightness-4"
                   title="Dark Mode"
-                  value={darkMode}
-                  onValueChange={setDarkMode}
+                  value={isDarkMode}
+                  onValueChange={toggleDarkMode}
                 />
                 <AccountItem icon="language" title="Language" onPress={() => bottomSheetRef.current?.snapToIndex(0)} />
               </View>
@@ -149,14 +216,14 @@ const ProfileScreen = () => {
           snapPoints={snapPoints}
           onChange={handleSheetChanges}
           enablePanDownToClose
-          backgroundStyle={{ backgroundColor: '#1C2620' }}
+          backgroundStyle={{ backgroundColor: colors.cardBackgroundColor }}
         >
-          <BottomSheetView style={styles.bottomSheetContent}>
+          <BottomSheetView style={[styles.bottomSheetContent, { backgroundColor: colors.cardBackgroundColor }]}>
             <TouchableOpacity style={styles.languageOption} onPress={() => handleLanguageSelect('English')}>
-              <Text>English</Text>
+              <Text style={{ color: colors.text }}>English</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.languageOption} onPress={() => handleLanguageSelect('Hindi')}>
-              <Text>Hindi</Text>
+              <Text style={{ color: colors.text }}>Hindi</Text>
             </TouchableOpacity>
           </BottomSheetView>
         </BottomSheet>
