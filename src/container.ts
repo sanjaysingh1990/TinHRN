@@ -23,6 +23,12 @@ import { GetFavoritesUseCase } from "./features/profile/domain/usecases/GetFavor
 import { ProfileViewModel } from "./features/profile/presentation/viewmodels/ProfileViewModel";
 import { ProfileRepositoryToken, GetAchievementsUseCaseToken, GetFavoritesUseCaseToken, ProfileViewModelToken } from "./features/profile/profile.di";
 
+import { MyBookingsRepository } from "./features/mybookings/data/repositories/MyBookingsRepository";
+import { GetUpcomingBookingsUseCase } from "./features/mybookings/domain/usecases/GetUpcomingBookingsUseCase";
+import { GetPastBookingsUseCase } from "./features/mybookings/domain/usecases/GetPastBookingsUseCase";
+import { MyBookingsViewModel } from "./features/mybookings/presentation/viewmodels/MyBookingsViewModel";
+import { MyBookingsRepositoryToken, GetUpcomingBookingsUseCaseToken, GetPastBookingsUseCaseToken, MyBookingsViewModelToken } from "./features/mybookings/mybookings.di";
+
 container.register(SampleRepositoryToken, {
   useClass: SampleRepository,
 });
@@ -44,5 +50,10 @@ container.register(ProfileRepositoryToken, { useClass: ProfileRepository });
 container.register(GetAchievementsUseCaseToken, { useClass: GetAchievementsUseCase });
 container.register(GetFavoritesUseCaseToken, { useClass: GetFavoritesUseCase });
 container.register(ProfileViewModelToken, { useClass: ProfileViewModel });
+
+container.register(MyBookingsRepositoryToken, { useClass: MyBookingsRepository });
+container.register(GetUpcomingBookingsUseCaseToken, { useClass: GetUpcomingBookingsUseCase });
+container.register(GetPastBookingsUseCaseToken, { useClass: GetPastBookingsUseCase });
+container.register(MyBookingsViewModelToken, { useClass: MyBookingsViewModel });
 
 export default container;
