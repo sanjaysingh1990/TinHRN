@@ -3,6 +3,14 @@ import { injectable } from 'tsyringe';
 import { TourDetails, ItineraryItem, Review } from '../../domain/entities/TourDetails';
 import { ITourDetailsRepository } from '../../domain/repositories/ITourDetailsRepository';
 
+export interface BookingConfirmation {
+  tourName: string;
+  bookingReference: string;
+  date: string;
+  duration: string;
+  totalAmount: string;
+}
+
 const dummyDetails: TourDetails = {
   overview:
     'The Annapurna Base Camp trek is one of the most popular treks in the Annapurna region. The trail goes alongside terraced rice paddies, lush rhododendron forests, and high altitude landscapes with the Annapurna Range in view most of the time.',
@@ -45,6 +53,24 @@ export class TourDetailsRepository implements ITourDetailsRepository {
       setTimeout(() => {
         resolve(dummyDetails);
       }, 5000);
+    });
+  }
+
+  async confirmBooking(tourId: string): Promise<BookingConfirmation> {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve({
+          tourName: 'Annapurna Base Camp Trek',
+          bookingReference: 'THB-2024-' + Math.random().toString(36).substr(2, 6).toUpperCase(),
+          date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString('en-GB', {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric'
+          }),
+          duration: '14 Days',
+          totalAmount: '$1,200'
+        });
+      }, 2000); // 2s delay as requested
     });
   }
 }

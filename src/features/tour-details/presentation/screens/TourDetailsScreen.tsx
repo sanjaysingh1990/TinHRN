@@ -35,7 +35,10 @@ const TourDetailsScreen = () => {
   }, [id]);
 
   const onBackPress = () => router.back();
-  const onBookPress = () => console.log('Book This Tour button pressed');
+  const onBookPress = () => {
+    // Navigate to booking confirmation with tour ID
+    router.push(`/booking-confirmation?tourId=${id}`);
+  };
 
   const renderStars = (rating: number) => {
     const stars = [];

@@ -27,7 +27,7 @@ const TourCardSkeleton = () => {
       <View style={styles.image} />
       <View style={styles.info}>
         <View style={styles.textLine} />
-        <View style={styles.textLine} style={{ width: '50%' }} />
+        <View style={[styles.textLine, { width: '50%' }]} />
       </View>
       <Animated.View
         style={{

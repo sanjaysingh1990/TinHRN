@@ -34,6 +34,9 @@ import { GetNotificationsUseCase } from "./features/notifications/domain/usecase
 import { GetNotificationsUseCaseToken, NotificationsRepositoryToken, NotificationsViewModelToken } from "./features/notifications/notifications.di";
 import { NotificationsViewModel } from "./features/notifications/presentation/viewmodels/NotificationsViewModel";
 
+import { BookingConfirmationViewModel } from "./features/bookingConfirmation/presentation/viewmodels/BookingConfirmationViewModel";
+import { BookingConfirmationViewModelToken } from "./features/bookingConfirmation/bookingConfirmation.di";
+
 container.register(SampleRepositoryToken, {
   useClass: SampleRepository,
 });
@@ -64,5 +67,7 @@ container.register(MyBookingsViewModelToken, { useClass: MyBookingsViewModel });
 container.register(NotificationsRepositoryToken, { useClass: NotificationsRepository });
 container.register(GetNotificationsUseCaseToken, { useClass: GetNotificationsUseCase });
 container.register(NotificationsViewModelToken, { useClass: NotificationsViewModel });
+
+container.register(BookingConfirmationViewModelToken, { useClass: BookingConfirmationViewModel });
 
 export default container;
