@@ -116,7 +116,7 @@ const SignupScreen: React.FC = () => {
               secureTextEntry={!showPassword}
               accessibilityLabel="Password input"
               focused={passwordFocused}
-              style={{flex: 1}}
+              style={{flex: 1, paddingHorizontal: 0, backgroundColor: 'transparent', marginBottom: 0}}
             />
             <TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={styles.eyeIcon}>
               <MaterialIcons name={showPassword ? 'visibility-off' : 'visibility'} size={24} color={colors.secondary} />
@@ -134,7 +134,7 @@ const SignupScreen: React.FC = () => {
               secureTextEntry={!showConfirmPassword}
               accessibilityLabel="Confirm password input"
               focused={confirmPasswordFocused}
-              style={{flex: 1}}
+              style={{flex: 1, paddingHorizontal: 0, backgroundColor: 'transparent', marginBottom: 0}}
             />
             <TouchableOpacity onPress={() => setShowConfirmPassword(!showConfirmPassword)} style={styles.eyeIcon}>
               <MaterialIcons name={showConfirmPassword ? 'visibility-off' : 'visibility'} size={24} color={colors.secondary} />

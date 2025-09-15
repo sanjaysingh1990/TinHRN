@@ -5,7 +5,7 @@ export const getAuthStyles = (colors: any, colorScheme: string | null | undefine
     flex: 1,
     backgroundColor: colors.background,
     paddingHorizontal: 20,
-    paddingTop: 40,
+    paddingTop: 10, // Reduced from 40 to minimize overall top spacing
   },
   logoContainer: {
     alignItems: 'center' as const,
@@ -124,7 +124,9 @@ export const getAuthStyles = (colors: any, colorScheme: string | null | undefine
     flexDirection: 'row' as const,
     alignItems: 'center' as const,
     justifyContent: 'center' as const,
-    padding: 15,
+    paddingHorizontal: 15,
+    paddingVertical: 8,
+    paddingTop: 15, // Reduced from 15 to create 5-10% margin from status bar
     borderBottomWidth: 1,
     borderBottomColor: colors.borderColor,
   },
@@ -158,6 +160,7 @@ export const getAuthStyles = (colors: any, colorScheme: string | null | undefine
     marginBottom: 15,
     borderWidth: 1,
     borderColor: 'transparent',
+    paddingHorizontal: 15, // Added padding to match regular input fields
   },
   eyeIcon: {
     padding: 10,
@@ -167,5 +170,8 @@ export const getAuthStyles = (colors: any, colorScheme: string | null | undefine
     fontSize: 12,
     marginBottom: 15,
     paddingHorizontal: 10,
+  },
+  scrollContainer: {
+    paddingBottom: 20,
   },
 });

@@ -42,8 +42,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="support"
         options={{
-          title: 'Support',
-          tabBarIcon: ({ color }) => <MaterialIcons name="support-agent" size={24} color={color} />,
+          title: 'Gallery',
+          tabBarIcon: ({ color }) => <MaterialIcons name="photo-library" size={24} color={color} />,
         }}
       />
      
