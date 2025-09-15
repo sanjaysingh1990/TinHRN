@@ -80,7 +80,8 @@ const styles = StyleSheet.create({
     color: '#9eb7a8',
   },
   actions: {
-    flexDirection: 'row',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
     marginTop: 10,
   },
   button: {
@@ -90,7 +91,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 12,
     borderRadius: 20,
-    marginRight: 10,
+    marginBottom: 10,
   },
   buttonText: {
     color: '#111714',

@@ -16,10 +16,9 @@ import { Booking } from '../../domain/models/Booking';
 import BookingsSection from '../components/BookingsSection';
 import ShimmerBookingCard from '../components/ShimmerBookingCard';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
+
 
 const MyBookingsScreen = () => {
-  const router = useRouter();
   const [upcomingBookings, setUpcomingBookings] = useState<Booking[]>([]);
   const [pastBookings, setPastBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
@@ -40,9 +39,7 @@ const MyBookingsScreen = () => {
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="light-content" />
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-          <MaterialIcons name="arrow-back" size={24} color="#fff" />
-        </TouchableOpacity>
+        
         <Text style={styles.headerTitle}>My Bookings</Text>
       </View>
       <ScrollView style={styles.scrollView}>
@@ -75,10 +72,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#3d5245',
   },
-  backButton: {
-    position: 'absolute',
-    left: 15,
-  },
+
   headerTitle: {
     fontSize: 18,
     fontWeight: 'bold',
