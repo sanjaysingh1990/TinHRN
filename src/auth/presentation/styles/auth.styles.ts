@@ -5,27 +5,33 @@ export const getAuthStyles = (colors: any, colorScheme: string | null | undefine
     flex: 1,
     backgroundColor: colors.background,
     paddingHorizontal: 20,
+    paddingTop: 40,
   },
   logoContainer: {
-    alignItems: 'center',
+    alignItems: 'center' as const,
     marginBottom: 40,
+    marginTop: 20,
   },
   logo: {
     width: 80,
     height: 80,
     borderRadius: 40,
   },
+  appLogo: {
+    width: 120,
+    height: 120,
+  },
   title: {
     fontSize: 32,
-    fontWeight: 'bold',
+    fontWeight: 'bold' as const,
     color: colors.text,
-    textAlign: 'center',
+    textAlign: 'center' as const,
     marginBottom: 10,
   },
   subtitle: {
     fontSize: 16,
     color: colors.secondary,
-    textAlign: 'center',
+    textAlign: 'center' as const,
     marginBottom: 30,
   },
   input: {
@@ -59,8 +65,8 @@ export const getAuthStyles = (colors: any, colorScheme: string | null | undefine
     fontSize: 16,
   },
   dividerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: 'row' as const,
+    alignItems: 'center' as const,
     marginBottom: 20,
   },
   stitch: {
@@ -68,15 +74,15 @@ export const getAuthStyles = (colors: any, colorScheme: string | null | undefine
     height: 1,
     borderTopWidth: 1,
     borderColor: colors.secondary,
-    borderStyle: 'dashed',
+    borderStyle: 'dashed' as const,
   },
   dividerText: {
     color: colors.secondary,
     marginHorizontal: 10,
   },
   socialButtonsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    flexDirection: 'row' as const,
+    justifyContent: 'space-around' as const,
     marginBottom: 20,
   },
   socialButton: {
@@ -85,16 +91,17 @@ export const getAuthStyles = (colors: any, colorScheme: string | null | undefine
     borderRadius: 30,
     borderWidth: 1,
     borderColor: colorScheme === 'dark' ? colors.borderColor : 'transparent',
-          backgroundColor: colors.inputBackground,    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: colors.inputBackground,
+    justifyContent: 'center' as const,
+    alignItems: 'center' as const,
   },
   socialIcon: {
     fontSize: 24,
     color: colors.text,
   },
   footer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
+    flexDirection: 'row' as const,
+    justifyContent: 'center' as const,
     marginTop: 20,
   },
   footerText: {
@@ -106,13 +113,17 @@ export const getAuthStyles = (colors: any, colorScheme: string | null | undefine
     textDecorationLine: 'underline',
   },
   forgotPassword: {
-    alignSelf: 'flex-end',
+    alignSelf: 'flex-end' as const,
     marginBottom: 20,
   },
+  forgotPasswordText: {
+    color: colors.primary,
+    fontSize: 14,
+  },
   header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: 'row' as const,
+    alignItems: 'center' as const,
+    justifyContent: 'center' as const,
     padding: 15,
     borderBottomWidth: 1,
     borderBottomColor: colors.borderColor,
@@ -131,8 +142,8 @@ export const getAuthStyles = (colors: any, colorScheme: string | null | undefine
     color: colors.text,
   },
   phoneInputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: 'row' as const,
+    alignItems: 'center' as const,
     backgroundColor: colors.inputBackground,
     borderRadius: 10,
     marginBottom: 15,
@@ -140,8 +151,8 @@ export const getAuthStyles = (colors: any, colorScheme: string | null | undefine
     borderColor: 'transparent',
   },
   passwordContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: 'row' as const,
+    alignItems: 'center' as const,
     backgroundColor: colors.inputBackground,
     borderRadius: 10,
     marginBottom: 15,

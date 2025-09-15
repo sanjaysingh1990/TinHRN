@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, useColorScheme, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Image, SafeAreaView, StatusBar, useColorScheme } from 'react-native';
 import { useRouter } from 'expo-router';
 import { theme } from '../../../theme';
 import { getAuthStyles } from '../styles/auth.styles';
@@ -25,11 +25,16 @@ const LoginScreen: React.FC = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <StatusBar 
+        barStyle={colorScheme === 'dark' ? "light-content" : "dark-content"} 
+        backgroundColor={colors.background}
+      />
       <View style={styles.logoContainer}>
         <Image 
-          source={{ uri: 'https://tentinhimalayas.com/wp-content/uploads/2024/05/cropped-TTH-logo-with-background-1-180x180.png' }} 
-          style={styles.logo} 
+          source={require('../../../../assets/images/icon.png')} 
+          style={styles.appLogo} 
+          resizeMode="contain"
         />
       </View>
       <Text style={styles.title}>Welcome Back</Text>
@@ -72,11 +77,11 @@ const LoginScreen: React.FC = () => {
       <SocialButtons />
 
       <AuthFooter 
-        text="Don’t have an account? "
+        text="Don't have an account? "
         linkText="Sign up"
         onPress={() => router.push('/signup')}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
