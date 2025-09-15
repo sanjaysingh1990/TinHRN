@@ -39,6 +39,10 @@ const TourDetailsScreen = () => {
 
   const onBackPress = () => router.back();
   
+  const onSettingsPress = () => {
+    router.push('/customize-tour');
+  };
+  
   const onBookPress = async () => {
     if (bookingLoading) return; // Prevent multiple clicks
     
@@ -371,7 +375,9 @@ const TourDetailsScreen = () => {
           <MaterialIcons name="arrow-back" size={24} color="#fff" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Tour Details</Text>
-        <View style={styles.headerButton} />
+        <TouchableOpacity onPress={onSettingsPress} style={styles.headerButton}>
+          <MaterialIcons name="settings" size={24} color="#fff" />
+        </TouchableOpacity>
       </View>
 
       {/* Sticky Footer Button */}

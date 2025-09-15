@@ -49,6 +49,10 @@ import { GalleryRepository } from "./features/gallery/data/repositories/GalleryR
 import { GetGalleryDataUseCase, GetPostByIdUseCase } from "./features/gallery/domain/usecases/GalleryUseCases";
 import { GalleryViewModel } from "./features/gallery/presentation/viewmodels/GalleryViewModel";
 
+import { CustomizeTourRepositoryToken, CustomizeTourViewModelToken } from "./features/customizeTour/data/di/tokens";
+import { CustomizeTourRepository } from "./features/customizeTour/data/repositories/CustomizeTourRepository";
+import { CustomizeTourViewModel } from "./features/customizeTour/presentation/viewmodels/CustomizeTourViewModel";
+
 container.register(SampleRepositoryToken, {
   useClass: SampleRepository,
 });
@@ -92,5 +96,8 @@ container.register(GalleryRepositoryToken, { useClass: GalleryRepository });
 container.register(GetGalleryDataUseCaseToken, { useClass: GetGalleryDataUseCase });
 container.register(GetPostByIdUseCaseToken, { useClass: GetPostByIdUseCase });
 container.register(GalleryViewModelToken, { useClass: GalleryViewModel });
+
+container.register(CustomizeTourRepositoryToken, { useClass: CustomizeTourRepository });
+container.register(CustomizeTourViewModelToken, { useClass: CustomizeTourViewModel });
 
 export default container;

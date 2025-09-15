@@ -12,11 +12,11 @@ import {
     View,
 } from 'react-native';
 import container from '../src/container';
-import { useTheme } from '../src/hooks/useTheme';
 import { GalleryViewModelToken } from '../src/features/gallery/data/di/tokens';
 import { Post } from '../src/features/gallery/domain/entities/Gallery';
 import { GridItemShimmer } from '../src/features/gallery/presentation/components/GalleryShimmers';
 import { GalleryViewModel } from '../src/features/gallery/presentation/viewmodels/GalleryViewModel';
+import { useTheme } from '../src/hooks/useTheme';
 
 const CategoryPostsScreen: React.FC = () => {
   const router = useRouter();
