@@ -65,6 +65,16 @@ const GalleryScreen: React.FC = () => {
     });
   };
 
+  const handleCategoryPress = (category: Category) => {
+    router.push({
+      pathname: '/category-posts',
+      params: {
+        categoryId: category.id,
+        categoryName: category.name
+      }
+    });
+  };
+
   const renderFeaturedPost = () => {
     if (loading) {
       return <FeaturedPostShimmer />;
@@ -99,7 +109,11 @@ const GalleryScreen: React.FC = () => {
   };
 
   const renderCategoryItem = ({ item }: { item: Category }) => (
-    <TouchableOpacity style={styles.categoryItem} activeOpacity={0.7}>
+    <TouchableOpacity 
+      style={styles.categoryItem} 
+      activeOpacity={0.7}
+      onPress={() => handleCategoryPress(item)}
+    >
       <Image source={{ uri: item.imageUrl }} style={styles.categoryImage} />
       <View style={styles.categoryOverlay} />
       <View style={styles.categoryTextContainer}>
@@ -192,9 +206,6 @@ const GalleryScreen: React.FC = () => {
       borderBottomWidth: 1,
       borderBottomColor: colors.borderColor,
     },
-    backButton: {
-      padding: 8,
-    },
     headerTitle: {
       fontSize: 20,
       fontWeight: 'bold',
@@ -212,10 +223,12 @@ const GalleryScreen: React.FC = () => {
       borderWidth: 2,
       borderStyle: 'dashed',
       overflow: 'hidden',
-      marginHorizontal: 20,
-      marginTop: 20, // Added top margin
+      marginTop: 20,
       marginBottom: 24,
-      aspectRatio: 1, // Changed from 4/3 to 1:1 ratio
+      marginHorizontal: 'auto', // Center horizontally
+      alignSelf: 'center', // Ensure center alignment
+      width: width - 40, // Fixed width with 20px margin on each side
+      aspectRatio: 1, // 1:1 square ratio
     },
     featuredImage: {
       width: '100%',
@@ -363,9 +376,6 @@ const GalleryScreen: React.FC = () => {
       
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-          <MaterialIcons name="arrow-back" size={24} color={colors.text} />
-        </TouchableOpacity>
         <Text style={styles.headerTitle}>Himalayan Gallery</Text>
         <TouchableOpacity style={styles.moreButton}>
           <MaterialIcons name="more-vert" size={24} color={colors.text} />
@@ -386,7 +396,9 @@ const GalleryScreen: React.FC = () => {
         {renderCategories()}
 
         {/* Recent Uploads Section */}
-        <Text style={styles.sectionTitle}>Recent Uploads</Text>
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionTitle}>Recent Uploads</Text>
+        </View>
         {renderGrid()}
       </ScrollView>
     </SafeAreaView>

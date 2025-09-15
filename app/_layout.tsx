@@ -76,6 +76,13 @@ const AppContent = () => {
           animation: 'slide_from_right',
         }}
       />
+      <Stack.Screen 
+        name="category-posts" 
+        options={{
+          presentation: 'modal',
+          animation: 'slide_from_right',
+        }}
+      />
     </Stack>
   );
 };
