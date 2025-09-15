@@ -1,4 +1,4 @@
-import { injectable, inject } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 import { Notification } from '../../domain/models/Notification';
 import { GetNotificationsUseCase } from '../../domain/usecases/GetNotificationsUseCase';
 import { GetNotificationsUseCaseToken } from '../../notifications.di';

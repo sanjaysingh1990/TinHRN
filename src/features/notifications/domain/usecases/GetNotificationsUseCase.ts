@@ -1,7 +1,7 @@
-import { injectable, inject } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
+import { NotificationsRepositoryToken } from '../../notifications.di';
 import { Notification } from '../models/Notification';
 import { INotificationsRepository } from '../repositories/INotificationsRepository';
-import { NotificationsRepositoryToken } from '../../notifications.di';
 
 @injectable()
 export class GetNotificationsUseCase {

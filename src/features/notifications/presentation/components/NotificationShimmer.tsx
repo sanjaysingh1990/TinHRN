@@ -1,8 +1,11 @@
-import React, { useEffect, useRef } from 'react';
-import { View, StyleSheet, Animated, Easing } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import React, { useEffect, useRef } from 'react';
+import { Animated, Easing, StyleSheet, useColorScheme, View } from 'react-native';
+import { theme } from '../../../../theme';
 
 const NotificationShimmer: React.FC = () => {
+  const colorScheme = useColorScheme() ?? 'light';
+  const colors = theme[colorScheme];
   const animatedValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -19,6 +22,67 @@ const NotificationShimmer: React.FC = () => {
   const translateX = animatedValue.interpolate({
     inputRange: [0, 1],
     outputRange: [-200, 200],
+  });
+
+  const shimmerColor = colorScheme === 'dark' ? '#2A261F' : '#E5E5E5';
+  const gradientColors = colorScheme === 'dark' 
+    ? ['transparent', 'rgba(255, 255, 255, 0.1)', 'transparent'] as const
+    : ['transparent', 'rgba(255, 255, 255, 0.8)', 'transparent'] as const;
+
+  const styles = StyleSheet.create({
+    container: {
+      backgroundColor: colors.background,
+      overflow: 'hidden',
+    },
+    content: {
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      padding: 16,
+    },
+    iconPlaceholder: {
+      width: 48,
+      height: 48,
+      borderRadius: 24,
+      backgroundColor: shimmerColor,
+      marginRight: 12,
+    },
+    textContainer: {
+      flex: 1,
+      marginRight: 12,
+    },
+    titlePlaceholder: {
+      height: 16,
+      backgroundColor: shimmerColor,
+      borderRadius: 4,
+      marginBottom: 8,
+      width: '70%',
+    },
+    messagePlaceholder: {
+      height: 12,
+      backgroundColor: shimmerColor,
+      borderRadius: 4,
+      marginBottom: 4,
+      width: '100%',
+    },
+    timePlaceholder: {
+      height: 10,
+      backgroundColor: shimmerColor,
+      borderRadius: 4,
+      width: '40%',
+      marginTop: 8,
+    },
+    indicatorPlaceholder: {
+      width: 8,
+      height: 8,
+      borderRadius: 4,
+      backgroundColor: shimmerColor,
+      marginTop: 8,
+    },
+    divider: {
+      height: 1,
+      backgroundColor: colors.borderColor,
+      marginLeft: 76,
+    },
   });
 
   return (
@@ -40,7 +104,7 @@ const NotificationShimmer: React.FC = () => {
         }}
       >
         <LinearGradient
-          colors={['transparent', 'rgba(255, 255, 255, 0.1)', 'transparent']}
+          colors={gradientColors}
           start={{ x: 0, y: 0.5 }}
           end={{ x: 1, y: 0.5 }}
           style={{ flex: 1 }}
@@ -49,61 +113,5 @@ const NotificationShimmer: React.FC = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#1C1917',
-    overflow: 'hidden',
-  },
-  content: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    padding: 16,
-  },
-  iconPlaceholder: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: '#2A261F',
-    marginRight: 12,
-  },
-  textContainer: {
-    flex: 1,
-    marginRight: 12,
-  },
-  titlePlaceholder: {
-    height: 16,
-    backgroundColor: '#2A261F',
-    borderRadius: 4,
-    marginBottom: 8,
-    width: '70%',
-  },
-  messagePlaceholder: {
-    height: 12,
-    backgroundColor: '#2A261F',
-    borderRadius: 4,
-    marginBottom: 4,
-    width: '100%',
-  },
-  timePlaceholder: {
-    height: 10,
-    backgroundColor: '#2A261F',
-    borderRadius: 4,
-    width: '40%',
-    marginTop: 8,
-  },
-  indicatorPlaceholder: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: '#2A261F',
-    marginTop: 8,
-  },
-  divider: {
-    height: 1,
-    backgroundColor: '#2A261F',
-    marginLeft: 76,
-  },
-});
 
 export default NotificationShimmer;

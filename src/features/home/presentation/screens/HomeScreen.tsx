@@ -2,15 +2,15 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
-  ActivityIndicator,
-  FlatList,
-  Image,
-  ImageBackground,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  useColorScheme,
-  View
+    ActivityIndicator,
+    FlatList,
+    Image,
+    ImageBackground,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    useColorScheme,
+    View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import container from '../../../../container';

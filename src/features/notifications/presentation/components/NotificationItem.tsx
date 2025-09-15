@@ -1,6 +1,7 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import React from 'react';
+import { StyleSheet, Text, TouchableOpacity, useColorScheme, View } from 'react-native';
+import { theme } from '../../../../theme';
 import { Notification } from '../../domain/models/Notification';
 
 interface NotificationItemProps {
@@ -43,6 +44,59 @@ const getIconColor = (type: Notification['type']): string => {
 };
 
 const NotificationItem: React.FC<NotificationItemProps> = ({ notification, onPress }) => {
+  const colorScheme = useColorScheme() ?? 'light';
+  const colors = theme[colorScheme];
+  
+  const styles = StyleSheet.create({
+    container: {
+      backgroundColor: colors.background,
+    },
+    content: {
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      padding: 16,
+    },
+    iconContainer: {
+      width: 48,
+      height: 48,
+      borderRadius: 24,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginRight: 12,
+    },
+    textContainer: {
+      flex: 1,
+      marginRight: 12,
+    },
+    title: {
+      fontSize: 16,
+      fontWeight: 'bold',
+      color: colors.text,
+      marginBottom: 4,
+    },
+    message: {
+      fontSize: 14,
+      color: colors.secondary,
+      lineHeight: 20,
+      marginBottom: 8,
+    },
+    time: {
+      fontSize: 12,
+      color: colorScheme === 'dark' ? '#808080' : '#666666',
+    },
+    unreadIndicator: {
+      width: 8,
+      height: 8,
+      borderRadius: 4,
+      backgroundColor: '#FF5252',
+      marginTop: 8,
+    },
+    divider: {
+      height: 1,
+      backgroundColor: colors.borderColor,
+      marginLeft: 76,
+    },
+  });
   return (
     <TouchableOpacity style={styles.container} onPress={onPress} activeOpacity={0.7}>
       <View style={styles.content}>
@@ -68,56 +122,5 @@ const NotificationItem: React.FC<NotificationItemProps> = ({ notification, onPre
     </TouchableOpacity>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#1C1917',
-  },
-  content: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    padding: 16,
-  },
-  iconContainer: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 12,
-  },
-  textContainer: {
-    flex: 1,
-    marginRight: 12,
-  },
-  title: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
-    marginBottom: 4,
-  },
-  message: {
-    fontSize: 14,
-    color: '#b7ab9e',
-    lineHeight: 20,
-    marginBottom: 8,
-  },
-  time: {
-    fontSize: 12,
-    color: '#808080',
-  },
-  unreadIndicator: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: '#FF5252',
-    marginTop: 8,
-  },
-  divider: {
-    height: 1,
-    backgroundColor: '#2A261F',
-    marginLeft: 76,
-  },
-});
 
 export default NotificationItem;

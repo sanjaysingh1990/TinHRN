@@ -1,24 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  TouchableOpacity,
-  SafeAreaView,
-} from 'react-native';
-import { StatusBar } from 'expo-status-bar';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
+import React, { useEffect, useState } from 'react';
+import {
+    FlatList,
+    SafeAreaView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    useColorScheme,
+    View,
+} from 'react-native';
 import container from '../../../../container';
+import { theme } from '../../../../theme';
 import { Notification } from '../../domain/models/Notification';
-import { NotificationsViewModel } from '../viewmodels/NotificationsViewModel';
 import { NotificationsViewModelToken } from '../../notifications.di';
 import NotificationItem from '../components/NotificationItem';
 import NotificationShimmer from '../components/NotificationShimmer';
+import { NotificationsViewModel } from '../viewmodels/NotificationsViewModel';
 
 const NotificationsScreen: React.FC = () => {
   const router = useRouter();
+  const colorScheme = useColorScheme() ?? 'light';
+  const colors = theme[colorScheme];
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -56,18 +60,18 @@ const NotificationsScreen: React.FC = () => {
 
   if (isLoading) {
     return (
-      <SafeAreaView style={styles.container}>
-        <StatusBar style="light" />
+      <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+        <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
         
         {/* Header */}
-        <View style={styles.header}>
+        <View style={[styles.header, { borderBottomColor: colors.borderColor }]}>
           <TouchableOpacity 
             style={styles.backButton} 
             onPress={() => router.back()}
           >
-            <MaterialIcons name="arrow-back" size={24} color="#FFFFFF" />
+            <MaterialIcons name="arrow-back" size={24} color={colors.text} />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Notifications</Text>
+          <Text style={[styles.headerTitle, { color: colors.text }]}>Notifications</Text>
           <View style={styles.headerSpacer} />
         </View>
 
@@ -82,18 +86,18 @@ const NotificationsScreen: React.FC = () => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar style="light" />
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+      <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
       
       {/* Header */}
-      <View style={styles.header}>
+      <View style={[styles.header, { backgroundColor: colors.background, borderBottomColor: colors.borderColor }]}>
         <TouchableOpacity 
           style={styles.backButton} 
           onPress={() => router.back()}
         >
-          <MaterialIcons name="arrow-back" size={24} color="#FFFFFF" />
+          <MaterialIcons name="arrow-back" size={24} color={colors.text} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Notifications</Text>
+        <Text style={[styles.headerTitle, { color: colors.text }]}>Notifications</Text>
         <View style={styles.headerSpacer} />
       </View>
 
@@ -113,16 +117,14 @@ const NotificationsScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1C1917',
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 16,
-    paddingVertical: 12,
-    backgroundColor: '#1C1917',
+    paddingVertical: 16,
+    paddingTop: 20, // Additional top margin for better spacing
     borderBottomWidth: 1,
-    borderBottomColor: '#2A261F',
   },
   backButton: {
     padding: 8,
@@ -132,7 +134,6 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#FFFFFF',
     textAlign: 'center',
     marginRight: 40, // Compensate for back button width
   },

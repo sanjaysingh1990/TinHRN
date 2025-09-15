@@ -1,17 +1,17 @@
 
 import "reflect-metadata";
 import { container } from "tsyringe";
+import { LoginUseCase } from "./auth/application/usecases/LoginUseCase";
+import { SignupUseCase } from "./auth/application/usecases/SignupUseCase";
+import { AuthRepository } from "./auth/infrastructure/repositories/AuthRepository";
+import { AuthRepositoryToken, LoginUseCaseToken, SignupUseCaseToken } from "./auth/tokens";
 import { GetSampleDataUseCase } from "./sample/application/usecases/GetSampleDataUseCase";
 import { SampleRepository } from "./sample/infrastructure/repositories/SampleRepository";
 import { GetSampleDataUseCaseToken, SampleRepositoryToken } from "./sample/tokens";
-import { AuthRepository } from "./auth/infrastructure/repositories/AuthRepository";
-import { LoginUseCase } from "./auth/application/usecases/LoginUseCase";
-import { SignupUseCase } from "./auth/application/usecases/SignupUseCase";
-import { AuthRepositoryToken, LoginUseCaseToken, SignupUseCaseToken } from "./auth/tokens";
 
 import { TourRepository } from "./features/home/data/repositories/TourRepository";
+import { HomeViewModelToken, TourRepositoryToken } from "./features/home/home.di";
 import { HomeViewModel } from "./features/home/presentation/viewmodels/HomeViewModel";
-import { TourRepositoryToken, HomeViewModelToken } from "./features/home/home.di";
 
 import { TourDetailsRepository } from "./features/tour-details/data/repositories/TourDetailsRepository";
 import { TourDetailsViewModel } from "./features/tour-details/presentation/viewmodels/TourDetailsViewModel";
@@ -21,18 +21,18 @@ import { ProfileRepository } from "./features/profile/data/repositories/ProfileR
 import { GetAchievementsUseCase } from "./features/profile/domain/usecases/GetAchievementsUseCase";
 import { GetFavoritesUseCase } from "./features/profile/domain/usecases/GetFavoritesUseCase";
 import { ProfileViewModel } from "./features/profile/presentation/viewmodels/ProfileViewModel";
-import { ProfileRepositoryToken, GetAchievementsUseCaseToken, GetFavoritesUseCaseToken, ProfileViewModelToken } from "./features/profile/profile.di";
+import { GetAchievementsUseCaseToken, GetFavoritesUseCaseToken, ProfileRepositoryToken, ProfileViewModelToken } from "./features/profile/profile.di";
 
 import { MyBookingsRepository } from "./features/mybookings/data/repositories/MyBookingsRepository";
-import { GetUpcomingBookingsUseCase } from "./features/mybookings/domain/usecases/GetUpcomingBookingsUseCase";
 import { GetPastBookingsUseCase } from "./features/mybookings/domain/usecases/GetPastBookingsUseCase";
+import { GetUpcomingBookingsUseCase } from "./features/mybookings/domain/usecases/GetUpcomingBookingsUseCase";
+import { GetPastBookingsUseCaseToken, GetUpcomingBookingsUseCaseToken, MyBookingsRepositoryToken, MyBookingsViewModelToken } from "./features/mybookings/mybookings.di";
 import { MyBookingsViewModel } from "./features/mybookings/presentation/viewmodels/MyBookingsViewModel";
-import { MyBookingsRepositoryToken, GetUpcomingBookingsUseCaseToken, GetPastBookingsUseCaseToken, MyBookingsViewModelToken } from "./features/mybookings/mybookings.di";
 
 import { NotificationsRepository } from "./features/notifications/data/repositories/NotificationsRepository";
 import { GetNotificationsUseCase } from "./features/notifications/domain/usecases/GetNotificationsUseCase";
+import { GetNotificationsUseCaseToken, NotificationsRepositoryToken, NotificationsViewModelToken } from "./features/notifications/notifications.di";
 import { NotificationsViewModel } from "./features/notifications/presentation/viewmodels/NotificationsViewModel";
-import { NotificationsRepositoryToken, GetNotificationsUseCaseToken, NotificationsViewModelToken } from "./features/notifications/notifications.di";
 
 container.register(SampleRepositoryToken, {
   useClass: SampleRepository,
