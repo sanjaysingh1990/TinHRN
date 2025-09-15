@@ -21,7 +21,8 @@ import FavoriteCard from '../components/FavoriteCard';
 import AccountItem from '../components/AccountItem';
 import PreferenceItem from '../components/PreferenceItem';
 import ProfileSkeleton from '../components/ProfileSkeleton';
-import BottomSheet from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const ProfileScreen = () => {
   const [achievements, setAchievements] = useState<Achievement[]>([]);
@@ -68,87 +69,89 @@ const ProfileScreen = () => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <StatusBar barStyle="light-content" />
-      <ScrollView style={styles.scrollView}>
-        <ProfileHeader />
-        {loading ? <ProfileSkeleton /> : (
-          <View style={styles.content}>
-            <View style={styles.card}>
-              <View style={styles.badge}>
-                <Text style={styles.badgeText}>ACHIEVEMENTS</Text>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaView style={styles.safeArea}>
+        <StatusBar barStyle="light-content" />
+        <ScrollView style={styles.scrollView}>
+          <ProfileHeader />
+          {loading ? <ProfileSkeleton /> : (
+            <View style={styles.content}>
+              <View style={styles.card}>
+                <View style={styles.badge}>
+                  <Text style={styles.badgeText}>ACHIEVEMENTS</Text>
+                </View>
+                <View style={styles.grid}>
+                  {achievements.map(item => (
+                    <AchievementItem key={item.id} achievement={item} />
+                  ))}
+                </View>
               </View>
-              <View style={styles.grid}>
-                {achievements.map(item => (
-                  <AchievementItem key={item.id} achievement={item} />
-                ))}
-              </View>
-            </View>
 
-            <View style={styles.card}>
-              <View style={styles.badge}>
-                <Text style={styles.badgeText}>FAVORITES</Text>
+              <View style={styles.card}>
+                <View style={styles.badge}>
+                  <Text style={styles.badgeText}>FAVORITES</Text>
+                </View>
+                <FlatList
+                  data={favorites}
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  renderItem={({ item }) => <FavoriteCard favorite={item} />}
+                  keyExtractor={item => item.id.toString()}
+                />
               </View>
-              <FlatList
-                data={favorites}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                renderItem={({ item }) => <FavoriteCard favorite={item} />}
-                keyExtractor={item => item.id.toString()}
-              />
-            </View>
 
-            <View style={styles.card}>
-              <View style={styles.badge}>
-                <Text style={styles.badgeText}>ACCOUNT</Text>
+              <View style={styles.card}>
+                <View style={styles.badge}>
+                  <Text style={styles.badgeText}>ACCOUNT</Text>
+                </View>
+                <AccountItem icon="person-outline" title="Personal Info" onPress={() => {}} />
+                <AccountItem icon="history" title="Booking History" onPress={() => {}} />
+                <AccountItem icon="payment" title="Payment Methods" onPress={() => {}} />
               </View>
-              <AccountItem icon="person-outline" title="Personal Info" onPress={() => {}} />
-              <AccountItem icon="history" title="Booking History" onPress={() => {}} />
-              <AccountItem icon="payment" title="Payment Methods" onPress={() => {}} />
-            </View>
 
-            <View style={styles.card}>
-              <View style={styles.badge}>
-                <Text style={styles.badgeText}>PREFERENCES</Text>
+              <View style={styles.card}>
+                <View style={styles.badge}>
+                  <Text style={styles.badgeText}>PREFERENCES</Text>
+                </View>
+                <PreferenceItem
+                  icon="notifications-none"
+                  title="Notifications"
+                  value={notifications}
+                  onValueChange={setNotifications}
+                />
+                <PreferenceItem
+                  icon="brightness-4"
+                  title="Dark Mode"
+                  value={darkMode}
+                  onValueChange={setDarkMode}
+                />
+                <AccountItem icon="language" title="Language" onPress={() => bottomSheetRef.current?.snapToIndex(0)} />
               </View>
-              <PreferenceItem
-                icon="notifications-none"
-                title="Notifications"
-                value={notifications}
-                onValueChange={setNotifications}
-              />
-              <PreferenceItem
-                icon="brightness-4"
-                title="Dark Mode"
-                value={darkMode}
-                onValueChange={setDarkMode}
-              />
-              <AccountItem icon="language" title="Language" onPress={() => bottomSheetRef.current?.snapToIndex(0)} />
+              <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+                <Text style={styles.logoutButtonText}>Logout</Text>
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-              <Text style={styles.logoutButtonText}>Logout</Text>
+          )}
+        </ScrollView>
+        <BottomSheet
+          ref={bottomSheetRef}
+          index={-1}
+          snapPoints={snapPoints}
+          onChange={handleSheetChanges}
+          enablePanDownToClose
+          backgroundStyle={{ backgroundColor: '#1C2620' }}
+        >
+          <BottomSheetView style={styles.bottomSheetContent}>
+            <TouchableOpacity style={styles.languageOption} onPress={() => handleLanguageSelect('English')}>
+              <Text>English</Text>
             </TouchableOpacity>
-          </View>
-        )}
-      </ScrollView>
-      <BottomSheet
-        ref={bottomSheetRef}
-        index={-1}
-        snapPoints={snapPoints}
-        onChange={handleSheetChanges}
-        enablePanDownToClose
-        style={{ flex: 1 }}
-      >
-        <View style={styles.bottomSheetContent}>
-          <TouchableOpacity style={styles.languageOption} onPress={() => handleLanguageSelect('English')}>
-            <Text>English</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.languageOption} onPress={() => handleLanguageSelect('Hindi')}>
-            <Text>Hindi</Text>
-          </TouchableOpacity>
-        </View>
-      </BottomSheet>
-    </SafeAreaView>
+            <TouchableOpacity style={styles.languageOption} onPress={() => handleLanguageSelect('Hindi')}>
+              <Text>Hindi</Text>
+            </TouchableOpacity>
+          </BottomSheetView>
+        </BottomSheet>
+      </SafeAreaView>
+    </GestureHandlerRootView>
   );
 };
 

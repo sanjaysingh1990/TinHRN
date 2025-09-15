@@ -1,7 +1,7 @@
 
-import React from 'react';
-import { Tabs } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
+import { Tabs } from 'expo-router';
+import React from 'react';
 import { useColorScheme } from 'react-native';
 import { theme } from '../../src/theme';
 
@@ -10,7 +10,7 @@ export default function TabLayout() {
   const colors = theme[colorScheme];
 
   return (
-    <Tabs
+     <Tabs
       screenOptions={{
         tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: colors.secondary,
@@ -48,6 +48,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <MaterialIcons name="support-agent" size={24} color={color} />,
         }}
       />
+     
       <Tabs.Screen
         name="profile"
         options={{
@@ -55,6 +56,9 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <MaterialIcons name="person" size={24} color={color} />,
         }}
       />
+     
     </Tabs>
+   
+   
   );
 }

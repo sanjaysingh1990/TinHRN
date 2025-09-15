@@ -1,13 +1,14 @@
-
+import { Stack } from 'expo-router';
+import * as SystemUI from 'expo-system-ui';
+import React, { useEffect } from 'react';
+import { useColorScheme } from 'react-native';
+import 'react-native-reanimated'; // 👈 must be first
+import { Provider } from 'react-redux';
 import 'reflect-metadata';
 import '../src/container';
-import React, { useEffect } from 'react';
-import { Provider } from 'react-redux';
 import { store } from '../src/providers/store';
-import { Stack } from 'expo-router';
-import { useColorScheme } from 'react-native';
-import * as SystemUI from 'expo-system-ui';
 import { theme } from '../src/theme';
+
 
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 

@@ -1,8 +1,7 @@
 
-import React, { useRef, useMemo, useCallback } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import BottomSheet from '@gorhom/bottom-sheet';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import React, { useCallback, useMemo, useRef } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const TestScreen = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -13,7 +12,6 @@ const TestScreen = () => {
   }, []);
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={styles.container}>
         <TouchableOpacity
           style={styles.button}
@@ -23,17 +21,18 @@ const TestScreen = () => {
         </TouchableOpacity>
         <BottomSheet
           ref={bottomSheetRef}
-          index={-1}
+          index={0}
           snapPoints={snapPoints}
           onChange={handleSheetChanges}
           enablePanDownToClose
+          backgroundStyle={{ backgroundColor: 'tomato' }}
         >
           <View style={styles.content}>
             <Text>Awesome 🎉</Text>
           </View>
         </BottomSheet>
       </View>
-    </GestureHandlerRootView>
+   
   );
 };
 
