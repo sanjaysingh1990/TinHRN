@@ -127,6 +127,16 @@ const ProfileScreen = () => {
                 />
                 <AccountItem icon="language" title="Language" onPress={() => bottomSheetRef.current?.snapToIndex(0)} />
               </View>
+
+              <View style={styles.card}>
+                <View style={styles.badge}>
+                  <Text style={styles.badgeText}>OTHERS</Text>
+                </View>
+                <AccountItem icon="info-outline" title="About Us" onPress={() => {}} />
+                <AccountItem icon="help-outline" title="FAQ" onPress={() => {}} />
+                <AccountItem icon="description" title="Terms and Conditions" onPress={() => {}} />
+              </View>
+
               <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
                 <Text style={styles.logoutButtonText}>Logout</Text>
               </TouchableOpacity>
