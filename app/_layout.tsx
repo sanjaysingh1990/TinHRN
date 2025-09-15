@@ -55,6 +55,13 @@ const AppContent = () => {
           animation: 'slide_from_right',
         }}
       />
+      <Stack.Screen 
+        name="faq" 
+        options={{
+          presentation: 'modal',
+          animation: 'slide_from_right',
+        }}
+      />
     </Stack>
   );
 };

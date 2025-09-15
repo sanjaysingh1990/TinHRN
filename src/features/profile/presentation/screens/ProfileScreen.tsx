@@ -7,7 +7,8 @@ import {
   StatusBar,
   FlatList,
   TouchableOpacity,
-  Alert
+  Alert,
+  Linking
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
@@ -48,6 +49,21 @@ const ProfileScreen = () => {
     setLanguage(lang);
     setLocale(lang === 'Hindi' ? 'hi' : 'en');
     bottomSheetRef.current?.close();
+  };
+
+  const handleTermsAndConditions = async () => {
+    const url = 'https://www.tentinhimalayas.com/term_and_condition.html';
+    try {
+      const supported = await Linking.canOpenURL(url);
+      if (supported) {
+        await Linking.openURL(url);
+      } else {
+        Alert.alert('Error', 'Unable to open the Terms and Conditions page. Please try again later.');
+      }
+    } catch (error) {
+      console.error('Error opening Terms and Conditions:', error);
+      Alert.alert('Error', 'Unable to open the Terms and Conditions page. Please try again later.');
+    }
   };
 
   const handleLogout = () => {
@@ -205,8 +221,8 @@ const ProfileScreen = () => {
                   <Text style={styles.badgeText}>OTHERS</Text>
                 </View>
                 <AccountItem icon="info-outline" title="About Us" onPress={() => router.push('/about-us')} />
-                <AccountItem icon="help-outline" title="FAQ" onPress={() => {}} />
-                <AccountItem icon="description" title="Terms and Conditions" onPress={() => {}} />
+                <AccountItem icon="help-outline" title="FAQ" onPress={() => router.push('/faq')} />
+                <AccountItem icon="description" title="Terms and Conditions" onPress={handleTermsAndConditions} />
               </View>
 
               <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>

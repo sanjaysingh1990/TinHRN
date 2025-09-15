@@ -3,6 +3,7 @@ import { injectable } from 'tsyringe';
 import { Achievement } from '../../domain/models/Achievement';
 import { Favorite } from '../../domain/models/Favorite';
 import { TeamMember } from '../../domain/models/TeamMember';
+import { Faq } from '../../domain/models/Faq';
 import { IProfileRepository } from '../../domain/repositories/IProfileRepository';
 
 const dummyAchievements: Achievement[] = [
@@ -75,6 +76,57 @@ const dummyTeamMembers: TeamMember[] = [
   },
 ];
 
+const dummyFaqList: Faq[] = [
+  {
+    id: '1',
+    question: 'What should I pack for a Himalayan trek?',
+    answer: 'Essential items include warm clothing (layers), waterproof jacket, sturdy trekking boots, sleeping bag, headlamp, water bottles, first aid kit, sunscreen, sunglasses, and personal medications. We provide a detailed packing list upon booking confirmation.',
+    category: 'Preparation'
+  },
+  {
+    id: '2',
+    question: 'How difficult are the treks offered?',
+    answer: 'Our treks range from beginner-friendly to challenging expeditions. Each trek is rated on difficulty (Easy, Moderate, Difficult, Extreme) based on altitude, duration, terrain, and fitness requirements. We recommend consulting with our team to choose the right trek for your experience level.',
+    category: 'Difficulty'
+  },
+  {
+    id: '3',
+    question: 'What is included in the trek package?',
+    answer: 'Our packages typically include accommodation (tents/guesthouses), meals during the trek, experienced guides, permits, transportation to/from trek starting point, and safety equipment. Specific inclusions vary by trek - check individual trek details for complete information.',
+    category: 'Packages'
+  },
+  {
+    id: '4',
+    question: 'What happens in case of bad weather?',
+    answer: 'Safety is our top priority. In case of severe weather conditions, our experienced guides may modify the itinerary, take alternative routes, or in extreme cases, arrange early return. Weather contingency plans are discussed during the pre-trek briefing.',
+    category: 'Safety'
+  },
+  {
+    id: '5',
+    question: 'Do you provide travel insurance?',
+    answer: 'We strongly recommend comprehensive travel insurance that covers high-altitude trekking, emergency evacuation, and medical expenses. While we don\'t directly provide insurance, we can recommend trusted providers and help you understand coverage requirements.',
+    category: 'Insurance'
+  },
+  {
+    id: '6',
+    question: 'Can beginners join the treks?',
+    answer: 'Absolutely! We offer beginner-friendly treks with proper acclimatization schedules and experienced guides. We recommend starting with shorter, lower-altitude treks to build experience and confidence before attempting more challenging routes.',
+    category: 'Experience'
+  },
+  {
+    id: '7',
+    question: 'What about altitude sickness?',
+    answer: 'Our itineraries include proper acclimatization days. Our guides are trained to recognize altitude sickness symptoms and carry necessary medications. We follow gradual ascent protocols and have evacuation procedures in place for emergencies.',
+    category: 'Health'
+  },
+  {
+    id: '8',
+    question: 'How do I cancel or reschedule my booking?',
+    answer: 'Cancellation and rescheduling policies vary by trek and timing. Generally, cancellations made 30+ days in advance receive partial refunds. Emergency cancellations are handled case-by-case. Please refer to our terms and conditions or contact our support team.',
+    category: 'Booking'
+  }
+];
+
 @injectable()
 export class ProfileRepository implements IProfileRepository {
   async getAchievements(): Promise<Achievement[]> {
@@ -98,6 +150,14 @@ export class ProfileRepository implements IProfileRepository {
       setTimeout(() => {
         resolve(dummyTeamMembers);
       }, 2000); // 2 seconds delay as requested
+    });
+  }
+
+  async getFaqList(): Promise<Faq[]> {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(dummyFaqList);
+      }, 2500); // 2.5 seconds delay as requested
     });
   }
 }

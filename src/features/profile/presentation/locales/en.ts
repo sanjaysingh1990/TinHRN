@@ -8,4 +8,8 @@ export const en = {
     teamTitle: "Our Team",
     teamText: "Meet the passionate individuals who make your Himalayan adventure unforgettable. Each team member brings unique expertise and dedication to ensure your journey is safe, memorable, and transformative.",
   },
+  faq: {
+    title: "Frequently Asked Questions",
+    subtitle: "Find answers to common questions about our Himalayan treks, safety measures, and booking policies.",
+  },
 };

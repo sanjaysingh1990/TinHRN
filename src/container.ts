@@ -20,9 +20,11 @@ import { TourDetailsRepositoryToken, TourDetailsViewModelToken } from "./feature
 import { ProfileRepository } from "./features/profile/data/repositories/ProfileRepository";
 import { GetAchievementsUseCase } from "./features/profile/domain/usecases/GetAchievementsUseCase";
 import { GetFavoritesUseCase } from "./features/profile/domain/usecases/GetFavoritesUseCase";
+import { GetFaqListUseCase } from "./features/profile/domain/usecases/GetFaqListUseCase";
 import { ProfileViewModel } from "./features/profile/presentation/viewmodels/ProfileViewModel";
 import { AboutUsViewModel } from "./features/profile/presentation/viewmodels/AboutUsViewModel";
-import { GetAchievementsUseCaseToken, GetFavoritesUseCaseToken, ProfileRepositoryToken, ProfileViewModelToken, AboutUsViewModelToken } from "./features/profile/profile.di";
+import { FaqViewModel } from "./features/profile/presentation/viewmodels/FaqViewModel";
+import { GetAchievementsUseCaseToken, GetFavoritesUseCaseToken, GetFaqListUseCaseToken, ProfileRepositoryToken, ProfileViewModelToken, AboutUsViewModelToken, FaqViewModelToken } from "./features/profile/profile.di";
 
 import { MyBookingsRepository } from "./features/mybookings/data/repositories/MyBookingsRepository";
 import { GetPastBookingsUseCase } from "./features/mybookings/domain/usecases/GetPastBookingsUseCase";
@@ -58,8 +60,10 @@ container.register(TourDetailsViewModelToken, { useClass: TourDetailsViewModel }
 container.register(ProfileRepositoryToken, { useClass: ProfileRepository });
 container.register(GetAchievementsUseCaseToken, { useClass: GetAchievementsUseCase });
 container.register(GetFavoritesUseCaseToken, { useClass: GetFavoritesUseCase });
+container.register(GetFaqListUseCaseToken, { useClass: GetFaqListUseCase });
 container.register(ProfileViewModelToken, { useClass: ProfileViewModel });
 container.register(AboutUsViewModelToken, { useClass: AboutUsViewModel });
+container.register(FaqViewModelToken, { useClass: FaqViewModel });
 
 container.register(MyBookingsRepositoryToken, { useClass: MyBookingsRepository });
 container.register(GetUpcomingBookingsUseCaseToken, { useClass: GetUpcomingBookingsUseCase });
