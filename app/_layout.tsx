@@ -69,6 +69,13 @@ const AppContent = () => {
           animation: 'slide_from_right',
         }}
       />
+      <Stack.Screen 
+        name="category-full-view" 
+        options={{
+          presentation: 'modal',
+          animation: 'slide_from_right',
+        }}
+      />
     </Stack>
   );
 };

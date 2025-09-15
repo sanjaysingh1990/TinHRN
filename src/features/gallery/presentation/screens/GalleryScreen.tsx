@@ -213,8 +213,9 @@ const GalleryScreen: React.FC = () => {
       borderStyle: 'dashed',
       overflow: 'hidden',
       marginHorizontal: 20,
+      marginTop: 20, // Added top margin
       marginBottom: 24,
-      aspectRatio: 4 / 3,
+      aspectRatio: 1, // Changed from 4/3 to 1:1 ratio
     },
     featuredImage: {
       width: '100%',
@@ -261,13 +262,23 @@ const GalleryScreen: React.FC = () => {
       marginLeft: 4,
       fontWeight: '600',
     },
+    sectionHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginHorizontal: 20,
+      marginBottom: 16,
+    },
     sectionTitle: {
       fontSize: 18,
       fontWeight: 'bold',
       color: colors.text,
-      marginHorizontal: 20,
-      marginBottom: 16,
       fontFamily: 'SplineSans',
+    },
+    seeAllText: {
+      fontSize: 14,
+      fontWeight: '600',
+      fontFamily: 'NotoSans',
     },
     categoriesContainer: {
       paddingHorizontal: 20,
@@ -366,7 +377,12 @@ const GalleryScreen: React.FC = () => {
         {renderFeaturedPost()}
 
         {/* Categories Section */}
-        <Text style={styles.sectionTitle}>Categories</Text>
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionTitle}>Categories</Text>
+          <TouchableOpacity onPress={() => router.push('/category-full-view')} activeOpacity={0.7}>
+            <Text style={[styles.seeAllText, { color: colors.primary }]}>See All</Text>
+          </TouchableOpacity>
+        </View>
         {renderCategories()}
 
         {/* Recent Uploads Section */}
