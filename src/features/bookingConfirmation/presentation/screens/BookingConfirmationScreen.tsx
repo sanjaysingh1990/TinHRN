@@ -1,29 +1,30 @@
+import { MaterialIcons } from '@expo/vector-icons';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  StatusBar,
-  useColorScheme,
-  Share,
   Alert,
+  ScrollView,
+  Share,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  useColorScheme,
+  View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { MaterialIcons } from '@expo/vector-icons';
-import { useRouter, useLocalSearchParams } from 'expo-router';
 import container from '../../../../container';
-import { BookingConfirmationViewModel } from '../viewmodels/BookingConfirmationViewModel';
-import { BookingConfirmationViewModelToken } from '../../bookingConfirmation.di';
-import { BookingConfirmation } from '../../../tour-details/data/repositories/TourDetailsRepository';
-import BookingConfirmationSkeleton from '../components/BookingConfirmationSkeleton';
 import { theme } from '../../../../theme';
+import { BookingConfirmation } from '../../../tour-details/data/repositories/TourDetailsRepository';
+import { BookingConfirmationViewModelToken } from '../../bookingConfirmation.di';
+import BookingConfirmationSkeleton from '../components/BookingConfirmationSkeleton';
+import { BookingConfirmationViewModel } from '../viewmodels/BookingConfirmationViewModel';
 
 const BookingConfirmationScreen = () => {
   const router = useRouter();
   const colorScheme = useColorScheme() ?? 'dark';
   const colors = theme[colorScheme];
-  const { tourId } = useLocalSearchParams();
+  const { bookingId, tourId } = useLocalSearchParams();
   
   const [loading, setLoading] = useState(true);
   const [bookingData, setBookingData] = useState<BookingConfirmation | null>(null);
@@ -34,7 +35,11 @@ const BookingConfirmationScreen = () => {
         const viewModel = container.resolve<BookingConfirmationViewModel>(
           BookingConfirmationViewModelToken
         );
-        const data = await viewModel.confirmBooking(tourId as string);
+        // Use bookingId if available, otherwise fallback to old method with tourId
+        const data = bookingId 
+          ? await viewModel.getBookingDetails(bookingId as string)
+          : await viewModel.confirmBooking(tourId as string);
+          
         setBookingData(data);
       } catch (error) {
         Alert.alert('Error', 'Failed to load booking confirmation');
@@ -44,7 +49,7 @@ const BookingConfirmationScreen = () => {
     };
 
     loadBookingConfirmation();
-  }, [tourId]);
+  }, [bookingId]);
 
   const handleShare = async () => {
     if (!bookingData) return;
@@ -73,13 +78,13 @@ Can&apos;t wait for this amazing journey!`,
 
   const handleBackToHome = () => {
     // Navigate to home screen
-    router.push('/(tabs)/');
+    router.push('/(tabs)');
   };
 
   if (loading) {
     return (
       <SafeAreaView style={[styles.container, { backgroundColor: colors.backgroundColor }]}>
-        <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
+        <StatusBar barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'} />
         
         {/* Header */}
         <View style={[styles.header, { borderBottomColor: colors.borderColor }]}>
@@ -101,7 +106,7 @@ Can&apos;t wait for this amazing journey!`,
   if (!bookingData) {
     return (
       <SafeAreaView style={[styles.container, { backgroundColor: colors.backgroundColor }]}>
-        <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
+        <StatusBar barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'} />
         <View style={styles.errorContainer}>
           <Text style={[styles.errorText, { color: colors.textColor }]}>
             Failed to load booking confirmation
@@ -113,9 +118,9 @@ Can&apos;t wait for this amazing journey!`,
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.backgroundColor }]}>
-      <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
+      <StatusBar barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'} />
       
-      {/* Header */}
+      {/* Fixed Header */}
       <View style={[styles.header, { borderBottomColor: colors.borderColor }]}>
         <TouchableOpacity 
           style={styles.backButton} 
@@ -127,8 +132,12 @@ Can&apos;t wait for this amazing journey!`,
         <View style={styles.headerSpacer} />
       </View>
 
-      {/* Content */}
-      <View style={styles.content}>
+      {/* Scrollable Content */}
+      <ScrollView 
+        style={styles.scrollView}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
         {/* Success Icon */}
         <View style={styles.successIconContainer}>
           <View style={[styles.successIconCircle, { borderColor: colors.successColor }]}>
@@ -208,7 +217,7 @@ Can&apos;t wait for this amazing journey!`,
             </TouchableOpacity>
           </View>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -224,7 +233,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: 1,
-    marginTop: 20, // Header margin requirement from memory
+    marginTop: 10, // Reduced header margin from 20 to 10
   },
   backButton: {
     width: 44,
@@ -235,11 +244,20 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 18,
-    fontWeight: '600',
+    fontWeight: 'bold', // Made header text bold
     fontFamily: 'Manrope',
   },
   headerSpacer: {
     width: 44,
+  },
+  scrollView: {
+    flex: 1,
+  },
+  scrollContent: {
+    paddingHorizontal: 24,
+    paddingTop: 40,
+    paddingBottom: 40,
+    alignItems: 'center',
   },
   content: {
     flex: 1,

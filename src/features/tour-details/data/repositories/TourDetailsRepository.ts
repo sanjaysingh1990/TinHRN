@@ -1,6 +1,6 @@
 
 import { injectable } from 'tsyringe';
-import { TourDetails, ItineraryItem, Review } from '../../domain/entities/TourDetails';
+import { TourDetails } from '../../domain/entities/TourDetails';
 import { ITourDetailsRepository } from '../../domain/repositories/ITourDetailsRepository';
 
 export interface BookingConfirmation {
@@ -53,6 +53,33 @@ export class TourDetailsRepository implements ITourDetailsRepository {
       setTimeout(() => {
         resolve(dummyDetails);
       }, 5000);
+    });
+  }
+
+  async bookTour(tourId: string): Promise<{ bookingId: string }> {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        const bookingId = 'BKG-' + Math.random().toString(36).substr(2, 8).toUpperCase();
+        resolve({ bookingId });
+      }, 3000); // 3 seconds delay as requested
+    });
+  }
+
+  async getBookingDetails(bookingId: string): Promise<BookingConfirmation> {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve({
+          tourName: 'Annapurna Base Camp Trek',
+          bookingReference: bookingId,
+          date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString('en-GB', {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric'
+          }),
+          duration: '14 Days',
+          totalAmount: '$1,200'
+        });
+      }, 2000); // 2s delay for fetching booking details
     });
   }
 

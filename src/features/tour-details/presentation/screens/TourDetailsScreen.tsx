@@ -4,14 +4,14 @@ import { BlurView } from 'expo-blur';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
-  Image,
-  ImageBackground,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
+    Image,
+    ImageBackground,
+    ScrollView,
+    StatusBar,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View
 } from 'react-native';
 
 import container from '../../../../container';
@@ -25,6 +25,7 @@ const TourDetailsScreen = () => {
   const { id, name, image } = useLocalSearchParams();
   const [details, setDetails] = useState<TourDetails | null>(null);
   const [loading, setLoading] = useState(true);
+  const [bookingLoading, setBookingLoading] = useState(false);
 
   useEffect(() => {
     const viewModel = container.resolve<TourDetailsViewModel>(TourDetailsViewModelToken);
@@ -35,9 +36,23 @@ const TourDetailsScreen = () => {
   }, [id]);
 
   const onBackPress = () => router.back();
-  const onBookPress = () => {
-    // Navigate to booking confirmation with tour ID
-    router.push(`/booking-confirmation?tourId=${id}`);
+  
+  const onBookPress = async () => {
+    if (bookingLoading) return; // Prevent multiple clicks
+    
+    try {
+      setBookingLoading(true);
+      const viewModel = container.resolve<TourDetailsViewModel>(TourDetailsViewModelToken);
+      const result = await viewModel.bookTour(id as string);
+      
+      // Navigate to booking confirmation with booking ID
+      router.push(`/booking-confirmation?bookingId=${result.bookingId}`);
+    } catch (error) {
+      console.error('Booking failed:', error);
+      // Handle error - could show an alert or toast
+    } finally {
+      setBookingLoading(false);
+    }
   };
 
   const renderStars = (rating: number) => {
@@ -149,8 +164,19 @@ const TourDetailsScreen = () => {
 
       {/* Sticky Footer Button */}
       <View style={styles.footer}>
-        <TouchableOpacity onPress={onBookPress} style={styles.bookButton}>
-          <Text style={styles.bookButtonText}>Book This Tour</Text>
+        <TouchableOpacity 
+          onPress={onBookPress} 
+          style={[styles.bookButton, bookingLoading && styles.bookButtonLoading]}
+          disabled={bookingLoading}
+        >
+          {bookingLoading ? (
+            <View style={styles.buttonContent}>
+              <MaterialIcons name="hourglass-empty" size={20} color="#111714" style={styles.loadingIcon} />
+              <Text style={styles.bookButtonText}>Booking...</Text>
+            </View>
+          ) : (
+            <Text style={styles.bookButtonText}>Book This Tour</Text>
+          )}
         </TouchableOpacity>
       </View>
     </View>
@@ -346,6 +372,16 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     paddingVertical: 16,
     alignItems: 'center',
+  },
+  bookButtonLoading: {
+    opacity: 0.7,
+  },
+  buttonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  loadingIcon: {
+    marginRight: 8,
   },
   bookButtonText: {
     color: '#111714',
