@@ -1,16 +1,21 @@
 
 import { useRouter } from 'expo-router';
-import React, { useRef, useState } from 'react';
+import { LinearGradient } from 'expo-linear-gradient';
+import React, { useRef, useState, useEffect } from 'react';
 import {
   Image,
   StyleSheet,
   Text,
   TouchableOpacity,
   useColorScheme,
-  View
+  View,
+  Dimensions,
+  Animated
 } from 'react-native';
 import PagerView from 'react-native-pager-view';
 import { theme } from '../../../theme';
+
+const { width, height } = Dimensions.get('window');
 
 const ONBOARDING_DATA = [
   {
@@ -41,6 +46,16 @@ const OnboardingScreen = () => {
   const colors = theme[colorScheme];
   const pagerRef = useRef<PagerView>(null);
   const [page, setPage] = useState(0);
+  const parallaxAnim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    // Animate parallax effect when page changes
+    Animated.timing(parallaxAnim, {
+      toValue: page * 20, // Positive value for downward movement
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  }, [page]);
 
   const handleNext = () => {
     if (page < ONBOARDING_DATA.length - 1) {
@@ -59,28 +74,52 @@ const OnboardingScreen = () => {
       flex: 1,
       backgroundColor: colors.background,
     },
+    backgroundImage: {
+      position: 'absolute',
+      width: width,
+      height: height + 150, // Extra height for parallax effect
+      resizeMode: 'cover',
+      top: -75, // Center the extra height
+    },
+    gradientOverlay: {
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+      right: 0,
+      height: height * 0.7, // Increased to 70% for better shadow coverage
+      zIndex: 1,
+    },
     page: {
       flex: 1,
       alignItems: 'center',
-      justifyContent: 'center',
+      justifyContent: 'flex-end', // Changed to position content at bottom
       padding: 20,
+      paddingBottom: 160, // Space above indicators
+      zIndex: 2,
     },
-    image: {
-      width: 250,
-      height: 250,
-      marginBottom: 40,
+    textContainer: {
+      alignItems: 'center',
+      marginBottom: 30, // Margin above indicators
     },
     heading: {
-      fontSize: 24,
+      fontSize: 32,
       fontWeight: 'bold',
-      color: colors.text,
+      color: '#FFFFFF',
       textAlign: 'center',
-      marginBottom: 10,
+      marginBottom: 12,
+      textShadowColor: 'rgba(0, 0, 0, 0.9)',
+      textShadowOffset: { width: 0, height: 3 },
+      textShadowRadius: 6,
+      letterSpacing: 0.5,
     },
     subheading: {
-      fontSize: 16,
-      color: colors.secondary,
+      fontSize: 18,
+      color: '#F5F5F5',
       textAlign: 'center',
+      textShadowColor: 'rgba(0, 0, 0, 0.8)',
+      textShadowOffset: { width: 0, height: 2 },
+      textShadowRadius: 4,
+      lineHeight: 24,
     },
     footer: {
       position: 'absolute',
@@ -88,6 +127,7 @@ const OnboardingScreen = () => {
       left: 20,
       right: 20,
       alignItems: 'center',
+      zIndex: 3,
     },
     indicatorContainer: {
       flexDirection: 'row',
@@ -97,11 +137,11 @@ const OnboardingScreen = () => {
       width: 8,
       height: 8,
       borderRadius: 4,
-      backgroundColor: colors.secondary,
+      backgroundColor: 'rgba(255, 255, 255, 0.5)',
       marginHorizontal: 4,
     },
     activeDot: {
-      backgroundColor: colors.primary,
+      backgroundColor: '#FFFFFF',
     },
     nextButton: {
       backgroundColor: colors.primary,
@@ -109,6 +149,11 @@ const OnboardingScreen = () => {
       paddingHorizontal: 100,
       borderRadius: 12,
       marginBottom: 20,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.3,
+      shadowRadius: 8,
+      elevation: 8,
     },
     nextButtonText: {
       color: colors.background,
@@ -116,12 +161,35 @@ const OnboardingScreen = () => {
       fontSize: 16,
     },
     skipText: {
-      color: colors.secondary,
+      color: '#FFFFFF',
+      textShadowColor: 'rgba(0, 0, 0, 0.8)',
+      textShadowOffset: { width: 0, height: 1 },
+      textShadowRadius: 3,
     },
   });
 
   return (
     <View style={styles.container}>
+      {/* Full-screen background image with animated parallax effect */}
+      <Animated.Image 
+        source={ONBOARDING_DATA[page].image} 
+        style={[
+          styles.backgroundImage,
+          {
+            transform: [{
+              translateY: parallaxAnim // Smooth animated parallax effect
+            }]
+          }
+        ]} 
+      />
+      
+      {/* Enhanced gradient shadow overlay */}
+      <LinearGradient
+        colors={['transparent', 'rgba(0, 0, 0, 0.2)', 'rgba(0, 0, 0, 0.5)', 'rgba(0, 0, 0, 0.8)']}
+        style={styles.gradientOverlay}
+        locations={[0, 0.3, 0.6, 1]}
+      />
+      
       <PagerView
         ref={pagerRef}
         style={{ flex: 1 }}
@@ -130,9 +198,10 @@ const OnboardingScreen = () => {
       >
         {ONBOARDING_DATA.map((item, index) => (
           <View key={index} style={styles.page}>
-            <Image source={item.image} style={styles.image} />
-            <Text style={styles.heading}>{item.heading}</Text>
-            <Text style={styles.subheading}>{item.subheading}</Text>
+            <View style={styles.textContainer}>
+              <Text style={styles.heading}>{item.heading}</Text>
+              <Text style={styles.subheading}>{item.subheading}</Text>
+            </View>
           </View>
         ))}
       </PagerView>
