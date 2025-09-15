@@ -210,7 +210,12 @@ const HomeScreen: React.FC = () => {
     </View>
   );
 
-  const skeletonData = Array.from({ length: 10 }, (_, i) => ({ id: `skeleton-${i}` }));
+  const skeletonData: Tour[] = Array.from({ length: 10 }, (_, i) => ({ 
+    id: i, 
+    name: '', 
+    duration: '', 
+    image: '' 
+  }));
 
   return (
     <SafeAreaView style={styles.container}>
@@ -233,7 +238,10 @@ const HomeScreen: React.FC = () => {
                 <Text style={styles.tourName}>{item.name}</Text>
                 <Text style={styles.tourDuration}>{item.duration}</Text>
               </View>
-              <TouchableOpacity style={styles.exploreButton} onPress={() => router.push(`/tour/${item.id}?name=${item.name}&image=${item.image}`)}>
+              <TouchableOpacity style={styles.exploreButton} onPress={() => router.push({
+                pathname: '/tour/[id]',
+                params: { id: item.id, name: item.name, image: item.image }
+              })}>
                 <Text style={styles.exploreButtonText}>Explore</Text>
               </TouchableOpacity>
             </View>
