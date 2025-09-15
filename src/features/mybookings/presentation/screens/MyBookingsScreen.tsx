@@ -4,7 +4,7 @@ import {
   View,
   Text,
   StyleSheet,
-  ScrollView,
+  SectionList,
   StatusBar,
   TouchableOpacity
 } from 'react-native';
@@ -13,7 +13,7 @@ import container from '../../../../container';
 import { MyBookingsViewModelToken } from '../../mybookings.di';
 import { MyBookingsViewModel } from '../viewmodels/MyBookingsViewModel';
 import { Booking } from '../../domain/models/Booking';
-import BookingsSection from '../components/BookingsSection';
+import BookingCard from '../components/BookingCard';
 import ShimmerBookingCard from '../components/ShimmerBookingCard';
 import { MaterialIcons } from '@expo/vector-icons';
 
@@ -35,26 +35,50 @@ const MyBookingsScreen = () => {
     });
   }, []);
 
+  const sections = [
+    {
+      title: 'Upcoming',
+      data: upcomingBookings,
+    },
+    {
+      title: 'Past',
+      data: pastBookings,
+    },
+  ];
+
+  const renderSectionHeader = ({ section }: { section: { title: string } }) => (
+    <Text style={styles.sectionTitle}>{section.title}</Text>
+  );
+
+  const renderBookingItem = ({ item }: { item: Booking }) => (
+    <BookingCard booking={item} />
+  );
+
+  const renderShimmerItems = () => (
+    <View style={styles.content}>
+      <ShimmerBookingCard />
+      <ShimmerBookingCard />
+    </View>
+  );
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="light-content" />
       <View style={styles.header}>
-        
         <Text style={styles.headerTitle}>My Bookings</Text>
       </View>
-      <ScrollView style={styles.scrollView}>
-        {loading ? (
-          <View style={styles.content}>
-            <ShimmerBookingCard />
-            <ShimmerBookingCard />
-          </View>
-        ) : (
-          <View style={styles.content}>
-            <BookingsSection title="Upcoming" bookings={upcomingBookings} />
-            <BookingsSection title="Past" bookings={pastBookings} />
-          </View>
-        )}
-      </ScrollView>
+      {loading ? (
+        renderShimmerItems()
+      ) : (
+        <SectionList
+          sections={sections}
+          renderItem={renderBookingItem}
+          renderSectionHeader={renderSectionHeader}
+          keyExtractor={(item) => item.id.toString()}
+          contentContainerStyle={styles.content}
+          showsVerticalScrollIndicator={false}
+        />
+      )}
     </SafeAreaView>
   );
 };
@@ -72,14 +96,17 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#3d5245',
   },
-
   headerTitle: {
     fontSize: 18,
     fontWeight: 'bold',
     color: '#fff',
   },
-  scrollView: {
-    flex: 1,
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#fff',
+    marginBottom: 15,
+    marginTop: 20,
   },
   content: {
     padding: 16,
