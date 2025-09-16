@@ -1,36 +1,27 @@
-import { MaterialIcons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import {
     FlatList,
-    SafeAreaView,
     ScrollView,
     StyleSheet,
     Text,
-    TouchableOpacity,
     View,
 } from 'react-native';
 import container from '../../../../container';
 import { useTheme } from '../../../../hooks/useTheme';
 import { Category, Destination, ExploreData, TopTrek } from '../../domain/entities/Explore';
 import { ExploreViewModelToken } from '../../explore.di';
-import CategoryCard from '../components/CategoryCard';
-import CategoryShimmer from '../components/CategoryShimmer';
-import DestinationCard from '../components/DestinationCard';
-import DestinationShimmer from '../components/DestinationShimmer';
-import TrekCard from '../components/TrekCard';
-import TrekShimmer from '../components/TrekShimmer';
+import CategoryCard from './CategoryCard';
+import CategoryShimmer from './CategoryShimmer';
+import DestinationCard from './DestinationCard';
+import DestinationShimmer from './DestinationShimmer';
+import TrekCard from './TrekCard';
+import TrekShimmer from './TrekShimmer';
 import { ExploreViewModel } from '../viewmodels/ExploreViewModel';
+import { useRouter } from 'expo-router';
 
-interface ExploreScreenProps {
-  hideHeader?: boolean;
-  onSearchPress?: () => void;
-}
-
-const ExploreScreen: React.FC<ExploreScreenProps> = ({ hideHeader = false, onSearchPress }) => {
+const ExploreListContent: React.FC = () => {
   const router = useRouter();
-  const { colors, isDarkMode } = useTheme();
+  const { colors } = useTheme();
   const [exploreData, setExploreData] = useState<ExploreData>({
     categories: [],
     popularDestinations: [],
@@ -71,15 +62,6 @@ const ExploreScreen: React.FC<ExploreScreenProps> = ({ hideHeader = false, onSea
     router.push(`/tour/${trek.id}`);
   };
 
-  const handleSearchPress = () => {
-    if (onSearchPress) {
-      onSearchPress();
-    } else {
-      // Navigate to search screen
-      console.log('Search pressed');
-    }
-  };
-
   const renderCategory = ({ item, index }: { item: Category | number; index: number }) => {
     if (isLoading) {
       return <CategoryShimmer key={`category-shimmer-${index}`} />;
@@ -104,32 +86,6 @@ const ExploreScreen: React.FC<ExploreScreenProps> = ({ hideHeader = false, onSea
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: colors.background,
-    },
-    safeArea: {
-      flex: 1,
-      backgroundColor: colors.background,
-    },
-    header: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      paddingHorizontal: 20,
-      paddingVertical: 16,
-      paddingTop: 40, // Increased margin from status bar
-    },
-    headerTitle: {
-      fontSize: 28,
-      fontWeight: 'bold',
-      color: colors.text,
-      fontFamily: 'SplineSans',
-    },
-    searchButton: {
-      padding: 8,
-      borderRadius: 12,
-      backgroundColor: colors.cardBackgroundColor,
-      borderWidth: 1,
-      borderColor: colors.borderColor,
     },
     scrollContainer: {
       flex: 1,
@@ -167,19 +123,7 @@ const ExploreScreen: React.FC<ExploreScreenProps> = ({ hideHeader = false, onSea
   const treksData = isLoading ? Array.from({ length: 5 }, (_, i) => i) : exploreData.topTreks;
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      {!hideHeader && <StatusBar style={isDarkMode ? 'light' : 'dark'} />}
-      
-      {/* Header */}
-      {!hideHeader && (
-        <View style={styles.header}>
-          <Text style={styles.headerTitle}>Explore</Text>
-          <TouchableOpacity style={styles.searchButton} onPress={handleSearchPress}>
-            <MaterialIcons name="search" size={24} color={colors.text} />
-          </TouchableOpacity>
-        </View>
-      )}
-
+    <View style={styles.container}>
       <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
         {/* Categories Section */}
         <View style={styles.section}>
@@ -218,8 +162,8 @@ const ExploreScreen: React.FC<ExploreScreenProps> = ({ hideHeader = false, onSea
           </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 
-export default ExploreScreen;
+export default ExploreListContent;

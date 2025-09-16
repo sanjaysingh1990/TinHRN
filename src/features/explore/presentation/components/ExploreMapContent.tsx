@@ -1,13 +1,10 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
 import {
   Animated,
   Dimensions,
   FlatList,
   Image,
-  SafeAreaView,
-  StatusBar,
   StyleSheet,
   Text,
   TextInput,
@@ -16,17 +13,12 @@ import {
 } from 'react-native';
 import container from '../../../../container';
 import { useTheme } from '../../../../hooks/useTheme';
-import ExploreCardShimmer from '../components/ExploreCardShimmer';
+import ExploreCardShimmer from './ExploreCardShimmer';
 import { ExploreLocation, MapViewExploreScreenViewModel } from '../viewmodels/MapViewExploreScreenViewModel';
 
 const { width, height } = Dimensions.get('window');
 
-interface MapViewExploreScreenProps {
-  hideHeader?: boolean;
-}
-
-const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader = false }) => {
-  const router = useRouter();
+const ExploreMapContent: React.FC = () => {
   const { colors, isDarkMode } = useTheme();
   const [viewModel] = useState(() => container.resolve(MapViewExploreScreenViewModel));
   const [loading, setLoading] = useState(true);
@@ -37,14 +29,6 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
   
   // Animation for pulsating marker
   const pulseAnimation = useRef(new Animated.Value(1)).current;
-
-  // Default center location (Himalayas region)
-  const defaultLocation = {
-    latitude: 30.7316,
-    longitude: 79.6089,
-    latitudeDelta: 2.0,
-    longitudeDelta: 2.0,
-  };
 
   useEffect(() => {
     // Set up ViewModel callback
@@ -117,55 +101,12 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: colors.background,
-    },
-    header: {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      zIndex: 1000,
-      backgroundColor: colors.background,
-      paddingTop: 50,
-      paddingHorizontal: 20,
-      paddingBottom: 16,
-      borderBottomWidth: 1,
-      borderBottomColor: colors.borderColor,
-    },
-    headerRow: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      marginBottom: 16,
-    },
-    backButton: {
-      width: 40,
-      height: 40,
-      borderRadius: 20,
-      backgroundColor: colors.cardBackgroundColor,
-      borderWidth: 1,
-      borderColor: colors.borderColor,
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginRight: 16,
-    },
-    headerTitle: {
-      flex: 1,
-      fontSize: 20,
-      fontWeight: 'bold',
-      color: colors.text,
-      fontFamily: 'SplineSans',
-    },
-    navigationButton: {
-      width: 40,
-      height: 40,
-      borderRadius: 20,
-      backgroundColor: colors.primary,
-      justifyContent: 'center',
-      alignItems: 'center',
     },
     searchRow: {
       flexDirection: 'row',
       alignItems: 'center',
+      paddingHorizontal: 20,
+      marginBottom: 16,
     },
     searchContainer: {
       flex: 1,
@@ -197,112 +138,90 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
     },
     mapContainer: {
       flex: 1,
-      marginTop: hideHeader ? 0 : 140,
       backgroundColor: isDarkMode ? '#1a1a1a' : '#f0f0f0',
       justifyContent: 'center',
       alignItems: 'center',
-    },
-    mapPlaceholder: {
-      width: '90%',
-      height: '80%',
+      marginBottom: 16,
+      marginHorizontal: 20,
       borderRadius: 16,
-      backgroundColor: colors.cardBackgroundColor,
-      borderWidth: 2,
+      borderWidth: 1,
       borderColor: colors.borderColor,
       borderStyle: 'dashed',
+    },
+    mapPlaceholder: {
       justifyContent: 'center',
       alignItems: 'center',
+      paddingVertical: 40,
       position: 'relative',
     },
     mapPlaceholderText: {
       fontSize: 16,
       color: colors.secondary,
-      fontFamily: 'NotoSans',
       textAlign: 'center',
       marginTop: 12,
+      fontFamily: 'NotoSans',
+    },
+    pulsatingMarker: {
+      position: 'absolute',
+      top: '40%',
+      left: '50%',
+      marginLeft: -8,
+      marginTop: -8,
+    },
+    pulsatingDot: {
+      width: 16,
+      height: 16,
+      borderRadius: 8,
+      backgroundColor: colors.primary,
+      borderWidth: 2,
+      borderColor: '#ffffff',
     },
     controls: {
       position: 'absolute',
-      right: 20,
-      top: 200,
-      zIndex: 1000,
+      right: 16,
+      top: '30%',
+      flexDirection: 'column',
     },
     controlButton: {
-      width: 48,
-      height: 48,
-      borderRadius: 24,
-      backgroundColor: colors.background,
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      backgroundColor: colors.cardBackgroundColor,
       borderWidth: 1,
       borderColor: colors.borderColor,
       justifyContent: 'center',
       alignItems: 'center',
       marginBottom: 8,
-      shadowColor: '#000',
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.1,
-      shadowRadius: 4,
-      elevation: 3,
-    },
-    pulsatingMarker: {
-      position: 'absolute',
-      top: '45%',
-      left: '45%',
-      width: 20,
-      height: 20,
-      borderRadius: 10,
-      backgroundColor: colors.primary,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    pulsatingDot: {
-      width: 8,
-      height: 8,
-      borderRadius: 4,
-      backgroundColor: isDarkMode ? '#111714' : '#ffffff',
     },
     bottomContainer: {
-      position: 'absolute',
-      bottom: 0,
-      left: 0,
-      right: 0,
-      backgroundColor: colors.background,
-      borderTopWidth: 1,
-      borderTopColor: colors.borderColor,
-      paddingTop: 20,
-      paddingBottom: 30,
+      paddingHorizontal: 20,
+      paddingBottom: 20,
     },
     sectionTitle: {
-      fontSize: 18,
+      fontSize: 20,
       fontWeight: 'bold',
       color: colors.text,
       marginBottom: 16,
-      paddingHorizontal: 20,
       fontFamily: 'SplineSans',
     },
     cardsContainer: {
-      paddingLeft: 20,
+      paddingLeft: 0,
     },
     exploreCard: {
       width: 280,
-      height: 160,
       borderRadius: 16,
       borderWidth: 1,
       borderStyle: 'dashed',
       marginRight: 16,
       overflow: 'hidden',
-      padding: 16,
     },
     cardImage: {
       width: '100%',
-      height: 80,
-      borderRadius: 12,
-      marginBottom: 12,
+      height: 120,
+      resizeMode: 'cover',
     },
     cardContent: {
-      flex: 1,
+      padding: 16,
     },
     cardTitle: {
       fontSize: 16,
@@ -318,46 +237,30 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
   });
 
   return (
-    <SafeAreaView style={styles.container}>
-      {!hideHeader && <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} backgroundColor={colors.background} />}
-      
-      {/* Header */}
-      {!hideHeader && (
-        <View style={styles.header}>
-          <View style={styles.headerRow}>
-            <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-              <MaterialIcons name="arrow-back" size={24} color={colors.text} />
-            </TouchableOpacity>
-            <Text style={styles.headerTitle}>Explore Map</Text>
-            <TouchableOpacity style={styles.navigationButton}>
-              <MaterialIcons name="navigation" size={20} color={isDarkMode ? '#111714' : '#ffffff'} />
-            </TouchableOpacity>
-          </View>
-          
-          <View style={styles.searchRow}>
-            <View style={styles.searchContainer}>
-              <MaterialIcons name="search" size={20} color={colors.secondary} style={{ marginRight: 8 }} />
-              <TextInput
-                style={styles.searchInput}
-                placeholder="Search locations..."
-                placeholderTextColor={colors.secondary}
-                value={searchText}
-                onChangeText={setSearchText}
-              />
-            </View>
-            <TouchableOpacity style={styles.filterButton}>
-              <MaterialIcons name="tune" size={24} color={colors.text} />
-            </TouchableOpacity>
-          </View>
+    <View style={styles.container}>
+      {/* Search Row */}
+      <View style={styles.searchRow}>
+        <View style={styles.searchContainer}>
+          <MaterialIcons name="search" size={20} color={colors.secondary} style={{ marginRight: 8 }} />
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search locations..."
+            placeholderTextColor={colors.secondary}
+            value={searchText}
+            onChangeText={setSearchText}
+          />
         </View>
-      )}
+        <TouchableOpacity style={styles.filterButton}>
+          <MaterialIcons name="tune" size={24} color={colors.text} />
+        </TouchableOpacity>
+      </View>
 
       {/* Map Placeholder */}
       <View style={styles.mapContainer}>
         <View style={styles.mapPlaceholder}>
           <MaterialIcons name="map" size={48} color={colors.secondary} />
           <Text style={styles.mapPlaceholderText}>
-            Map View\n(Install react-native-maps for full functionality)
+            Map View{'\n'}(Install react-native-maps for full functionality)
           </Text>
           
           {/* Pulsating center marker */}
@@ -419,8 +322,8 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
           />
         )}
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
-export default MapViewExploreScreen;
+export default ExploreMapContent;
