@@ -110,6 +110,10 @@ const ExploreTabView: React.FC<ExploreTabViewProps> = ({ onSearchPress }) => {
     tabContent: {
       flex: 1,
     },
+    listTabContent: {
+      flex: 1,
+      marginTop: 120,
+    },
   });
 
   return (
@@ -145,7 +149,7 @@ const ExploreTabView: React.FC<ExploreTabViewProps> = ({ onSearchPress }) => {
         initialPage={0}
         onPageSelected={handlePageSelected}
       >
-        <View key="list" style={styles.tabContent}>
+        <View key="list" style={styles.listTabContent}>
           <ExploreScreen hideHeader={true} onSearchPress={onSearchPress} />
         </View>
 
