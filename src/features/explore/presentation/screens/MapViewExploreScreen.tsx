@@ -13,16 +13,21 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+
 // Dynamic import for react-native-maps to avoid module errors
 let MapView: any = null;
 let Marker: any = null;
+let isMapAvailable = false;
 
 try {
   const maps = require('react-native-maps');
   MapView = maps.default;
   Marker = maps.Marker;
+  isMapAvailable = true;
+  console.log('react-native-maps loaded successfully');
 } catch (error) {
   console.warn('react-native-maps not available:', error);
+  isMapAvailable = false;
 }
 
 import container from '../../../../container';
@@ -41,17 +46,6 @@ interface MapViewExploreScreenProps {
 
 const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader = false }) => {
   const { colors, isDarkMode } = useTheme();
-  
-  // Check if MapView is available
-  if (!MapView || !Marker) {
-    // Fallback to a simple error component if maps are not available
-    return (
-      <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.background }}>
-        <Text style={{ color: colors.text, fontSize: 18 }}>Maps not available</Text>
-        <Text style={{ color: colors.secondaryTextColor, fontSize: 14, marginTop: 8 }}>Please use development build</Text>
-      </SafeAreaView>
-    );
-  }
   
   const [viewModel] = useState(() => container.resolve<MapViewExploreScreenViewModel>(MapViewExploreScreenViewModelToken));
   const [loading, setLoading] = useState(true);
@@ -72,136 +66,8 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
     latitudeDelta: 3.0,
     longitudeDelta: 3.0,
   });
-
-  useEffect(() => {
-    // Set up ViewModel callback
-    viewModel.setUpdateCallback(() => {
-      setLoading(viewModel.loading);
-      setExploreData(viewModel.exploreData);
-    });
-
-    // Load data
-    viewModel.loadExploreData();
-
-    // Start pulsing animation for primary marker
-    const pulse = () => {
-      Animated.sequence([
-        Animated.timing(pulseAnimation, {
-          toValue: 1.5,
-          duration: 750,
-          useNativeDriver: true,
-        }),
-        Animated.timing(pulseAnimation, {
-          toValue: 1,
-          duration: 750,
-          useNativeDriver: true,
-        }),
-      ]).start(() => pulse());
-    };
-    pulse();
-
-    return () => {
-      viewModel.reset();
-    };
-  }, []);
-
-  const handleLocationPress = (location: ExploreLocation, index: number) => {
-    setSelectedLocation(location);
-    
-    // Animate map to location
-    if (mapRef.current) {
-      mapRef.current.animateToRegion({
-        latitude: location.latitude,
-        longitude: location.longitude,
-        latitudeDelta: 0.5,
-        longitudeDelta: 0.5,
-      }, 1000);
-    }
-
-    // Scroll to corresponding card
-    if (flatListRef.current) {
-      flatListRef.current.scrollToIndex({ 
-        index, 
-        animated: true,
-        viewPosition: 0.5 
-      });
-    }
-  };
-
-  const handleCardPress = (location: ExploreLocation, index: number) => {
-    handleLocationPress(location, index);
-  };
-
-  const handleZoomIn = () => {
-    // Simplified zoom - use region-based approach for Expo compatibility
-    if (mapRef.current) {
-      const newRegion = {
-        ...region,
-        latitudeDelta: region.latitudeDelta * 0.5,
-        longitudeDelta: region.longitudeDelta * 0.5,
-      };
-      setRegion(newRegion);
-      mapRef.current.animateToRegion(newRegion, 300);
-    }
-  };
-
-  const handleZoomOut = () => {
-    // Simplified zoom - use region-based approach for Expo compatibility
-    if (mapRef.current) {
-      const newRegion = {
-        ...region,
-        latitudeDelta: Math.min(region.latitudeDelta * 2, 10),
-        longitudeDelta: Math.min(region.longitudeDelta * 2, 10),
-      };
-      setRegion(newRegion);
-      mapRef.current.animateToRegion(newRegion, 300);
-    }
-  };
-
-  const handleMyLocation = () => {
-    if (mapRef.current) {
-      mapRef.current.animateToRegion(region, 1000);
-    }
-  };
-
-  const handleFilterPress = () => {
-    setShowFilterSheet(true);
-  };
-
-  const handleApplyFilters = (filters: FilterState) => {
-    viewModel.applyFilters(filters);
-    setShowFilterSheet(false);
-  };
-
-  const renderExploreCard = ({ item, index }: { item: ExploreLocation; index: number }) => (
-    <TouchableOpacity 
-      style={[styles.exploreCard, { 
-        backgroundColor: colors.cardBackgroundColor, 
-        borderColor: colors.borderColor,
-        marginLeft: index === 0 ? 20 : 8,
-        marginRight: index === exploreData.length - 1 ? 20 : 8,
-      }]}
-      onPress={() => handleCardPress(item, index)}
-      activeOpacity={0.8}
-    >
-      <Image source={{ uri: item.imageUrl }} style={styles.cardImage} />
-      <View style={styles.cardContent}>
-        <Text style={[styles.cardTitle, { color: colors.text }]} numberOfLines={1}>
-          {item.title}
-        </Text>
-        <Text style={[styles.cardDescription, { color: colors.secondaryTextColor }]} numberOfLines={2}>
-          {item.description}
-        </Text>
-      </View>
-    </TouchableOpacity>
-  );
-
-  const renderShimmerCard = ({ index }: { index: number }) => (
-    <View style={{ marginLeft: index === 0 ? 20 : 8, marginRight: 8 }}>
-      <ExploreCardShimmer key={`shimmer-${index}`} />
-    </View>
-  );
-
+  
+  // Create styles object early
   const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -355,6 +221,223 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
       fontFamily: 'NotoSans',
     },
   });
+  
+  const handleFilterPress = () => {
+    setShowFilterSheet(true);
+  };
+
+  const handleApplyFilters = (filters: FilterState) => {
+    viewModel.applyFilters(filters);
+    setShowFilterSheet(false);
+  };
+
+  const renderExploreCard = ({ item, index }: { item: ExploreLocation; index: number }) => (
+    <TouchableOpacity 
+      style={[styles.exploreCard, { 
+        backgroundColor: colors.cardBackgroundColor, 
+        borderColor: colors.borderColor,
+        marginLeft: index === 0 ? 20 : 8,
+        marginRight: index === exploreData.length - 1 ? 20 : 8,
+      }]}
+      onPress={() => handleCardPress(item, index)}
+      activeOpacity={0.8}
+    >
+      <Image source={{ uri: item.imageUrl }} style={styles.cardImage} />
+      <View style={styles.cardContent}>
+        <Text style={[styles.cardTitle, { color: colors.text }]} numberOfLines={1}>
+          {item.title}
+        </Text>
+        <Text style={[styles.cardDescription, { color: colors.secondaryTextColor }]} numberOfLines={2}>
+          {item.description}
+        </Text>
+      </View>
+    </TouchableOpacity>
+  );
+
+  const renderShimmerCard = ({ index }: { index: number }) => (
+    <View style={{ marginLeft: index === 0 ? 20 : 8, marginRight: 8 }}>
+      <ExploreCardShimmer key={`shimmer-${index}`} />
+    </View>
+  );
+  
+  const handleCardPress = (location: ExploreLocation, index: number) => {
+    handleLocationPress(location, index);
+  };
+  
+  const handleLocationPress = (location: ExploreLocation, index: number) => {
+    setSelectedLocation(location);
+    
+    // Animate map to location
+    if (mapRef.current) {
+      mapRef.current.animateToRegion({
+        latitude: location.latitude,
+        longitude: location.longitude,
+        latitudeDelta: 0.5,
+        longitudeDelta: 0.5,
+      }, 1000);
+    }
+
+    // Scroll to corresponding card
+    if (flatListRef.current) {
+      flatListRef.current.scrollToIndex({ 
+        index, 
+        animated: true,
+        viewPosition: 0.5 
+      });
+    }
+  };
+
+  const handleZoomIn = () => {
+    // Simplified zoom - use region-based approach for Expo compatibility
+    if (mapRef.current) {
+      const newRegion = {
+        ...region,
+        latitudeDelta: region.latitudeDelta * 0.5,
+        longitudeDelta: region.longitudeDelta * 0.5,
+      };
+      setRegion(newRegion);
+      mapRef.current.animateToRegion(newRegion, 300);
+    }
+  };
+
+  const handleZoomOut = () => {
+    // Simplified zoom - use region-based approach for Expo compatibility
+    if (mapRef.current) {
+      const newRegion = {
+        ...region,
+        latitudeDelta: Math.min(region.latitudeDelta * 2, 10),
+        longitudeDelta: Math.min(region.longitudeDelta * 2, 10),
+      };
+      setRegion(newRegion);
+      mapRef.current.animateToRegion(newRegion, 300);
+    }
+  };
+
+  const handleMyLocation = () => {
+    if (mapRef.current) {
+      mapRef.current.animateToRegion(region, 1000);
+    }
+  };
+
+  useEffect(() => {
+    // Set up ViewModel callback
+    viewModel.setUpdateCallback(() => {
+      setLoading(viewModel.loading);
+      setExploreData(viewModel.exploreData);
+    });
+
+    // Load data
+    viewModel.loadExploreData();
+
+    // Start pulsing animation for primary marker only if maps are available
+    if (isMapAvailable) {
+      const pulse = () => {
+        Animated.sequence([
+          Animated.timing(pulseAnimation, {
+            toValue: 1.5,
+            duration: 750,
+            useNativeDriver: true,
+          }),
+          Animated.timing(pulseAnimation, {
+            toValue: 1,
+            duration: 750,
+            useNativeDriver: true,
+          }),
+        ]).start(() => pulse());
+      };
+      pulse();
+    }
+
+    return () => {
+      viewModel.reset();
+    };
+  }, []);
+
+  // Check if MapView is available
+  if (!isMapAvailable || !MapView || !Marker) {
+    // Fallback to a simple map-like interface if maps are not available
+    return (
+      <SafeAreaView style={styles.container}>
+        {!hideHeader && (
+          <StatusBar 
+            barStyle={isDarkMode ? 'light-content' : 'dark-content'} 
+            backgroundColor={colors.background}
+          />
+        )}
+        
+        {/* Fallback Map Background */}
+        <View style={{
+          flex: 1,
+          backgroundColor: isDarkMode ? '#2d3a2e' : '#e8f5e8',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}>
+          <MaterialIcons name="map" size={100} color={colors.secondaryTextColor} />
+          <Text style={{ color: colors.text, fontSize: 18, marginTop: 16 }}>Maps not available in Expo Go</Text>
+          <Text style={{ color: colors.secondaryTextColor, fontSize: 14, marginTop: 8, textAlign: 'center', paddingHorizontal: 40 }}>
+            Use "npx expo run:ios" or "npx expo run:android" for development build with Google Maps
+          </Text>
+        </View>
+        
+        {/* Search Bar */}
+        <View style={styles.searchRow}>
+          <View style={styles.searchContainer}>
+            <MaterialIcons 
+              name="search" 
+              size={20} 
+              color={colors.secondaryTextColor} 
+              style={{ marginRight: 8 }} 
+            />
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Search locations..."
+              placeholderTextColor={colors.secondaryTextColor}
+              value={searchText}
+              onChangeText={setSearchText}
+            />
+          </View>
+          <TouchableOpacity style={styles.filterButton} onPress={handleFilterPress}>
+            <MaterialIcons name="tune" size={24} color={colors.text} />
+          </TouchableOpacity>
+        </View>
+        
+        {/* Bottom Cards */}
+        <View style={styles.bottomContainer}>
+          <Text style={styles.sectionTitle}>Discover Places</Text>
+          {loading ? (
+            <FlatList
+              data={Array.from({ length: 3 }, (_, i) => i)}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              renderItem={renderShimmerCard}
+              keyExtractor={(_, index) => `shimmer-${index}`}
+            />
+          ) : (
+            <FlatList
+              ref={flatListRef}
+              data={exploreData}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              renderItem={renderExploreCard}
+              keyExtractor={(item) => item.id}
+              snapToInterval={256}
+              contentContainerStyle={{ paddingRight: 20 }}
+              decelerationRate="fast"
+              snapToAlignment="start"
+              onScrollToIndexFailed={() => {}}
+            />
+          )}
+        </View>
+        
+        {/* Filter Bottom Sheet */}
+        <ExploreFilterBottomSheet
+          visible={showFilterSheet}
+          onClose={() => setShowFilterSheet(false)}
+          onApplyFilters={handleApplyFilters}
+        />
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>

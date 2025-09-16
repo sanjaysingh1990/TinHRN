@@ -11,7 +11,7 @@
     "ios": {
       "supportsTablet": true,
       "config": {
-        "googleMapsApiKey": "YOUR_IOS_API_KEY_HERE"
+        "googleMapsApiKey": "AIzaSyAWoR7v4wdvae_wN4ZAjcVwXYCZpKJtOkw"
       }
     },
     "android": {
@@ -37,6 +37,18 @@
     "plugins": [
       "expo-router",
       [
+        "expo-build-properties",
+        {
+          "android": {
+            "enableProguardInReleaseBuilds": true,
+            "enableShrinkResourcesInReleaseBuilds": true
+          },
+          "ios": {
+            "enableBitcode": false
+          }
+        }
+      ],
+      [
         "expo-splash-screen",
         {
           "image": "./assets/images/splash-icon.png",
@@ -46,12 +58,6 @@
           "dark": {
             "backgroundColor": "#000000"
           }
-        }
-      ],
-      [
-        "react-native-maps",
-        {
-          "enableGoogleMaps": false
         }
       ]
     ],
