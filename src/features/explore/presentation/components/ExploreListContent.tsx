@@ -1,3 +1,4 @@
+import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
     FlatList,
@@ -10,14 +11,13 @@ import container from '../../../../container';
 import { useTheme } from '../../../../hooks/useTheme';
 import { Category, Destination, ExploreData, TopTrek } from '../../domain/entities/Explore';
 import { ExploreViewModelToken } from '../../explore.di';
+import { ExploreViewModel } from '../viewmodels/ExploreViewModel';
 import CategoryCard from './CategoryCard';
 import CategoryShimmer from './CategoryShimmer';
 import DestinationCard from './DestinationCard';
 import DestinationShimmer from './DestinationShimmer';
 import TrekCard from './TrekCard';
 import TrekShimmer from './TrekShimmer';
-import { ExploreViewModel } from '../viewmodels/ExploreViewModel';
-import { useRouter } from 'expo-router';
 
 const ExploreListContent: React.FC = () => {
   const router = useRouter();

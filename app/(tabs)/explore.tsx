@@ -1,4 +1,4 @@
 
-import ExploreScreenWithTabs from '../../src/features/explore/presentation/screens/ExploreScreenWithTabs';
+import ExploreScreen from '../../src/features/explore/presentation/screens/ExploreScreen';
 
-export default ExploreScreenWithTabs;
+export default ExploreScreen;

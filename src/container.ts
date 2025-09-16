@@ -53,8 +53,6 @@ import { CustomizeTourRepositoryToken, CustomizeTourViewModelToken } from "./fea
 import { CustomizeTourRepository } from "./features/customizeTour/data/repositories/CustomizeTourRepository";
 import { CustomizeTourViewModel } from "./features/customizeTour/presentation/viewmodels/CustomizeTourViewModel";
 
-// MapView Explore
-import { MapViewExploreScreenViewModel } from "./features/explore/presentation/viewmodels/MapViewExploreScreenViewModel";
 
 container.register(SampleRepositoryToken, {
   useClass: SampleRepository,
@@ -103,7 +101,5 @@ container.register(GalleryViewModelToken, { useClass: GalleryViewModel });
 container.register(CustomizeTourRepositoryToken, { useClass: CustomizeTourRepository });
 container.register(CustomizeTourViewModelToken, { useClass: CustomizeTourViewModel });
 
-// MapView Explore
-container.register(MapViewExploreScreenViewModel, { useClass: MapViewExploreScreenViewModel });
 
 export default container;
