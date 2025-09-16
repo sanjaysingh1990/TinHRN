@@ -25,13 +25,16 @@ const FavoritesShimmer = () => {
 
   const styles = StyleSheet.create({
     container: {
+      flexDirection: 'row',
       marginTop: 20,
+      width: '100%', // Ensure container doesn't exceed parent width
     },
     favoriteCard: {
+      width: 140, // Reduced width to fit within the card container
       height: 150,
       borderRadius: 12,
       backgroundColor: isDarkMode ? '#2A261F' : '#E5E5E5',
-      marginBottom: 15,
+      marginRight: 12, // Use marginRight instead of marginHorizontal to control spacing better
       overflow: 'hidden',
     },
   });
