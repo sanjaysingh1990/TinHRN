@@ -1,11 +1,10 @@
 import React, { useEffect, useRef } from 'react';
-import { View, StyleSheet, Animated, Easing, useColorScheme } from 'react-native';
+import { View, StyleSheet, Animated, Easing } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { theme } from '../../../../theme';
+import { useTheme } from '../../../../hooks/useTheme';
 
 const BookingConfirmationSkeleton = () => {
-  const colorScheme = useColorScheme() ?? 'dark';
-  const colors = theme[colorScheme];
+  const { colors, isDarkMode } = useTheme();
   const animatedValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -32,7 +31,7 @@ const BookingConfirmationSkeleton = () => {
       }}
     >
       <LinearGradient
-        colors={colorScheme === 'dark' 
+        colors={isDarkMode 
           ? ['transparent', 'rgba(255, 255, 255, 0.1)', 'transparent']
           : ['transparent', 'rgba(255, 255, 255, 0.8)', 'transparent']
         }
@@ -46,28 +45,28 @@ const BookingConfirmationSkeleton = () => {
   return (
     <View style={styles.container}>
       {/* Success Icon Skeleton */}
-      <View style={[styles.successIcon, { backgroundColor: colors.shimmerColor }]}>
+      <View style={[styles.successIcon, { backgroundColor: isDarkMode ? '#2A261F' : '#E5E5E5' }]}>
         <Shimmer />
       </View>
 
       {/* Title Skeleton */}
-      <View style={[styles.titleSkeleton, { backgroundColor: colors.shimmerColor }]}>
+      <View style={[styles.titleSkeleton, { backgroundColor: isDarkMode ? '#2A261F' : '#E5E5E5' }]}>
         <Shimmer />
       </View>
 
       {/* Subtitle Skeleton */}
-      <View style={[styles.subtitleSkeleton, { backgroundColor: colors.shimmerColor }]}>
+      <View style={[styles.subtitleSkeleton, { backgroundColor: isDarkMode ? '#2A261F' : '#E5E5E5' }]}>
         <Shimmer />
       </View>
       
       {/* Booking Info Card Skeleton */}
-      <View style={[styles.card, { backgroundColor: colors.cardBackgroundColor }]}>
+      <View style={[styles.card, { backgroundColor: isDarkMode ? '#231f1c' : '#f8f8f8' }]}>
         {[...Array(5)].map((_, i) => (
           <View key={i} style={styles.cardRow}>
-            <View style={[styles.cardLabel, { backgroundColor: colors.shimmerColor }]}>
+            <View style={[styles.cardLabel, { backgroundColor: isDarkMode ? '#2A261F' : '#E5E5E5' }]}>
               <Shimmer />
             </View>
-            <View style={[styles.cardValue, { backgroundColor: colors.shimmerColor }]}>
+            <View style={[styles.cardValue, { backgroundColor: isDarkMode ? '#2A261F' : '#E5E5E5' }]}>
               <Shimmer />
             </View>
           </View>
@@ -76,14 +75,14 @@ const BookingConfirmationSkeleton = () => {
 
       {/* Buttons Skeleton */}
       <View style={styles.buttonContainer}>
-        <View style={[styles.buttonSkeleton, styles.primaryButton, { backgroundColor: colors.shimmerColor }]}>
+        <View style={[styles.buttonSkeleton, styles.primaryButton, { backgroundColor: isDarkMode ? '#2A261F' : '#E5E5E5' }]}>
           <Shimmer />
         </View>
         <View style={styles.buttonRow}>
-          <View style={[styles.buttonSkeleton, styles.secondaryButton, { backgroundColor: colors.shimmerColor }]}>
+          <View style={[styles.buttonSkeleton, styles.secondaryButton, { backgroundColor: isDarkMode ? '#2A261F' : '#E5E5E5' }]}>
             <Shimmer />
           </View>
-          <View style={[styles.buttonSkeleton, styles.secondaryButton, { backgroundColor: colors.shimmerColor }]}>
+          <View style={[styles.buttonSkeleton, styles.secondaryButton, { backgroundColor: isDarkMode ? '#2A261F' : '#E5E5E5' }]}>
             <Shimmer />
           </View>
         </View>

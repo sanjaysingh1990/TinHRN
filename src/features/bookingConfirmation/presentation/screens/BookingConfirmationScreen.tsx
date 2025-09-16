@@ -9,12 +9,11 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  useColorScheme,
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import container from '../../../../container';
-import { theme } from '../../../../theme';
+import { useTheme } from '../../../../hooks/useTheme';
 import { BookingConfirmation } from '../../../tour-details/data/repositories/TourDetailsRepository';
 import { BookingConfirmationViewModelToken } from '../../bookingConfirmation.di';
 import BookingConfirmationSkeleton from '../components/BookingConfirmationSkeleton';
@@ -22,8 +21,7 @@ import { BookingConfirmationViewModel } from '../viewmodels/BookingConfirmationV
 
 const BookingConfirmationScreen = () => {
   const router = useRouter();
-  const colorScheme = useColorScheme() ?? 'dark';
-  const colors = theme[colorScheme];
+  const { colors, isDarkMode } = useTheme();
   const { bookingId, tourId } = useLocalSearchParams();
   
   const [loading, setLoading] = useState(true);
@@ -83,8 +81,8 @@ Can&apos;t wait for this amazing journey!`,
 
   if (loading) {
     return (
-      <SafeAreaView style={[styles.container, { backgroundColor: colors.backgroundColor }]}>
-        <StatusBar barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'} />
+      <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} backgroundColor={colors.background} />
         
         {/* Header */}
         <View style={[styles.header, { borderBottomColor: colors.borderColor }]}>
@@ -92,9 +90,9 @@ Can&apos;t wait for this amazing journey!`,
             style={styles.backButton} 
             onPress={() => router.back()}
           >
-            <MaterialIcons name="arrow-back" size={24} color={colors.textColor} />
+            <MaterialIcons name="arrow-back" size={24} color={colors.text} />
           </TouchableOpacity>
-          <Text style={[styles.headerTitle, { color: colors.textColor }]}>Order Confirmation</Text>
+          <Text style={[styles.headerTitle, { color: colors.text }]}>Order Confirmation</Text>
           <View style={styles.headerSpacer} />
         </View>
 
@@ -105,10 +103,10 @@ Can&apos;t wait for this amazing journey!`,
 
   if (!bookingData) {
     return (
-      <SafeAreaView style={[styles.container, { backgroundColor: colors.backgroundColor }]}>
-        <StatusBar barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'} />
+      <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} backgroundColor={colors.background} />
         <View style={styles.errorContainer}>
-          <Text style={[styles.errorText, { color: colors.textColor }]}>
+          <Text style={[styles.errorText, { color: colors.text }]}>
             Failed to load booking confirmation
           </Text>
         </View>
@@ -117,8 +115,8 @@ Can&apos;t wait for this amazing journey!`,
   }
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.backgroundColor }]}>
-      <StatusBar barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'} />
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} backgroundColor={colors.background} />
       
       {/* Fixed Header */}
       <View style={[styles.header, { borderBottomColor: colors.borderColor }]}>
@@ -126,9 +124,9 @@ Can&apos;t wait for this amazing journey!`,
           style={styles.backButton} 
           onPress={() => router.back()}
         >
-          <MaterialIcons name="arrow-back" size={24} color={colors.textColor} />
+          <MaterialIcons name="arrow-back" size={24} color={colors.text} />
         </TouchableOpacity>
-        <Text style={[styles.headerTitle, { color: colors.textColor }]}>Order Confirmation</Text>
+        <Text style={[styles.headerTitle, { color: colors.text }]}>Order Confirmation</Text>
         <View style={styles.headerSpacer} />
       </View>
 
@@ -140,46 +138,46 @@ Can&apos;t wait for this amazing journey!`,
       >
         {/* Success Icon */}
         <View style={styles.successIconContainer}>
-          <View style={[styles.successIconCircle, { borderColor: colors.successColor }]}>
-            <MaterialIcons name="check" size={48} color={colors.successColor} />
+          <View style={[styles.successIconCircle, { borderColor: colors.primary }]}>
+            <MaterialIcons name="check" size={48} color={colors.primary} />
           </View>
         </View>
 
         {/* Title */}
-        <Text style={[styles.title, { color: colors.textColor }]}>
+        <Text style={[styles.title, { color: colors.text }]}>
           Booking Confirmed!
         </Text>
 
         {/* Subtitle */}
-        <Text style={[styles.subtitle, { color: colors.secondaryTextColor }]}>
+        <Text style={[styles.subtitle, { color: colors.secondary }]}>
           Your adventure with Tent&apos;in Himalayas is set. We&apos;re thrilled to have you join us!
         </Text>
 
         {/* Booking Info Card */}
-        <View style={[styles.bookingCard, { backgroundColor: colors.cardBackgroundColor }]}>
+        <View style={[styles.bookingCard, { backgroundColor: isDarkMode ? '#231f1c' : '#f8f8f8' }]}>
           <View style={styles.bookingRow}>
-            <Text style={[styles.bookingLabel, { color: colors.secondaryTextColor }]}>Tour Name</Text>
-            <Text style={[styles.bookingValue, { color: colors.textColor }]}>{bookingData.tourName}</Text>
+            <Text style={[styles.bookingLabel, { color: colors.secondary }]}>Tour Name</Text>
+            <Text style={[styles.bookingValue, { color: colors.text }]}>{bookingData.tourName}</Text>
           </View>
           
           <View style={[styles.bookingRow, styles.borderTop, { borderTopColor: colors.borderColor }]}>
-            <Text style={[styles.bookingLabel, { color: colors.secondaryTextColor }]}>Reference</Text>
-            <Text style={[styles.bookingValue, { color: colors.textColor }]}>{bookingData.bookingReference}</Text>
+            <Text style={[styles.bookingLabel, { color: colors.secondary }]}>Reference</Text>
+            <Text style={[styles.bookingValue, { color: colors.text }]}>{bookingData.bookingReference}</Text>
           </View>
           
           <View style={[styles.bookingRow, styles.borderTop, { borderTopColor: colors.borderColor }]}>
-            <Text style={[styles.bookingLabel, { color: colors.secondaryTextColor }]}>Date</Text>
-            <Text style={[styles.bookingValue, { color: colors.textColor }]}>{bookingData.date}</Text>
+            <Text style={[styles.bookingLabel, { color: colors.secondary }]}>Date</Text>
+            <Text style={[styles.bookingValue, { color: colors.text }]}>{bookingData.date}</Text>
           </View>
           
           <View style={[styles.bookingRow, styles.borderTop, { borderTopColor: colors.borderColor }]}>
-            <Text style={[styles.bookingLabel, { color: colors.secondaryTextColor }]}>Duration</Text>
-            <Text style={[styles.bookingValue, { color: colors.textColor }]}>{bookingData.duration}</Text>
+            <Text style={[styles.bookingLabel, { color: colors.secondary }]}>Duration</Text>
+            <Text style={[styles.bookingValue, { color: colors.text }]}>{bookingData.duration}</Text>
           </View>
           
           <View style={[styles.bookingRow, styles.borderTop, { borderTopColor: colors.borderColor }]}>
-            <Text style={[styles.bookingLabel, { color: colors.secondaryTextColor }]}>Total Amount</Text>
-            <Text style={[styles.bookingValue, styles.totalAmount, { color: colors.textColor }]}>{bookingData.totalAmount}</Text>
+            <Text style={[styles.bookingLabel, { color: colors.secondary }]}>Total Amount</Text>
+            <Text style={[styles.bookingValue, styles.totalAmount, { color: colors.text }]}>{bookingData.totalAmount}</Text>
           </View>
         </View>
 
@@ -187,10 +185,10 @@ Can&apos;t wait for this amazing journey!`,
         <View style={styles.buttonContainer}>
           {/* Primary Button */}
           <TouchableOpacity 
-            style={[styles.primaryButton, { backgroundColor: colors.primaryColor }]}
+            style={[styles.primaryButton, { backgroundColor: colors.primary }]}
             onPress={handleViewBookingDetails}
           >
-            <Text style={[styles.primaryButtonText, { color: colors.backgroundColor }]}>
+            <Text style={[styles.primaryButtonText, { color: isDarkMode ? '#111714' : '#ffffff' }]}>
               View Booking Details
             </Text>
           </TouchableOpacity>
@@ -198,11 +196,11 @@ Can&apos;t wait for this amazing journey!`,
           {/* Secondary Buttons Row */}
           <View style={styles.secondaryButtonRow}>
             <TouchableOpacity 
-              style={[styles.secondaryButton, { backgroundColor: colors.buttonSecondaryBg }]}
+              style={[styles.secondaryButton, { backgroundColor: isDarkMode ? '#383029' : '#e5e5e5' }]}
               onPress={handleShare}
             >
-              <MaterialIcons name="share" size={20} color={colors.textColor} />
-              <Text style={[styles.secondaryButtonText, { color: colors.textColor }]}>
+              <MaterialIcons name="share" size={20} color={colors.text} />
+              <Text style={[styles.secondaryButtonText, { color: colors.text }]}>
                 Share Booking
               </Text>
             </TouchableOpacity>
@@ -211,7 +209,7 @@ Can&apos;t wait for this amazing journey!`,
               style={[styles.tertiaryButton, { borderColor: colors.borderColor }]}
               onPress={handleBackToHome}
             >
-              <Text style={[styles.tertiaryButtonText, { color: colors.textColor }]}>
+              <Text style={[styles.tertiaryButtonText, { color: colors.text }]}>
                 Back to Home
               </Text>
             </TouchableOpacity>
@@ -233,7 +231,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: 1,
-    marginTop: 10, // Reduced header margin from 20 to 10
+    paddingTop: '10%', // Using 10% margin as requested for consistency throughout the app
   },
   backButton: {
     width: 44,
