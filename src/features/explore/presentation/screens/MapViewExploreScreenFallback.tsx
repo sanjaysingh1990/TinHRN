@@ -13,7 +13,6 @@ import {
   View,
   ImageBackground,
 } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
 import container from '../../../../container';
 import { useTheme } from '../../../../hooks/useTheme';
 import { MapViewExploreScreenViewModelToken } from '../../explore.di';

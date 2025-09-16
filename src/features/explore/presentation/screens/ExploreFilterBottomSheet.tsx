@@ -101,7 +101,13 @@ const ExploreFilterBottomSheet: React.FC<ExploreFilterBottomSheetProps> = ({
         <View style={styles.sliderRow}>
           <TouchableOpacity 
             style={[styles.durationButton, { backgroundColor: colors.cardBackgroundColor }]}
-            onPress={() => viewModel.setDurationRange([Math.max(1, min - 1), max])}
+            onPress={() => {
+              if (min > 1) {
+                viewModel.setDurationRange([min - 1, max]);
+              } else if (max > 1) {
+                viewModel.setDurationRange([min, max - 1]);
+              }
+            }}
           >
             <MaterialIcons name="remove" size={20} color={colors.text} />
           </TouchableOpacity>
@@ -169,7 +175,7 @@ const ExploreFilterBottomSheet: React.FC<ExploreFilterBottomSheetProps> = ({
     },
     content: {
       paddingHorizontal: 24,
-      paddingBottom: 100,
+      paddingBottom: 120,
     },
     section: {
       marginBottom: 32,
@@ -343,6 +349,9 @@ const ExploreFilterBottomSheet: React.FC<ExploreFilterBottomSheetProps> = ({
               <Text style={styles.sectionTitle}>Duration</Text>
               {renderDurationSlider()}
             </View>
+            
+            {/* Empty spacer to prevent content from being hidden behind apply button */}
+            <View style={{ height: 80 }} />
           </ScrollView>
           
           <TouchableOpacity style={styles.applyButton} onPress={handleApplyFilters}>
