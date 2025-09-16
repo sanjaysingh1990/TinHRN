@@ -90,6 +90,13 @@ const AppContent = () => {
           animation: 'slide_from_right',
         }}
       />
+      <Stack.Screen 
+        name="map-explore" 
+        options={{
+          presentation: 'modal',
+          animation: 'slide_from_right',
+        }}
+      />
     </Stack>
   );
 };
