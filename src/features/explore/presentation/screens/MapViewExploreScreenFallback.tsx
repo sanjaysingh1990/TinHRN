@@ -52,8 +52,8 @@ const MapViewExploreScreenFallback: React.FC<MapViewExploreScreenFallbackProps> 
       style={[styles.exploreCard, { 
         backgroundColor: colors.cardBackgroundColor, 
         borderColor: colors.borderColor,
-        marginLeft: index === 0 ? 20 : 0,
-        marginRight: index === exploreData.length - 1 ? 20 : 16,
+        marginLeft: index === 0 ? 20 : 8,
+        marginRight: index === exploreData.length - 1 ? 20 : 8,
       }]}
       activeOpacity={0.8}
     >
@@ -70,7 +70,7 @@ const MapViewExploreScreenFallback: React.FC<MapViewExploreScreenFallbackProps> 
   );
 
   const renderShimmerCard = ({ index }: { index: number }) => (
-    <View style={{ marginLeft: index === 0 ? 20 : 0, marginRight: 16 }}>
+    <View style={{ marginLeft: index === 0 ? 20 : 8, marginRight: 8 }}>
       <ExploreCardShimmer key={`shimmer-${index}`} />
     </View>
   );
@@ -157,8 +157,8 @@ const MapViewExploreScreenFallback: React.FC<MapViewExploreScreenFallbackProps> 
       left: 0,
       right: 0,
       backgroundColor: colors.background,
-      paddingTop: 20,
-      paddingBottom: 10,
+      paddingTop: 12,
+      paddingBottom: 8,
       borderTopLeftRadius: 20,
       borderTopRightRadius: 20,
       borderTopWidth: 1,
@@ -168,35 +168,36 @@ const MapViewExploreScreenFallback: React.FC<MapViewExploreScreenFallbackProps> 
       shadowOpacity: 0.1,
       shadowRadius: 3.84,
       elevation: 10,
-      minHeight: 200,
+      minHeight: 140,
+      overflow: 'hidden',
     },
     sectionTitle: {
-      fontSize: 20,
+      fontSize: 18,
       fontWeight: 'bold',
       color: colors.text,
-      marginBottom: 16,
+      marginBottom: 12,
       marginHorizontal: 20,
       fontFamily: 'SplineSans',
     },
     exploreCard: {
-      width: 280,
-      borderRadius: 16,
+      width: 240,
+      borderRadius: 12,
       borderWidth: 1,
       borderStyle: 'dashed',
       overflow: 'hidden',
     },
     cardImage: {
       width: '100%',
-      height: 120,
+      height: 80,
       resizeMode: 'cover',
     },
     cardContent: {
-      padding: 16,
+      padding: 12,
     },
     cardTitle: {
-      fontSize: 16,
+      fontSize: 14,
       fontWeight: 'bold',
-      marginBottom: 4,
+      marginBottom: 2,
       fontFamily: 'SplineSans',
     },
     cardDescription: {
@@ -271,9 +272,10 @@ const MapViewExploreScreenFallback: React.FC<MapViewExploreScreenFallbackProps> 
             showsHorizontalScrollIndicator={false}
             renderItem={renderExploreCard}
             keyExtractor={(item) => item.id}
-            snapToInterval={296}
+            snapToInterval={256}
             decelerationRate="fast"
             snapToAlignment="start"
+            contentContainerStyle={{ paddingRight: 20 }}
           />
         )}
       </View>
