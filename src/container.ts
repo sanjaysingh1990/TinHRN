@@ -14,8 +14,9 @@ import { HomeViewModelToken, TourRepositoryToken } from "./features/home/home.di
 import { HomeViewModel } from "./features/home/presentation/viewmodels/HomeViewModel";
 
 import { ExploreRepository } from "./features/explore/data/repositories/ExploreRepository";
-import { ExploreRepositoryToken, ExploreViewModelToken } from "./features/explore/explore.di";
+import { ExploreRepositoryToken, ExploreViewModelToken, MapViewExploreScreenViewModelToken } from "./features/explore/explore.di";
 import { ExploreViewModel } from "./features/explore/presentation/viewmodels/ExploreViewModel";
+import { MapViewExploreScreenViewModel } from "./features/explore/presentation/viewmodels/MapViewExploreScreenViewModel";
 
 import { TourDetailsRepository } from "./features/tour-details/data/repositories/TourDetailsRepository";
 import { TourDetailsViewModel } from "./features/tour-details/presentation/viewmodels/TourDetailsViewModel";
@@ -70,6 +71,7 @@ container.register(HomeViewModelToken, { useClass: HomeViewModel });
 
 container.register(ExploreRepositoryToken, { useClass: ExploreRepository });
 container.register(ExploreViewModelToken, { useClass: ExploreViewModel });
+container.register(MapViewExploreScreenViewModelToken, { useClass: MapViewExploreScreenViewModel });
 
 container.register(TourDetailsRepositoryToken, { useClass: TourDetailsRepository });
 container.register(TourDetailsViewModelToken, { useClass: TourDetailsViewModel });

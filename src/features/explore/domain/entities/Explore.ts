@@ -22,6 +22,15 @@ export interface TopTrek {
   altitude: string;
 }
 
+export interface ExploreLocation {
+  id: string;
+  title: string;
+  description: string;
+  imageUrl: string;
+  latitude: number;
+  longitude: number;
+}
+
 export interface ExploreData {
   categories: Category[];
   popularDestinations: Destination[];
