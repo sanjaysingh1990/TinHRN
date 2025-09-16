@@ -154,7 +154,7 @@ const MapViewExploreScreenFallback: React.FC<MapViewExploreScreenFallbackProps> 
       right: 0,
       backgroundColor: colors.background,
       paddingTop: 20,
-      paddingBottom: 90,
+      paddingBottom: 10,
       borderTopLeftRadius: 20,
       borderTopRightRadius: 20,
       borderTopWidth: 1,
