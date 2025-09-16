@@ -9,7 +9,10 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "config": {
+        "googleMapsApiKey": "YOUR_IOS_API_KEY_HERE"
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -20,7 +23,12 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.app.trekking"
+      "package": "com.app.trekking",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyAWoR7v4wdvae_wN4ZAjcVwXYCZpKJtOkw"
+        }
+      }
     },
     "web": {
       "output": "static",
@@ -40,7 +48,12 @@
           }
         }
       ],
-      "react-native-maps"
+      [
+        "react-native-maps",
+        {
+          "enableGoogleMaps": false
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

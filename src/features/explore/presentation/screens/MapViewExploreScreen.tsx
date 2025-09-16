@@ -13,7 +13,18 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+// Dynamic import for react-native-maps to avoid module errors
+let MapView: any = null;
+let Marker: any = null;
+
+try {
+  const maps = require('react-native-maps');
+  MapView = maps.default;
+  Marker = maps.Marker;
+} catch (error) {
+  console.warn('react-native-maps not available:', error);
+}
+
 import container from '../../../../container';
 import { useTheme } from '../../../../hooks/useTheme';
 import { MapViewExploreScreenViewModelToken } from '../../explore.di';
@@ -28,19 +39,31 @@ interface MapViewExploreScreenProps {
 
 const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader = false }) => {
   const { colors, isDarkMode } = useTheme();
+  
+  // Check if MapView is available
+  if (!MapView || !Marker) {
+    // Fallback to a simple error component if maps are not available
+    return (
+      <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.background }}>
+        <Text style={{ color: colors.text, fontSize: 18 }}>Maps not available</Text>
+        <Text style={{ color: colors.secondaryTextColor, fontSize: 14, marginTop: 8 }}>Please use development build</Text>
+      </SafeAreaView>
+    );
+  }
+  
   const [viewModel] = useState(() => container.resolve<MapViewExploreScreenViewModel>(MapViewExploreScreenViewModelToken));
   const [loading, setLoading] = useState(true);
   const [exploreData, setExploreData] = useState<ExploreLocation[]>([]);
   const [searchText, setSearchText] = useState('');
   const [selectedLocation, setSelectedLocation] = useState<ExploreLocation | null>(null);
-  const mapRef = useRef<MapView>(null);
+  const mapRef = useRef<any>(null);
   
   // Animation for pulsating marker
   const pulseAnimation = useRef(new Animated.Value(1)).current;
   const flatListRef = useRef<FlatList>(null);
 
   // Initial region centered on Nepal/Himalayas
-  const [region] = useState({
+  const [region, setRegion] = useState({
     latitude: 28.3949,
     longitude: 84.1240,
     latitudeDelta: 3.0,
@@ -107,20 +130,28 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
   };
 
   const handleZoomIn = () => {
+    // Simplified zoom - use region-based approach for Expo compatibility
     if (mapRef.current) {
-      mapRef.current.getCamera().then((camera) => {
-        camera.zoom = (camera.zoom || 10) + 1;
-        mapRef.current?.animateCamera(camera, { duration: 300 });
-      });
+      const newRegion = {
+        ...region,
+        latitudeDelta: region.latitudeDelta * 0.5,
+        longitudeDelta: region.longitudeDelta * 0.5,
+      };
+      setRegion(newRegion);
+      mapRef.current.animateToRegion(newRegion, 300);
     }
   };
 
   const handleZoomOut = () => {
+    // Simplified zoom - use region-based approach for Expo compatibility
     if (mapRef.current) {
-      mapRef.current.getCamera().then((camera) => {
-        camera.zoom = Math.max((camera.zoom || 10) - 1, 3);
-        mapRef.current?.animateCamera(camera, { duration: 300 });
-      });
+      const newRegion = {
+        ...region,
+        latitudeDelta: Math.min(region.latitudeDelta * 2, 10),
+        longitudeDelta: Math.min(region.longitudeDelta * 2, 10),
+      };
+      setRegion(newRegion);
+      mapRef.current.animateToRegion(newRegion, 300);
     }
   };
 
@@ -312,68 +343,6 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
     },
   });
 
-  const mapStyle = isDarkMode ? [
-    {
-      "elementType": "geometry",
-      "stylers": [
-        {
-          "color": "#212121"
-        }
-      ]
-    },
-    {
-      "elementType": "labels.icon",
-      "stylers": [
-        {
-          "visibility": "off"
-        }
-      ]
-    },
-    {
-      "elementType": "labels.text.fill",
-      "stylers": [
-        {
-          "color": "#757575"
-        }
-      ]
-    },
-    {
-      "elementType": "labels.text.stroke",
-      "stylers": [
-        {
-          "color": "#212121"
-        }
-      ]
-    },
-    {
-      "featureType": "administrative",
-      "elementType": "geometry",
-      "stylers": [
-        {
-          "color": "#757575"
-        }
-      ]
-    },
-    {
-      "featureType": "administrative.country",
-      "elementType": "labels.text.fill",
-      "stylers": [
-        {
-          "color": "#9e9e9e"
-        }
-      ]
-    },
-    {
-      "featureType": "water",
-      "elementType": "geometry",
-      "stylers": [
-        {
-          "color": "#000000"
-        }
-      ]
-    }
-  ] : [];
-
   return (
     <SafeAreaView style={styles.container}>
       {!hideHeader && (
@@ -387,13 +356,11 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
       <MapView
         ref={mapRef}
         style={styles.map}
-        provider={PROVIDER_GOOGLE}
         initialRegion={region}
         showsUserLocation={true}
         showsMyLocationButton={false}
         showsCompass={false}
         showsScale={false}
-        customMapStyle={mapStyle}
         onPress={() => setSelectedLocation(null)}
       >
         {/* Primary pulsating marker at center */}
