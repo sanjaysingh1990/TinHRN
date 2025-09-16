@@ -30,6 +30,8 @@ import { useTheme } from '../../../../hooks/useTheme';
 import { MapViewExploreScreenViewModelToken } from '../../explore.di';
 import ExploreCardShimmer from '../components/ExploreCardShimmer';
 import { ExploreLocation, MapViewExploreScreenViewModel } from '../viewmodels/MapViewExploreScreenViewModel';
+import ExploreFilterBottomSheet from './ExploreFilterBottomSheet';
+import { FilterState } from './ExploreFilterViewModel';
 
 const { width, height } = Dimensions.get('window');
 
@@ -56,6 +58,7 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
   const [exploreData, setExploreData] = useState<ExploreLocation[]>([]);
   const [searchText, setSearchText] = useState('');
   const [selectedLocation, setSelectedLocation] = useState<ExploreLocation | null>(null);
+  const [showFilterSheet, setShowFilterSheet] = useState(false);
   const mapRef = useRef<any>(null);
   
   // Animation for pulsating marker
@@ -159,6 +162,15 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
     if (mapRef.current) {
       mapRef.current.animateToRegion(region, 1000);
     }
+  };
+
+  const handleFilterPress = () => {
+    setShowFilterSheet(true);
+  };
+
+  const handleApplyFilters = (filters: FilterState) => {
+    viewModel.applyFilters(filters);
+    setShowFilterSheet(false);
   };
 
   const renderExploreCard = ({ item, index }: { item: ExploreLocation; index: number }) => (
@@ -425,7 +437,7 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
             onChangeText={setSearchText}
           />
         </View>
-        <TouchableOpacity style={styles.filterButton}>
+        <TouchableOpacity style={styles.filterButton} onPress={handleFilterPress}>
           <MaterialIcons name="tune" size={24} color={colors.text} />
         </TouchableOpacity>
       </View>
@@ -470,6 +482,13 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
           />
         )}
       </View>
+      
+      {/* Filter Bottom Sheet */}
+      <ExploreFilterBottomSheet
+        visible={showFilterSheet}
+        onClose={() => setShowFilterSheet(false)}
+        onApplyFilters={handleApplyFilters}
+      />
     </SafeAreaView>
   );
 };

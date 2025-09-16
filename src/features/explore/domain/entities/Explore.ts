@@ -29,6 +29,10 @@ export interface ExploreLocation {
   imageUrl: string;
   latitude: number;
   longitude: number;
+  difficulty?: string;
+  terrain?: string[];
+  amenities?: string[];
+  duration?: number;
 }
 
 export interface ExploreData {

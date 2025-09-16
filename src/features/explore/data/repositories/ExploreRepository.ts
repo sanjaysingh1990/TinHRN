@@ -1,6 +1,7 @@
 import { injectable } from 'tsyringe';
 import { Category, Destination, ExploreData, ExploreLocation, TopTrek } from '../../domain/entities/Explore';
 import { IExploreRepository } from '../../domain/repositories/IExploreRepository';
+import { FilterState } from '../../presentation/screens/ExploreFilterViewModel';
 
 const dummyCategories: Category[] = [
   {
@@ -74,7 +75,11 @@ const dummyExploreLocations: ExploreLocation[] = [
     description: "Experience the beauty of the Annapurna range with stunning mountain views.",
     imageUrl: "https://picsum.photos/400/200?random=1",
     latitude: 28.5306,
-    longitude: 83.8795
+    longitude: 83.8795,
+    difficulty: "Moderate",
+    terrain: ["Mountainous", "Forest"],
+    amenities: ["Restrooms", "Water Sources"],
+    duration: 14
   },
   {
     id: "2",
@@ -82,7 +87,11 @@ const dummyExploreLocations: ExploreLocation[] = [
     description: "Challenge yourself with the world's highest peak and surrounding valleys.",
     imageUrl: "https://picsum.photos/400/200?random=2",
     latitude: 27.9881,
-    longitude: 86.925
+    longitude: 86.925,
+    difficulty: "Challenging",
+    terrain: ["Mountainous"],
+    amenities: ["Water Sources"],
+    duration: 16
   },
   {
     id: "3",
@@ -90,7 +99,11 @@ const dummyExploreLocations: ExploreLocation[] = [
     description: "Immerse yourself in the serene Langtang Valley with its pristine landscapes.",
     imageUrl: "https://picsum.photos/400/200?random=3",
     latitude: 28.2111,
-    longitude: 85.5533
+    longitude: 85.5533,
+    difficulty: "Easy",
+    terrain: ["Forest", "River"],
+    amenities: ["Restrooms"],
+    duration: 12
   },
   {
     id: "4",
@@ -98,7 +111,11 @@ const dummyExploreLocations: ExploreLocation[] = [
     description: "Trek through remote villages and witness the majestic Manaslu peak.",
     imageUrl: "https://picsum.photos/400/200?random=4",
     latitude: 28.549,
-    longitude: 84.5621
+    longitude: 84.5621,
+    difficulty: "Challenging",
+    terrain: ["Mountainous", "Forest"],
+    amenities: ["Water Sources"],
+    duration: 18
   },
   {
     id: "5",
@@ -106,7 +123,35 @@ const dummyExploreLocations: ExploreLocation[] = [
     description: "Visit the sacred Gokyo lakes with breathtaking Himalayan views.",
     imageUrl: "https://picsum.photos/400/200?random=5",
     latitude: 27.9618,
-    longitude: 86.6882
+    longitude: 86.6882,
+    difficulty: "Moderate",
+    terrain: ["Mountainous", "River"],
+    amenities: ["Restrooms", "Water Sources"],
+    duration: 15
+  },
+  {
+    id: "6",
+    title: "Short Valley Walk",
+    description: "Easy walk through peaceful valleys with basic facilities.",
+    imageUrl: "https://picsum.photos/400/200?random=6",
+    latitude: 28.1234,
+    longitude: 84.1234,
+    difficulty: "Easy",
+    terrain: ["Forest"],
+    amenities: ["Restrooms"],
+    duration: 3
+  },
+  {
+    id: "7",
+    title: "River Valley Adventure",
+    description: "Follow mountain rivers through scenic valleys.",
+    imageUrl: "https://picsum.photos/400/200?random=7",
+    latitude: 27.5678,
+    longitude: 85.9876,
+    difficulty: "Easy",
+    terrain: ["River", "Forest"],
+    amenities: ["Water Sources"],
+    duration: 5
   }
 ];
 
@@ -167,10 +212,42 @@ export class ExploreRepository implements IExploreRepository {
     });
   }
 
-  async getExploreLocationsData(): Promise<ExploreLocation[]> {
+  async getExploreLocationsData(filters?: FilterState): Promise<ExploreLocation[]> {
     return new Promise(resolve => {
       setTimeout(() => {
-        resolve(dummyExploreLocations);
+        let filteredData = [...dummyExploreLocations];
+        
+        if (filters) {
+          // Filter by difficulty
+          if (filters.difficulty) {
+            filteredData = filteredData.filter(item => item.difficulty === filters.difficulty);
+          }
+          
+          // Filter by terrain (item must have ALL selected terrains)
+          if (filters.terrains && filters.terrains.length > 0) {
+            filteredData = filteredData.filter(item => 
+              filters.terrains!.every(terrain => item.terrain?.includes(terrain))
+            );
+          }
+          
+          // Filter by amenities (item must have ALL selected amenities)
+          if (filters.amenities && filters.amenities.length > 0) {
+            filteredData = filteredData.filter(item => 
+              filters.amenities!.every(amenity => item.amenities?.includes(amenity))
+            );
+          }
+          
+          // Filter by duration range
+          if (filters.durationRange) {
+            const [minDuration, maxDuration] = filters.durationRange;
+            filteredData = filteredData.filter(item => {
+              const duration = item.duration || 0;
+              return duration >= minDuration && (maxDuration >= 14 ? duration >= minDuration : duration <= maxDuration);
+            });
+          }
+        }
+        
+        resolve(filteredData);
       }, 1000); // 1 second delay as requested
     });
   }

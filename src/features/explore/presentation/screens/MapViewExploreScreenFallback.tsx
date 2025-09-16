@@ -13,11 +13,14 @@ import {
   View,
   ImageBackground,
 } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
 import container from '../../../../container';
 import { useTheme } from '../../../../hooks/useTheme';
 import { MapViewExploreScreenViewModelToken } from '../../explore.di';
 import ExploreCardShimmer from '../components/ExploreCardShimmer';
 import { ExploreLocation, MapViewExploreScreenViewModel } from '../viewmodels/MapViewExploreScreenViewModel';
+import ExploreFilterBottomSheet from './ExploreFilterBottomSheet';
+import { FilterState } from './ExploreFilterViewModel';
 
 const { width } = Dimensions.get('window');
 
@@ -31,6 +34,7 @@ const MapViewExploreScreenFallback: React.FC<MapViewExploreScreenFallbackProps> 
   const [loading, setLoading] = useState(true);
   const [exploreData, setExploreData] = useState<ExploreLocation[]>([]);
   const [searchText, setSearchText] = useState('');
+  const [showFilterSheet, setShowFilterSheet] = useState(false);
 
   useEffect(() => {
     // Set up ViewModel callback
@@ -46,6 +50,15 @@ const MapViewExploreScreenFallback: React.FC<MapViewExploreScreenFallbackProps> 
       viewModel.reset();
     };
   }, []);
+
+  const handleFilterPress = () => {
+    setShowFilterSheet(true);
+  };
+
+  const handleApplyFilters = (filters: FilterState) => {
+    viewModel.applyFilters(filters);
+    setShowFilterSheet(false);
+  };
 
   const renderExploreCard = ({ item, index }: { item: ExploreLocation; index: number }) => (
     <TouchableOpacity 
@@ -249,7 +262,7 @@ const MapViewExploreScreenFallback: React.FC<MapViewExploreScreenFallbackProps> 
             onChangeText={setSearchText}
           />
         </View>
-        <TouchableOpacity style={styles.filterButton}>
+        <TouchableOpacity style={styles.filterButton} onPress={handleFilterPress}>
           <MaterialIcons name="tune" size={24} color={colors.text} />
         </TouchableOpacity>
       </View>
@@ -279,6 +292,13 @@ const MapViewExploreScreenFallback: React.FC<MapViewExploreScreenFallbackProps> 
           />
         )}
       </View>
+      
+      {/* Filter Bottom Sheet */}
+      <ExploreFilterBottomSheet
+        visible={showFilterSheet}
+        onClose={() => setShowFilterSheet(false)}
+        onApplyFilters={handleApplyFilters}
+      />
     </SafeAreaView>
   );
 };
