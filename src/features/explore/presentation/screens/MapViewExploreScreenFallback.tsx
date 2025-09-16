@@ -106,7 +106,7 @@ const MapViewExploreScreenFallback: React.FC<MapViewExploreScreenFallbackProps> 
     },
     searchRow: {
       position: 'absolute',
-      top: hideHeader ? 60 : 100,
+      top: hideHeader ? 120 : 140,
       left: 20,
       right: 20,
       flexDirection: 'row',

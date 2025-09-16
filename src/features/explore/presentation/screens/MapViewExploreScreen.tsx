@@ -200,7 +200,7 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
     },
     searchRow: {
       position: 'absolute',
-      top: hideHeader ? 60 : 100,
+      top: hideHeader ? 120 : 140,
       left: 20,
       right: 20,
       flexDirection: 'row',
