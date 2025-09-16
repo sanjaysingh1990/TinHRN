@@ -196,7 +196,7 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
       backgroundColor: colors.background,
     },
     map: {
-      flex: 1,
+      ...StyleSheet.absoluteFillObject,
     },
     searchRow: {
       position: 'absolute',

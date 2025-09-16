@@ -81,11 +81,15 @@ const MapViewExploreScreenFallback: React.FC<MapViewExploreScreenFallbackProps> 
       backgroundColor: colors.background,
     },
     mapContainer: {
-      flex: 1,
-      position: 'relative',
+      ...StyleSheet.absoluteFillObject,
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
     },
     mapPlaceholder: {
-      flex: 1,
+      ...StyleSheet.absoluteFillObject,
       justifyContent: 'center',
       alignItems: 'center',
     },

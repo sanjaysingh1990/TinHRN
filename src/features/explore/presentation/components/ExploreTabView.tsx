@@ -58,15 +58,19 @@ const ExploreTabView: React.FC<ExploreTabViewProps> = ({ onSearchPress }) => {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: colors.background,
+      backgroundColor: 'transparent',
     },
     tabBarContainer: {
-      backgroundColor: colors.background,
-      borderBottomWidth: 1,
-      borderBottomColor: colors.borderColor,
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      backgroundColor: 'transparent',
+      borderBottomWidth: 0,
       paddingTop: 40,
       paddingHorizontal: 20,
       paddingBottom: 0,
+      zIndex: 1000,
     },
     tabBar: {
       flexDirection: 'row',
@@ -101,6 +105,7 @@ const ExploreTabView: React.FC<ExploreTabViewProps> = ({ onSearchPress }) => {
     },
     pagerView: {
       flex: 1,
+      marginTop: 0,
     },
     tabContent: {
       flex: 1,
