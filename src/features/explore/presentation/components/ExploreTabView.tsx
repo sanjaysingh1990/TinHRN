@@ -64,21 +64,9 @@ const ExploreTabView: React.FC<ExploreTabViewProps> = ({ onSearchPress }) => {
       backgroundColor: colors.background,
       borderBottomWidth: 1,
       borderBottomColor: colors.borderColor,
-      paddingTop: 50,
+      paddingTop: 40,
       paddingHorizontal: 20,
       paddingBottom: 0,
-    },
-    header: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      marginBottom: 20,
-    },
-    headerTitle: {
-      fontSize: 28,
-      fontWeight: 'bold',
-      color: colors.text,
-      fontFamily: 'SplineSans',
     },
     tabBar: {
       flexDirection: 'row',
@@ -122,10 +110,6 @@ const ExploreTabView: React.FC<ExploreTabViewProps> = ({ onSearchPress }) => {
   return (
     <View style={styles.container}>
       <View style={styles.tabBarContainer}>
-        <View style={styles.header}>
-          <Text style={styles.headerTitle}>Explore</Text>
-        </View>
-        
         <View style={styles.tabBar}>
           {tabs.map((tab, index) => (
             <TouchableOpacity
