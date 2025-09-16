@@ -2,15 +2,15 @@ import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { useRouter } from 'expo-router';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
-    Alert,
-    FlatList,
-    Linking,
-    ScrollView,
-    StatusBar,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View
+  Alert,
+  FlatList,
+  Linking,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
 } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -22,10 +22,11 @@ import { Favorite } from '../../domain/models/Favorite';
 import { ProfileViewModelToken } from '../../profile.di';
 import AccountItem from '../components/AccountItem';
 import AchievementItem from '../components/AchievementItem';
+import AchievementsShimmer from '../components/AchievementsShimmer';
 import FavoriteCard from '../components/FavoriteCard';
+import FavoritesShimmer from '../components/FavoritesShimmer';
 import PreferenceItem from '../components/PreferenceItem';
 import ProfileHeader from '../components/ProfileHeader';
-import ProfileSkeleton from '../components/ProfileSkeleton';
 import { ProfileViewModel } from '../viewmodels/ProfileViewModel';
 
 const ProfileScreen = () => {
@@ -34,7 +35,8 @@ const ProfileScreen = () => {
   const { locale, setLocale } = useI18n();
   const [achievements, setAchievements] = useState<Achievement[]>([]);
   const [favorites, setFavorites] = useState<Favorite[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [achievementsLoading, setAchievementsLoading] = useState(true);
+  const [favoritesLoading, setFavoritesLoading] = useState(true);
   const [notifications, setNotifications] = useState(true);
   const [language, setLanguage] = useState(locale === 'hi' ? 'Hindi' : 'English');
 
@@ -80,13 +82,17 @@ const ProfileScreen = () => {
 
   useEffect(() => {
     const viewModel = container.resolve<ProfileViewModel>(ProfileViewModelToken);
-    Promise.all([
-      viewModel.getAchievements(),
-      viewModel.getFavorites(),
-    ]).then(([achievements, favorites]) => {
+    
+    // Load achievements
+    viewModel.getAchievements().then((achievements) => {
       setAchievements(achievements);
+      setAchievementsLoading(false);
+    });
+    
+    // Load favorites
+    viewModel.getFavorites().then((favorites) => {
       setFavorites(favorites);
-      setLoading(false);
+      setFavoritesLoading(false);
     });
   }, []);
 
@@ -162,23 +168,31 @@ const ProfileScreen = () => {
         <StatusBar barStyle={isDarkMode ? "light-content" : "dark-content"} />
         <ScrollView style={styles.scrollView}>
           <ProfileHeader />
-          {loading ? <ProfileSkeleton /> : (
-            <View style={styles.content}>
-              <View style={styles.card}>
-                <View style={styles.badge}>
-                  <Text style={styles.badgeText}>ACHIEVEMENTS</Text>
-                </View>
+          <View style={styles.content}>
+            {/* Achievements Section */}
+            <View style={styles.card}>
+              <View style={styles.badge}>
+                <Text style={styles.badgeText}>ACHIEVEMENTS</Text>
+              </View>
+              {achievementsLoading ? (
+                <AchievementsShimmer />
+              ) : (
                 <View style={styles.grid}>
                   {achievements.map(item => (
                     <AchievementItem key={item.id} achievement={item} />
                   ))}
                 </View>
-              </View>
+              )}
+            </View>
 
-              <View style={styles.card}>
-                <View style={styles.badge}>
-                  <Text style={styles.badgeText}>FAVORITES</Text>
-                </View>
+            {/* Favorites Section */}
+            <View style={styles.card}>
+              <View style={styles.badge}>
+                <Text style={styles.badgeText}>FAVORITES</Text>
+              </View>
+              {favoritesLoading ? (
+                <FavoritesShimmer />
+              ) : (
                 <FlatList
                   data={favorites}
                   horizontal
@@ -186,7 +200,8 @@ const ProfileScreen = () => {
                   renderItem={({ item }) => <FavoriteCard favorite={item} />}
                   keyExtractor={item => item.id.toString()}
                 />
-              </View>
+              )}
+            </View>
 
               <View style={styles.card}>
                 <View style={styles.badge}>
@@ -225,11 +240,10 @@ const ProfileScreen = () => {
                 <AccountItem icon="description" title="Terms and Conditions" onPress={handleTermsAndConditions} />
               </View>
 
-              <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-                <Text style={styles.logoutButtonText}>Logout</Text>
-              </TouchableOpacity>
-            </View>
-          )}
+            <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+              <Text style={styles.logoutButtonText}>Logout</Text>
+            </TouchableOpacity>
+          </View>
         </ScrollView>
         <BottomSheet
           ref={bottomSheetRef}

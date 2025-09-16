@@ -1,12 +1,11 @@
 import { inject, injectable } from 'tsyringe';
-import { 
-  CustomizeTourData, 
-  CustomizationSelection, 
-  TentOption, 
-  AddOn 
+import { CustomizeTourRepositoryToken } from '../../data/di/tokens';
+import {
+    CustomizationSelection,
+    CustomizeTourData,
+    TentOption
 } from '../../domain/entities/CustomizeTour';
 import { ICustomizeTourRepository } from '../../domain/repositories/ICustomizeTourRepository';
-import { CustomizeTourRepositoryToken } from '../../data/di/tokens';
 
 @injectable()
 export class CustomizeTourViewModel {

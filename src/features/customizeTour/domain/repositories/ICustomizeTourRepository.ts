@@ -1,4 +1,4 @@
-import { CustomizeTourData, CustomizationSelection } from '../entities/CustomizeTour';
+import { CustomizationSelection, CustomizeTourData } from '../entities/CustomizeTour';
 
 export interface ICustomizeTourRepository {
   getCustomizationData(): Promise<CustomizeTourData>;

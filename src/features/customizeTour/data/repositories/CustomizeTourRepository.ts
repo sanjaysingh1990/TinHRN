@@ -1,10 +1,10 @@
 import { injectable } from 'tsyringe';
-import { 
-  CustomizeTourData, 
-  CustomizationSelection, 
-  TentOption, 
-  AddOn, 
-  SupportOption 
+import {
+    AddOn,
+    CustomizationSelection,
+    CustomizeTourData,
+    SupportOption,
+    TentOption
 } from '../../domain/entities/CustomizeTour';
 import { ICustomizeTourRepository } from '../../domain/repositories/ICustomizeTourRepository';
 
