@@ -58,7 +58,7 @@ const ExploreTabView: React.FC<ExploreTabViewProps> = ({ onSearchPress }) => {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: 'transparent',
+      backgroundColor: activeTab === 1 ? 'transparent' : colors.backgroundColor,
     },
     tabBarContainer: {
       position: 'absolute',
