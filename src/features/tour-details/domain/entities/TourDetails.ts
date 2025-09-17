@@ -1,8 +1,13 @@
-
 export interface ItineraryItem {
   day: string;
   title: string;
   icon: string;
+  location?: string;
+  activity?: string;
+  accommodation?: string;
+  transport?: string;
+  distance?: string;
+  duration?: string;
 }
 
 export interface Review {
@@ -15,6 +20,8 @@ export interface Review {
 }
 
 export interface TourDetails {
+  id: string;
+  name: string;
   overview: string;
   itinerary: ItineraryItem[];
   pricing: {
@@ -22,4 +29,15 @@ export interface TourDetails {
     premium: string;
   };
   reviews: Review[];
+  highlights: string[];
+  includes: string[];
+  excludes: string[];
+  image: string;
+  duration: string;
+  difficulty: string;
+  altitude: string;
+  location: {
+    country: string;
+    region: string;
+  };
 }

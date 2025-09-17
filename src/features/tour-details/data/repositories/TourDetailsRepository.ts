@@ -1,5 +1,6 @@
-
+import { collection, doc, getDoc, getDocs, limit, orderBy, query, startAfter } from 'firebase/firestore';
 import { injectable } from 'tsyringe';
+import { firestore } from '../../../../infrastructure/firebase/firebase.config';
 import { TourDetails } from '../../domain/entities/TourDetails';
 import { ITourDetailsRepository } from '../../domain/repositories/ITourDetailsRepository';
 
@@ -11,93 +12,155 @@ export interface BookingConfirmation {
   totalAmount: string;
 }
 
-const dummyDetails: TourDetails = {
-  overview:
-    'The Annapurna Base Camp trek is one of the most popular treks in the Annapurna region. The trail goes alongside terraced rice paddies, lush rhododendron forests, and high altitude landscapes with the Annapurna Range in view most of the time.',
-  itinerary: [
-    { day: '01', title: 'Arrival in Kathmandu', icon: 'terrain' },
-    { day: '02', title: 'Drive to Pokhara', icon: 'terrain' },
-    { day: '03', title: 'Trek to Ghandruk', icon: 'terrain' },
-    { day: '04', title: 'Trek to Chhomrong', icon: 'terrain' },
-  ],
-  pricing: {
-    standard: '$1,200 / person',
-    premium: '$1,800 / person',
-  },
-  reviews: [
-    {
-      id: '1',
-      avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
-      name: 'Jane Doe',
-      date: '2 weeks ago',
-      rating: 5,
-      review:
-        'An absolutely breathtaking experience! The views were surreal and the guide was fantastic. Highly recommend this to anyone looking for an adventure.',
-    },
-    {
-      id: '2',
-      avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
-      name: 'John Smith',
-      date: '1 month ago',
-      rating: 4,
-      review:
-        'A well-organized trek. The itinerary was perfectly paced. The only downside was the weather on one of the days, but that’s beyond anyone’s control.',
-    },
-  ],
-};
-
 @injectable()
 export class TourDetailsRepository implements ITourDetailsRepository {
   async getTourDetails(tourId: string): Promise<TourDetails> {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(dummyDetails);
-      }, 5000);
-    });
+    try {
+      // Fetch tour details from Firestore
+      const tourDoc = await getDoc(doc(firestore, 'tours', tourId));
+      
+      if (!tourDoc.exists()) {
+        throw new Error('Tour not found');
+      }
+      
+      const tourData = tourDoc.data();
+      
+      // Fetch latest 5 reviews from Firestore
+      const reviewsCollection = collection(firestore, `tours/${tourId}/reviews`);
+      const reviewsQuery = query(reviewsCollection, orderBy('createdAt', 'desc'), limit(5));
+      const reviewsSnapshot = await getDocs(reviewsQuery);
+      
+      const reviews = reviewsSnapshot.docs.map(reviewDoc => {
+        const reviewData = reviewDoc.data();
+        return {
+          id: reviewDoc.id,
+          avatar: reviewData.userPhotoURL || 'https://randomuser.me/api/portraits/lego/1.jpg',
+          name: reviewData.userName || 'Anonymous',
+          date: reviewData.createdAt ? new Date(reviewData.createdAt._seconds * 1000).toLocaleDateString() : 'Unknown date',
+          rating: reviewData.rating || 0,
+          review: reviewData.review || ''
+        };
+      });
+      
+      // Process itinerary data
+      const itinerary = tourData.itinerary ? tourData.itinerary.map((item: any, index: number) => ({
+        day: item.day?.toString() || (index + 1).toString(),
+        title: item.activity || item.title || `Day ${index + 1}`,
+        icon: 'terrain',
+        location: item.location || '',
+        activity: item.activity || '',
+        accommodation: item.accommodation || '',
+        transport: item.transport || '',
+        distance: item.distance || '',
+        duration: item.duration || ''
+      })) : [];
+      
+      // Format pricing
+      const pricing = {
+        standard: tourData.price?.standard ? `$${tourData.price.standard.toLocaleString()} / person` : '$0 / person',
+        premium: tourData.price?.premium ? `$${tourData.price.premium.toLocaleString()} / person` : '$0 / person'
+      };
+      
+      return {
+        id: tourDoc.id,
+        name: tourData.name || '',
+        overview: tourData.description || '',
+        itinerary,
+        pricing,
+        reviews,
+        highlights: tourData.highlights || [],
+        includes: tourData.includes || [],
+        excludes: tourData.excludes || [],
+        image: tourData.image || '',
+        duration: tourData.duration || '',
+        difficulty: tourData.difficulty || '',
+        altitude: tourData.altitude || '',
+        location: {
+          country: tourData.location?.country || '',
+          region: tourData.location?.region || ''
+        }
+      };
+    } catch (error) {
+      console.error('Error fetching tour details from Firebase:', error);
+      throw error;
+    }
+  }
+
+  async getTourReviews(tourId: string, limitCount: number, startAfterDoc?: any): Promise<any[]> {
+    try {
+      const reviewsCollection = collection(firestore, `tours/${tourId}/reviews`);
+      let reviewsQuery;
+      
+      if (startAfterDoc) {
+        reviewsQuery = query(
+          reviewsCollection, 
+          orderBy('createdAt', 'desc'), 
+          startAfter(startAfterDoc), 
+          limit(limitCount)
+        );
+      } else {
+        reviewsQuery = query(
+          reviewsCollection, 
+          orderBy('createdAt', 'desc'), 
+          limit(limitCount)
+        );
+      }
+      
+      const reviewsSnapshot = await getDocs(reviewsQuery);
+      
+      const reviews = reviewsSnapshot.docs.map(reviewDoc => {
+        const reviewData = reviewDoc.data();
+        return {
+          id: reviewDoc.id,
+          avatar: reviewData.userPhotoURL || 'https://randomuser.me/api/portraits/lego/1.jpg',
+          name: reviewData.userName || 'Anonymous',
+          date: reviewData.createdAt ? new Date(reviewData.createdAt._seconds * 1000).toLocaleDateString() : 'Unknown date',
+          rating: reviewData.rating || 0,
+          review: reviewData.review || '',
+          doc: reviewDoc // Include the document for pagination
+        };
+      });
+      
+      return reviews;
+    } catch (error) {
+      console.error('Error fetching tour reviews from Firebase:', error);
+      throw error;
+    }
   }
 
   async bookTour(tourId: string): Promise<{ bookingId: string }> {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        const bookingId = 'BKG-' + Math.random().toString(36).substr(2, 8).toUpperCase();
-        resolve({ bookingId });
-      }, 3000); // 3 seconds delay as requested
-    });
+    // Generate a booking ID without artificial delay
+    const bookingId = 'BKG-' + Math.random().toString(36).substr(2, 8).toUpperCase();
+    return { bookingId };
   }
 
   async getBookingDetails(bookingId: string): Promise<BookingConfirmation> {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve({
-          tourName: 'Annapurna Base Camp Trek',
-          bookingReference: bookingId,
-          date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString('en-GB', {
-            day: '2-digit',
-            month: 'short',
-            year: 'numeric'
-          }),
-          duration: '14 Days',
-          totalAmount: '$1,200'
-        });
-      }, 2000); // 2s delay for fetching booking details
-    });
+    // Return booking details without artificial delay
+    return {
+      tourName: 'Annapurna Base Camp Trek',
+      bookingReference: bookingId,
+      date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric'
+      }),
+      duration: '14 Days',
+      totalAmount: '$1,200'
+    };
   }
 
   async confirmBooking(tourId: string): Promise<BookingConfirmation> {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve({
-          tourName: 'Annapurna Base Camp Trek',
-          bookingReference: 'THB-2024-' + Math.random().toString(36).substr(2, 6).toUpperCase(),
-          date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString('en-GB', {
-            day: '2-digit',
-            month: 'short',
-            year: 'numeric'
-          }),
-          duration: '14 Days',
-          totalAmount: '$1,200'
-        });
-      }, 2000); // 2s delay as requested
-    });
+    // Return confirmation without artificial delay
+    return {
+      tourName: 'Annapurna Base Camp Trek',
+      bookingReference: 'THB-2024-' + Math.random().toString(36).substr(2, 6).toUpperCase(),
+      date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric'
+      }),
+      duration: '14 Days',
+      totalAmount: '$1,200'
+    };
   }
 }

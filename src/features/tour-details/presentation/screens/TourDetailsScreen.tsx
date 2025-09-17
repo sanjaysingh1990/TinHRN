@@ -1,4 +1,3 @@
-
 import { MaterialIcons } from '@expo/vector-icons';
 import { BlurView } from 'expo-blur';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -11,7 +10,10 @@ import {
     StyleSheet,
     Text,
     TouchableOpacity,
-    View
+    View,
+    Modal,
+    Dimensions,
+    RefreshControl
 } from 'react-native';
 
 import container from '../../../../container';
@@ -21,13 +23,21 @@ import { TourDetailsViewModelToken } from '../../tour-details.di';
 import TourDetailsSkeleton from '../components/TourDetailsSkeleton';
 import { TourDetailsViewModel } from '../viewmodels/TourDetailsViewModel';
 
+const { width } = Dimensions.get('window');
+
 const TourDetailsScreen = () => {
   const router = useRouter();
   const { colors, isDarkMode } = useTheme();
-  const { id, name, image } = useLocalSearchParams();
+  const { id } = useLocalSearchParams();
   const [details, setDetails] = useState<TourDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const [bookingLoading, setBookingLoading] = useState(false);
+  const [itineraryModalVisible, setItineraryModalVisible] = useState(false);
+  const [reviewsModalVisible, setReviewsModalVisible] = useState(false);
+  const [allReviews, setAllReviews] = useState<any[]>([]);
+  const [reviewsLoading, setReviewsLoading] = useState(false);
+  const [lastReviewDoc, setLastReviewDoc] = useState<any>(null);
+  const [hasMoreReviews, setHasMoreReviews] = useState(true);
 
   useEffect(() => {
     const viewModel = container.resolve<TourDetailsViewModel>(TourDetailsViewModelToken);
@@ -36,6 +46,36 @@ const TourDetailsScreen = () => {
       setLoading(false);
     });
   }, [id]);
+
+  const loadReviews = async (loadMore = false) => {
+    if (reviewsLoading || (!loadMore && allReviews.length > 0)) return;
+    
+    setReviewsLoading(true);
+    try {
+      const viewModel = container.resolve<TourDetailsViewModel>(TourDetailsViewModelToken);
+      const reviews = await viewModel.getTourReviews(
+        id as string, 
+        10, 
+        loadMore ? lastReviewDoc : undefined
+      );
+      
+      if (loadMore) {
+        setAllReviews(prev => [...prev, ...reviews]);
+      } else {
+        setAllReviews(reviews);
+      }
+      
+      if (reviews.length > 0) {
+        setLastReviewDoc(reviews[reviews.length - 1].doc);
+      }
+      
+      setHasMoreReviews(reviews.length === 10);
+    } catch (error) {
+      console.error('Error loading reviews:', error);
+    } finally {
+      setReviewsLoading(false);
+    }
+  };
 
   const onBackPress = () => router.back();
   
@@ -75,6 +115,124 @@ const TourDetailsScreen = () => {
     }
     return stars;
   };
+
+  const renderChips = (items: string[], title: string) => {
+    if (!items || items.length === 0) return null;
+    
+    return (
+      <View style={styles.card}>
+        <View style={styles.badge}>
+          <Text style={styles.badgeText}>{title.toUpperCase()}</Text>
+        </View>
+        <View style={styles.chipsContainer}>
+          {items.map((item, index) => (
+            <View key={index} style={styles.chip}>
+              <Text style={styles.chipText}>{item}</Text>
+            </View>
+          ))}
+        </View>
+      </View>
+    );
+  };
+
+  const renderSeeMoreButton = (onPress: () => void) => (
+    <TouchableOpacity onPress={onPress} style={styles.seeMoreButton}>
+      <Text style={styles.seeMoreText}>See More</Text>
+      <MaterialIcons name="arrow-forward" size={16} color={colors.primary} />
+    </TouchableOpacity>
+  );
+
+  const ItineraryModal = () => (
+    <Modal
+      animationType="slide"
+      transparent={false}
+      visible={itineraryModalVisible}
+      onRequestClose={() => setItineraryModalVisible(false)}
+    >
+      <View style={styles.modalContainer}>
+        <View style={styles.modalHeader}>
+          <Text style={styles.modalTitle}>Full Itinerary</Text>
+          <TouchableOpacity onPress={() => setItineraryModalVisible(false)}>
+            <MaterialIcons name="close" size={24} color={colors.text} />
+          </TouchableOpacity>
+        </View>
+        <ScrollView style={styles.modalContent}>
+          {details?.itinerary.map((item, index) => (
+            <View key={index} style={styles.itineraryItem}>
+              <View style={styles.itineraryMarker}>
+                <View style={styles.itineraryIconContainer}>
+                  <MaterialIcons name="terrain" size={16} color={isDarkMode ? '#111714' : '#fff'} />
+                </View>
+                {index < details.itinerary.length - 1 && <View style={styles.itineraryLine} />}
+              </View>
+              <View style={styles.itineraryContent}>
+                <Text style={styles.itineraryDay}>Day {item.day}</Text>
+                <Text style={styles.itineraryTitle}>{item.activity || item.title}</Text>
+                {item.location ? <Text style={styles.itineraryDetail}>Location: {item.location}</Text> : null}
+                {item.accommodation ? <Text style={styles.itineraryDetail}>Accommodation: {item.accommodation}</Text> : null}
+                {item.transport ? <Text style={styles.itineraryDetail}>Transport: {item.transport}</Text> : null}
+                {item.distance ? <Text style={styles.itineraryDetail}>Distance: {item.distance}</Text> : null}
+                {item.duration ? <Text style={styles.itineraryDetail}>Duration: {item.duration}</Text> : null}
+              </View>
+            </View>
+          ))}
+        </ScrollView>
+      </View>
+    </Modal>
+  );
+
+  const ReviewsModal = () => (
+    <Modal
+      animationType="slide"
+      transparent={false}
+      visible={reviewsModalVisible}
+      onRequestClose={() => setReviewsModalVisible(false)}
+    >
+      <View style={styles.modalContainer}>
+        <View style={styles.modalHeader}>
+          <Text style={styles.modalTitle}>All Reviews</Text>
+          <TouchableOpacity onPress={() => setReviewsModalVisible(false)}>
+            <MaterialIcons name="close" size={24} color={colors.text} />
+          </TouchableOpacity>
+        </View>
+        <ScrollView 
+          style={styles.modalContent}
+          refreshControl={
+            <RefreshControl
+              refreshing={reviewsLoading}
+              onRefresh={() => loadReviews(false)}
+              colors={[colors.primary]}
+            />
+          }
+        >
+          {allReviews.map((review) => (
+            <View key={review.id} style={styles.reviewItem}>
+              <Image source={{ uri: review.avatar }} style={styles.reviewAvatar} />
+              <View style={styles.reviewContent}>
+                <View style={styles.reviewHeader}>
+                  <Text style={styles.reviewName}>{review.name}</Text>
+                  <Text style={styles.reviewDate}>{review.date}</Text>
+                </View>
+                <View style={styles.reviewStars}>{renderStars(review.rating)}</View>
+                <Text style={styles.reviewText}>{review.review}</Text>
+              </View>
+            </View>
+          ))}
+          {hasMoreReviews && (
+            <TouchableOpacity 
+              onPress={() => loadReviews(true)} 
+              style={styles.loadMoreButton}
+              disabled={reviewsLoading}
+            >
+              <Text style={styles.loadMoreText}>
+                {reviewsLoading ? 'Loading...' : 'Load More Reviews'}
+              </Text>
+            </TouchableOpacity>
+          )}
+        </ScrollView>
+      </View>
+    </Modal>
+  );
 
   const styles = StyleSheet.create({
     container: {
@@ -160,6 +318,23 @@ const TourDetailsScreen = () => {
       lineHeight: 24,
       textAlign: 'center',
     },
+    chipsContainer: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      justifyContent: 'center',
+      width: '100%',
+    },
+    chip: {
+      backgroundColor: colors.primary + '20',
+      borderRadius: 16,
+      paddingVertical: 6,
+      paddingHorizontal: 12,
+      margin: 4,
+    },
+    chipText: {
+      color: colors.primary,
+      fontSize: 14,
+    },
     itineraryItem: {
       flexDirection: 'row',
       alignItems: 'flex-start',
@@ -200,6 +375,11 @@ const TourDetailsScreen = () => {
       fontSize: 16,
       fontWeight: 'bold',
       marginTop: 4,
+    },
+    itineraryDetail: {
+      color: colors.secondary,
+      fontSize: 14,
+      marginTop: 2,
     },
     pricingRow: {
       flexDirection: 'row',
@@ -256,6 +436,28 @@ const TourDetailsScreen = () => {
       fontSize: 14,
       lineHeight: 20,
     },
+    sectionHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      width: '100%',
+      marginBottom: 16,
+    },
+    sectionTitle: {
+      color: colors.text,
+      fontSize: 20,
+      fontWeight: 'bold',
+    },
+    seeMoreButton: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    seeMoreText: {
+      color: colors.primary,
+      fontSize: 14,
+      fontWeight: 'bold',
+      marginRight: 4,
+    },
     footer: {
       position: 'absolute',
       bottom: 50,
@@ -284,17 +486,46 @@ const TourDetailsScreen = () => {
       fontSize: 18,
       fontWeight: 'bold',
     },
+    modalContainer: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    modalHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      padding: 16,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.borderColor,
+    },
+    modalTitle: {
+      color: colors.text,
+      fontSize: 20,
+      fontWeight: 'bold',
+    },
+    modalContent: {
+      flex: 1,
+      padding: 16,
+    },
+    loadMoreButton: {
+      padding: 16,
+      alignItems: 'center',
+    },
+    loadMoreText: {
+      color: colors.primary,
+      fontSize: 16,
+      fontWeight: 'bold',
+    },
   });
 
   return (
     <View style={styles.container}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} backgroundColor={colors.background} />
+      
+      <ItineraryModal />
+      <ReviewsModal />
+      
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
-        <ImageBackground
-          source={{ uri: image as string || 'https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' }}
-          style={styles.heroImage}
-        />
-
         {loading ? <TourDetailsSkeleton /> : (
           <View style={styles.content}>
             {/* Overview Section */}
@@ -302,29 +533,41 @@ const TourDetailsScreen = () => {
               <View style={styles.badge}>
                 <Text style={styles.badgeText}>OVERVIEW</Text>
               </View>
-              <Text style={styles.cardTitle}>{name}</Text>
-              <Text style={styles.cardSubtitle}>{details?.itinerary.length} Days • Max Altitude: 4,130m</Text>
+              <Text style={styles.cardTitle}>{details?.name}</Text>
+              <Text style={styles.cardSubtitle}>{details?.duration} • Max Altitude: {details?.altitude}</Text>
               <Text style={styles.cardBody}>
                 {details?.overview}
               </Text>
             </View>
 
+            {/* Highlights Section */}
+            {renderChips(details?.highlights || [], 'Highlights')}
+
+            {/* Includes Section */}
+            {renderChips(details?.includes || [], 'Includes')}
+
+            {/* Excludes Section */}
+            {renderChips(details?.excludes || [], 'Excludes')}
+
             {/* Itinerary Section */}
             <View style={styles.card}>
-              <View style={styles.badge}>
-                <Text style={styles.badgeText}>ITINERARY</Text>
+              <View style={styles.sectionHeader}>
+                <Text style={styles.sectionTitle}>Itinerary</Text>
+                {details && details.itinerary.length > 5 && renderSeeMoreButton(() => setItineraryModalVisible(true))}
               </View>
-              {details?.itinerary.map((item, index) => (
+              {(details?.itinerary.slice(0, 5) || []).map((item, index) => (
                 <View key={index} style={styles.itineraryItem}>
                   <View style={styles.itineraryMarker}>
                     <View style={styles.itineraryIconContainer}>
-                      <MaterialIcons name={item.icon as any} size={16} color={isDarkMode ? '#111714' : '#fff'} />
+                      <MaterialIcons name="terrain" size={16} color={isDarkMode ? '#111714' : '#fff'} />
                     </View>
-                    {index < details.itinerary.length - 1 && <View style={styles.itineraryLine} />}
+                    {index < (details?.itinerary.slice(0, 5) || []).length - 1 && <View style={styles.itineraryLine} />}
                   </View>
                   <View style={styles.itineraryContent}>
                     <Text style={styles.itineraryDay}>Day {item.day}</Text>
-                    <Text style={styles.itineraryTitle}>{item.title}</Text>
+                    <Text style={styles.itineraryTitle}>{item.activity || item.title}</Text>
+                    {item.location ? <Text style={styles.itineraryDetail}>Location: {item.location}</Text> : null}
+                    {item.accommodation ? <Text style={styles.itineraryDetail}>Accommodation: {item.accommodation}</Text> : null}
                   </View>
                 </View>
               ))}
@@ -347,8 +590,12 @@ const TourDetailsScreen = () => {
 
             {/* Reviews Section */}
             <View style={styles.card}>
-              <View style={styles.badge}>
-                <Text style={styles.badgeText}>REVIEWS</Text>
+              <View style={styles.sectionHeader}>
+                <Text style={styles.sectionTitle}>Reviews</Text>
+                {details && details.reviews.length >= 5 && renderSeeMoreButton(() => {
+                  loadReviews();
+                  setReviewsModalVisible(true);
+                })}
               </View>
               {details?.reviews.map((review) => (
                 <View key={review.id} style={styles.reviewItem}>

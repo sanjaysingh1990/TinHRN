@@ -1,4 +1,3 @@
-
 import { inject, injectable } from 'tsyringe';
 import { BookingConfirmation } from '../../data/repositories/TourDetailsRepository';
 import { TourDetails } from '../../domain/entities/TourDetails';
@@ -13,6 +12,10 @@ export class TourDetailsViewModel {
 
   async getTourDetails(tourId: string): Promise<TourDetails> {
     return this.tourDetailsRepository.getTourDetails(tourId);
+  }
+
+  async getTourReviews(tourId: string, limit: number, startAfter?: any): Promise<any[]> {
+    return this.tourDetailsRepository.getTourReviews(tourId, limit, startAfter);
   }
 
   async bookTour(tourId: string): Promise<{ bookingId: string }> {
