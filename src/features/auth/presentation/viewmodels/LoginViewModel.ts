@@ -120,7 +120,9 @@ export class LoginViewModel {
     
     try {
       this.viewState.isLoading = true;
-      this.viewState.errors = {};
+      // Don't clear errors here, preserve them for the UI
+      // Only clear general errors
+      this.viewState.errors.general = undefined;
       this.notifyUpdate();
 
       console.log('[LoginViewModel] Validating form...');

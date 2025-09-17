@@ -30,7 +30,14 @@ const LoginScreen: React.FC = () => {
   useEffect(() => {
     viewModel.setUpdateCallback(() => {
       setViewState({ ...viewModel.viewState });
-      setFormData({ ...viewModel.formData });
+      // Only update formData if it's actually different to prevent unnecessary resets
+      setFormData(prevFormData => {
+        if (prevFormData.email !== viewModel.formData.email || 
+            prevFormData.password !== viewModel.formData.password) {
+          return { ...viewModel.formData };
+        }
+        return prevFormData;
+      });
       
       // Show error toast if there's a general error
       if (viewModel.viewState.errors.general && !showErrorToast) {
@@ -39,10 +46,11 @@ const LoginScreen: React.FC = () => {
       }
     });
 
+    // Don't reset the form when component unmounts to preserve user input
     return () => {
-      viewModel.reset();
+      // viewModel.reset(); // Commented out to preserve form data
     };
-  }, [showErrorToast]);
+  }, []); // Empty dependency array to only run once on mount
 
   const handleLogin = async () => {
     console.log('[LoginScreen] Starting login process...');
