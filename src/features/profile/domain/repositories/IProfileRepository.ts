@@ -1,4 +1,3 @@
-
 import { Achievement } from '../models/Achievement';
 import { Faq } from '../models/Faq';
 import { Favorite } from '../models/Favorite';
@@ -9,4 +8,5 @@ export interface IProfileRepository {
   getFavorites(): Promise<Favorite[]>;
   getTeamMembers(): Promise<TeamMember[]>;
   getFaqList(): Promise<Faq[]>;
+  getUserProfile(): Promise<any>;
 }

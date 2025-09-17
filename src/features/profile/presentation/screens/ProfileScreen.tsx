@@ -28,6 +28,7 @@ import FavoritesShimmer from '../components/FavoritesShimmer';
 import PreferenceItem from '../components/PreferenceItem';
 import ProfileHeader from '../components/ProfileHeader';
 import { ProfileViewModel } from '../viewmodels/ProfileViewModel';
+import { useAuth } from '../../../../features/auth/presentation/context/AuthContext';
 
 const ProfileScreen = () => {
   const router = useRouter();
@@ -39,6 +40,10 @@ const ProfileScreen = () => {
   const [favoritesLoading, setFavoritesLoading] = useState(true);
   const [notifications, setNotifications] = useState(true);
   const [language, setLanguage] = useState(locale === 'hi' ? 'Hindi' : 'English');
+  const [userProfile, setUserProfile] = useState<any>(null);
+  const [userProfileLoading, setUserProfileLoading] = useState(true);
+
+  const { logout } = useAuth();
 
   const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ['25%', '50%'], []);
@@ -49,7 +54,7 @@ const ProfileScreen = () => {
 
   const handleLanguageSelect = (lang: string) => {
     setLanguage(lang);
-    setLocale(lang === 'Hindi' ? 'hi' : 'en');
+    setLocale(lang === 'hi' ? 'hi' : 'en');
     bottomSheetRef.current?.close();
   };
 
@@ -68,13 +73,25 @@ const ProfileScreen = () => {
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     Alert.alert(
       'Logout',
       'Are you sure you want to logout?',
       [
         { text: 'Cancel', style: 'cancel' },
-        { text: 'OK', onPress: () => console.log('Logout Pressed') },
+        { 
+          text: 'OK', 
+          onPress: async () => {
+            try {
+              await logout();
+              // Redirect to login screen and remove all existing screens
+              router.replace('/login');
+            } catch (error) {
+              console.error('Logout error:', error);
+              Alert.alert('Error', 'Failed to logout. Please try again.');
+            }
+          }
+        },
       ],
       { cancelable: false }
     );
@@ -82,6 +99,15 @@ const ProfileScreen = () => {
 
   useEffect(() => {
     const viewModel = container.resolve<ProfileViewModel>(ProfileViewModelToken);
+    
+    // Load user profile
+    viewModel.getUserProfile().then((profile) => {
+      setUserProfile(profile);
+      setUserProfileLoading(false);
+    }).catch((error) => {
+      console.error('Error loading user profile:', error);
+      setUserProfileLoading(false);
+    });
     
     // Load achievements
     viewModel.getAchievements().then((achievements) => {
@@ -167,7 +193,7 @@ const ProfileScreen = () => {
       <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.background }]}>
         <StatusBar barStyle={isDarkMode ? "light-content" : "dark-content"} />
         <ScrollView style={styles.scrollView}>
-          <ProfileHeader />
+          <ProfileHeader userProfile={userProfile} loading={userProfileLoading} />
           <View style={styles.content}>
             {/* Achievements Section */}
             <View style={styles.card}>

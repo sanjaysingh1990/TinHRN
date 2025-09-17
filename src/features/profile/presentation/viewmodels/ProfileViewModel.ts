@@ -1,8 +1,8 @@
-
 import { injectable, inject } from 'tsyringe';
 import { GetAchievementsUseCase } from '../../domain/usecases/GetAchievementsUseCase';
 import { GetFavoritesUseCase } from '../../domain/usecases/GetFavoritesUseCase';
-import { GetAchievementsUseCaseToken, GetFavoritesUseCaseToken } from '../../profile.di';
+import { GetUserProfileUseCase } from '../../domain/usecases/GetUserProfileUseCase';
+import { GetAchievementsUseCaseToken, GetFavoritesUseCaseToken, GetUserProfileUseCaseToken } from '../../profile.di';
 import { Achievement } from '../../domain/models/Achievement';
 import { Favorite } from '../../domain/models/Favorite';
 
@@ -10,7 +10,8 @@ import { Favorite } from '../../domain/models/Favorite';
 export class ProfileViewModel {
   constructor(
     @inject(GetAchievementsUseCaseToken) private getAchievementsUseCase: GetAchievementsUseCase,
-    @inject(GetFavoritesUseCaseToken) private getFavoritesUseCase: GetFavoritesUseCase
+    @inject(GetFavoritesUseCaseToken) private getFavoritesUseCase: GetFavoritesUseCase,
+    @inject(GetUserProfileUseCaseToken) private getUserProfileUseCase: GetUserProfileUseCase
   ) {}
 
   async getAchievements(): Promise<Achievement[]> {
@@ -19,5 +20,9 @@ export class ProfileViewModel {
 
   async getFavorites(): Promise<Favorite[]> {
     return this.getFavoritesUseCase.execute();
+  }
+
+  async getUserProfile(): Promise<any> {
+    return this.getUserProfileUseCase.execute();
   }
 }

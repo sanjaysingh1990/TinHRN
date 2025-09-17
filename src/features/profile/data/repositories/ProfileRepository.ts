@@ -5,6 +5,10 @@ import { Faq } from '../../domain/models/Faq';
 import { Favorite } from '../../domain/models/Favorite';
 import { TeamMember } from '../../domain/models/TeamMember';
 import { IProfileRepository } from '../../domain/repositories/IProfileRepository';
+import { doc, getDoc, getFirestore } from 'firebase/firestore';
+import { container } from 'tsyringe';
+import { AuthRepositoryToken } from '../../../auth/auth.di';
+import { IAuthRepository } from '../../../auth/domain/repositories/IAuthRepository';
 
 const dummyAchievements: Achievement[] = [
   { id: 1, title: 'First Trek', icon: 'hiking', color: 'yellow' },
@@ -159,5 +163,39 @@ export class ProfileRepository implements IProfileRepository {
         resolve(dummyFaqList);
       }, 2500); // 2.5 seconds delay as requested
     });
+  }
+
+  async getUserProfile(): Promise<any> {
+    try {
+      // Get the current user from auth repository
+      const authRepository = container.resolve<IAuthRepository>(AuthRepositoryToken);
+      const currentUser = await authRepository.getCurrentUser();
+      
+      if (!currentUser) {
+        throw new Error('No authenticated user');
+      }
+      
+      // Fetch user data from Firestore
+      const firestore = getFirestore();
+      const userDoc = await getDoc(doc(firestore, 'users', currentUser.id));
+      
+      if (userDoc.exists()) {
+        return { id: currentUser.id, ...userDoc.data() };
+      } else {
+        // Return basic user info if no additional data in Firestore
+        return {
+          id: currentUser.id,
+          name: currentUser.name,
+          email: currentUser.email,
+          phoneNumber: currentUser.phoneNumber,
+          emailVerified: currentUser.emailVerified,
+          createdAt: currentUser.createdAt,
+          updatedAt: currentUser.updatedAt
+        };
+      }
+    } catch (error) {
+      console.error('Error fetching user profile:', error);
+      throw error;
+    }
   }
 }

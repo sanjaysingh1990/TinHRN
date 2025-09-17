@@ -32,10 +32,11 @@ import { ProfileRepository } from "./features/profile/data/repositories/ProfileR
 import { GetAchievementsUseCase } from "./features/profile/domain/usecases/GetAchievementsUseCase";
 import { GetFaqListUseCase } from "./features/profile/domain/usecases/GetFaqListUseCase";
 import { GetFavoritesUseCase } from "./features/profile/domain/usecases/GetFavoritesUseCase";
+import { GetUserProfileUseCase } from "./features/profile/domain/usecases/GetUserProfileUseCase";
 import { AboutUsViewModel } from "./features/profile/presentation/viewmodels/AboutUsViewModel";
 import { FaqViewModel } from "./features/profile/presentation/viewmodels/FaqViewModel";
 import { ProfileViewModel } from "./features/profile/presentation/viewmodels/ProfileViewModel";
-import { AboutUsViewModelToken, FaqViewModelToken, GetAchievementsUseCaseToken, GetFaqListUseCaseToken, GetFavoritesUseCaseToken, ProfileRepositoryToken, ProfileViewModelToken } from "./features/profile/profile.di";
+import { AboutUsViewModelToken, FaqViewModelToken, GetAchievementsUseCaseToken, GetFaqListUseCaseToken, GetFavoritesUseCaseToken, GetUserProfileUseCaseToken, ProfileRepositoryToken, ProfileViewModelToken } from "./features/profile/profile.di";
 
 import { MyBookingsRepository } from "./features/mybookings/data/repositories/MyBookingsRepository";
 import { GetPastBookingsUseCase } from "./features/mybookings/domain/usecases/GetPastBookingsUseCase";
@@ -92,6 +93,7 @@ container.register(ProfileRepositoryToken, { useClass: ProfileRepository });
 container.register(GetAchievementsUseCaseToken, { useClass: GetAchievementsUseCase });
 container.register(GetFavoritesUseCaseToken, { useClass: GetFavoritesUseCase });
 container.register(GetFaqListUseCaseToken, { useClass: GetFaqListUseCase });
+container.register(GetUserProfileUseCaseToken, { useClass: GetUserProfileUseCase });
 container.register(ProfileViewModelToken, { useClass: ProfileViewModel });
 container.register(AboutUsViewModelToken, { useClass: AboutUsViewModel });
 container.register(FaqViewModelToken, { useClass: FaqViewModel });

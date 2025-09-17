@@ -1,8 +1,8 @@
-
 export const ProfileRepositoryToken = Symbol.for("ProfileRepository");
 export const GetAchievementsUseCaseToken = Symbol.for("GetAchievementsUseCase");
 export const GetFavoritesUseCaseToken = Symbol.for("GetFavoritesUseCase");
 export const GetFaqListUseCaseToken = Symbol.for("GetFaqListUseCase");
+export const GetUserProfileUseCaseToken = Symbol.for("GetUserProfileUseCase");
 export const ProfileViewModelToken = Symbol.for("ProfileViewModel");
 export const AboutUsViewModelToken = Symbol.for("AboutUsViewModel");
 export const FaqViewModelToken = Symbol.for("FaqViewModel");
