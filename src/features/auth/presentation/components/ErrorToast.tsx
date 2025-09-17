@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Animated, Text, View, StyleSheet } from 'react-native';
+import { Animated, StyleSheet, Text } from 'react-native';
 import { useTheme } from '../../../../hooks/useTheme';
 
 interface ErrorToastProps {

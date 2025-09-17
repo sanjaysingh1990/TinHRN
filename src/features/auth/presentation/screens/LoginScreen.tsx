@@ -72,11 +72,13 @@ const LoginScreen: React.FC = () => {
         console.log('[LoginScreen] Login returned null user');
         setErrorMessage('Login failed. Please try again.');
         setShowErrorToast(true);
+        // Don't clear the form fields on error
       }
     } catch (error: any) {
       console.error('[LoginScreen] Login failed with error:', error);
       setErrorMessage(error.message || 'An error occurred during login');
       setShowErrorToast(true);
+      // Don't clear the form fields on error
     }
   };
 

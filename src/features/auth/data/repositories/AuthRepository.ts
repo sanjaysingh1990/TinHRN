@@ -1,14 +1,14 @@
 
 import {
-    createUserWithEmailAndPassword,
-    sendEmailVerification as firebaseSendEmailVerification,
-    sendPasswordResetEmail as firebaseSendPasswordResetEmail,
-    updateProfile as firebaseUpdateProfile,
-    User as FirebaseUser,
-    onAuthStateChanged,
-    reload,
-    signInWithEmailAndPassword,
-    signOut
+  createUserWithEmailAndPassword,
+  sendEmailVerification as firebaseSendEmailVerification,
+  sendPasswordResetEmail as firebaseSendPasswordResetEmail,
+  updateProfile as firebaseUpdateProfile,
+  User as FirebaseUser,
+  onAuthStateChanged,
+  reload,
+  signInWithEmailAndPassword,
+  signOut
 } from 'firebase/auth';
 import { doc, getDoc, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore';
 import { injectable } from 'tsyringe';

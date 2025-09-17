@@ -2,13 +2,13 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
-    Alert,
-    KeyboardAvoidingView,
-    Platform,
-    ScrollView,
-    Text,
-    TouchableOpacity,
-    View
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View
 } from 'react-native';
 import CountryPicker, { Country, CountryCode } from 'react-native-country-picker-modal';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -89,23 +89,14 @@ const SignupScreen: React.FC = () => {
           phoneNumber: user.phoneNumber
         });
         
-        Alert.alert(
-          'Account Created!', 
-          'Your account has been created successfully. Please check your email for verification.',
-          [
-            {
-              text: 'OK',
-              onPress: () => {
-                console.log('[SignupScreen] Navigating to tabs screen...');
-                router.replace('/(tabs)');
-              }
-            }
-          ]
-        );
+        // Don't show the dialog, just redirect to the next screen
+        console.log('[SignupScreen] Navigating to tabs screen...');
+        router.replace('/(tabs)');
       } else {
         console.log('[SignupScreen] Signup returned null user');
         setErrorMessage('Signup failed. Please try again.');
         setShowErrorToast(true);
+        // Don't clear the form fields on error
       }
     } catch (error: any) {
       console.error('[SignupScreen] Signup failed with error:', error);
@@ -132,6 +123,7 @@ const SignupScreen: React.FC = () => {
       } else {
         setErrorMessage(error.message || 'An error occurred during signup');
         setShowErrorToast(true);
+        // Don't clear the form fields on error
       }
     }
   };
