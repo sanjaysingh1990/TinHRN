@@ -1,4 +1,4 @@
-import { collection, getDocs, orderBy, query, where } from 'firebase/firestore';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import { injectable } from 'tsyringe';
 import { firestore } from '../../../../infrastructure/firebase/firebase.config';
 import { Category, Destination, ExploreData, ExploreLocation, TopTrek } from '../../domain/entities/Explore';
