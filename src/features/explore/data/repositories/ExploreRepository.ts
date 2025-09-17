@@ -8,8 +8,6 @@ import { FilterState } from '../../presentation/screens/ExploreFilterViewModel';
 @injectable()
 export class ExploreRepository implements IExploreRepository {
   async getExploreData(): Promise<ExploreData> {
-    // Add 3-second delay as per project specification
-    await new Promise(resolve => setTimeout(resolve, 3000));
     
     try {
       // Fetch categories from Firebase
@@ -43,9 +41,12 @@ export class ExploreRepository implements IExploreRepository {
         });
       });
       
-      // Fetch top treks from tours collection ordered by popularity (descending)
+      // Fetch top treks from tours collection where isTopTrack is true
       const toursCollection = collection(firestore, 'tours');
-      const topTracksQuery = query(toursCollection, orderBy('popularity', 'desc'), where('popularity', '>', 0));
+      const topTracksQuery = query(
+        toursCollection, 
+        where('isTopTrack', '==', true)
+      );
       const topTracksSnapshot = await getDocs(topTracksQuery);
       const topTreks: TopTrek[] = [];
       
@@ -132,19 +133,11 @@ export class ExploreRepository implements IExploreRepository {
         }
       }
       
-      return new Promise(resolve => {
-        setTimeout(() => {
-          resolve(filteredData);
-        }, 1000); // 1 second delay as requested
-      });
+      return filteredData;
     } catch (error) {
       console.error('Error fetching explore locations data from Firebase:', error);
       // Return empty array on error
-      return new Promise(resolve => {
-        setTimeout(() => {
-          resolve([]);
-        }, 1000); // 1 second delay as requested
-      });
+      return [];
     }
   }
 }
