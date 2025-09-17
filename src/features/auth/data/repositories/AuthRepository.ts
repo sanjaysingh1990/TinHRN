@@ -240,17 +240,59 @@ export class AuthRepository implements IAuthRepository {
   }
 
   async getCurrentUser(): Promise<User | null> {
-    // Add a small delay to ensure Firebase auth is fully initialized
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    console.log('[AuthRepository] getCurrentUser called');
     
-    const firebaseUser = auth.currentUser;
-    if (!firebaseUser) return null;
+    // Use a promise to wait for auth state to be ready
+    const firebaseUser = await new Promise<any>((resolve) => {
+      console.log('[AuthRepository] Waiting for auth state to be ready...');
+      
+      // If auth is already initialized, check the current user
+      if (auth.currentUser !== undefined) {
+        console.log('[AuthRepository] Auth already initialized, currentUser:', auth.currentUser);
+        resolve(auth.currentUser);
+        return;
+      }
+      
+      // Wait for auth state to be ready using onAuthStateChanged
+      const unsubscribe = auth.onAuthStateChanged((user) => {
+        console.log('[AuthRepository] onAuthStateChanged triggered with user:', user);
+        unsubscribe(); // Stop listening
+        resolve(user);
+      });
+      
+      // Timeout after 5 seconds in case onAuthStateChanged doesn't trigger
+      setTimeout(() => {
+        console.log('[AuthRepository] onAuthStateChanged timeout');
+        unsubscribe();
+        resolve(null);
+      }, 5000);
+    });
+    
+    console.log('[AuthRepository] getCurrentUser - Final Firebase user:', firebaseUser);
+    
+    if (!firebaseUser) {
+      console.log('[AuthRepository] getCurrentUser - No Firebase user found');
+      return null;
+    }
     
     // Get additional user data from Firestore
-    const userDoc = await getDoc(doc(firestore, 'users', firebaseUser.uid));
-    const additionalData = userDoc.exists() ? userDoc.data() : {};
-    
-    return this.mapFirebaseUserToUser(firebaseUser, additionalData);
+    console.log(`[AuthRepository] getCurrentUser - Fetching Firestore data for user ${firebaseUser.uid}`);
+    try {
+      const userDoc = await getDoc(doc(firestore, 'users', firebaseUser.uid));
+      const additionalData = userDoc.exists() ? userDoc.data() : {};
+      console.log('[AuthRepository] getCurrentUser - Additional data:', additionalData);
+      
+      const mappedUser = this.mapFirebaseUserToUser(firebaseUser, additionalData);
+      console.log('[AuthRepository] getCurrentUser - Mapped user:', mappedUser);
+      
+      return mappedUser;
+    } catch (error) {
+      console.log('[AuthRepository] getCurrentUser - Error fetching Firestore data:', error);
+      // Return user data without additional Firestore data if there's an error
+      const mappedUser = this.mapFirebaseUserToUser(firebaseUser, {});
+      console.log('[AuthRepository] getCurrentUser - Mapped user without Firestore data:', mappedUser);
+      return mappedUser;
+    }
   }
 
   onAuthStateChanged(callback: (user: User | null) => void): () => void {

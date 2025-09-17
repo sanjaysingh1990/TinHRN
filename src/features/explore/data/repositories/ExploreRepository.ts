@@ -1,8 +1,11 @@
+import { collection, getDocs } from 'firebase/firestore';
 import { injectable } from 'tsyringe';
+import { firestore } from '../../../../infrastructure/firebase/firebase.config';
 import { Category, Destination, ExploreData, ExploreLocation, TopTrek } from '../../domain/entities/Explore';
 import { IExploreRepository } from '../../domain/repositories/IExploreRepository';
 import { FilterState } from '../../presentation/screens/ExploreFilterViewModel';
 
+// We'll keep the dummy categories for icons but fetch the actual data from Firebase
 const dummyCategories: Category[] = [
   {
     id: 1,
@@ -201,15 +204,61 @@ const dummyTopTreks: TopTrek[] = [
 @injectable()
 export class ExploreRepository implements IExploreRepository {
   async getExploreData(): Promise<ExploreData> {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve({
-          categories: dummyCategories,
-          popularDestinations: dummyDestinations,
-          topTreks: dummyTopTreks
+    try {
+      // Fetch categories from Firebase
+      const categoriesCollection = collection(firestore, 'categories');
+      const categoriesSnapshot = await getDocs(categoriesCollection);
+      const firebaseCategories: Category[] = [];
+      
+      categoriesSnapshot.forEach((doc) => {
+        const data = doc.data();
+        firebaseCategories.push({
+          id: data.id || doc.id,
+          name: data.name,
+          icon: data.icon || 'help', // Default icon if not provided
+          color: data.color || '#000000' // Default color if not provided
         });
-      }, 3000); // 3 second delay as requested
-    });
+      });
+      
+      // If no categories found in Firebase, use dummy data
+      const categories = firebaseCategories.length > 0 ? firebaseCategories : dummyCategories;
+      
+      // Fetch popular destinations from Firebase
+      const destinationsCollection = collection(firestore, 'destinations');
+      const destinationsSnapshot = await getDocs(destinationsCollection);
+      const popularDestinations: Destination[] = [];
+      
+      destinationsSnapshot.forEach((doc) => {
+        const data = doc.data();
+        popularDestinations.push({
+          id: data.id || doc.id,
+          name: data.name,
+          country: data.country || '',
+          image: data.image || '',
+          rating: data.rating || 0
+        });
+      });
+      
+      // If no destinations found in Firebase, use dummy data
+      const destinations = popularDestinations.length > 0 ? popularDestinations : dummyDestinations;
+      
+      // For top treks, we'll continue using dummy data for now
+      // You can implement Firebase fetching for top treks similarly if needed
+      
+      return {
+        categories,
+        popularDestinations: destinations,
+        topTreks: dummyTopTreks
+      };
+    } catch (error) {
+      console.error('Error fetching explore data from Firebase:', error);
+      // Return dummy data on error
+      return {
+        categories: dummyCategories,
+        popularDestinations: dummyDestinations,
+        topTreks: dummyTopTreks
+      };
+    }
   }
 
   async getExploreLocationsData(filters?: FilterState): Promise<ExploreLocation[]> {

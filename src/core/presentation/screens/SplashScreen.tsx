@@ -6,6 +6,7 @@ import { Animated, Easing, StyleSheet, Text, View } from 'react-native';
 import { container } from 'tsyringe';
 import { GetCurrentUserUseCaseToken } from '../../../features/auth/auth.di';
 import { GetCurrentUserUseCase } from '../../../features/auth/domain/usecases/GetCurrentUserUseCase';
+import { auth } from '../../../infrastructure/firebase/firebase.config';
 
 const SplashScreen = () => {
   const rotation = useRef(new Animated.Value(0)).current;
@@ -27,30 +28,75 @@ const SplashScreen = () => {
 
   const checkUserSession = async () => {
     try {
-      // Add a longer delay to ensure Firebase auth is fully initialized
-      await new Promise(resolve => setTimeout(resolve, 3000));
+      console.log('[SplashScreen] Starting user session check...');
       
-      // Check if user is already logged in
-      const getCurrentUserUseCase = container.resolve<GetCurrentUserUseCase>(GetCurrentUserUseCaseToken);
-      const user = await getCurrentUserUseCase.execute();
+      // Small delay to ensure Firebase is fully initialized
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      // Wait for Firebase auth to be ready using a promise-based approach
+      const user = await new Promise((resolve) => {
+        console.log('[SplashScreen] Setting up onAuthStateChanged listener...');
+        
+        // Set up a timeout to prevent hanging
+        const timeout = setTimeout(() => {
+          console.log('[SplashScreen] Auth state check timeout');
+          resolve(null);
+        }, 5000);
+        
+        // Listen for auth state changes
+        const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
+          console.log('[SplashScreen] onAuthStateChanged triggered with firebaseUser:', firebaseUser);
+          clearTimeout(timeout);
+          unsubscribe(); // Stop listening
+          
+          if (firebaseUser) {
+            console.log('[SplashScreen] Firebase user found, fetching full user data...');
+            try {
+              // If we have a firebase user, get the full user data
+              const getCurrentUserUseCase = container.resolve<GetCurrentUserUseCase>(GetCurrentUserUseCaseToken);
+              const fullUser = await getCurrentUserUseCase.execute();
+              console.log('[SplashScreen] Full user data fetched:', fullUser);
+              resolve(fullUser);
+            } catch (error) {
+              console.log('[SplashScreen] Error fetching full user data:', error);
+              resolve(null);
+            }
+          } else {
+            console.log('[SplashScreen] No firebase user found');
+            resolve(null);
+          }
+        });
+      });
+      
+      console.log('[SplashScreen] Final user check result:', user);
       
       if (user) {
+        console.log('[SplashScreen] User is logged in, navigating to home screen');
+        // Store the user session for faster loading next time
+        try {
+          await AsyncStorage.setItem('@currentUser', JSON.stringify(user));
+        } catch (storageError) {
+          console.log('[SplashScreen] Error storing user session:', storageError);
+        }
         // User is logged in, navigate directly to home screen
         router.replace('/(tabs)');
       } else {
+        console.log('[SplashScreen] User is not logged in, checking onboarding status');
         // User is not logged in, check if it's first time opening the app
         const hasViewedOnboarding = await AsyncStorage.getItem('@viewedOnboarding');
         
         if (hasViewedOnboarding === null) {
+          console.log('[SplashScreen] First time user, navigating to start screen');
           // First time user, show start screen which leads to onboarding
           router.replace('/start');
         } else {
+          console.log('[SplashScreen] Returning user, navigating to login screen');
           // Not first time, show login screen directly
           router.replace('/login');
         }
       }
     } catch (error) {
-      console.error('Error checking user session:', error);
+      console.error('[SplashScreen] Error checking user session:', error);
       // In case of error, default to start screen
       router.replace('/start');
     }

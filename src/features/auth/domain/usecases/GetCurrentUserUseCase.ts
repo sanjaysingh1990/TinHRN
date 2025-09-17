@@ -10,7 +10,15 @@ export class GetCurrentUserUseCase implements UseCase<void, Promise<User | null>
     @inject(AuthRepositoryToken) private authRepository: IAuthRepository
   ) {}
 
-  execute(): Promise<User | null> {
-    return this.authRepository.getCurrentUser();
+  async execute(): Promise<User | null> {
+    console.log('[GetCurrentUserUseCase] execute called');
+    try {
+      const user = await this.authRepository.getCurrentUser();
+      console.log('[GetCurrentUserUseCase] getCurrentUser returned:', user);
+      return user;
+    } catch (error) {
+      console.log('[GetCurrentUserUseCase] Error in execute:', error);
+      throw error;
+    }
   }
 }

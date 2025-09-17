@@ -33,8 +33,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const authRepository = container.resolve<IAuthRepository>(AuthRepositoryToken);
 
   useEffect(() => {
+    console.log('[AuthContext] Setting up authentication state listener');
     // Set up authentication state listener
     const unsubscribe = authRepository.onAuthStateChanged((user: User | null) => {
+      console.log('[AuthContext] onAuthStateChanged triggered with user:', user);
       setAuthState({
         user,
         isLoading: false,
