@@ -47,7 +47,7 @@ export class AuthRepository implements IAuthRepository {
     }
   }
 
-  async signup(name: string, email: string, password: string): Promise<User> {
+  async signup(name: string, email: string, password: string, phoneNumber?: string): Promise<User> {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const firebaseUser = userCredential.user;
@@ -57,10 +57,13 @@ export class AuthRepository implements IAuthRepository {
         displayName: name
       });
       
-      // Create user document in Firestore
+      // Create user document in Firestore with all user information
       const userData = {
+        id: firebaseUser.uid,
         name,
         email,
+        phoneNumber: phoneNumber || null,
+        emailVerified: firebaseUser.emailVerified,
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp()
       };

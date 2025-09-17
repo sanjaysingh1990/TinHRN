@@ -1,8 +1,8 @@
 
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { Text, TouchableOpacity, useColorScheme, View } from 'react-native';
-import { theme } from '../../../../theme';
+import { Text, TouchableOpacity, View } from 'react-native';
+import { useTheme } from '../../../../hooks/useTheme';
 import { getAuthStyles } from '../styles/auth.styles';
 
 interface AuthHeaderProps {
@@ -11,9 +11,8 @@ interface AuthHeaderProps {
 
 const AuthHeader: React.FC<AuthHeaderProps> = ({ title }) => {
   const router = useRouter();
-  const colorScheme = useColorScheme() ?? 'light';
-  const colors = theme[colorScheme];
-  const styles = getAuthStyles(colors, colorScheme);
+  const { colors, isDarkMode } = useTheme();
+  const styles = getAuthStyles(colors, isDarkMode ? 'dark' : 'light');
 
   return (
     <View style={styles.header}>

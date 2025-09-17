@@ -1,13 +1,16 @@
 
 import React from 'react';
-import { TextInput, useColorScheme } from 'react-native';
-import { theme } from '../../../../theme';
+import { TextInput, TextInputProps } from 'react-native';
+import { useTheme } from '../../../../hooks/useTheme';
 import { getAuthStyles } from '../styles/auth.styles';
 
-const AuthInput = (props) => {
-  const colorScheme = useColorScheme() ?? 'light';
-  const colors = theme[colorScheme];
-  const styles = getAuthStyles(colors, colorScheme);
+interface AuthInputProps extends TextInputProps {
+  focused?: boolean;
+}
+
+const AuthInput: React.FC<AuthInputProps> = (props) => {
+  const { colors, isDarkMode } = useTheme();
+  const styles = getAuthStyles(colors, isDarkMode ? 'dark' : 'light');
 
   return (
     <TextInput

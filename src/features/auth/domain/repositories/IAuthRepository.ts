@@ -4,7 +4,7 @@ import { User } from '../entities/User';
 export interface IAuthRepository {
   // Authentication methods
   login(email: string, password: string): Promise<User>;
-  signup(name: string, email: string, password: string): Promise<User>;
+  signup(name: string, email: string, password: string, phoneNumber?: string): Promise<User>;
   logout(): Promise<void>;
   
   // User state methods

@@ -1,5 +1,7 @@
 
-export const getAuthStyles = (colors: any, colorScheme: string | null | undefined) => ({
+import { StyleSheet } from 'react-native';
+
+export const getAuthStyles = (colors: any, colorScheme: string | null | undefined) => StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
@@ -7,7 +9,7 @@ export const getAuthStyles = (colors: any, colorScheme: string | null | undefine
     paddingTop: 10, // Reduced from 40 to minimize overall top spacing
   },
   logoContainer: {
-    alignItems: 'center' as const,
+    alignItems: 'center',
     marginBottom: 40,
     marginTop: 20,
   },
@@ -22,15 +24,15 @@ export const getAuthStyles = (colors: any, colorScheme: string | null | undefine
   },
   title: {
     fontSize: 32,
-    fontWeight: 'bold' as const,
+    fontWeight: 'bold',
     color: colors.text,
-    textAlign: 'center' as const,
+    textAlign: 'center',
     marginBottom: 10,
   },
   subtitle: {
     fontSize: 16,
     color: colors.secondary,
-    textAlign: 'center' as const,
+    textAlign: 'center',
     marginBottom: 30,
   },
   input: {
@@ -64,8 +66,8 @@ export const getAuthStyles = (colors: any, colorScheme: string | null | undefine
     fontSize: 16,
   },
   dividerContainer: {
-    flexDirection: 'row' as const,
-    alignItems: 'center' as const,
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 20,
   },
   stitch: {
@@ -73,15 +75,15 @@ export const getAuthStyles = (colors: any, colorScheme: string | null | undefine
     height: 1,
     borderTopWidth: 1,
     borderColor: colors.secondary,
-    borderStyle: 'dashed' as const,
+    borderStyle: 'dashed',
   },
   dividerText: {
     color: colors.secondary,
     marginHorizontal: 10,
   },
   socialButtonsContainer: {
-    flexDirection: 'row' as const,
-    justifyContent: 'space-around' as const,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
     marginBottom: 20,
   },
   socialButton: {
@@ -91,16 +93,16 @@ export const getAuthStyles = (colors: any, colorScheme: string | null | undefine
     borderWidth: 1,
     borderColor: colorScheme === 'dark' ? colors.borderColor : 'transparent',
     backgroundColor: colors.inputBackground,
-    justifyContent: 'center' as const,
-    alignItems: 'center' as const,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   socialIcon: {
     fontSize: 24,
     color: colors.text,
   },
   footer: {
-    flexDirection: 'row' as const,
-    justifyContent: 'center' as const,
+    flexDirection: 'row',
+    justifyContent: 'center',
     marginTop: 20,
   },
   footerText: {
@@ -112,7 +114,7 @@ export const getAuthStyles = (colors: any, colorScheme: string | null | undefine
     textDecorationLine: 'underline',
   },
   forgotPassword: {
-    alignSelf: 'flex-end' as const,
+    alignSelf: 'flex-end',
     marginBottom: 20,
   },
   forgotPasswordText: {
@@ -120,9 +122,9 @@ export const getAuthStyles = (colors: any, colorScheme: string | null | undefine
     fontSize: 14,
   },
   header: {
-    flexDirection: 'row' as const,
-    alignItems: 'center' as const,
-    justifyContent: 'center' as const,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
     paddingHorizontal: 15,
     paddingVertical: 8,
     paddingTop: 15, // Reduced from 15 to create 5-10% margin from status bar
@@ -143,8 +145,8 @@ export const getAuthStyles = (colors: any, colorScheme: string | null | undefine
     color: colors.text,
   },
   phoneInputContainer: {
-    flexDirection: 'row' as const,
-    alignItems: 'center' as const,
+    flexDirection: 'row',
+    alignItems: 'center',
     backgroundColor: colors.inputBackground,
     borderRadius: 10,
     marginBottom: 15,
@@ -152,8 +154,8 @@ export const getAuthStyles = (colors: any, colorScheme: string | null | undefine
     borderColor: 'transparent',
   },
   passwordContainer: {
-    flexDirection: 'row' as const,
-    alignItems: 'center' as const,
+    flexDirection: 'row',
+    alignItems: 'center',
     backgroundColor: colors.inputBackground,
     borderRadius: 10,
     marginBottom: 15,

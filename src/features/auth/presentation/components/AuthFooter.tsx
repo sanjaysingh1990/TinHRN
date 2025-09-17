@@ -1,7 +1,7 @@
 
 import React from 'react';
-import { Text, TouchableOpacity, useColorScheme, View } from 'react-native';
-import { theme } from '../../../../theme';
+import { Text, TouchableOpacity, View } from 'react-native';
+import { useTheme } from '../../../../hooks/useTheme';
 import { getAuthStyles } from '../styles/auth.styles';
 
 interface AuthFooterProps {
@@ -11,9 +11,8 @@ interface AuthFooterProps {
 }
 
 const AuthFooter: React.FC<AuthFooterProps> = ({ text, linkText, onPress }) => {
-  const colorScheme = useColorScheme() ?? 'light';
-  const colors = theme[colorScheme];
-  const styles = getAuthStyles(colors, colorScheme);
+  const { colors, isDarkMode } = useTheme();
+  const styles = getAuthStyles(colors, isDarkMode ? 'dark' : 'light');
 
   return (
     <View style={styles.footer}>

@@ -1,7 +1,7 @@
 
 import "reflect-metadata";
 import { container } from "tsyringe";
-import { AuthRepositoryToken, GetCurrentUserUseCaseToken, LoginUseCaseToken, LogoutUseCaseToken, SendPasswordResetEmailUseCaseToken, SignupUseCaseToken, LoginViewModelToken, SignupViewModelToken } from "./features/auth/auth.di";
+import { AuthRepositoryToken, GetCurrentUserUseCaseToken, LoginUseCaseToken, LoginViewModelToken, LogoutUseCaseToken, SendPasswordResetEmailUseCaseToken, SignupUseCaseToken, SignupViewModelToken } from "./features/auth/auth.di";
 import { AuthRepository } from "./features/auth/data/repositories/AuthRepository";
 import { GetCurrentUserUseCase } from "./features/auth/domain/usecases/GetCurrentUserUseCase";
 import { LoginUseCase } from "./features/auth/domain/usecases/LoginUseCase";

@@ -1,14 +1,13 @@
 
 import { MaterialIcons } from '@expo/vector-icons';
 import React from 'react';
-import { TouchableOpacity, useColorScheme, View } from 'react-native';
-import { theme } from '../../../../theme';
+import { TouchableOpacity, View } from 'react-native';
+import { useTheme } from '../../../../hooks/useTheme';
 import { getAuthStyles } from '../styles/auth.styles';
 
 const SocialButtons = () => {
-  const colorScheme = useColorScheme() ?? 'light';
-  const colors = theme[colorScheme];
-  const styles = getAuthStyles(colors, colorScheme);
+  const { colors, isDarkMode } = useTheme();
+  const styles = getAuthStyles(colors, isDarkMode ? 'dark' : 'light');
 
   const handleGoogleLogin = () => {
     // TODO: Implement Google login
@@ -42,11 +41,11 @@ const SocialButtons = () => {
         <MaterialIcons name="facebook" size={24} color="white" />
       </TouchableOpacity>
       <TouchableOpacity 
-        style={[styles.socialButton, { backgroundColor: colorScheme === 'dark' ? '#ffffff' : '#000000' }]} 
+        style={[styles.socialButton, { backgroundColor: isDarkMode ? '#ffffff' : '#000000' }]} 
         onPress={handleAppleLogin}
         accessibilityLabel="Sign in with Apple"
       >
-        <MaterialIcons name="phone-iphone" size={24} color={colorScheme === 'dark' ? '#000000' : '#ffffff'} />
+        <MaterialIcons name="phone-iphone" size={24} color={isDarkMode ? '#000000' : '#ffffff'} />
       </TouchableOpacity>
     </View>
   );

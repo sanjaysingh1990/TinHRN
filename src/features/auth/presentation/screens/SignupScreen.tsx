@@ -1,28 +1,28 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
+    Alert,
     KeyboardAvoidingView,
     Platform,
     ScrollView,
     Text,
     TouchableOpacity,
-    View,
-    Alert
+    View
 } from 'react-native';
 import CountryPicker, { Country, CountryCode } from 'react-native-country-picker-modal';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useTheme } from '../../../../hooks/useTheme';
 import container from '../../../../container';
+import { useTheme } from '../../../../hooks/useTheme';
 import { SignupViewModelToken } from '../../auth.di';
-import { SignupViewModel } from '../viewmodels/SignupViewModel';
-import { useAuth } from '../context/AuthContext';
 import AuthButton from '../components/AuthButton';
 import AuthFooter from '../components/AuthFooter';
 import AuthHeader from '../components/AuthHeader';
 import AuthInput from '../components/AuthInput';
 import SocialButtons from '../components/SocialButtons';
+import { useAuth } from '../context/AuthContext';
 import { getAuthStyles } from '../styles/auth.styles';
+import { SignupViewModel } from '../viewmodels/SignupViewModel';
 
 const SignupScreen: React.FC = () => {
   const router = useRouter();
@@ -90,8 +90,15 @@ const SignupScreen: React.FC = () => {
           <View style={{ height: 15 }} />
           
           {viewState.errors.general && (
-            <View style={{ backgroundColor: '#ff6b6b', padding: 12, borderRadius: 8, marginBottom: 16 }}>
-              <Text style={{ color: 'white', fontSize: 14 }}>{viewState.errors.general}</Text>
+            <View style={{ 
+              backgroundColor: isDarkMode ? '#ff6b6b' : '#ff4757', 
+              padding: 12, 
+              borderRadius: 8, 
+              marginBottom: 16,
+              borderWidth: 1,
+              borderColor: isDarkMode ? '#ff8e8e' : '#ff3838'
+            }}>
+              <Text style={{ color: 'white', fontSize: 14, fontWeight: '500' }}>{viewState.errors.general}</Text>
             </View>
           )}
 
@@ -105,7 +112,13 @@ const SignupScreen: React.FC = () => {
             focused={nameFocused}
           />
           {viewState.errors.name && (
-            <Text style={{ color: '#ff6b6b', fontSize: 12, marginTop: 4, marginBottom: 8 }}>
+            <Text style={{ 
+              color: isDarkMode ? '#ff6b6b' : '#ff4757', 
+              fontSize: 12, 
+              marginTop: 4, 
+              marginBottom: 8,
+              fontWeight: '500'
+            }}>
               {viewState.errors.name}
             </Text>
           )}
@@ -122,7 +135,13 @@ const SignupScreen: React.FC = () => {
             focused={emailFocused}
           />
           {viewState.errors.email && (
-            <Text style={{ color: '#ff6b6b', fontSize: 12, marginTop: 4, marginBottom: 8 }}>
+            <Text style={{ 
+              color: isDarkMode ? '#ff6b6b' : '#ff4757', 
+              fontSize: 12, 
+              marginTop: 4, 
+              marginBottom: 8,
+              fontWeight: '500'
+            }}>
               {viewState.errors.email}
             </Text>
           )}
@@ -138,6 +157,7 @@ const SignupScreen: React.FC = () => {
               onSelect={(country) => {
                 setCountryCode(country.cca2);
                 setCountry(country);
+                viewModel.setCountryInfo(country.cca2, country.callingCode ? `+${country.callingCode[0]}` : '+1');
               }}
               countryCode={countryCode}
             />
@@ -154,7 +174,13 @@ const SignupScreen: React.FC = () => {
             />
           </View>
           {viewState.errors.phone && (
-            <Text style={{ color: '#ff6b6b', fontSize: 12, marginTop: 4, marginBottom: 8 }}>
+            <Text style={{ 
+              color: isDarkMode ? '#ff6b6b' : '#ff4757', 
+              fontSize: 12, 
+              marginTop: 4, 
+              marginBottom: 8,
+              fontWeight: '500'
+            }}>
               {viewState.errors.phone}
             </Text>
           )}
@@ -177,7 +203,13 @@ const SignupScreen: React.FC = () => {
           </View>
           <Text style={styles.passwordNote}>Use 8 or more characters with a mix of letters, numbers & symbols.</Text>
           {viewState.errors.password && (
-            <Text style={{ color: '#ff6b6b', fontSize: 12, marginTop: 4, marginBottom: 8 }}>
+            <Text style={{ 
+              color: isDarkMode ? '#ff6b6b' : '#ff4757', 
+              fontSize: 12, 
+              marginTop: 4, 
+              marginBottom: 8,
+              fontWeight: '500'
+            }}>
               {viewState.errors.password}
             </Text>
           )}
@@ -199,7 +231,13 @@ const SignupScreen: React.FC = () => {
             </TouchableOpacity>
           </View>
           {viewState.errors.confirmPassword && (
-            <Text style={{ color: '#ff6b6b', fontSize: 12, marginTop: 4, marginBottom: 8 }}>
+            <Text style={{ 
+              color: isDarkMode ? '#ff6b6b' : '#ff4757', 
+              fontSize: 12, 
+              marginTop: 4, 
+              marginBottom: 8,
+              fontWeight: '500'
+            }}>
               {viewState.errors.confirmPassword}
             </Text>
           )}

@@ -9,6 +9,8 @@ export interface SignupFormData {
   phone: string;
   password: string;
   confirmPassword: string;
+  countryCode?: string;
+  callingCode?: string;
 }
 
 export interface SignupValidationErrors {
@@ -42,6 +44,8 @@ export class SignupViewModel {
     phone: '',
     password: '',
     confirmPassword: '',
+    countryCode: 'US',
+    callingCode: '+1',
   };
 
   constructor(
@@ -84,6 +88,23 @@ export class SignupViewModel {
     this.formData.confirmPassword = confirmPassword;
     this.validateForm();
     this.notifyUpdate();
+  }
+
+  setCountryInfo(countryCode: string, callingCode: string): void {
+    this.formData.countryCode = countryCode;
+    this.formData.callingCode = callingCode;
+    this.validateForm();
+    this.notifyUpdate();
+  }
+
+  getFormattedPhoneNumber(): string {
+    if (!this.formData.phone.trim()) return '';
+    
+    // Remove any existing country code from the phone number
+    let phoneNumber = this.formData.phone.replace(/^\+?\d{1,3}\s?/, '').trim();
+    
+    // Add the selected country calling code
+    return `${this.formData.callingCode} ${phoneNumber}`;
   }
 
   private validateName(name: string): string | undefined {
@@ -199,6 +220,7 @@ export class SignupViewModel {
         name: this.formData.name.trim(),
         email: this.formData.email.trim(),
         password: this.formData.password,
+        phoneNumber: this.getFormattedPhoneNumber() || undefined,
       });
 
       this.viewState.isLoading = false;
@@ -219,6 +241,8 @@ export class SignupViewModel {
       phone: '',
       password: '',
       confirmPassword: '',
+      countryCode: 'US',
+      callingCode: '+1',
     };
     this.viewState = {
       isLoading: false,

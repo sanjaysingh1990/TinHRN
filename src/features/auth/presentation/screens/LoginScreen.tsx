@@ -1,16 +1,16 @@
 import { useRouter } from 'expo-router';
-import React, { useState, useEffect } from 'react';
-import { Image, SafeAreaView, StatusBar, Text, TouchableOpacity, View, Alert } from 'react-native';
-import { useTheme } from '../../../../hooks/useTheme';
+import React, { useEffect, useState } from 'react';
+import { Alert, Image, SafeAreaView, StatusBar, Text, TouchableOpacity, View } from 'react-native';
 import container from '../../../../container';
+import { useTheme } from '../../../../hooks/useTheme';
 import { LoginViewModelToken } from '../../auth.di';
-import { LoginViewModel } from '../viewmodels/LoginViewModel';
-import { useAuth } from '../context/AuthContext';
 import AuthButton from '../components/AuthButton';
 import AuthFooter from '../components/AuthFooter';
 import AuthInput from '../components/AuthInput';
 import SocialButtons from '../components/SocialButtons';
+import { useAuth } from '../context/AuthContext';
 import { getAuthStyles } from '../styles/auth.styles';
+import { LoginViewModel } from '../viewmodels/LoginViewModel';
 
 const LoginScreen: React.FC = () => {
   const router = useRouter();
@@ -74,8 +74,15 @@ const LoginScreen: React.FC = () => {
       </TouchableOpacity>
 
       {viewState.errors.general && (
-        <View style={{ backgroundColor: '#ff6b6b', padding: 12, borderRadius: 8, marginBottom: 16 }}>
-          <Text style={{ color: 'white', fontSize: 14 }}>{viewState.errors.general}</Text>
+        <View style={{ 
+          backgroundColor: isDarkMode ? '#ff6b6b' : '#ff4757', 
+          padding: 12, 
+          borderRadius: 8, 
+          marginBottom: 16,
+          borderWidth: 1,
+          borderColor: isDarkMode ? '#ff8e8e' : '#ff3838'
+        }}>
+          <Text style={{ color: 'white', fontSize: 14, fontWeight: '500' }}>{viewState.errors.general}</Text>
         </View>
       )}
 
@@ -91,7 +98,13 @@ const LoginScreen: React.FC = () => {
         focused={emailFocused}
       />
       {viewState.errors.email && (
-        <Text style={{ color: '#ff6b6b', fontSize: 12, marginTop: 4, marginBottom: 8 }}>
+        <Text style={{ 
+          color: isDarkMode ? '#ff6b6b' : '#ff4757', 
+          fontSize: 12, 
+          marginTop: 4, 
+          marginBottom: 8,
+          fontWeight: '500'
+        }}>
           {viewState.errors.email}
         </Text>
       )}
@@ -107,7 +120,13 @@ const LoginScreen: React.FC = () => {
         focused={passwordFocused}
       />
       {viewState.errors.password && (
-        <Text style={{ color: '#ff6b6b', fontSize: 12, marginTop: 4, marginBottom: 8 }}>
+        <Text style={{ 
+          color: isDarkMode ? '#ff6b6b' : '#ff4757', 
+          fontSize: 12, 
+          marginTop: 4, 
+          marginBottom: 8,
+          fontWeight: '500'
+        }}>
           {viewState.errors.password}
         </Text>
       )}

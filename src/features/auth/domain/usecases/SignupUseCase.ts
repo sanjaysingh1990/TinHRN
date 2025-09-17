@@ -6,12 +6,12 @@ import { User } from '../entities/User';
 import { IAuthRepository } from '../repositories/IAuthRepository';
 
 @injectable()
-export class SignupUseCase implements UseCase<{ name: string; email: string; password: string }, Promise<User>> {
+export class SignupUseCase implements UseCase<{ name: string; email: string; password: string; phoneNumber?: string }, Promise<User>> {
   constructor(
     @inject(AuthRepositoryToken) private authRepository: IAuthRepository
   ) {}
 
-  execute({ name, email, password }: { name: string; email: string; password: string }): Promise<User> {
-    return this.authRepository.signup(name, email, password);
+  execute({ name, email, password, phoneNumber }: { name: string; email: string; password: string; phoneNumber?: string }): Promise<User> {
+    return this.authRepository.signup(name, email, password, phoneNumber);
   }
 }
