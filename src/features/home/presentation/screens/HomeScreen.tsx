@@ -1,4 +1,3 @@
-
 import { MaterialIcons } from '@expo/vector-icons';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
@@ -49,7 +48,19 @@ const HomeScreen: React.FC = () => {
       if (newTours.length === 0) {
         setHasMore(false);
       } else {
-        setTours(prevTours => [...prevTours, ...newTours]);
+        // Ensure no duplicate tours are added
+        setTours(prevTours => {
+          const existingIds = new Set(prevTours.map(tour => 
+            typeof tour.id === 'number' ? tour.id.toString() : tour.id
+          ));
+          
+          const uniqueNewTours = newTours.filter(tour => {
+            const tourId = typeof tour.id === 'number' ? tour.id.toString() : tour.id;
+            return !existingIds.has(tourId);
+          });
+          
+          return [...prevTours, ...uniqueNewTours];
+        });
         page.current += 1;
       }
       setLoading(false);
@@ -215,6 +226,11 @@ const HomeScreen: React.FC = () => {
     image: '' 
   }));
 
+  // Helper function to convert ID to string for keyExtractor
+  const getKey = (item: Tour) => {
+    return typeof item.id === 'number' ? item.id.toString() : item.id;
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style={colorScheme === 'dark' ? "light" : "dark"} />
@@ -238,14 +254,14 @@ const HomeScreen: React.FC = () => {
               </View>
               <TouchableOpacity style={styles.exploreButton} onPress={() => router.push({
                 pathname: '/tour/[id]',
-                params: { id: item.id, name: item.name, image: item.image }
+                params: { id: getKey(item), name: item.name, image: item.image }
               })}>
                 <Text style={styles.exploreButtonText}>Explore</Text>
               </TouchableOpacity>
             </View>
           </View>
         )}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item, index) => `${getKey(item)}_${index}`}
         contentContainerStyle={{ paddingHorizontal: 7.5 }}
         ListHeaderComponent={renderHeader}
         ListFooterComponent={renderFooter}

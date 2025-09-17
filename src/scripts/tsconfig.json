@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2017",
+    "esModuleInterop": true,
+    "resolveJsonModule": true
+  },
+  "include": [
+    "**/*.ts",
+    "../../FIRESTORE_SAMPLE_DATA.json"
+  ]
+}

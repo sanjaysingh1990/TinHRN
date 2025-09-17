@@ -8,7 +8,8 @@
         "android": "expo start --android",
         "ios": "expo start --ios",
         "web": "expo start --web",
-        "lint": "expo lint"
+        "lint": "expo lint",
+        "populate-tours": "ts-node src/scripts/populateTours.ts"
     },
     "dependencies": {
         "@expo/vector-icons": "^15.0.2",
@@ -60,6 +61,7 @@
         "babel-plugin-transform-typescript-metadata": "^0.3.2",
         "eslint": "^9.25.0",
         "eslint-config-expo": "~10.0.0",
+        "ts-node": "^10.9.2",
         "typescript": "~5.9.2"
     },
     "private": true

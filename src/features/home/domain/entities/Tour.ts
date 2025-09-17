@@ -1,6 +1,5 @@
-
 export interface Tour {
-  id: number;
+  id: number | string; // Support both number and string IDs
   name: string;
   duration: string;
   image: string;
