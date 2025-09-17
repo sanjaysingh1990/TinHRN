@@ -1,9 +1,9 @@
 
-import React from 'react';
-import { View, Text, TouchableOpacity, useColorScheme } from 'react-native';
 import { useRouter } from 'expo-router';
-import { getAuthStyles } from '../styles/auth.styles';
+import React from 'react';
+import { Text, TouchableOpacity, useColorScheme, View } from 'react-native';
 import { theme } from '../../../../theme';
+import { getAuthStyles } from '../styles/auth.styles';
 
 interface AuthHeaderProps {
   title: string;

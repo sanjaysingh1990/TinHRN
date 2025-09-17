@@ -1,13 +1,15 @@
 
 import "reflect-metadata";
 import { container } from "tsyringe";
-import { AuthRepositoryToken, GetCurrentUserUseCaseToken, LoginUseCaseToken, LogoutUseCaseToken, SendPasswordResetEmailUseCaseToken, SignupUseCaseToken } from "./features/auth/auth.di";
+import { AuthRepositoryToken, GetCurrentUserUseCaseToken, LoginUseCaseToken, LogoutUseCaseToken, SendPasswordResetEmailUseCaseToken, SignupUseCaseToken, LoginViewModelToken, SignupViewModelToken } from "./features/auth/auth.di";
 import { AuthRepository } from "./features/auth/data/repositories/AuthRepository";
 import { GetCurrentUserUseCase } from "./features/auth/domain/usecases/GetCurrentUserUseCase";
 import { LoginUseCase } from "./features/auth/domain/usecases/LoginUseCase";
 import { LogoutUseCase } from "./features/auth/domain/usecases/LogoutUseCase";
 import { SendPasswordResetEmailUseCase } from "./features/auth/domain/usecases/SendPasswordResetEmailUseCase";
 import { SignupUseCase } from "./features/auth/domain/usecases/SignupUseCase";
+import { LoginViewModel } from "./features/auth/presentation/viewmodels/LoginViewModel";
+import { SignupViewModel } from "./features/auth/presentation/viewmodels/SignupViewModel";
 import { GetSampleDataUseCase } from "./sample/application/usecases/GetSampleDataUseCase";
 import { SampleRepository } from "./sample/infrastructure/repositories/SampleRepository";
 import { GetSampleDataUseCaseToken, SampleRepositoryToken } from "./sample/tokens";
@@ -72,6 +74,8 @@ container.register(SignupUseCaseToken, { useClass: SignupUseCase });
 container.register(LogoutUseCaseToken, { useClass: LogoutUseCase });
 container.register(GetCurrentUserUseCaseToken, { useClass: GetCurrentUserUseCase });
 container.register(SendPasswordResetEmailUseCaseToken, { useClass: SendPasswordResetEmailUseCase });
+container.register(LoginViewModelToken, { useClass: LoginViewModel });
+container.register(SignupViewModelToken, { useClass: SignupViewModel });
 
 container.register(TourRepositoryToken, { useClass: TourRepository });
 container.register(HomeViewModelToken, { useClass: HomeViewModel });
