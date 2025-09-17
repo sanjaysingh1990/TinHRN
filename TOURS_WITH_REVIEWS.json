@@ -44,7 +44,13 @@
                 "Personal expenses",
                 "Alcoholic beverages"
             ],
-            "bestTime": ["March", "April", "May", "October", "November"],
+            "bestTime": [
+                "March",
+                "April",
+                "May",
+                "October",
+                "November"
+            ],
             "createdAt": {
                 "_seconds": 1704886200,
                 "_nanoseconds": 0
@@ -55,7 +61,149 @@
             },
             "rating": 4.8,
             "totalReviews": 125,
-            "popularity": 95
+            "popularity": 95,
+            "itinerary": [
+                {
+                    "day": 1,
+                    "location": "Pokhara",
+                    "activity": "Departure transfer to airport for onward journey",
+                    "accommodation": "Tented camp",
+                    "meals": "Packed lunch",
+                    "altitude": "3558m",
+                    "distance": "5 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 2,
+                    "location": "Pokhara",
+                    "activity": "Descend through diverse landscapes to lower altitude",
+                    "accommodation": "Local guesthouse",
+                    "meals": "Packed lunch",
+                    "altitude": "3131m",
+                    "distance": "10 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 3,
+                    "location": "Manang",
+                    "activity": "Ascend to higher altitude, acclimatization day with short hikes",
+                    "accommodation": "Tented camp",
+                    "meals": "Buffet dinner",
+                    "altitude": "4090m",
+                    "distance": "10 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 4,
+                    "location": "Annapurna Base Camp",
+                    "activity": "Cross suspension bridges, visit local villages and monasteries",
+                    "accommodation": "Tented camp",
+                    "meals": "Picnic lunch",
+                    "altitude": "2963m",
+                    "distance": "4 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 5,
+                    "location": "Gorakshep",
+                    "activity": "Ascend to higher altitude, acclimatization day with short hikes",
+                    "accommodation": "Eco-lodge",
+                    "meals": "Picnic lunch",
+                    "altitude": "2426m",
+                    "distance": "9 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 6,
+                    "location": "Annapurna Base Camp",
+                    "activity": "Cross high mountain passes with breathtaking vistas",
+                    "accommodation": "Local guesthouse",
+                    "meals": "Vegetarian options",
+                    "altitude": "3249m",
+                    "distance": "14 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 7,
+                    "location": "Everest Base Camp",
+                    "activity": "Trek to high-altitude camp with stunning sunrise views",
+                    "accommodation": "Local guesthouse",
+                    "meals": "Light breakfast",
+                    "altitude": "1382m",
+                    "distance": "15 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 8,
+                    "location": "Muktinath",
+                    "activity": "Drive to trailhead, begin trekking through scenic valleys",
+                    "accommodation": "Local guesthouse",
+                    "meals": "Breakfast at hotel",
+                    "altitude": "2126m",
+                    "distance": "3 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 9,
+                    "location": "Kathmandu",
+                    "activity": "Final trekking day, return to starting point",
+                    "accommodation": "Traditional homestay",
+                    "meals": "Lunch at local restaurant",
+                    "altitude": "1818m",
+                    "distance": "16 km",
+                    "duration": "9 hours"
+                },
+                {
+                    "day": 10,
+                    "location": "Gorakshep",
+                    "activity": "Ascend to higher altitude, acclimatization day with short hikes",
+                    "accommodation": "Tented camp",
+                    "meals": "Traditional dinner",
+                    "altitude": "1465m",
+                    "distance": "17 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 11,
+                    "location": "Manang",
+                    "activity": "Cross high mountain passes with breathtaking vistas",
+                    "accommodation": "Riverside resort",
+                    "meals": "Traditional dinner",
+                    "altitude": "4934m",
+                    "distance": "8 km",
+                    "duration": "9 hours"
+                },
+                {
+                    "day": 12,
+                    "location": "Namche Bazaar",
+                    "activity": "Visit traditional settlements, experience local culture",
+                    "accommodation": "Riverside resort",
+                    "meals": "Breakfast at hotel",
+                    "altitude": "3863m",
+                    "distance": "7 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 13,
+                    "location": "Pokhara",
+                    "activity": "Cross suspension bridges, visit local villages and monasteries",
+                    "accommodation": "Riverside resort",
+                    "meals": "Vegetarian options",
+                    "altitude": "1568m",
+                    "distance": "13 km",
+                    "duration": "9 hours"
+                },
+                {
+                    "day": 14,
+                    "location": "Muktinath",
+                    "activity": "Drive back to city, farewell dinner with team",
+                    "accommodation": "Local guesthouse",
+                    "meals": "Picnic lunch",
+                    "altitude": "1641m",
+                    "distance": "8 km",
+                    "duration": "4 hours"
+                }
+            ]
         },
         "tour_002": {
             "id": "tour_002",
@@ -102,7 +250,14 @@
                 "Personal expenses",
                 "Alcoholic beverages"
             ],
-            "bestTime": ["March", "April", "May", "September", "October", "November"],
+            "bestTime": [
+                "March",
+                "April",
+                "May",
+                "September",
+                "October",
+                "November"
+            ],
             "createdAt": {
                 "_seconds": 1704886200,
                 "_nanoseconds": 0
@@ -113,7 +268,169 @@
             },
             "rating": 4.9,
             "totalReviews": 210,
-            "popularity": 98
+            "popularity": 98,
+            "itinerary": [
+                {
+                    "day": 1,
+                    "location": "Muktinath",
+                    "activity": "Drive to trailhead, begin trekking through scenic valleys",
+                    "accommodation": "Riverside resort",
+                    "meals": "Buffet dinner",
+                    "altitude": "2619m",
+                    "distance": "11 km",
+                    "duration": "9 hours"
+                },
+                {
+                    "day": 2,
+                    "location": "Manang",
+                    "activity": "Visit traditional settlements, experience local culture",
+                    "accommodation": "Heritage resort",
+                    "meals": "Buffet dinner",
+                    "altitude": "3538m",
+                    "distance": "13 km",
+                    "duration": "9 hours"
+                },
+                {
+                    "day": 3,
+                    "location": "Gorakshep",
+                    "activity": "Ascend to higher altitude, acclimatization day with short hikes",
+                    "accommodation": "Eco-lodge",
+                    "meals": "High-energy snacks",
+                    "altitude": "4384m",
+                    "distance": "8 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 4,
+                    "location": "Helambu",
+                    "activity": "Cross suspension bridges, visit local villages and monasteries",
+                    "accommodation": "Mountain campsite",
+                    "meals": "Light breakfast",
+                    "altitude": "3780m",
+                    "distance": "6 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 5,
+                    "location": "Everest Base Camp",
+                    "activity": "Rest day for recovery and sightseeing in the valley",
+                    "accommodation": "Boutique hotel",
+                    "meals": "Dinner with cultural show",
+                    "altitude": "3247m",
+                    "distance": "7 km",
+                    "duration": "9 hours"
+                },
+                {
+                    "day": 6,
+                    "location": "Langtang Valley",
+                    "activity": "Ascend to higher altitude, acclimatization day with short hikes",
+                    "accommodation": "Mountain campsite",
+                    "meals": "High-energy snacks",
+                    "altitude": "1441m",
+                    "distance": "8 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 7,
+                    "location": "Dingboche",
+                    "activity": "Ascend to higher altitude, acclimatization day with short hikes",
+                    "accommodation": "Tented camp",
+                    "meals": "Packed lunch",
+                    "altitude": "1232m",
+                    "distance": "10 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 8,
+                    "location": "Lobuche",
+                    "activity": "Departure transfer to airport for onward journey",
+                    "accommodation": "Traditional homestay",
+                    "meals": "Lunch at local restaurant",
+                    "altitude": "2016m",
+                    "distance": "16 km",
+                    "duration": "9 hours"
+                },
+                {
+                    "day": 9,
+                    "location": "Namche Bazaar",
+                    "activity": "Descend through diverse landscapes to lower altitude",
+                    "accommodation": "Boutique hotel",
+                    "meals": "Dinner with cultural show",
+                    "altitude": "1811m",
+                    "distance": "8 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 10,
+                    "location": "Namche Bazaar",
+                    "activity": "Departure transfer to airport for onward journey",
+                    "accommodation": "Riverside resort",
+                    "meals": "Lunch at local restaurant",
+                    "altitude": "4910m",
+                    "distance": "7 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 11,
+                    "location": "Namche Bazaar",
+                    "activity": "Trek through rhododendron forests with views of snow-capped peaks",
+                    "accommodation": "Mountain campsite",
+                    "meals": "Buffet dinner",
+                    "altitude": "1926m",
+                    "distance": "11 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 12,
+                    "location": "Everest Base Camp",
+                    "activity": "Final trekking day, return to starting point",
+                    "accommodation": "Boutique hotel",
+                    "meals": "Box lunch",
+                    "altitude": "4006m",
+                    "distance": "5 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 13,
+                    "location": "Lobuche",
+                    "activity": "Cross suspension bridges, visit local villages and monasteries",
+                    "accommodation": "Heritage resort",
+                    "meals": "Picnic lunch",
+                    "altitude": "2872m",
+                    "distance": "15 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 14,
+                    "location": "Mustang",
+                    "activity": "Arrival at airport, transfer to hotel, briefing and equipment check",
+                    "accommodation": "Eco-lodge",
+                    "meals": "High-energy snacks",
+                    "altitude": "2054m",
+                    "distance": "9 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 15,
+                    "location": "Mustang",
+                    "activity": "Final trekking day, return to starting point",
+                    "accommodation": "Local guesthouse",
+                    "meals": "Packed lunch",
+                    "altitude": "3655m",
+                    "distance": "7 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 16,
+                    "location": "Manang",
+                    "activity": "Continue trekking with panoramic mountain views",
+                    "accommodation": "Luxury hotel in city",
+                    "meals": "Buffet dinner",
+                    "altitude": "4479m",
+                    "distance": "6 km",
+                    "duration": "7 hours"
+                }
+            ]
         },
         "tour_003": {
             "id": "tour_003",
@@ -157,7 +474,13 @@
                 "Travel insurance",
                 "Personal expenses"
             ],
-            "bestTime": ["March", "April", "May", "October", "November"],
+            "bestTime": [
+                "March",
+                "April",
+                "May",
+                "October",
+                "November"
+            ],
             "createdAt": {
                 "_seconds": 1704886200,
                 "_nanoseconds": 0
@@ -168,7 +491,129 @@
             },
             "rating": 4.7,
             "totalReviews": 89,
-            "popularity": 85
+            "popularity": 85,
+            "itinerary": [
+                {
+                    "day": 1,
+                    "location": "Jomsom",
+                    "activity": "Final trekking day, return to starting point",
+                    "accommodation": "Traditional homestay",
+                    "meals": "Continental breakfast",
+                    "altitude": "3256m",
+                    "distance": "3 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 2,
+                    "location": "Manang",
+                    "activity": "Cross high mountain passes with breathtaking vistas",
+                    "accommodation": "Riverside resort",
+                    "meals": "Traditional dinner",
+                    "altitude": "3120m",
+                    "distance": "16 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 3,
+                    "location": "Kathmandu",
+                    "activity": "Trek to high-altitude camp with stunning sunrise views",
+                    "accommodation": "Tented camp",
+                    "meals": "Dinner with cultural show",
+                    "altitude": "3450m",
+                    "distance": "14 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 4,
+                    "location": "Manang",
+                    "activity": "Final trekking day, return to starting point",
+                    "accommodation": "Teahouse lodge",
+                    "meals": "Box lunch",
+                    "altitude": "4636m",
+                    "distance": "8 km",
+                    "duration": "9 hours"
+                },
+                {
+                    "day": 5,
+                    "location": "Tengboche",
+                    "activity": "Departure transfer to airport for onward journey",
+                    "accommodation": "Tented camp",
+                    "meals": "Box lunch",
+                    "altitude": "1370m",
+                    "distance": "14 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 6,
+                    "location": "Pokhara",
+                    "activity": "Explore local markets and cultural sites",
+                    "accommodation": "Traditional homestay",
+                    "meals": "Light breakfast",
+                    "altitude": "3957m",
+                    "distance": "6 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 7,
+                    "location": "Gorakshep",
+                    "activity": "Cross suspension bridges, visit local villages and monasteries",
+                    "accommodation": "Traditional homestay",
+                    "meals": "Lunch at local restaurant",
+                    "altitude": "3965m",
+                    "distance": "13 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 8,
+                    "location": "Jomsom",
+                    "activity": "Arrival at airport, transfer to hotel, briefing and equipment check",
+                    "accommodation": "Traditional homestay",
+                    "meals": "Picnic lunch",
+                    "altitude": "1474m",
+                    "distance": "16 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 9,
+                    "location": "Muktinath",
+                    "activity": "Cross high mountain passes with breathtaking vistas",
+                    "accommodation": "Local guesthouse",
+                    "meals": "Vegetarian options",
+                    "altitude": "3810m",
+                    "distance": "15 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 10,
+                    "location": "Pokhara",
+                    "activity": "Cross suspension bridges, visit local villages and monasteries",
+                    "accommodation": "Traditional homestay",
+                    "meals": "Breakfast at hotel",
+                    "altitude": "4981m",
+                    "distance": "6 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 11,
+                    "location": "Langtang Valley",
+                    "activity": "Cross suspension bridges, visit local villages and monasteries",
+                    "accommodation": "Traditional homestay",
+                    "meals": "Continental breakfast",
+                    "altitude": "2096m",
+                    "distance": "16 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 12,
+                    "location": "Gorakshep",
+                    "activity": "Arrival at airport, transfer to hotel, briefing and equipment check",
+                    "accommodation": "Eco-lodge",
+                    "meals": "Box lunch",
+                    "altitude": "2002m",
+                    "distance": "3 km",
+                    "duration": "6 hours"
+                }
+            ]
         },
         "tour_004": {
             "id": "tour_004",
@@ -213,7 +658,14 @@
                 "Travel insurance",
                 "Personal expenses"
             ],
-            "bestTime": ["March", "April", "May", "September", "October", "November"],
+            "bestTime": [
+                "March",
+                "April",
+                "May",
+                "September",
+                "October",
+                "November"
+            ],
             "createdAt": {
                 "_seconds": 1704886200,
                 "_nanoseconds": 0
@@ -224,7 +676,189 @@
             },
             "rating": 4.8,
             "totalReviews": 76,
-            "popularity": 88
+            "popularity": 88,
+            "itinerary": [
+                {
+                    "day": 1,
+                    "location": "Gorakshep",
+                    "activity": "Visit traditional settlements, experience local culture",
+                    "accommodation": "Boutique hotel",
+                    "meals": "Breakfast at hotel",
+                    "altitude": "2606m",
+                    "distance": "5 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 2,
+                    "location": "Manang",
+                    "activity": "Rest day for recovery and sightseeing in the valley",
+                    "accommodation": "Luxury hotel in city",
+                    "meals": "Picnic lunch",
+                    "altitude": "3394m",
+                    "distance": "5 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 3,
+                    "location": "Gorakshep",
+                    "activity": "Rest day for recovery and sightseeing in the valley",
+                    "accommodation": "Traditional homestay",
+                    "meals": "Lunch at local restaurant",
+                    "altitude": "3873m",
+                    "distance": "17 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 4,
+                    "location": "Mustang",
+                    "activity": "Drive back to city, farewell dinner with team",
+                    "accommodation": "Riverside resort",
+                    "meals": "Buffet dinner",
+                    "altitude": "2641m",
+                    "distance": "14 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 5,
+                    "location": "Helambu",
+                    "activity": "Arrival at airport, transfer to hotel, briefing and equipment check",
+                    "accommodation": "Mountain campsite",
+                    "meals": "High-energy snacks",
+                    "altitude": "4969m",
+                    "distance": "14 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 6,
+                    "location": "Lobuche",
+                    "activity": "Arrival at airport, transfer to hotel, briefing and equipment check",
+                    "accommodation": "Teahouse lodge",
+                    "meals": "Dinner with cultural show",
+                    "altitude": "3404m",
+                    "distance": "13 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 7,
+                    "location": "Lobuche",
+                    "activity": "Continue trekking with panoramic mountain views",
+                    "accommodation": "Heritage resort",
+                    "meals": "Breakfast at hotel",
+                    "altitude": "2321m",
+                    "distance": "17 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 8,
+                    "location": "Helambu",
+                    "activity": "Final trekking day, return to starting point",
+                    "accommodation": "Boutique hotel",
+                    "meals": "Buffet dinner",
+                    "altitude": "2081m",
+                    "distance": "14 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 9,
+                    "location": "Langtang Valley",
+                    "activity": "Final trekking day, return to starting point",
+                    "accommodation": "Local guesthouse",
+                    "meals": "Local cuisine dinner",
+                    "altitude": "3327m",
+                    "distance": "12 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 10,
+                    "location": "Kathmandu",
+                    "activity": "Final trekking day, return to starting point",
+                    "accommodation": "Luxury hotel in city",
+                    "meals": "Traditional dinner",
+                    "altitude": "3952m",
+                    "distance": "9 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 11,
+                    "location": "Muktinath",
+                    "activity": "Explore local markets and cultural sites",
+                    "accommodation": "Mountain campsite",
+                    "meals": "Packed lunch",
+                    "altitude": "2222m",
+                    "distance": "10 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 12,
+                    "location": "Tengboche",
+                    "activity": "Rest day for recovery and sightseeing in the valley",
+                    "accommodation": "Local guesthouse",
+                    "meals": "Local cuisine dinner",
+                    "altitude": "4469m",
+                    "distance": "7 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 13,
+                    "location": "Gorakshep",
+                    "activity": "Cross high mountain passes with breathtaking vistas",
+                    "accommodation": "Heritage resort",
+                    "meals": "Breakfast at hotel",
+                    "altitude": "2945m",
+                    "distance": "7 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 14,
+                    "location": "Everest Base Camp",
+                    "activity": "Trek to high-altitude camp with stunning sunrise views",
+                    "accommodation": "Eco-lodge",
+                    "meals": "Packed lunch",
+                    "altitude": "3122m",
+                    "distance": "7 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 15,
+                    "location": "Lobuche",
+                    "activity": "Drive to trailhead, begin trekking through scenic valleys",
+                    "accommodation": "Teahouse lodge",
+                    "meals": "Dinner with cultural show",
+                    "altitude": "3475m",
+                    "distance": "13 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 16,
+                    "location": "Tengboche",
+                    "activity": "Departure transfer to airport for onward journey",
+                    "accommodation": "Riverside resort",
+                    "meals": "Picnic lunch",
+                    "altitude": "2135m",
+                    "distance": "4 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 17,
+                    "location": "Namche Bazaar",
+                    "activity": "Final trekking day, return to starting point",
+                    "accommodation": "Traditional homestay",
+                    "meals": "Vegetarian options",
+                    "altitude": "4548m",
+                    "distance": "5 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 18,
+                    "location": "Langtang Valley",
+                    "activity": "Arrival at airport, transfer to hotel, briefing and equipment check",
+                    "accommodation": "Traditional homestay",
+                    "meals": "Picnic lunch",
+                    "altitude": "1201m",
+                    "distance": "15 km",
+                    "duration": "7 hours"
+                }
+            ]
         },
         "tour_005": {
             "id": "tour_005",
@@ -268,7 +902,14 @@
                 "Travel insurance",
                 "Personal expenses"
             ],
-            "bestTime": ["March", "April", "May", "September", "October", "November"],
+            "bestTime": [
+                "March",
+                "April",
+                "May",
+                "September",
+                "October",
+                "November"
+            ],
             "createdAt": {
                 "_seconds": 1704886200,
                 "_nanoseconds": 0
@@ -279,7 +920,159 @@
             },
             "rating": 4.7,
             "totalReviews": 92,
-            "popularity": 82
+            "popularity": 82,
+            "itinerary": [
+                {
+                    "day": 1,
+                    "location": "Dingboche",
+                    "activity": "Drive to trailhead, begin trekking through scenic valleys",
+                    "accommodation": "Mountain campsite",
+                    "meals": "Vegetarian options",
+                    "altitude": "2678m",
+                    "distance": "13 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 2,
+                    "location": "Dingboche",
+                    "activity": "Final trekking day, return to starting point",
+                    "accommodation": "Local guesthouse",
+                    "meals": "Light breakfast",
+                    "altitude": "4967m",
+                    "distance": "5 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 3,
+                    "location": "Langtang Valley",
+                    "activity": "Ascend to higher altitude, acclimatization day with short hikes",
+                    "accommodation": "Mountain campsite",
+                    "meals": "Breakfast at hotel",
+                    "altitude": "1044m",
+                    "distance": "5 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 4,
+                    "location": "Namche Bazaar",
+                    "activity": "Arrival at airport, transfer to hotel, briefing and equipment check",
+                    "accommodation": "Heritage resort",
+                    "meals": "Local cuisine dinner",
+                    "altitude": "4171m",
+                    "distance": "5 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 5,
+                    "location": "Kathmandu",
+                    "activity": "Trek to high-altitude camp with stunning sunrise views",
+                    "accommodation": "Luxury hotel in city",
+                    "meals": "Traditional dinner",
+                    "altitude": "4659m",
+                    "distance": "9 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 6,
+                    "location": "Manang",
+                    "activity": "Rest day for recovery and sightseeing in the valley",
+                    "accommodation": "Mountain campsite",
+                    "meals": "Continental breakfast",
+                    "altitude": "2380m",
+                    "distance": "8 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 7,
+                    "location": "Mustang",
+                    "activity": "Arrival at airport, transfer to hotel, briefing and equipment check",
+                    "accommodation": "Boutique hotel",
+                    "meals": "Picnic lunch",
+                    "altitude": "3497m",
+                    "distance": "5 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 8,
+                    "location": "Langtang Valley",
+                    "activity": "Departure transfer to airport for onward journey",
+                    "accommodation": "Heritage resort",
+                    "meals": "Traditional dinner",
+                    "altitude": "4000m",
+                    "distance": "13 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 9,
+                    "location": "Helambu",
+                    "activity": "Arrival at airport, transfer to hotel, briefing and equipment check",
+                    "accommodation": "Riverside resort",
+                    "meals": "Traditional dinner",
+                    "altitude": "3104m",
+                    "distance": "6 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 10,
+                    "location": "Gorakshep",
+                    "activity": "Trek through rhododendron forests with views of snow-capped peaks",
+                    "accommodation": "Teahouse lodge",
+                    "meals": "Dinner with cultural show",
+                    "altitude": "1457m",
+                    "distance": "9 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 11,
+                    "location": "Tengboche",
+                    "activity": "Cross high mountain passes with breathtaking vistas",
+                    "accommodation": "Traditional homestay",
+                    "meals": "Local cuisine dinner",
+                    "altitude": "1713m",
+                    "distance": "16 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 12,
+                    "location": "Dingboche",
+                    "activity": "Ascend to higher altitude, acclimatization day with short hikes",
+                    "accommodation": "Luxury hotel in city",
+                    "meals": "Continental breakfast",
+                    "altitude": "1727m",
+                    "distance": "10 km",
+                    "duration": "9 hours"
+                },
+                {
+                    "day": 13,
+                    "location": "Helambu",
+                    "activity": "Trek through rhododendron forests with views of snow-capped peaks",
+                    "accommodation": "Luxury hotel in city",
+                    "meals": "Traditional dinner",
+                    "altitude": "3781m",
+                    "distance": "11 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 14,
+                    "location": "Namche Bazaar",
+                    "activity": "Visit traditional settlements, experience local culture",
+                    "accommodation": "Local guesthouse",
+                    "meals": "Continental breakfast",
+                    "altitude": "3029m",
+                    "distance": "7 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 15,
+                    "location": "Everest Base Camp",
+                    "activity": "Continue trekking with panoramic mountain views",
+                    "accommodation": "Traditional homestay",
+                    "meals": "Buffet dinner",
+                    "altitude": "2254m",
+                    "distance": "14 km",
+                    "duration": "9 hours"
+                }
+            ]
         },
         "tour_006": {
             "id": "tour_006",
@@ -324,7 +1117,14 @@
                 "Travel insurance",
                 "Personal expenses"
             ],
-            "bestTime": ["March", "April", "May", "September", "October", "November"],
+            "bestTime": [
+                "March",
+                "April",
+                "May",
+                "September",
+                "October",
+                "November"
+            ],
             "createdAt": {
                 "_seconds": 1704886200,
                 "_nanoseconds": 0
@@ -335,7 +1135,179 @@
             },
             "rating": 4.9,
             "totalReviews": 68,
-            "popularity": 90
+            "popularity": 90,
+            "itinerary": [
+                {
+                    "day": 1,
+                    "location": "Pokhara",
+                    "activity": "Ascend to higher altitude, acclimatization day with short hikes",
+                    "accommodation": "Eco-lodge",
+                    "meals": "Packed lunch",
+                    "altitude": "3034m",
+                    "distance": "8 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 2,
+                    "location": "Manang",
+                    "activity": "Descend through diverse landscapes to lower altitude",
+                    "accommodation": "Riverside resort",
+                    "meals": "Local cuisine dinner",
+                    "altitude": "3188m",
+                    "distance": "11 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 3,
+                    "location": "Mustang",
+                    "activity": "Continue trekking with panoramic mountain views",
+                    "accommodation": "Heritage resort",
+                    "meals": "Box lunch",
+                    "altitude": "1360m",
+                    "distance": "12 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 4,
+                    "location": "Langtang Valley",
+                    "activity": "Cross suspension bridges, visit local villages and monasteries",
+                    "accommodation": "Riverside resort",
+                    "meals": "Vegetarian options",
+                    "altitude": "3902m",
+                    "distance": "4 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 5,
+                    "location": "Mustang",
+                    "activity": "Cross high mountain passes with breathtaking vistas",
+                    "accommodation": "Teahouse lodge",
+                    "meals": "Traditional dinner",
+                    "altitude": "1375m",
+                    "distance": "11 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 6,
+                    "location": "Pokhara",
+                    "activity": "Trek through rhododendron forests with views of snow-capped peaks",
+                    "accommodation": "Heritage resort",
+                    "meals": "Lunch at local restaurant",
+                    "altitude": "4669m",
+                    "distance": "14 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 7,
+                    "location": "Muktinath",
+                    "activity": "Descend through diverse landscapes to lower altitude",
+                    "accommodation": "Tented camp",
+                    "meals": "Picnic lunch",
+                    "altitude": "3278m",
+                    "distance": "3 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 8,
+                    "location": "Tengboche",
+                    "activity": "Cross high mountain passes with breathtaking vistas",
+                    "accommodation": "Teahouse lodge",
+                    "meals": "Continental breakfast",
+                    "altitude": "3625m",
+                    "distance": "14 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 9,
+                    "location": "Pokhara",
+                    "activity": "Drive back to city, farewell dinner with team",
+                    "accommodation": "Teahouse lodge",
+                    "meals": "Light breakfast",
+                    "altitude": "2624m",
+                    "distance": "11 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 10,
+                    "location": "Langtang Valley",
+                    "activity": "Drive to trailhead, begin trekking through scenic valleys",
+                    "accommodation": "Traditional homestay",
+                    "meals": "Vegetarian options",
+                    "altitude": "1883m",
+                    "distance": "4 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 11,
+                    "location": "Namche Bazaar",
+                    "activity": "Trek to high-altitude camp with stunning sunrise views",
+                    "accommodation": "Heritage resort",
+                    "meals": "Local cuisine dinner",
+                    "altitude": "3798m",
+                    "distance": "4 km",
+                    "duration": "9 hours"
+                },
+                {
+                    "day": 12,
+                    "location": "Kathmandu",
+                    "activity": "Arrival at airport, transfer to hotel, briefing and equipment check",
+                    "accommodation": "Local guesthouse",
+                    "meals": "Box lunch",
+                    "altitude": "4564m",
+                    "distance": "7 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 13,
+                    "location": "Namche Bazaar",
+                    "activity": "Trek through rhododendron forests with views of snow-capped peaks",
+                    "accommodation": "Tented camp",
+                    "meals": "Box lunch",
+                    "altitude": "3584m",
+                    "distance": "16 km",
+                    "duration": "9 hours"
+                },
+                {
+                    "day": 14,
+                    "location": "Namche Bazaar",
+                    "activity": "Explore local markets and cultural sites",
+                    "accommodation": "Teahouse lodge",
+                    "meals": "Local cuisine dinner",
+                    "altitude": "1660m",
+                    "distance": "10 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 15,
+                    "location": "Langtang Valley",
+                    "activity": "Descend through diverse landscapes to lower altitude",
+                    "accommodation": "Traditional homestay",
+                    "meals": "Picnic lunch",
+                    "altitude": "2596m",
+                    "distance": "4 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 16,
+                    "location": "Helambu",
+                    "activity": "Trek to high-altitude camp with stunning sunrise views",
+                    "accommodation": "Riverside resort",
+                    "meals": "Traditional dinner",
+                    "altitude": "3801m",
+                    "distance": "9 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 17,
+                    "location": "Kathmandu",
+                    "activity": "Trek through rhododendron forests with views of snow-capped peaks",
+                    "accommodation": "Boutique hotel",
+                    "meals": "Packed lunch",
+                    "altitude": "4365m",
+                    "distance": "16 km",
+                    "duration": "5 hours"
+                }
+            ]
         },
         "tour_007": {
             "id": "tour_007",
@@ -380,7 +1352,14 @@
                 "Travel insurance",
                 "Personal expenses"
             ],
-            "bestTime": ["March", "April", "May", "September", "October", "November"],
+            "bestTime": [
+                "March",
+                "April",
+                "May",
+                "September",
+                "October",
+                "November"
+            ],
             "createdAt": {
                 "_seconds": 1704886200,
                 "_nanoseconds": 0
@@ -391,7 +1370,229 @@
             },
             "rating": 4.8,
             "totalReviews": 45,
-            "popularity": 78
+            "popularity": 78,
+            "itinerary": [
+                {
+                    "day": 1,
+                    "location": "Helambu",
+                    "activity": "Trek to high-altitude camp with stunning sunrise views",
+                    "accommodation": "Luxury hotel in city",
+                    "meals": "Lunch at local restaurant",
+                    "altitude": "4543m",
+                    "distance": "4 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 2,
+                    "location": "Jomsom",
+                    "activity": "Trek to high-altitude camp with stunning sunrise views",
+                    "accommodation": "Luxury hotel in city",
+                    "meals": "Buffet dinner",
+                    "altitude": "2169m",
+                    "distance": "16 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 3,
+                    "location": "Manang",
+                    "activity": "Arrival at airport, transfer to hotel, briefing and equipment check",
+                    "accommodation": "Eco-lodge",
+                    "meals": "Buffet dinner",
+                    "altitude": "3025m",
+                    "distance": "13 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 4,
+                    "location": "Annapurna Base Camp",
+                    "activity": "Cross high mountain passes with breathtaking vistas",
+                    "accommodation": "Eco-lodge",
+                    "meals": "Box lunch",
+                    "altitude": "4133m",
+                    "distance": "4 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 5,
+                    "location": "Annapurna Base Camp",
+                    "activity": "Cross suspension bridges, visit local villages and monasteries",
+                    "accommodation": "Teahouse lodge",
+                    "meals": "Packed lunch",
+                    "altitude": "2874m",
+                    "distance": "11 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 6,
+                    "location": "Muktinath",
+                    "activity": "Visit traditional settlements, experience local culture",
+                    "accommodation": "Teahouse lodge",
+                    "meals": "High-energy snacks",
+                    "altitude": "2192m",
+                    "distance": "10 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 7,
+                    "location": "Kathmandu",
+                    "activity": "Rest day for recovery and sightseeing in the valley",
+                    "accommodation": "Luxury hotel in city",
+                    "meals": "Picnic lunch",
+                    "altitude": "3873m",
+                    "distance": "4 km",
+                    "duration": "9 hours"
+                },
+                {
+                    "day": 8,
+                    "location": "Kathmandu",
+                    "activity": "Trek through rhododendron forests with views of snow-capped peaks",
+                    "accommodation": "Traditional homestay",
+                    "meals": "Vegetarian options",
+                    "altitude": "2905m",
+                    "distance": "11 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 9,
+                    "location": "Mustang",
+                    "activity": "Arrival at airport, transfer to hotel, briefing and equipment check",
+                    "accommodation": "Mountain campsite",
+                    "meals": "Vegetarian options",
+                    "altitude": "1180m",
+                    "distance": "4 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 10,
+                    "location": "Pokhara",
+                    "activity": "Departure transfer to airport for onward journey",
+                    "accommodation": "Mountain campsite",
+                    "meals": "Breakfast at hotel",
+                    "altitude": "1399m",
+                    "distance": "5 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 11,
+                    "location": "Mustang",
+                    "activity": "Drive to trailhead, begin trekking through scenic valleys",
+                    "accommodation": "Riverside resort",
+                    "meals": "Lunch at local restaurant",
+                    "altitude": "4745m",
+                    "distance": "15 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 12,
+                    "location": "Annapurna Base Camp",
+                    "activity": "Ascend to higher altitude, acclimatization day with short hikes",
+                    "accommodation": "Mountain campsite",
+                    "meals": "Traditional dinner",
+                    "altitude": "1818m",
+                    "distance": "17 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 13,
+                    "location": "Pokhara",
+                    "activity": "Arrival at airport, transfer to hotel, briefing and equipment check",
+                    "accommodation": "Local guesthouse",
+                    "meals": "Breakfast at hotel",
+                    "altitude": "1418m",
+                    "distance": "12 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 14,
+                    "location": "Mustang",
+                    "activity": "Explore local markets and cultural sites",
+                    "accommodation": "Riverside resort",
+                    "meals": "Picnic lunch",
+                    "altitude": "2900m",
+                    "distance": "9 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 15,
+                    "location": "Manang",
+                    "activity": "Arrival at airport, transfer to hotel, briefing and equipment check",
+                    "accommodation": "Heritage resort",
+                    "meals": "Local cuisine dinner",
+                    "altitude": "3063m",
+                    "distance": "8 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 16,
+                    "location": "Muktinath",
+                    "activity": "Trek to high-altitude camp with stunning sunrise views",
+                    "accommodation": "Eco-lodge",
+                    "meals": "Local cuisine dinner",
+                    "altitude": "3653m",
+                    "distance": "3 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 17,
+                    "location": "Annapurna Base Camp",
+                    "activity": "Drive back to city, farewell dinner with team",
+                    "accommodation": "Eco-lodge",
+                    "meals": "Continental breakfast",
+                    "altitude": "4261m",
+                    "distance": "15 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 18,
+                    "location": "Dingboche",
+                    "activity": "Cross suspension bridges, visit local villages and monasteries",
+                    "accommodation": "Tented camp",
+                    "meals": "Box lunch",
+                    "altitude": "3537m",
+                    "distance": "7 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 19,
+                    "location": "Mustang",
+                    "activity": "Descend through diverse landscapes to lower altitude",
+                    "accommodation": "Boutique hotel",
+                    "meals": "High-energy snacks",
+                    "altitude": "3563m",
+                    "distance": "4 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 20,
+                    "location": "Kathmandu",
+                    "activity": "Final trekking day, return to starting point",
+                    "accommodation": "Tented camp",
+                    "meals": "Box lunch",
+                    "altitude": "4317m",
+                    "distance": "13 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 21,
+                    "location": "Namche Bazaar",
+                    "activity": "Explore local markets and cultural sites",
+                    "accommodation": "Local guesthouse",
+                    "meals": "Dinner with cultural show",
+                    "altitude": "1017m",
+                    "distance": "15 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 22,
+                    "location": "Everest Base Camp",
+                    "activity": "Trek to high-altitude camp with stunning sunrise views",
+                    "accommodation": "Mountain campsite",
+                    "meals": "Picnic lunch",
+                    "altitude": "4251m",
+                    "distance": "6 km",
+                    "duration": "4 hours"
+                }
+            ]
         },
         "tour_008": {
             "id": "tour_008",
@@ -436,7 +1637,14 @@
                 "Travel insurance",
                 "Personal expenses"
             ],
-            "bestTime": ["March", "April", "May", "September", "October", "November"],
+            "bestTime": [
+                "March",
+                "April",
+                "May",
+                "September",
+                "October",
+                "November"
+            ],
             "createdAt": {
                 "_seconds": 1704886200,
                 "_nanoseconds": 0
@@ -447,7 +1655,249 @@
             },
             "rating": 4.7,
             "totalReviews": 38,
-            "popularity": 75
+            "popularity": 75,
+            "itinerary": [
+                {
+                    "day": 1,
+                    "location": "Jomsom",
+                    "activity": "Ascend to higher altitude, acclimatization day with short hikes",
+                    "accommodation": "Luxury hotel in city",
+                    "meals": "Continental breakfast",
+                    "altitude": "4871m",
+                    "distance": "7 km",
+                    "duration": "9 hours"
+                },
+                {
+                    "day": 2,
+                    "location": "Annapurna Base Camp",
+                    "activity": "Continue trekking with panoramic mountain views",
+                    "accommodation": "Mountain campsite",
+                    "meals": "Vegetarian options",
+                    "altitude": "3085m",
+                    "distance": "15 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 3,
+                    "location": "Kathmandu",
+                    "activity": "Departure transfer to airport for onward journey",
+                    "accommodation": "Local guesthouse",
+                    "meals": "Buffet dinner",
+                    "altitude": "2384m",
+                    "distance": "11 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 4,
+                    "location": "Mustang",
+                    "activity": "Cross suspension bridges, visit local villages and monasteries",
+                    "accommodation": "Heritage resort",
+                    "meals": "Light breakfast",
+                    "altitude": "4230m",
+                    "distance": "3 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 5,
+                    "location": "Langtang Valley",
+                    "activity": "Explore local markets and cultural sites",
+                    "accommodation": "Eco-lodge",
+                    "meals": "Picnic lunch",
+                    "altitude": "2512m",
+                    "distance": "14 km",
+                    "duration": "9 hours"
+                },
+                {
+                    "day": 6,
+                    "location": "Everest Base Camp",
+                    "activity": "Explore local markets and cultural sites",
+                    "accommodation": "Boutique hotel",
+                    "meals": "Lunch at local restaurant",
+                    "altitude": "3177m",
+                    "distance": "3 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 7,
+                    "location": "Kathmandu",
+                    "activity": "Drive to trailhead, begin trekking through scenic valleys",
+                    "accommodation": "Boutique hotel",
+                    "meals": "Box lunch",
+                    "altitude": "4942m",
+                    "distance": "6 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 8,
+                    "location": "Namche Bazaar",
+                    "activity": "Final trekking day, return to starting point",
+                    "accommodation": "Riverside resort",
+                    "meals": "Vegetarian options",
+                    "altitude": "1876m",
+                    "distance": "5 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 9,
+                    "location": "Mustang",
+                    "activity": "Final trekking day, return to starting point",
+                    "accommodation": "Heritage resort",
+                    "meals": "Packed lunch",
+                    "altitude": "3721m",
+                    "distance": "11 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 10,
+                    "location": "Everest Base Camp",
+                    "activity": "Cross suspension bridges, visit local villages and monasteries",
+                    "accommodation": "Mountain campsite",
+                    "meals": "Packed lunch",
+                    "altitude": "4294m",
+                    "distance": "10 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 11,
+                    "location": "Annapurna Base Camp",
+                    "activity": "Descend through diverse landscapes to lower altitude",
+                    "accommodation": "Riverside resort",
+                    "meals": "Breakfast at hotel",
+                    "altitude": "2209m",
+                    "distance": "3 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 12,
+                    "location": "Helambu",
+                    "activity": "Final trekking day, return to starting point",
+                    "accommodation": "Local guesthouse",
+                    "meals": "Buffet dinner",
+                    "altitude": "4802m",
+                    "distance": "4 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 13,
+                    "location": "Jomsom",
+                    "activity": "Arrival at airport, transfer to hotel, briefing and equipment check",
+                    "accommodation": "Tented camp",
+                    "meals": "Lunch at local restaurant",
+                    "altitude": "3258m",
+                    "distance": "12 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 14,
+                    "location": "Muktinath",
+                    "activity": "Trek to high-altitude camp with stunning sunrise views",
+                    "accommodation": "Heritage resort",
+                    "meals": "Continental breakfast",
+                    "altitude": "1380m",
+                    "distance": "8 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 15,
+                    "location": "Manang",
+                    "activity": "Cross high mountain passes with breathtaking vistas",
+                    "accommodation": "Local guesthouse",
+                    "meals": "Local cuisine dinner",
+                    "altitude": "4876m",
+                    "distance": "8 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 16,
+                    "location": "Manang",
+                    "activity": "Arrival at airport, transfer to hotel, briefing and equipment check",
+                    "accommodation": "Tented camp",
+                    "meals": "Continental breakfast",
+                    "altitude": "2031m",
+                    "distance": "5 km",
+                    "duration": "9 hours"
+                },
+                {
+                    "day": 17,
+                    "location": "Jomsom",
+                    "activity": "Descend through diverse landscapes to lower altitude",
+                    "accommodation": "Luxury hotel in city",
+                    "meals": "High-energy snacks",
+                    "altitude": "4483m",
+                    "distance": "16 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 18,
+                    "location": "Lobuche",
+                    "activity": "Visit traditional settlements, experience local culture",
+                    "accommodation": "Traditional homestay",
+                    "meals": "Dinner with cultural show",
+                    "altitude": "2840m",
+                    "distance": "5 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 19,
+                    "location": "Gorakshep",
+                    "activity": "Continue trekking with panoramic mountain views",
+                    "accommodation": "Teahouse lodge",
+                    "meals": "Continental breakfast",
+                    "altitude": "1428m",
+                    "distance": "14 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 20,
+                    "location": "Annapurna Base Camp",
+                    "activity": "Explore local markets and cultural sites",
+                    "accommodation": "Boutique hotel",
+                    "meals": "Picnic lunch",
+                    "altitude": "2709m",
+                    "distance": "7 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 21,
+                    "location": "Gorakshep",
+                    "activity": "Drive to trailhead, begin trekking through scenic valleys",
+                    "accommodation": "Traditional homestay",
+                    "meals": "Buffet dinner",
+                    "altitude": "2259m",
+                    "distance": "11 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 22,
+                    "location": "Annapurna Base Camp",
+                    "activity": "Drive to trailhead, begin trekking through scenic valleys",
+                    "accommodation": "Riverside resort",
+                    "meals": "Packed lunch",
+                    "altitude": "4547m",
+                    "distance": "10 km",
+                    "duration": "9 hours"
+                },
+                {
+                    "day": 23,
+                    "location": "Mustang",
+                    "activity": "Drive back to city, farewell dinner with team",
+                    "accommodation": "Tented camp",
+                    "meals": "Dinner with cultural show",
+                    "altitude": "4047m",
+                    "distance": "7 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 24,
+                    "location": "Gorakshep",
+                    "activity": "Cross high mountain passes with breathtaking vistas",
+                    "accommodation": "Luxury hotel in city",
+                    "meals": "Buffet dinner",
+                    "altitude": "2232m",
+                    "distance": "9 km",
+                    "duration": "6 hours"
+                }
+            ]
         },
         "tour_009": {
             "id": "tour_009",
@@ -491,7 +1941,13 @@
                 "Travel insurance",
                 "Personal expenses"
             ],
-            "bestTime": ["March", "April", "May", "October", "November"],
+            "bestTime": [
+                "March",
+                "April",
+                "May",
+                "October",
+                "November"
+            ],
             "createdAt": {
                 "_seconds": 1704886200,
                 "_nanoseconds": 0
@@ -502,7 +1958,59 @@
             },
             "rating": 4.6,
             "totalReviews": 156,
-            "popularity": 92
+            "popularity": 92,
+            "itinerary": [
+                {
+                    "day": 1,
+                    "location": "Mustang",
+                    "activity": "Drive back to city, farewell dinner with team",
+                    "accommodation": "Traditional homestay",
+                    "meals": "Continental breakfast",
+                    "altitude": "3106m",
+                    "distance": "4 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 2,
+                    "location": "Manang",
+                    "activity": "Trek through rhododendron forests with views of snow-capped peaks",
+                    "accommodation": "Heritage resort",
+                    "meals": "Buffet dinner",
+                    "altitude": "2700m",
+                    "distance": "12 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 3,
+                    "location": "Manang",
+                    "activity": "Final trekking day, return to starting point",
+                    "accommodation": "Teahouse lodge",
+                    "meals": "Breakfast at hotel",
+                    "altitude": "4650m",
+                    "distance": "10 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 4,
+                    "location": "Muktinath",
+                    "activity": "Descend through diverse landscapes to lower altitude",
+                    "accommodation": "Boutique hotel",
+                    "meals": "Continental breakfast",
+                    "altitude": "2356m",
+                    "distance": "3 km",
+                    "duration": "9 hours"
+                },
+                {
+                    "day": 5,
+                    "location": "Helambu",
+                    "activity": "Continue trekking with panoramic mountain views",
+                    "accommodation": "Heritage resort",
+                    "meals": "Packed lunch",
+                    "altitude": "3133m",
+                    "distance": "15 km",
+                    "duration": "7 hours"
+                }
+            ]
         },
         "tour_010": {
             "id": "tour_010",
@@ -546,7 +2054,13 @@
                 "Travel insurance",
                 "Personal expenses"
             ],
-            "bestTime": ["March", "April", "May", "October", "November"],
+            "bestTime": [
+                "March",
+                "April",
+                "May",
+                "October",
+                "November"
+            ],
             "createdAt": {
                 "_seconds": 1704886200,
                 "_nanoseconds": 0
@@ -557,7 +2071,79 @@
             },
             "rating": 4.5,
             "totalReviews": 98,
-            "popularity": 80
+            "popularity": 80,
+            "itinerary": [
+                {
+                    "day": 1,
+                    "location": "Langtang Valley",
+                    "activity": "Cross suspension bridges, visit local villages and monasteries",
+                    "accommodation": "Teahouse lodge",
+                    "meals": "Packed lunch",
+                    "altitude": "3860m",
+                    "distance": "14 km",
+                    "duration": "9 hours"
+                },
+                {
+                    "day": 2,
+                    "location": "Langtang Valley",
+                    "activity": "Continue trekking with panoramic mountain views",
+                    "accommodation": "Heritage resort",
+                    "meals": "Light breakfast",
+                    "altitude": "1482m",
+                    "distance": "6 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 3,
+                    "location": "Lobuche",
+                    "activity": "Trek to high-altitude camp with stunning sunrise views",
+                    "accommodation": "Mountain campsite",
+                    "meals": "Traditional dinner",
+                    "altitude": "1208m",
+                    "distance": "11 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 4,
+                    "location": "Mustang",
+                    "activity": "Explore local markets and cultural sites",
+                    "accommodation": "Traditional homestay",
+                    "meals": "Vegetarian options",
+                    "altitude": "1517m",
+                    "distance": "9 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 5,
+                    "location": "Manang",
+                    "activity": "Visit traditional settlements, experience local culture",
+                    "accommodation": "Heritage resort",
+                    "meals": "Dinner with cultural show",
+                    "altitude": "2176m",
+                    "distance": "13 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 6,
+                    "location": "Helambu",
+                    "activity": "Trek to high-altitude camp with stunning sunrise views",
+                    "accommodation": "Mountain campsite",
+                    "meals": "Continental breakfast",
+                    "altitude": "2638m",
+                    "distance": "12 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 7,
+                    "location": "Dingboche",
+                    "activity": "Explore local markets and cultural sites",
+                    "accommodation": "Teahouse lodge",
+                    "meals": "Traditional dinner",
+                    "altitude": "2721m",
+                    "distance": "5 km",
+                    "duration": "6 hours"
+                }
+            ]
         },
         "tour_011": {
             "id": "tour_011",
@@ -601,7 +2187,13 @@
                 "Travel insurance",
                 "Personal expenses"
             ],
-            "bestTime": ["March", "April", "May", "October", "November"],
+            "bestTime": [
+                "March",
+                "April",
+                "May",
+                "October",
+                "November"
+            ],
             "createdAt": {
                 "_seconds": 1704886200,
                 "_nanoseconds": 0
@@ -612,7 +2204,89 @@
             },
             "rating": 4.4,
             "totalReviews": 72,
-            "popularity": 75
+            "popularity": 75,
+            "itinerary": [
+                {
+                    "day": 1,
+                    "location": "Pokhara",
+                    "activity": "Descend through diverse landscapes to lower altitude",
+                    "accommodation": "Traditional homestay",
+                    "meals": "Light breakfast",
+                    "altitude": "1884m",
+                    "distance": "16 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 2,
+                    "location": "Tengboche",
+                    "activity": "Ascend to higher altitude, acclimatization day with short hikes",
+                    "accommodation": "Traditional homestay",
+                    "meals": "Light breakfast",
+                    "altitude": "3647m",
+                    "distance": "7 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 3,
+                    "location": "Helambu",
+                    "activity": "Final trekking day, return to starting point",
+                    "accommodation": "Teahouse lodge",
+                    "meals": "Continental breakfast",
+                    "altitude": "3104m",
+                    "distance": "8 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 4,
+                    "location": "Langtang Valley",
+                    "activity": "Final trekking day, return to starting point",
+                    "accommodation": "Boutique hotel",
+                    "meals": "Buffet dinner",
+                    "altitude": "3695m",
+                    "distance": "16 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 5,
+                    "location": "Langtang Valley",
+                    "activity": "Ascend to higher altitude, acclimatization day with short hikes",
+                    "accommodation": "Traditional homestay",
+                    "meals": "Box lunch",
+                    "altitude": "3877m",
+                    "distance": "15 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 6,
+                    "location": "Mustang",
+                    "activity": "Visit traditional settlements, experience local culture",
+                    "accommodation": "Eco-lodge",
+                    "meals": "Traditional dinner",
+                    "altitude": "2739m",
+                    "distance": "9 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 7,
+                    "location": "Namche Bazaar",
+                    "activity": "Descend through diverse landscapes to lower altitude",
+                    "accommodation": "Tented camp",
+                    "meals": "High-energy snacks",
+                    "altitude": "1958m",
+                    "distance": "17 km",
+                    "duration": "9 hours"
+                },
+                {
+                    "day": 8,
+                    "location": "Manang",
+                    "activity": "Visit traditional settlements, experience local culture",
+                    "accommodation": "Local guesthouse",
+                    "meals": "Packed lunch",
+                    "altitude": "1850m",
+                    "distance": "9 km",
+                    "duration": "9 hours"
+                }
+            ]
         },
         "tour_012": {
             "id": "tour_012",
@@ -657,7 +2331,14 @@
                 "Travel insurance",
                 "Personal expenses"
             ],
-            "bestTime": ["March", "April", "May", "September", "October", "November"],
+            "bestTime": [
+                "March",
+                "April",
+                "May",
+                "September",
+                "October",
+                "November"
+            ],
             "createdAt": {
                 "_seconds": 1704886200,
                 "_nanoseconds": 0
@@ -668,7 +2349,169 @@
             },
             "rating": 4.8,
             "totalReviews": 54,
-            "popularity": 85
+            "popularity": 85,
+            "itinerary": [
+                {
+                    "day": 1,
+                    "location": "Kathmandu",
+                    "activity": "Trek through rhododendron forests with views of snow-capped peaks",
+                    "accommodation": "Mountain campsite",
+                    "meals": "Local cuisine dinner",
+                    "altitude": "4809m",
+                    "distance": "7 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 2,
+                    "location": "Lobuche",
+                    "activity": "Continue trekking with panoramic mountain views",
+                    "accommodation": "Local guesthouse",
+                    "meals": "Local cuisine dinner",
+                    "altitude": "1841m",
+                    "distance": "11 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 3,
+                    "location": "Pokhara",
+                    "activity": "Final trekking day, return to starting point",
+                    "accommodation": "Luxury hotel in city",
+                    "meals": "Traditional dinner",
+                    "altitude": "2398m",
+                    "distance": "6 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 4,
+                    "location": "Lobuche",
+                    "activity": "Cross high mountain passes with breathtaking vistas",
+                    "accommodation": "Boutique hotel",
+                    "meals": "Breakfast at hotel",
+                    "altitude": "4671m",
+                    "distance": "15 km",
+                    "duration": "9 hours"
+                },
+                {
+                    "day": 5,
+                    "location": "Langtang Valley",
+                    "activity": "Explore local markets and cultural sites",
+                    "accommodation": "Heritage resort",
+                    "meals": "Box lunch",
+                    "altitude": "2189m",
+                    "distance": "13 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 6,
+                    "location": "Pokhara",
+                    "activity": "Rest day for recovery and sightseeing in the valley",
+                    "accommodation": "Tented camp",
+                    "meals": "High-energy snacks",
+                    "altitude": "2496m",
+                    "distance": "11 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 7,
+                    "location": "Jomsom",
+                    "activity": "Descend through diverse landscapes to lower altitude",
+                    "accommodation": "Mountain campsite",
+                    "meals": "Packed lunch",
+                    "altitude": "3944m",
+                    "distance": "9 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 8,
+                    "location": "Jomsom",
+                    "activity": "Drive to trailhead, begin trekking through scenic valleys",
+                    "accommodation": "Luxury hotel in city",
+                    "meals": "Local cuisine dinner",
+                    "altitude": "1934m",
+                    "distance": "8 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 9,
+                    "location": "Manang",
+                    "activity": "Trek to high-altitude camp with stunning sunrise views",
+                    "accommodation": "Luxury hotel in city",
+                    "meals": "Box lunch",
+                    "altitude": "3817m",
+                    "distance": "3 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 10,
+                    "location": "Pokhara",
+                    "activity": "Arrival at airport, transfer to hotel, briefing and equipment check",
+                    "accommodation": "Eco-lodge",
+                    "meals": "Picnic lunch",
+                    "altitude": "1431m",
+                    "distance": "12 km",
+                    "duration": "9 hours"
+                },
+                {
+                    "day": 11,
+                    "location": "Lobuche",
+                    "activity": "Departure transfer to airport for onward journey",
+                    "accommodation": "Luxury hotel in city",
+                    "meals": "Box lunch",
+                    "altitude": "4788m",
+                    "distance": "12 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 12,
+                    "location": "Lobuche",
+                    "activity": "Trek to high-altitude camp with stunning sunrise views",
+                    "accommodation": "Teahouse lodge",
+                    "meals": "Box lunch",
+                    "altitude": "4770m",
+                    "distance": "7 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 13,
+                    "location": "Everest Base Camp",
+                    "activity": "Trek to high-altitude camp with stunning sunrise views",
+                    "accommodation": "Local guesthouse",
+                    "meals": "Packed lunch",
+                    "altitude": "3442m",
+                    "distance": "6 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 14,
+                    "location": "Jomsom",
+                    "activity": "Final trekking day, return to starting point",
+                    "accommodation": "Eco-lodge",
+                    "meals": "Continental breakfast",
+                    "altitude": "3350m",
+                    "distance": "15 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 15,
+                    "location": "Annapurna Base Camp",
+                    "activity": "Arrival at airport, transfer to hotel, briefing and equipment check",
+                    "accommodation": "Riverside resort",
+                    "meals": "Picnic lunch",
+                    "altitude": "3199m",
+                    "distance": "17 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 16,
+                    "location": "Annapurna Base Camp",
+                    "activity": "Ascend to higher altitude, acclimatization day with short hikes",
+                    "accommodation": "Mountain campsite",
+                    "meals": "High-energy snacks",
+                    "altitude": "3823m",
+                    "distance": "6 km",
+                    "duration": "8 hours"
+                }
+            ]
         },
         "tour_013": {
             "id": "tour_013",
@@ -713,7 +2556,14 @@
                 "Travel insurance",
                 "Personal expenses"
             ],
-            "bestTime": ["March", "April", "May", "September", "October", "November"],
+            "bestTime": [
+                "March",
+                "April",
+                "May",
+                "September",
+                "October",
+                "November"
+            ],
             "createdAt": {
                 "_seconds": 1704886200,
                 "_nanoseconds": 0
@@ -724,7 +2574,209 @@
             },
             "rating": 4.7,
             "totalReviews": 41,
-            "popularity": 72
+            "popularity": 72,
+            "itinerary": [
+                {
+                    "day": 1,
+                    "location": "Lobuche",
+                    "activity": "Trek through rhododendron forests with views of snow-capped peaks",
+                    "accommodation": "Luxury hotel in city",
+                    "meals": "Dinner with cultural show",
+                    "altitude": "4249m",
+                    "distance": "8 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 2,
+                    "location": "Gorakshep",
+                    "activity": "Departure transfer to airport for onward journey",
+                    "accommodation": "Boutique hotel",
+                    "meals": "Traditional dinner",
+                    "altitude": "4469m",
+                    "distance": "17 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 3,
+                    "location": "Muktinath",
+                    "activity": "Explore local markets and cultural sites",
+                    "accommodation": "Luxury hotel in city",
+                    "meals": "Breakfast at hotel",
+                    "altitude": "3380m",
+                    "distance": "4 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 4,
+                    "location": "Annapurna Base Camp",
+                    "activity": "Descend through diverse landscapes to lower altitude",
+                    "accommodation": "Heritage resort",
+                    "meals": "Traditional dinner",
+                    "altitude": "2917m",
+                    "distance": "11 km",
+                    "duration": "9 hours"
+                },
+                {
+                    "day": 5,
+                    "location": "Mustang",
+                    "activity": "Arrival at airport, transfer to hotel, briefing and equipment check",
+                    "accommodation": "Local guesthouse",
+                    "meals": "Vegetarian options",
+                    "altitude": "2062m",
+                    "distance": "13 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 6,
+                    "location": "Tengboche",
+                    "activity": "Drive to trailhead, begin trekking through scenic valleys",
+                    "accommodation": "Tented camp",
+                    "meals": "Vegetarian options",
+                    "altitude": "4975m",
+                    "distance": "13 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 7,
+                    "location": "Gorakshep",
+                    "activity": "Final trekking day, return to starting point",
+                    "accommodation": "Traditional homestay",
+                    "meals": "Continental breakfast",
+                    "altitude": "2972m",
+                    "distance": "6 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 8,
+                    "location": "Pokhara",
+                    "activity": "Visit traditional settlements, experience local culture",
+                    "accommodation": "Mountain campsite",
+                    "meals": "Vegetarian options",
+                    "altitude": "3058m",
+                    "distance": "7 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 9,
+                    "location": "Tengboche",
+                    "activity": "Drive to trailhead, begin trekking through scenic valleys",
+                    "accommodation": "Heritage resort",
+                    "meals": "Breakfast at hotel",
+                    "altitude": "4126m",
+                    "distance": "13 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 10,
+                    "location": "Muktinath",
+                    "activity": "Drive back to city, farewell dinner with team",
+                    "accommodation": "Local guesthouse",
+                    "meals": "Packed lunch",
+                    "altitude": "3347m",
+                    "distance": "5 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 11,
+                    "location": "Jomsom",
+                    "activity": "Explore local markets and cultural sites",
+                    "accommodation": "Heritage resort",
+                    "meals": "Buffet dinner",
+                    "altitude": "1837m",
+                    "distance": "4 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 12,
+                    "location": "Annapurna Base Camp",
+                    "activity": "Arrival at airport, transfer to hotel, briefing and equipment check",
+                    "accommodation": "Local guesthouse",
+                    "meals": "Local cuisine dinner",
+                    "altitude": "1026m",
+                    "distance": "3 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 13,
+                    "location": "Manang",
+                    "activity": "Cross suspension bridges, visit local villages and monasteries",
+                    "accommodation": "Local guesthouse",
+                    "meals": "Lunch at local restaurant",
+                    "altitude": "4855m",
+                    "distance": "13 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 14,
+                    "location": "Langtang Valley",
+                    "activity": "Drive back to city, farewell dinner with team",
+                    "accommodation": "Heritage resort",
+                    "meals": "Continental breakfast",
+                    "altitude": "4450m",
+                    "distance": "16 km",
+                    "duration": "9 hours"
+                },
+                {
+                    "day": 15,
+                    "location": "Everest Base Camp",
+                    "activity": "Departure transfer to airport for onward journey",
+                    "accommodation": "Eco-lodge",
+                    "meals": "Buffet dinner",
+                    "altitude": "2151m",
+                    "distance": "8 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 16,
+                    "location": "Pokhara",
+                    "activity": "Drive back to city, farewell dinner with team",
+                    "accommodation": "Mountain campsite",
+                    "meals": "Picnic lunch",
+                    "altitude": "2529m",
+                    "distance": "3 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 17,
+                    "location": "Lobuche",
+                    "activity": "Cross high mountain passes with breathtaking vistas",
+                    "accommodation": "Boutique hotel",
+                    "meals": "Dinner with cultural show",
+                    "altitude": "4562m",
+                    "distance": "4 km",
+                    "duration": "9 hours"
+                },
+                {
+                    "day": 18,
+                    "location": "Mustang",
+                    "activity": "Trek through rhododendron forests with views of snow-capped peaks",
+                    "accommodation": "Riverside resort",
+                    "meals": "Traditional dinner",
+                    "altitude": "3100m",
+                    "distance": "12 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 19,
+                    "location": "Manang",
+                    "activity": "Descend through diverse landscapes to lower altitude",
+                    "accommodation": "Teahouse lodge",
+                    "meals": "Continental breakfast",
+                    "altitude": "4467m",
+                    "distance": "4 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 20,
+                    "location": "Annapurna Base Camp",
+                    "activity": "Departure transfer to airport for onward journey",
+                    "accommodation": "Local guesthouse",
+                    "meals": "High-energy snacks",
+                    "altitude": "1317m",
+                    "distance": "5 km",
+                    "duration": "7 hours"
+                }
+            ]
         },
         "tour_014": {
             "id": "tour_014",
@@ -768,7 +2820,14 @@
                 "Travel insurance",
                 "Personal expenses"
             ],
-            "bestTime": ["March", "April", "May", "September", "October", "November"],
+            "bestTime": [
+                "March",
+                "April",
+                "May",
+                "September",
+                "October",
+                "November"
+            ],
             "createdAt": {
                 "_seconds": 1704886200,
                 "_nanoseconds": 0
@@ -779,7 +2838,129 @@
             },
             "rating": 4.5,
             "totalReviews": 33,
-            "popularity": 68
+            "popularity": 68,
+            "itinerary": [
+                {
+                    "day": 1,
+                    "location": "Muktinath",
+                    "activity": "Cross high mountain passes with breathtaking vistas",
+                    "accommodation": "Luxury hotel in city",
+                    "meals": "Vegetarian options",
+                    "altitude": "4258m",
+                    "distance": "15 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 2,
+                    "location": "Tengboche",
+                    "activity": "Departure transfer to airport for onward journey",
+                    "accommodation": "Boutique hotel",
+                    "meals": "Vegetarian options",
+                    "altitude": "1798m",
+                    "distance": "17 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 3,
+                    "location": "Dingboche",
+                    "activity": "Descend through diverse landscapes to lower altitude",
+                    "accommodation": "Mountain campsite",
+                    "meals": "Packed lunch",
+                    "altitude": "1987m",
+                    "distance": "3 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 4,
+                    "location": "Mustang",
+                    "activity": "Drive to trailhead, begin trekking through scenic valleys",
+                    "accommodation": "Teahouse lodge",
+                    "meals": "Continental breakfast",
+                    "altitude": "2132m",
+                    "distance": "16 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 5,
+                    "location": "Everest Base Camp",
+                    "activity": "Drive to trailhead, begin trekking through scenic valleys",
+                    "accommodation": "Teahouse lodge",
+                    "meals": "Buffet dinner",
+                    "altitude": "2125m",
+                    "distance": "12 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 6,
+                    "location": "Manang",
+                    "activity": "Drive back to city, farewell dinner with team",
+                    "accommodation": "Boutique hotel",
+                    "meals": "Traditional dinner",
+                    "altitude": "2911m",
+                    "distance": "15 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 7,
+                    "location": "Mustang",
+                    "activity": "Rest day for recovery and sightseeing in the valley",
+                    "accommodation": "Heritage resort",
+                    "meals": "Dinner with cultural show",
+                    "altitude": "3561m",
+                    "distance": "9 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 8,
+                    "location": "Jomsom",
+                    "activity": "Cross suspension bridges, visit local villages and monasteries",
+                    "accommodation": "Riverside resort",
+                    "meals": "Lunch at local restaurant",
+                    "altitude": "2153m",
+                    "distance": "7 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 9,
+                    "location": "Kathmandu",
+                    "activity": "Final trekking day, return to starting point",
+                    "accommodation": "Traditional homestay",
+                    "meals": "Vegetarian options",
+                    "altitude": "4496m",
+                    "distance": "9 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 10,
+                    "location": "Muktinath",
+                    "activity": "Explore local markets and cultural sites",
+                    "accommodation": "Eco-lodge",
+                    "meals": "Packed lunch",
+                    "altitude": "2754m",
+                    "distance": "5 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 11,
+                    "location": "Tengboche",
+                    "activity": "Continue trekking with panoramic mountain views",
+                    "accommodation": "Mountain campsite",
+                    "meals": "Breakfast at hotel",
+                    "altitude": "2998m",
+                    "distance": "10 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 12,
+                    "location": "Langtang Valley",
+                    "activity": "Cross suspension bridges, visit local villages and monasteries",
+                    "accommodation": "Mountain campsite",
+                    "meals": "Picnic lunch",
+                    "altitude": "2847m",
+                    "distance": "6 km",
+                    "duration": "9 hours"
+                }
+            ]
         },
         "tour_015": {
             "id": "tour_015",
@@ -823,7 +3004,13 @@
                 "Travel insurance",
                 "Personal expenses"
             ],
-            "bestTime": ["March", "April", "May", "October", "November"],
+            "bestTime": [
+                "March",
+                "April",
+                "May",
+                "October",
+                "November"
+            ],
             "createdAt": {
                 "_seconds": 1704886200,
                 "_nanoseconds": 0
@@ -834,7 +3021,99 @@
             },
             "rating": 4.4,
             "totalReviews": 67,
-            "popularity": 74
+            "popularity": 74,
+            "itinerary": [
+                {
+                    "day": 1,
+                    "location": "Dingboche",
+                    "activity": "Drive back to city, farewell dinner with team",
+                    "accommodation": "Heritage resort",
+                    "meals": "Vegetarian options",
+                    "altitude": "4756m",
+                    "distance": "15 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 2,
+                    "location": "Tengboche",
+                    "activity": "Descend through diverse landscapes to lower altitude",
+                    "accommodation": "Traditional homestay",
+                    "meals": "Box lunch",
+                    "altitude": "2266m",
+                    "distance": "14 km",
+                    "duration": "9 hours"
+                },
+                {
+                    "day": 3,
+                    "location": "Langtang Valley",
+                    "activity": "Trek to high-altitude camp with stunning sunrise views",
+                    "accommodation": "Traditional homestay",
+                    "meals": "Breakfast at hotel",
+                    "altitude": "4508m",
+                    "distance": "14 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 4,
+                    "location": "Manang",
+                    "activity": "Trek through rhododendron forests with views of snow-capped peaks",
+                    "accommodation": "Local guesthouse",
+                    "meals": "Box lunch",
+                    "altitude": "2501m",
+                    "distance": "14 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 5,
+                    "location": "Tengboche",
+                    "activity": "Drive to trailhead, begin trekking through scenic valleys",
+                    "accommodation": "Mountain campsite",
+                    "meals": "Vegetarian options",
+                    "altitude": "1958m",
+                    "distance": "7 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 6,
+                    "location": "Jomsom",
+                    "activity": "Cross high mountain passes with breathtaking vistas",
+                    "accommodation": "Tented camp",
+                    "meals": "Lunch at local restaurant",
+                    "altitude": "1769m",
+                    "distance": "14 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 7,
+                    "location": "Gorakshep",
+                    "activity": "Cross suspension bridges, visit local villages and monasteries",
+                    "accommodation": "Riverside resort",
+                    "meals": "Lunch at local restaurant",
+                    "altitude": "4058m",
+                    "distance": "8 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 8,
+                    "location": "Jomsom",
+                    "activity": "Rest day for recovery and sightseeing in the valley",
+                    "accommodation": "Luxury hotel in city",
+                    "meals": "Dinner with cultural show",
+                    "altitude": "2985m",
+                    "distance": "15 km",
+                    "duration": "9 hours"
+                },
+                {
+                    "day": 9,
+                    "location": "Jomsom",
+                    "activity": "Final trekking day, return to starting point",
+                    "accommodation": "Heritage resort",
+                    "meals": "Dinner with cultural show",
+                    "altitude": "3992m",
+                    "distance": "12 km",
+                    "duration": "8 hours"
+                }
+            ]
         },
         "tour_016": {
             "id": "tour_016",
@@ -879,7 +3158,14 @@
                 "Travel insurance",
                 "Personal expenses"
             ],
-            "bestTime": ["March", "April", "May", "September", "October", "November"],
+            "bestTime": [
+                "March",
+                "April",
+                "May",
+                "September",
+                "October",
+                "November"
+            ],
             "createdAt": {
                 "_seconds": 1704886200,
                 "_nanoseconds": 0
@@ -890,7 +3176,189 @@
             },
             "rating": 4.8,
             "totalReviews": 49,
-            "popularity": 83
+            "popularity": 83,
+            "itinerary": [
+                {
+                    "day": 1,
+                    "location": "Langtang Valley",
+                    "activity": "Departure transfer to airport for onward journey",
+                    "accommodation": "Traditional homestay",
+                    "meals": "Continental breakfast",
+                    "altitude": "1000m",
+                    "distance": "11 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 2,
+                    "location": "Manang",
+                    "activity": "Trek to high-altitude camp with stunning sunrise views",
+                    "accommodation": "Boutique hotel",
+                    "meals": "High-energy snacks",
+                    "altitude": "1722m",
+                    "distance": "11 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 3,
+                    "location": "Muktinath",
+                    "activity": "Final trekking day, return to starting point",
+                    "accommodation": "Teahouse lodge",
+                    "meals": "Light breakfast",
+                    "altitude": "4789m",
+                    "distance": "7 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 4,
+                    "location": "Muktinath",
+                    "activity": "Rest day for recovery and sightseeing in the valley",
+                    "accommodation": "Luxury hotel in city",
+                    "meals": "Picnic lunch",
+                    "altitude": "2372m",
+                    "distance": "11 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 5,
+                    "location": "Muktinath",
+                    "activity": "Cross high mountain passes with breathtaking vistas",
+                    "accommodation": "Luxury hotel in city",
+                    "meals": "Packed lunch",
+                    "altitude": "1997m",
+                    "distance": "7 km",
+                    "duration": "9 hours"
+                },
+                {
+                    "day": 6,
+                    "location": "Langtang Valley",
+                    "activity": "Trek through rhododendron forests with views of snow-capped peaks",
+                    "accommodation": "Riverside resort",
+                    "meals": "Dinner with cultural show",
+                    "altitude": "2055m",
+                    "distance": "16 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 7,
+                    "location": "Dingboche",
+                    "activity": "Ascend to higher altitude, acclimatization day with short hikes",
+                    "accommodation": "Local guesthouse",
+                    "meals": "Dinner with cultural show",
+                    "altitude": "3532m",
+                    "distance": "5 km",
+                    "duration": "9 hours"
+                },
+                {
+                    "day": 8,
+                    "location": "Dingboche",
+                    "activity": "Rest day for recovery and sightseeing in the valley",
+                    "accommodation": "Mountain campsite",
+                    "meals": "Box lunch",
+                    "altitude": "2708m",
+                    "distance": "14 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 9,
+                    "location": "Tengboche",
+                    "activity": "Departure transfer to airport for onward journey",
+                    "accommodation": "Heritage resort",
+                    "meals": "Box lunch",
+                    "altitude": "1393m",
+                    "distance": "12 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 10,
+                    "location": "Annapurna Base Camp",
+                    "activity": "Final trekking day, return to starting point",
+                    "accommodation": "Tented camp",
+                    "meals": "High-energy snacks",
+                    "altitude": "2835m",
+                    "distance": "3 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 11,
+                    "location": "Tengboche",
+                    "activity": "Descend through diverse landscapes to lower altitude",
+                    "accommodation": "Teahouse lodge",
+                    "meals": "Traditional dinner",
+                    "altitude": "3813m",
+                    "distance": "5 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 12,
+                    "location": "Manang",
+                    "activity": "Descend through diverse landscapes to lower altitude",
+                    "accommodation": "Eco-lodge",
+                    "meals": "Continental breakfast",
+                    "altitude": "1543m",
+                    "distance": "4 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 13,
+                    "location": "Mustang",
+                    "activity": "Rest day for recovery and sightseeing in the valley",
+                    "accommodation": "Local guesthouse",
+                    "meals": "Box lunch",
+                    "altitude": "2077m",
+                    "distance": "6 km",
+                    "duration": "9 hours"
+                },
+                {
+                    "day": 14,
+                    "location": "Lobuche",
+                    "activity": "Drive back to city, farewell dinner with team",
+                    "accommodation": "Heritage resort",
+                    "meals": "Traditional dinner",
+                    "altitude": "4448m",
+                    "distance": "16 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 15,
+                    "location": "Lobuche",
+                    "activity": "Cross suspension bridges, visit local villages and monasteries",
+                    "accommodation": "Mountain campsite",
+                    "meals": "Continental breakfast",
+                    "altitude": "3946m",
+                    "distance": "9 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 16,
+                    "location": "Pokhara",
+                    "activity": "Continue trekking with panoramic mountain views",
+                    "accommodation": "Mountain campsite",
+                    "meals": "Lunch at local restaurant",
+                    "altitude": "4715m",
+                    "distance": "13 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 17,
+                    "location": "Pokhara",
+                    "activity": "Trek to high-altitude camp with stunning sunrise views",
+                    "accommodation": "Boutique hotel",
+                    "meals": "Traditional dinner",
+                    "altitude": "2639m",
+                    "distance": "8 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 18,
+                    "location": "Mustang",
+                    "activity": "Cross suspension bridges, visit local villages and monasteries",
+                    "accommodation": "Riverside resort",
+                    "meals": "Lunch at local restaurant",
+                    "altitude": "4258m",
+                    "distance": "16 km",
+                    "duration": "6 hours"
+                }
+            ]
         },
         "tour_017": {
             "id": "tour_017",
@@ -934,7 +3402,14 @@
                 "Travel insurance",
                 "Personal expenses"
             ],
-            "bestTime": ["March", "April", "May", "September", "October", "November"],
+            "bestTime": [
+                "March",
+                "April",
+                "May",
+                "September",
+                "October",
+                "November"
+            ],
             "createdAt": {
                 "_seconds": 1704886200,
                 "_nanoseconds": 0
@@ -945,7 +3420,219 @@
             },
             "rating": 4.7,
             "totalReviews": 42,
-            "popularity": 76
+            "popularity": 76,
+            "itinerary": [
+                {
+                    "day": 1,
+                    "location": "Helambu",
+                    "activity": "Visit traditional settlements, experience local culture",
+                    "accommodation": "Luxury hotel in city",
+                    "meals": "Picnic lunch",
+                    "altitude": "2592m",
+                    "distance": "4 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 2,
+                    "location": "Pokhara",
+                    "activity": "Ascend to higher altitude, acclimatization day with short hikes",
+                    "accommodation": "Eco-lodge",
+                    "meals": "Breakfast at hotel",
+                    "altitude": "1048m",
+                    "distance": "8 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 3,
+                    "location": "Lobuche",
+                    "activity": "Visit traditional settlements, experience local culture",
+                    "accommodation": "Traditional homestay",
+                    "meals": "Box lunch",
+                    "altitude": "3099m",
+                    "distance": "17 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 4,
+                    "location": "Dingboche",
+                    "activity": "Ascend to higher altitude, acclimatization day with short hikes",
+                    "accommodation": "Tented camp",
+                    "meals": "Buffet dinner",
+                    "altitude": "3386m",
+                    "distance": "12 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 5,
+                    "location": "Helambu",
+                    "activity": "Drive back to city, farewell dinner with team",
+                    "accommodation": "Mountain campsite",
+                    "meals": "Box lunch",
+                    "altitude": "3225m",
+                    "distance": "11 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 6,
+                    "location": "Annapurna Base Camp",
+                    "activity": "Cross high mountain passes with breathtaking vistas",
+                    "accommodation": "Riverside resort",
+                    "meals": "Traditional dinner",
+                    "altitude": "1378m",
+                    "distance": "13 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 7,
+                    "location": "Dingboche",
+                    "activity": "Cross suspension bridges, visit local villages and monasteries",
+                    "accommodation": "Riverside resort",
+                    "meals": "High-energy snacks",
+                    "altitude": "1719m",
+                    "distance": "14 km",
+                    "duration": "9 hours"
+                },
+                {
+                    "day": 8,
+                    "location": "Lobuche",
+                    "activity": "Arrival at airport, transfer to hotel, briefing and equipment check",
+                    "accommodation": "Teahouse lodge",
+                    "meals": "Local cuisine dinner",
+                    "altitude": "1770m",
+                    "distance": "14 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 9,
+                    "location": "Tengboche",
+                    "activity": "Drive to trailhead, begin trekking through scenic valleys",
+                    "accommodation": "Luxury hotel in city",
+                    "meals": "Continental breakfast",
+                    "altitude": "4028m",
+                    "distance": "11 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 10,
+                    "location": "Gorakshep",
+                    "activity": "Drive back to city, farewell dinner with team",
+                    "accommodation": "Teahouse lodge",
+                    "meals": "Packed lunch",
+                    "altitude": "2779m",
+                    "distance": "11 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 11,
+                    "location": "Tengboche",
+                    "activity": "Descend through diverse landscapes to lower altitude",
+                    "accommodation": "Eco-lodge",
+                    "meals": "Buffet dinner",
+                    "altitude": "4522m",
+                    "distance": "12 km",
+                    "duration": "9 hours"
+                },
+                {
+                    "day": 12,
+                    "location": "Dingboche",
+                    "activity": "Drive to trailhead, begin trekking through scenic valleys",
+                    "accommodation": "Riverside resort",
+                    "meals": "Dinner with cultural show",
+                    "altitude": "1729m",
+                    "distance": "9 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 13,
+                    "location": "Everest Base Camp",
+                    "activity": "Descend through diverse landscapes to lower altitude",
+                    "accommodation": "Luxury hotel in city",
+                    "meals": "Box lunch",
+                    "altitude": "4675m",
+                    "distance": "15 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 14,
+                    "location": "Dingboche",
+                    "activity": "Trek through rhododendron forests with views of snow-capped peaks",
+                    "accommodation": "Mountain campsite",
+                    "meals": "Light breakfast",
+                    "altitude": "1085m",
+                    "distance": "3 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 15,
+                    "location": "Helambu",
+                    "activity": "Explore local markets and cultural sites",
+                    "accommodation": "Mountain campsite",
+                    "meals": "Continental breakfast",
+                    "altitude": "2146m",
+                    "distance": "5 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 16,
+                    "location": "Namche Bazaar",
+                    "activity": "Descend through diverse landscapes to lower altitude",
+                    "accommodation": "Teahouse lodge",
+                    "meals": "High-energy snacks",
+                    "altitude": "2393m",
+                    "distance": "11 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 17,
+                    "location": "Pokhara",
+                    "activity": "Drive to trailhead, begin trekking through scenic valleys",
+                    "accommodation": "Luxury hotel in city",
+                    "meals": "High-energy snacks",
+                    "altitude": "2675m",
+                    "distance": "10 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 18,
+                    "location": "Pokhara",
+                    "activity": "Continue trekking with panoramic mountain views",
+                    "accommodation": "Tented camp",
+                    "meals": "Picnic lunch",
+                    "altitude": "2874m",
+                    "distance": "7 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 19,
+                    "location": "Dingboche",
+                    "activity": "Cross suspension bridges, visit local villages and monasteries",
+                    "accommodation": "Boutique hotel",
+                    "meals": "Picnic lunch",
+                    "altitude": "1360m",
+                    "distance": "13 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 20,
+                    "location": "Langtang Valley",
+                    "activity": "Arrival at airport, transfer to hotel, briefing and equipment check",
+                    "accommodation": "Luxury hotel in city",
+                    "meals": "Picnic lunch",
+                    "altitude": "3185m",
+                    "distance": "14 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 21,
+                    "location": "Kathmandu",
+                    "activity": "Explore local markets and cultural sites",
+                    "accommodation": "Mountain campsite",
+                    "meals": "High-energy snacks",
+                    "altitude": "1026m",
+                    "distance": "13 km",
+                    "duration": "5 hours"
+                }
+            ]
         },
         "tour_018": {
             "id": "tour_018",
@@ -990,7 +3677,14 @@
                 "Travel insurance",
                 "Personal expenses"
             ],
-            "bestTime": ["March", "April", "May", "September", "October", "November"],
+            "bestTime": [
+                "March",
+                "April",
+                "May",
+                "September",
+                "October",
+                "November"
+            ],
             "createdAt": {
                 "_seconds": 1704886200,
                 "_nanoseconds": 0
@@ -1001,7 +3695,209 @@
             },
             "rating": 4.9,
             "totalReviews": 87,
-            "popularity": 91
+            "popularity": 91,
+            "itinerary": [
+                {
+                    "day": 1,
+                    "location": "Pokhara",
+                    "activity": "Final trekking day, return to starting point",
+                    "accommodation": "Local guesthouse",
+                    "meals": "Buffet dinner",
+                    "altitude": "1991m",
+                    "distance": "13 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 2,
+                    "location": "Pokhara",
+                    "activity": "Ascend to higher altitude, acclimatization day with short hikes",
+                    "accommodation": "Mountain campsite",
+                    "meals": "Box lunch",
+                    "altitude": "4731m",
+                    "distance": "5 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 3,
+                    "location": "Helambu",
+                    "activity": "Trek through rhododendron forests with views of snow-capped peaks",
+                    "accommodation": "Local guesthouse",
+                    "meals": "Buffet dinner",
+                    "altitude": "1731m",
+                    "distance": "7 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 4,
+                    "location": "Mustang",
+                    "activity": "Descend through diverse landscapes to lower altitude",
+                    "accommodation": "Tented camp",
+                    "meals": "Buffet dinner",
+                    "altitude": "2667m",
+                    "distance": "14 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 5,
+                    "location": "Manang",
+                    "activity": "Rest day for recovery and sightseeing in the valley",
+                    "accommodation": "Riverside resort",
+                    "meals": "Dinner with cultural show",
+                    "altitude": "3606m",
+                    "distance": "15 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 6,
+                    "location": "Dingboche",
+                    "activity": "Drive back to city, farewell dinner with team",
+                    "accommodation": "Teahouse lodge",
+                    "meals": "Vegetarian options",
+                    "altitude": "1295m",
+                    "distance": "4 km",
+                    "duration": "9 hours"
+                },
+                {
+                    "day": 7,
+                    "location": "Lobuche",
+                    "activity": "Visit traditional settlements, experience local culture",
+                    "accommodation": "Teahouse lodge",
+                    "meals": "Lunch at local restaurant",
+                    "altitude": "1058m",
+                    "distance": "7 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 8,
+                    "location": "Pokhara",
+                    "activity": "Drive to trailhead, begin trekking through scenic valleys",
+                    "accommodation": "Eco-lodge",
+                    "meals": "Light breakfast",
+                    "altitude": "3574m",
+                    "distance": "6 km",
+                    "duration": "9 hours"
+                },
+                {
+                    "day": 9,
+                    "location": "Dingboche",
+                    "activity": "Drive to trailhead, begin trekking through scenic valleys",
+                    "accommodation": "Tented camp",
+                    "meals": "Packed lunch",
+                    "altitude": "3548m",
+                    "distance": "5 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 10,
+                    "location": "Helambu",
+                    "activity": "Explore local markets and cultural sites",
+                    "accommodation": "Local guesthouse",
+                    "meals": "Lunch at local restaurant",
+                    "altitude": "1382m",
+                    "distance": "16 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 11,
+                    "location": "Langtang Valley",
+                    "activity": "Drive to trailhead, begin trekking through scenic valleys",
+                    "accommodation": "Luxury hotel in city",
+                    "meals": "Continental breakfast",
+                    "altitude": "2567m",
+                    "distance": "9 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 12,
+                    "location": "Kathmandu",
+                    "activity": "Drive back to city, farewell dinner with team",
+                    "accommodation": "Tented camp",
+                    "meals": "Local cuisine dinner",
+                    "altitude": "1698m",
+                    "distance": "11 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 13,
+                    "location": "Everest Base Camp",
+                    "activity": "Ascend to higher altitude, acclimatization day with short hikes",
+                    "accommodation": "Traditional homestay",
+                    "meals": "Breakfast at hotel",
+                    "altitude": "3125m",
+                    "distance": "13 km",
+                    "duration": "9 hours"
+                },
+                {
+                    "day": 14,
+                    "location": "Kathmandu",
+                    "activity": "Explore local markets and cultural sites",
+                    "accommodation": "Riverside resort",
+                    "meals": "Dinner with cultural show",
+                    "altitude": "2196m",
+                    "distance": "16 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 15,
+                    "location": "Gorakshep",
+                    "activity": "Cross high mountain passes with breathtaking vistas",
+                    "accommodation": "Traditional homestay",
+                    "meals": "Buffet dinner",
+                    "altitude": "4944m",
+                    "distance": "15 km",
+                    "duration": "9 hours"
+                },
+                {
+                    "day": 16,
+                    "location": "Pokhara",
+                    "activity": "Visit traditional settlements, experience local culture",
+                    "accommodation": "Boutique hotel",
+                    "meals": "Vegetarian options",
+                    "altitude": "3589m",
+                    "distance": "8 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 17,
+                    "location": "Jomsom",
+                    "activity": "Drive back to city, farewell dinner with team",
+                    "accommodation": "Heritage resort",
+                    "meals": "Continental breakfast",
+                    "altitude": "3572m",
+                    "distance": "14 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 18,
+                    "location": "Tengboche",
+                    "activity": "Drive to trailhead, begin trekking through scenic valleys",
+                    "accommodation": "Teahouse lodge",
+                    "meals": "Continental breakfast",
+                    "altitude": "3807m",
+                    "distance": "6 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 19,
+                    "location": "Manang",
+                    "activity": "Final trekking day, return to starting point",
+                    "accommodation": "Mountain campsite",
+                    "meals": "Box lunch",
+                    "altitude": "4976m",
+                    "distance": "12 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 20,
+                    "location": "Muktinath",
+                    "activity": "Drive back to city, farewell dinner with team",
+                    "accommodation": "Riverside resort",
+                    "meals": "Breakfast at hotel",
+                    "altitude": "4845m",
+                    "distance": "12 km",
+                    "duration": "6 hours"
+                }
+            ]
         },
         "tour_019": {
             "id": "tour_019",
@@ -1045,7 +3941,14 @@
                 "Travel insurance",
                 "Personal expenses"
             ],
-            "bestTime": ["March", "April", "May", "September", "October", "November"],
+            "bestTime": [
+                "March",
+                "April",
+                "May",
+                "September",
+                "October",
+                "November"
+            ],
             "createdAt": {
                 "_seconds": 1704886200,
                 "_nanoseconds": 0
@@ -1056,7 +3959,109 @@
             },
             "rating": 4.6,
             "totalReviews": 58,
-            "popularity": 79
+            "popularity": 79,
+            "itinerary": [
+                {
+                    "day": 1,
+                    "location": "Lobuche",
+                    "activity": "Continue trekking with panoramic mountain views",
+                    "accommodation": "Luxury hotel in city",
+                    "meals": "Lunch at local restaurant",
+                    "altitude": "1247m",
+                    "distance": "12 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 2,
+                    "location": "Namche Bazaar",
+                    "activity": "Drive to trailhead, begin trekking through scenic valleys",
+                    "accommodation": "Boutique hotel",
+                    "meals": "Continental breakfast",
+                    "altitude": "2636m",
+                    "distance": "4 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 3,
+                    "location": "Manang",
+                    "activity": "Trek through rhododendron forests with views of snow-capped peaks",
+                    "accommodation": "Tented camp",
+                    "meals": "Packed lunch",
+                    "altitude": "2833m",
+                    "distance": "6 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 4,
+                    "location": "Jomsom",
+                    "activity": "Cross high mountain passes with breathtaking vistas",
+                    "accommodation": "Teahouse lodge",
+                    "meals": "Box lunch",
+                    "altitude": "4606m",
+                    "distance": "8 km",
+                    "duration": "9 hours"
+                },
+                {
+                    "day": 5,
+                    "location": "Annapurna Base Camp",
+                    "activity": "Descend through diverse landscapes to lower altitude",
+                    "accommodation": "Local guesthouse",
+                    "meals": "High-energy snacks",
+                    "altitude": "3136m",
+                    "distance": "16 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 6,
+                    "location": "Namche Bazaar",
+                    "activity": "Descend through diverse landscapes to lower altitude",
+                    "accommodation": "Teahouse lodge",
+                    "meals": "Buffet dinner",
+                    "altitude": "3305m",
+                    "distance": "10 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 7,
+                    "location": "Jomsom",
+                    "activity": "Arrival at airport, transfer to hotel, briefing and equipment check",
+                    "accommodation": "Mountain campsite",
+                    "meals": "Traditional dinner",
+                    "altitude": "2416m",
+                    "distance": "15 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 8,
+                    "location": "Tengboche",
+                    "activity": "Drive to trailhead, begin trekking through scenic valleys",
+                    "accommodation": "Heritage resort",
+                    "meals": "Box lunch",
+                    "altitude": "4300m",
+                    "distance": "9 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 9,
+                    "location": "Langtang Valley",
+                    "activity": "Ascend to higher altitude, acclimatization day with short hikes",
+                    "accommodation": "Teahouse lodge",
+                    "meals": "Vegetarian options",
+                    "altitude": "2727m",
+                    "distance": "17 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 10,
+                    "location": "Tengboche",
+                    "activity": "Final trekking day, return to starting point",
+                    "accommodation": "Traditional homestay",
+                    "meals": "Traditional dinner",
+                    "altitude": "4987m",
+                    "distance": "15 km",
+                    "duration": "4 hours"
+                }
+            ]
         },
         "tour_020": {
             "id": "tour_020",
@@ -1102,7 +4107,14 @@
                 "Personal expenses",
                 "Alcoholic beverages"
             ],
-            "bestTime": ["March", "April", "May", "September", "October", "November"],
+            "bestTime": [
+                "March",
+                "April",
+                "May",
+                "September",
+                "October",
+                "November"
+            ],
             "createdAt": {
                 "_seconds": 1704886200,
                 "_nanoseconds": 0
@@ -1113,7 +4125,159 @@
             },
             "rating": 4.8,
             "totalReviews": 63,
-            "popularity": 87
+            "popularity": 87,
+            "itinerary": [
+                {
+                    "day": 1,
+                    "location": "Pokhara",
+                    "activity": "Ascend to higher altitude, acclimatization day with short hikes",
+                    "accommodation": "Boutique hotel",
+                    "meals": "Vegetarian options",
+                    "altitude": "2347m",
+                    "distance": "17 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 2,
+                    "location": "Muktinath",
+                    "activity": "Explore local markets and cultural sites",
+                    "accommodation": "Heritage resort",
+                    "meals": "Traditional dinner",
+                    "altitude": "3505m",
+                    "distance": "7 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 3,
+                    "location": "Langtang Valley",
+                    "activity": "Explore local markets and cultural sites",
+                    "accommodation": "Luxury hotel in city",
+                    "meals": "Picnic lunch",
+                    "altitude": "4575m",
+                    "distance": "5 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 4,
+                    "location": "Namche Bazaar",
+                    "activity": "Drive back to city, farewell dinner with team",
+                    "accommodation": "Teahouse lodge",
+                    "meals": "Buffet dinner",
+                    "altitude": "3886m",
+                    "distance": "13 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 5,
+                    "location": "Helambu",
+                    "activity": "Trek through rhododendron forests with views of snow-capped peaks",
+                    "accommodation": "Heritage resort",
+                    "meals": "Box lunch",
+                    "altitude": "2763m",
+                    "distance": "11 km",
+                    "duration": "5 hours"
+                },
+                {
+                    "day": 6,
+                    "location": "Annapurna Base Camp",
+                    "activity": "Cross high mountain passes with breathtaking vistas",
+                    "accommodation": "Heritage resort",
+                    "meals": "High-energy snacks",
+                    "altitude": "1997m",
+                    "distance": "17 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 7,
+                    "location": "Annapurna Base Camp",
+                    "activity": "Arrival at airport, transfer to hotel, briefing and equipment check",
+                    "accommodation": "Riverside resort",
+                    "meals": "Vegetarian options",
+                    "altitude": "3679m",
+                    "distance": "7 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 8,
+                    "location": "Manang",
+                    "activity": "Visit traditional settlements, experience local culture",
+                    "accommodation": "Riverside resort",
+                    "meals": "Lunch at local restaurant",
+                    "altitude": "1393m",
+                    "distance": "17 km",
+                    "duration": "8 hours"
+                },
+                {
+                    "day": 9,
+                    "location": "Gorakshep",
+                    "activity": "Continue trekking with panoramic mountain views",
+                    "accommodation": "Boutique hotel",
+                    "meals": "Vegetarian options",
+                    "altitude": "1403m",
+                    "distance": "17 km",
+                    "duration": "7 hours"
+                },
+                {
+                    "day": 10,
+                    "location": "Jomsom",
+                    "activity": "Rest day for recovery and sightseeing in the valley",
+                    "accommodation": "Mountain campsite",
+                    "meals": "Vegetarian options",
+                    "altitude": "3556m",
+                    "distance": "7 km",
+                    "duration": "6 hours"
+                },
+                {
+                    "day": 11,
+                    "location": "Muktinath",
+                    "activity": "Cross suspension bridges, visit local villages and monasteries",
+                    "accommodation": "Eco-lodge",
+                    "meals": "Light breakfast",
+                    "altitude": "4316m",
+                    "distance": "6 km",
+                    "duration": "4 hours"
+                },
+                {
+                    "day": 12,
+                    "location": "Dingboche",
+                    "activity": "Explore local markets and cultural sites",
+                    "accommodation": "Riverside resort",
+                    "meals": "Light breakfast",
+                    "altitude": "3710m",
+                    "distance": "12 km",
+                    "duration": "9 hours"
+                },
+                {
+                    "day": 13,
+                    "location": "Lobuche",
+                    "activity": "Trek to high-altitude camp with stunning sunrise views",
+                    "accommodation": "Teahouse lodge",
+                    "meals": "Picnic lunch",
+                    "altitude": "2384m",
+                    "distance": "9 km",
+                    "duration": "9 hours"
+                },
+                {
+                    "day": 14,
+                    "location": "Pokhara",
+                    "activity": "Departure transfer to airport for onward journey",
+                    "accommodation": "Luxury hotel in city",
+                    "meals": "Vegetarian options",
+                    "altitude": "2555m",
+                    "distance": "11 km",
+                    "duration": "9 hours"
+                },
+                {
+                    "day": 15,
+                    "location": "Muktinath",
+                    "activity": "Arrival at airport, transfer to hotel, briefing and equipment check",
+                    "accommodation": "Riverside resort",
+                    "meals": "Lunch at local restaurant",
+                    "altitude": "4543m",
+                    "distance": "15 km",
+                    "duration": "4 hours"
+                }
+            ]
         }
     }
 }
