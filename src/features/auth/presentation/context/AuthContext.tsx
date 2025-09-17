@@ -66,12 +66,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const signup = async (name: string, email: string, password: string) => {
+    console.log('[AuthContext] Starting signup process...');
+    console.log('[AuthContext] Signup params:', { name, email });
+    
     try {
       clearError();
       setAuthState((prev: AuthState) => ({ ...prev, isLoading: true }));
+      console.log('[AuthContext] Calling authRepository.signup...');
       await authRepository.signup(name, email, password);
+      console.log('[AuthContext] Signup completed successfully.');
       // User state will be updated via onAuthStateChanged
     } catch (error) {
+      console.error('[AuthContext] Signup failed:', error);
       handleError(error);
       setAuthState((prev: AuthState) => ({ ...prev, isLoading: false }));
       throw error;

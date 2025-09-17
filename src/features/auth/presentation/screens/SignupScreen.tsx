@@ -19,6 +19,7 @@ import AuthButton from '../components/AuthButton';
 import AuthFooter from '../components/AuthFooter';
 import AuthHeader from '../components/AuthHeader';
 import AuthInput from '../components/AuthInput';
+import ErrorToast from '../components/ErrorToast';
 import SocialButtons from '../components/SocialButtons';
 import { useAuth } from '../context/AuthContext';
 import { getAuthStyles } from '../styles/auth.styles';
@@ -44,42 +45,93 @@ const SignupScreen: React.FC = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [viewState, setViewState] = useState(viewModel.viewState);
   const [formData, setFormData] = useState(viewModel.formData);
+  const [showErrorToast, setShowErrorToast] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     viewModel.setUpdateCallback(() => {
       setViewState({ ...viewModel.viewState });
       setFormData({ ...viewModel.formData });
+      
+      // Show error toast if there's a general error
+      if (viewModel.viewState.errors.general && !showErrorToast) {
+        setErrorMessage(viewModel.viewState.errors.general);
+        setShowErrorToast(true);
+      }
     });
 
     return () => {
       viewModel.reset();
     };
-  }, []);
+  }, [showErrorToast]);
 
   const handleSignup = async () => {
+    console.log('[SignupScreen] Starting signup process...');
     try {
+      console.log('[SignupScreen] Calling viewModel.signup...');
       const user = await viewModel.signup();
       if (user) {
-        // Use the AuthContext signup as well to update global state
-        await authSignup(formData.name, formData.email, formData.password);
+        console.log('[SignupScreen] Signup successful, user created:', {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          phoneNumber: user.phoneNumber
+        });
+        
         Alert.alert(
           'Account Created!', 
           'Your account has been created successfully. Please check your email for verification.',
           [
             {
               text: 'OK',
-              onPress: () => router.replace('/(tabs)')
+              onPress: () => {
+                console.log('[SignupScreen] Navigating to tabs screen...');
+                router.replace('/(tabs)');
+              }
             }
           ]
         );
+      } else {
+        console.log('[SignupScreen] Signup returned null user');
+        setErrorMessage('Signup failed. Please try again.');
+        setShowErrorToast(true);
       }
     } catch (error: any) {
-      Alert.alert('Signup Failed', error.message || 'An error occurred during signup');
+      console.error('[SignupScreen] Signup failed with error:', error);
+      
+      // Check if it's an email already exists error
+      if (error.message && error.message.includes('already exists')) {
+        Alert.alert(
+          'Account Already Exists',
+          'An account with this email already exists. Would you like to sign in instead?',
+          [
+            {
+              text: 'Cancel',
+              style: 'cancel'
+            },
+            {
+              text: 'Sign In',
+              onPress: () => {
+                console.log('[SignupScreen] Redirecting to login screen...');
+                router.push('/login');
+              }
+            }
+          ]
+        );
+      } else {
+        setErrorMessage(error.message || 'An error occurred during signup');
+        setShowErrorToast(true);
+      }
     }
   };
 
   return (
     <SafeAreaView style={styles.container}>
+      <ErrorToast 
+        message={errorMessage}
+        visible={showErrorToast}
+        onHide={() => setShowErrorToast(false)}
+      />
       <KeyboardAvoidingView 
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{ flex: 1 }}
@@ -88,19 +140,6 @@ const SignupScreen: React.FC = () => {
         <AuthHeader title="Create Account" />
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           <View style={{ height: 15 }} />
-          
-          {viewState.errors.general && (
-            <View style={{ 
-              backgroundColor: isDarkMode ? '#ff6b6b' : '#ff4757', 
-              padding: 12, 
-              borderRadius: 8, 
-              marginBottom: 16,
-              borderWidth: 1,
-              borderColor: isDarkMode ? '#ff8e8e' : '#ff3838'
-            }}>
-              <Text style={{ color: 'white', fontSize: 14, fontWeight: '500' }}>{viewState.errors.general}</Text>
-            </View>
-          )}
 
           <AuthInput
             placeholder="Name"
@@ -170,7 +209,13 @@ const SignupScreen: React.FC = () => {
               keyboardType="phone-pad"
               accessibilityLabel="Phone number input"
               focused={phoneFocused}
-              style={{flex: 1}}
+              style={{
+                flex: 1, 
+                paddingHorizontal: 0, 
+                backgroundColor: 'transparent', 
+                marginBottom: 0,
+                color: colors.text
+              }}
             />
           </View>
           {viewState.errors.phone && (
@@ -195,7 +240,13 @@ const SignupScreen: React.FC = () => {
               secureTextEntry={!showPassword}
               accessibilityLabel="Password input"
               focused={passwordFocused}
-              style={{flex: 1, paddingHorizontal: 0, backgroundColor: 'transparent', marginBottom: 0}}
+              style={{
+                flex: 1, 
+                paddingHorizontal: 0, 
+                backgroundColor: 'transparent', 
+                marginBottom: 0,
+                color: colors.text
+              }}
             />
             <TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={styles.eyeIcon}>
               <MaterialIcons name={showPassword ? 'visibility-off' : 'visibility'} size={24} color={colors.secondary} />
@@ -224,7 +275,13 @@ const SignupScreen: React.FC = () => {
               secureTextEntry={!showConfirmPassword}
               accessibilityLabel="Confirm password input"
               focused={confirmPasswordFocused}
-              style={{flex: 1, paddingHorizontal: 0, backgroundColor: 'transparent', marginBottom: 0}}
+              style={{
+                flex: 1, 
+                paddingHorizontal: 0, 
+                backgroundColor: 'transparent', 
+                marginBottom: 0,
+                color: colors.text
+              }}
             />
             <TouchableOpacity onPress={() => setShowConfirmPassword(!showConfirmPassword)} style={styles.eyeIcon}>
               <MaterialIcons name={showConfirmPassword ? 'visibility-off' : 'visibility'} size={24} color={colors.secondary} />
@@ -245,7 +302,8 @@ const SignupScreen: React.FC = () => {
           <AuthButton 
             title={viewState.isLoading ? "Creating Account..." : "Sign Up"} 
             onPress={handleSignup} 
-            accessibilityLabel="Sign up button" 
+            accessibilityLabel="Sign up button"
+            disabled={viewState.isLoading}
           />
 
           <View style={styles.dividerContainer}>

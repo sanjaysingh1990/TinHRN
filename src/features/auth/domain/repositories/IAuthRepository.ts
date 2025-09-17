@@ -20,4 +20,7 @@ export interface IAuthRepository {
   // Email verification
   sendEmailVerification(): Promise<void>;
   reloadUser(): Promise<void>;
+  
+  // Auth state management
+  clearAuthState(): Promise<void>;
 }

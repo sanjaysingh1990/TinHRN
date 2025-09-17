@@ -60,10 +60,17 @@ export const getAuthStyles = (colors: any, colorScheme: string | null | undefine
     alignItems: 'center',
     marginBottom: 20,
   },
+  buttonDisabled: {
+    backgroundColor: colors.secondary,
+    opacity: 0.6,
+  },
   buttonText: {
     color: colors.background,
     fontWeight: 'bold',
     fontSize: 16,
+  },
+  buttonTextDisabled: {
+    color: colorScheme === 'dark' ? '#666' : '#999',
   },
   dividerContainer: {
     flexDirection: 'row',
@@ -152,6 +159,7 @@ export const getAuthStyles = (colors: any, colorScheme: string | null | undefine
     marginBottom: 15,
     borderWidth: 1,
     borderColor: 'transparent',
+    paddingHorizontal: 15,
   },
   passwordContainer: {
     flexDirection: 'row',
@@ -161,7 +169,7 @@ export const getAuthStyles = (colors: any, colorScheme: string | null | undefine
     marginBottom: 15,
     borderWidth: 1,
     borderColor: 'transparent',
-    paddingHorizontal: 15, // Added padding to match regular input fields
+    paddingHorizontal: 15,
   },
   eyeIcon: {
     padding: 10,

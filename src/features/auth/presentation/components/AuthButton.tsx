@@ -8,15 +8,21 @@ interface AuthButtonProps {
   title: string;
   onPress: () => void;
   accessibilityLabel: string;
+  disabled?: boolean;
 }
 
-const AuthButton: React.FC<AuthButtonProps> = ({ title, onPress, accessibilityLabel }) => {
+const AuthButton: React.FC<AuthButtonProps> = ({ title, onPress, accessibilityLabel, disabled = false }) => {
   const { colors, isDarkMode } = useTheme();
   const styles = getAuthStyles(colors, isDarkMode ? 'dark' : 'light');
 
   return (
-    <TouchableOpacity style={styles.button} onPress={onPress} accessibilityLabel={accessibilityLabel}>
-      <Text style={styles.buttonText}>{title}</Text>
+    <TouchableOpacity 
+      style={[styles.button, disabled && styles.buttonDisabled]} 
+      onPress={disabled ? undefined : onPress} 
+      accessibilityLabel={accessibilityLabel}
+      disabled={disabled}
+    >
+      <Text style={[styles.buttonText, disabled && styles.buttonTextDisabled]}>{title}</Text>
     </TouchableOpacity>
   );
 };

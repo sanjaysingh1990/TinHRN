@@ -202,31 +202,49 @@ export class SignupViewModel {
     this.notifyUpdate();
   }
 
+  clearGeneralError(): void {
+    this.viewState.errors.general = undefined;
+    this.notifyUpdate();
+  }
+
   async signup(): Promise<User | null> {
+    console.log('[SignupViewModel] Starting signup process...');
+    console.log('[SignupViewModel] Form data:', {
+      name: this.formData.name,
+      email: this.formData.email,
+      phone: this.formData.phone,
+      formattedPhone: this.getFormattedPhoneNumber()
+    });
+    
     try {
       this.viewState.isLoading = true;
       this.viewState.errors = {};
       this.notifyUpdate();
 
+      console.log('[SignupViewModel] Validating form...');
       // Validate form before submission
       this.validateForm();
       if (!this.viewState.isFormValid) {
+        console.log('[SignupViewModel] Form validation failed:', this.viewState.errors);
         this.viewState.isLoading = false;
         this.notifyUpdate();
         return null;
       }
-
+      
+      console.log('[SignupViewModel] Form validation passed, calling signup use case...');
       const user = await this.signupUseCase.execute({
         name: this.formData.name.trim(),
         email: this.formData.email.trim(),
         password: this.formData.password,
         phoneNumber: this.getFormattedPhoneNumber() || undefined,
       });
-
+      
+      console.log('[SignupViewModel] Signup use case completed successfully.');
       this.viewState.isLoading = false;
       this.notifyUpdate();
       return user;
     } catch (error: any) {
+      console.error('[SignupViewModel] Signup failed with error:', error);
       this.viewState.isLoading = false;
       this.viewState.errors.general = error.message || 'Signup failed. Please try again.';
       this.notifyUpdate();
