@@ -157,13 +157,13 @@ const TourDetailsScreen = () => {
           </TouchableOpacity>
         </View>
         <ScrollView style={styles.modalContent}>
-          {details?.itinerary.map((item, index) => (
+          {details?.itinerary.map((item, index, array) => (
             <View key={index} style={styles.itineraryItem}>
               <View style={styles.itineraryMarker}>
                 <View style={styles.itineraryIconContainer}>
                   <MaterialIcons name="terrain" size={16} color={isDarkMode ? '#111714' : '#fff'} />
                 </View>
-                {index < details.itinerary.length - 1 && <View style={styles.itineraryLine} />}
+                {index < array.length - 1 && <View style={styles.itineraryLine} />}
               </View>
               <View style={styles.itineraryContent}>
                 <Text style={styles.itineraryDay}>Day {item.day}</Text>
@@ -340,11 +340,13 @@ const TourDetailsScreen = () => {
       alignItems: 'flex-start',
       width: '100%',
       marginBottom: 16,
+      position: 'relative',
     },
     itineraryMarker: {
       alignItems: 'center',
       marginRight: 16,
       position: 'relative',
+      zIndex: 1,
     },
     itineraryIconContainer: {
       width: 32,
@@ -353,14 +355,15 @@ const TourDetailsScreen = () => {
       backgroundColor: colors.primary,
       justifyContent: 'center',
       alignItems: 'center',
+      zIndex: 2,
     },
     itineraryLine: {
       position: 'absolute',
-      top: 32, // Start right after the icon (32px height)
-      bottom: -32, // Extend to overlap with next item's icon position
+      top: 32,
+      left: 15,
       width: 2,
+      height: 120,
       backgroundColor: colors.borderColor,
-      left: 15, // Center align with the icon (32px width / 2 - 1px line width)
     },
     itineraryContent: {
       flex: 1,
@@ -557,22 +560,25 @@ const TourDetailsScreen = () => {
             {/* Itinerary Section */}
             <View style={styles.card}>
               <View style={styles.sectionHeader}>
-                <Text style={styles.sectionTitle}>Itinerary</Text>
+                <Text style={styles.sectionTitle}>ITINERARY</Text>
                 {details && details.itinerary.length > 5 && renderSeeMoreButton(() => setItineraryModalVisible(true))}
               </View>
-              {(details?.itinerary.slice(0, 5) || []).map((item, index) => (
+              {(details?.itinerary.slice(0, 5) || []).map((item, index, array) => (
                 <View key={index} style={styles.itineraryItem}>
                   <View style={styles.itineraryMarker}>
                     <View style={styles.itineraryIconContainer}>
                       <MaterialIcons name="terrain" size={16} color={isDarkMode ? '#111714' : '#fff'} />
                     </View>
-                    {index < (details?.itinerary.slice(0, 5) || []).length - 1 && <View style={styles.itineraryLine} />}
+                    {index < array.length - 1 && <View style={styles.itineraryLine} />}
                   </View>
                   <View style={styles.itineraryContent}>
                     <Text style={styles.itineraryDay}>Day {item.day}</Text>
                     <Text style={styles.itineraryTitle}>{item.activity || item.title}</Text>
                     {item.location ? <Text style={styles.itineraryDetail}>Location: {item.location}</Text> : null}
                     {item.accommodation ? <Text style={styles.itineraryDetail}>Accommodation: {item.accommodation}</Text> : null}
+                    {item.transport ? <Text style={styles.itineraryDetail}>Transport: {item.transport}</Text> : null}
+                    {item.distance ? <Text style={styles.itineraryDetail}>Distance: {item.distance}</Text> : null}
+                    {item.duration ? <Text style={styles.itineraryDetail}>Duration: {item.duration}</Text> : null}
                   </View>
                 </View>
               ))}
@@ -594,28 +600,30 @@ const TourDetailsScreen = () => {
             </View>
 
             {/* Reviews Section */}
-            <View style={styles.card}>
-              <View style={styles.sectionHeader}>
-                <Text style={styles.sectionTitle}>Reviews</Text>
-                {details && details.reviews.length >= 5 && renderSeeMoreButton(() => {
-                  loadReviews();
-                  setReviewsModalVisible(true);
-                })}
-              </View>
-              {details?.reviews.map((review) => (
-                <View key={review.id} style={styles.reviewItem}>
-                  <Image source={{ uri: review.avatar }} style={styles.reviewAvatar} />
-                  <View style={styles.reviewContent}>
-                    <View style={styles.reviewHeader}>
-                      <Text style={styles.reviewName}>{review.name}</Text>
-                      <Text style={styles.reviewDate}>{review.date}</Text>
-                    </View>
-                    <View style={styles.reviewStars}>{renderStars(review.rating)}</View>
-                    <Text style={styles.reviewText}>{review.review}</Text>
-                  </View>
+            {details?.reviews && details.reviews.length > 0 && (
+              <View style={styles.card}>
+                <View style={styles.sectionHeader}>
+                  <Text style={styles.sectionTitle}>Reviews</Text>
+                  {details.reviews.length >= 5 && renderSeeMoreButton(() => {
+                    loadReviews();
+                    setReviewsModalVisible(true);
+                  })}
                 </View>
-              ))}
-            </View>
+                {details.reviews.map((review) => (
+                  <View key={review.id} style={styles.reviewItem}>
+                    <Image source={{ uri: review.avatar }} style={styles.reviewAvatar} />
+                    <View style={styles.reviewContent}>
+                      <View style={styles.reviewHeader}>
+                        <Text style={styles.reviewName}>{review.name}</Text>
+                        <Text style={styles.reviewDate}>{review.date}</Text>
+                      </View>
+                      <View style={styles.reviewStars}>{renderStars(review.rating)}</View>
+                      <Text style={styles.reviewText}>{review.review}</Text>
+                    </View>
+                  </View>
+                ))}
+              </View>
+            )}
           </View>
         )}
       </ScrollView>
