@@ -30,43 +30,28 @@ const SplashScreen = () => {
     try {
       console.log('[SplashScreen] Starting user session check...');
       
-      // Small delay to ensure Firebase is fully initialized
-      await new Promise(resolve => setTimeout(resolve, 100));
-      
-      // Wait for Firebase auth to be ready using a promise-based approach
-      const user = await new Promise((resolve) => {
-        console.log('[SplashScreen] Setting up onAuthStateChanged listener...');
+      // Wait for Firebase auth to be fully initialized
+      await new Promise((resolve, reject) => {
+        const unsubscribe = auth.onAuthStateChanged((user) => {
+          console.log('[SplashScreen] Firebase auth initialized with user:', user);
+          unsubscribe(); // Stop listening after first call
+          resolve(user);
+        });
         
-        // Set up a timeout to prevent hanging
-        const timeout = setTimeout(() => {
-          console.log('[SplashScreen] Auth state check timeout');
+        // Timeout after 5 seconds if no auth state change
+        setTimeout(() => {
+          console.log('[SplashScreen] Firebase auth initialization timeout');
+          unsubscribe();
           resolve(null);
         }, 5000);
-        
-        // Listen for auth state changes
-        const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
-          console.log('[SplashScreen] onAuthStateChanged triggered with firebaseUser:', firebaseUser);
-          clearTimeout(timeout);
-          unsubscribe(); // Stop listening
-          
-          if (firebaseUser) {
-            console.log('[SplashScreen] Firebase user found, fetching full user data...');
-            try {
-              // If we have a firebase user, get the full user data
-              const getCurrentUserUseCase = container.resolve<GetCurrentUserUseCase>(GetCurrentUserUseCaseToken);
-              const fullUser = await getCurrentUserUseCase.execute();
-              console.log('[SplashScreen] Full user data fetched:', fullUser);
-              resolve(fullUser);
-            } catch (error) {
-              console.log('[SplashScreen] Error fetching full user data:', error);
-              resolve(null);
-            }
-          } else {
-            console.log('[SplashScreen] No firebase user found');
-            resolve(null);
-          }
-        });
       });
+      
+      // Add a small delay to ensure everything is ready
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Check if user is already logged in
+      const getCurrentUserUseCase = container.resolve<GetCurrentUserUseCase>(GetCurrentUserUseCaseToken);
+      const user = await getCurrentUserUseCase.execute();
       
       console.log('[SplashScreen] Final user check result:', user);
       

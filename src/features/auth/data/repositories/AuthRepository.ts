@@ -1,4 +1,5 @@
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   createUserWithEmailAndPassword,
   sendEmailVerification as firebaseSendEmailVerification,
@@ -79,6 +80,7 @@ export class AuthRepository implements IAuthRepository {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const firebaseUser = userCredential.user;
       console.log('[AuthRepository] Firebase sign in successful. UID:', firebaseUser.uid);
+      console.log('[AuthRepository] Firebase user object:', firebaseUser);
       
       console.log('[AuthRepository] Fetching additional user data from Firestore...');
       // Get additional user data from Firestore
@@ -92,6 +94,14 @@ export class AuthRepository implements IAuthRepository {
         name: mappedUser.name,
         email: mappedUser.email
       });
+      
+      // Store user data in AsyncStorage for faster loading next time
+      try {
+        await AsyncStorage.setItem('@currentUser', JSON.stringify(mappedUser));
+        console.log('[AuthRepository] User data stored in AsyncStorage successfully');
+      } catch (storageError) {
+        console.log('[AuthRepository] Error storing user data in AsyncStorage:', storageError);
+      }
       
       return mappedUser;
     } catch (error: any) {
@@ -221,6 +231,8 @@ export class AuthRepository implements IAuthRepository {
   async logout(): Promise<void> {
     try {
       await signOut(auth);
+      // Clear stored user session
+      await AsyncStorage.removeItem('@currentUser');
     } catch (error: any) {
       console.log('[AuthRepository] Logout failed with error:', {
         code: error.code,
@@ -242,32 +254,87 @@ export class AuthRepository implements IAuthRepository {
   async getCurrentUser(): Promise<User | null> {
     console.log('[AuthRepository] getCurrentUser called');
     
-    // Use a promise to wait for auth state to be ready
-    const firebaseUser = await new Promise<any>((resolve) => {
-      console.log('[AuthRepository] Waiting for auth state to be ready...');
+    // First, check if we have a stored user session
+    try {
+      const storedUser = await AsyncStorage.getItem('@currentUser');
+      console.log('[AuthRepository] Stored user session:', storedUser);
       
-      // If auth is already initialized, check the current user
-      if (auth.currentUser !== undefined) {
-        console.log('[AuthRepository] Auth already initialized, currentUser:', auth.currentUser);
-        resolve(auth.currentUser);
-        return;
+      if (storedUser) {
+        console.log('[AuthRepository] Found stored user session, parsing...');
+        try {
+          const parsedUser = JSON.parse(storedUser);
+          console.log('[AuthRepository] Parsed stored user:', parsedUser);
+          
+          // Wait for Firebase auth to be ready
+          let attempts = 0;
+          const maxAttempts = 100; // 10 seconds with 100ms intervals
+          
+          while (attempts < maxAttempts) {
+            console.log(`[AuthRepository] getCurrentUser attempt ${attempts + 1}, auth.currentUser:`, auth.currentUser);
+            if (auth.currentUser !== undefined) {
+              break;
+            }
+            await new Promise(resolve => setTimeout(resolve, 100));
+            attempts++;
+          }
+          
+          const firebaseUser = auth.currentUser;
+          console.log('[AuthRepository] getCurrentUser - Firebase user:', firebaseUser);
+          
+          // If Firebase user is null but we have a stored session, let's trust the stored session
+          // This is a workaround for Firebase Auth persistence issues in React Native
+          if (!firebaseUser) {
+            console.log('[AuthRepository] Firebase user is null, but we have a stored session. Using stored session as workaround.');
+            // Validate the stored session by checking if it's recent (less than 24 hours old)
+            const storedTimestamp = new Date(parsedUser.updatedAt || parsedUser.createdAt);
+            const now = new Date();
+            const timeDiff = now.getTime() - storedTimestamp.getTime();
+            const hoursDiff = timeDiff / (1000 * 60 * 60);
+            
+            if (hoursDiff < 24) {
+              console.log('[AuthRepository] Stored session is recent (< 24 hours), trusting it.');
+              return parsedUser;
+            } else {
+              console.log('[AuthRepository] Stored session is old (> 24 hours), clearing it.');
+              await AsyncStorage.removeItem('@currentUser');
+              return null;
+            }
+          }
+          
+          if (firebaseUser && firebaseUser.uid === parsedUser.id) {
+            console.log('[AuthRepository] Firebase user matches stored session');
+            return parsedUser;
+          } else {
+            console.log('[AuthRepository] Firebase user does not match stored session, clearing stored session');
+            await AsyncStorage.removeItem('@currentUser');
+          }
+        } catch (parseError) {
+          console.log('[AuthRepository] Error parsing stored user session:', parseError);
+          await AsyncStorage.removeItem('@currentUser');
+        }
       }
-      
-      // Wait for auth state to be ready using onAuthStateChanged
-      const unsubscribe = auth.onAuthStateChanged((user) => {
-        console.log('[AuthRepository] onAuthStateChanged triggered with user:', user);
-        unsubscribe(); // Stop listening
-        resolve(user);
-      });
-      
-      // Timeout after 5 seconds in case onAuthStateChanged doesn't trigger
-      setTimeout(() => {
-        console.log('[AuthRepository] onAuthStateChanged timeout');
-        unsubscribe();
-        resolve(null);
-      }, 5000);
-    });
+    } catch (storageError) {
+      console.log('[AuthRepository] Error accessing stored user session:', storageError);
+    }
     
+    // If no valid stored session, check Firebase directly
+    console.log('[AuthRepository] No valid stored session, checking Firebase directly...');
+    
+    // Wait for Firebase auth to be initialized
+    // We'll wait up to 10 seconds for the auth state to be ready
+    let attempts = 0;
+    const maxAttempts = 100; // 10 seconds with 100ms intervals
+    
+    while (attempts < maxAttempts) {
+      console.log(`[AuthRepository] getCurrentUser attempt ${attempts + 1}, auth.currentUser:`, auth.currentUser);
+      if (auth.currentUser !== undefined) {
+        break;
+      }
+      await new Promise(resolve => setTimeout(resolve, 100));
+      attempts++;
+    }
+    
+    const firebaseUser = auth.currentUser;
     console.log('[AuthRepository] getCurrentUser - Final Firebase user:', firebaseUser);
     
     if (!firebaseUser) {
@@ -277,22 +344,21 @@ export class AuthRepository implements IAuthRepository {
     
     // Get additional user data from Firestore
     console.log(`[AuthRepository] getCurrentUser - Fetching Firestore data for user ${firebaseUser.uid}`);
+    const userDoc = await getDoc(doc(firestore, 'users', firebaseUser.uid));
+    const additionalData = userDoc.exists() ? userDoc.data() : {};
+    console.log('[AuthRepository] getCurrentUser - Additional data:', additionalData);
+    
+    const mappedUser = this.mapFirebaseUserToUser(firebaseUser, additionalData);
+    console.log('[AuthRepository] getCurrentUser - Mapped user:', mappedUser);
+    
+    // Store user data in AsyncStorage for faster loading next time
     try {
-      const userDoc = await getDoc(doc(firestore, 'users', firebaseUser.uid));
-      const additionalData = userDoc.exists() ? userDoc.data() : {};
-      console.log('[AuthRepository] getCurrentUser - Additional data:', additionalData);
-      
-      const mappedUser = this.mapFirebaseUserToUser(firebaseUser, additionalData);
-      console.log('[AuthRepository] getCurrentUser - Mapped user:', mappedUser);
-      
-      return mappedUser;
-    } catch (error) {
-      console.log('[AuthRepository] getCurrentUser - Error fetching Firestore data:', error);
-      // Return user data without additional Firestore data if there's an error
-      const mappedUser = this.mapFirebaseUserToUser(firebaseUser, {});
-      console.log('[AuthRepository] getCurrentUser - Mapped user without Firestore data:', mappedUser);
-      return mappedUser;
+      await AsyncStorage.setItem('@currentUser', JSON.stringify(mappedUser));
+    } catch (storageError) {
+      console.log('[AuthRepository] Error storing user data in AsyncStorage:', storageError);
     }
+    
+    return mappedUser;
   }
 
   onAuthStateChanged(callback: (user: User | null) => void): () => void {
@@ -303,8 +369,22 @@ export class AuthRepository implements IAuthRepository {
         const additionalData = userDoc.exists() ? userDoc.data() : {};
         
         const user = this.mapFirebaseUserToUser(firebaseUser, additionalData);
+        
+        // Store user data in AsyncStorage for faster loading next time
+        try {
+          await AsyncStorage.setItem('@currentUser', JSON.stringify(user));
+        } catch (storageError) {
+          console.log('[AuthRepository] Error storing user data in AsyncStorage:', storageError);
+        }
+        
         callback(user);
       } else {
+        // Clear stored user session when user logs out
+        try {
+          await AsyncStorage.removeItem('@currentUser');
+        } catch (storageError) {
+          console.log('[AuthRepository] Error clearing stored user session:', storageError);
+        }
         callback(null);
       }
     });
