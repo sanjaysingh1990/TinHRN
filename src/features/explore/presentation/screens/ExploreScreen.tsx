@@ -67,8 +67,15 @@ const ExploreScreen: React.FC<ExploreScreenProps> = ({ hideHeader = false, onSea
   };
 
   const handleTrekExplore = (trek: TopTrek) => {
-    // Navigate to tour details screen
-    router.push(`/tour/${trek.id}`);
+    // Navigate to tour details screen with id, name, and image
+    router.push({
+      pathname: '/tour/[id]',
+      params: {
+        id: trek.id,
+        name: trek.name,
+        image: trek.image
+      }
+    });
   };
 
   const handleSearchPress = () => {

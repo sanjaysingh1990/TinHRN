@@ -28,7 +28,7 @@ const { width } = Dimensions.get('window');
 const TourDetailsScreen = () => {
   const router = useRouter();
   const { colors, isDarkMode } = useTheme();
-  const { id } = useLocalSearchParams();
+  const { id, name, image } = useLocalSearchParams();
   const [details, setDetails] = useState<TourDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const [bookingLoading, setBookingLoading] = useState(false);
@@ -526,6 +526,11 @@ const TourDetailsScreen = () => {
       <ReviewsModal />
       
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
+        <ImageBackground
+          source={{ uri: image as string || details?.image || 'https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' }}
+          style={styles.heroImage}
+        />
+
         {loading ? <TourDetailsSkeleton /> : (
           <View style={styles.content}>
             {/* Overview Section */}
@@ -533,7 +538,7 @@ const TourDetailsScreen = () => {
               <View style={styles.badge}>
                 <Text style={styles.badgeText}>OVERVIEW</Text>
               </View>
-              <Text style={styles.cardTitle}>{details?.name}</Text>
+              <Text style={styles.cardTitle}>{name || details?.name}</Text>
               <Text style={styles.cardSubtitle}>{details?.duration} • Max Altitude: {details?.altitude}</Text>
               <Text style={styles.cardBody}>
                 {details?.overview}
