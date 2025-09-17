@@ -29,23 +29,40 @@ const HomeScreen: React.FC = () => {
   const [tours, setTours] = useState<Tour[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
-  const page = useRef(1);
   const [hasMore, setHasMore] = useState(true);
   const [searching, setSearching] = useState(false);
+  const page = useRef(1);
+  const isFetching = useRef(false); // Prevent multiple simultaneous requests
 
   const homeViewModel = container.resolve<HomeViewModel>(HomeViewModelToken);
 
   const loadTours = () => {
-    if (!hasMore || loadingMore) return;
+    // Prevent multiple simultaneous requests
+    if (isFetching.current) {
+      console.log('loadTours skipped: already fetching');
+      return;
+    }
+    
+    if (!hasMore || loadingMore) {
+      console.log(`loadTours skipped: hasMore=${hasMore}, loadingMore=${loadingMore}`);
+      return;
+    }
 
+    isFetching.current = true;
+    
     if (page.current === 1) {
       setLoading(true);
     } else {
       setLoadingMore(true);
     }
 
+    console.log(`Loading tours for page ${page.current}`);
+    
     homeViewModel.getHotToursPaginated(page.current, 10).then(newTours => {
+      console.log(`Received ${newTours.length} tours for page ${page.current}`);
+      
       if (newTours.length === 0) {
+        console.log('No more tours to load');
         setHasMore(false);
       } else {
         // Ensure no duplicate tours are added
@@ -56,15 +73,27 @@ const HomeScreen: React.FC = () => {
           
           const uniqueNewTours = newTours.filter(tour => {
             const tourId = typeof tour.id === 'number' ? tour.id.toString() : tour.id;
-            return !existingIds.has(tourId);
+            const isDuplicate = existingIds.has(tourId);
+            if (isDuplicate) {
+              console.log(`Duplicate tour found with ID: ${tourId}`);
+            }
+            return !isDuplicate;
           });
           
+          console.log(`Adding ${uniqueNewTours.length} new unique tours`);
           return [...prevTours, ...uniqueNewTours];
         });
         page.current += 1;
+        console.log(`Page incremented to ${page.current}`);
       }
       setLoading(false);
       setLoadingMore(false);
+      isFetching.current = false;
+    }).catch(error => {
+      console.error('Error loading tours:', error);
+      setLoading(false);
+      setLoadingMore(false);
+      isFetching.current = false;
     });
   };
 
@@ -84,8 +113,17 @@ const HomeScreen: React.FC = () => {
     });
   };
 
-  useEffect(() => {
+  const refreshTours = () => {
+    console.log('Refreshing tours');
+    page.current = 1;
+    setTours([]);
+    setHasMore(true);
+    isFetching.current = false; // Reset the fetching flag
     loadTours();
+  };
+
+  useEffect(() => {
+    refreshTours();
   }, []);
 
   const styles = StyleSheet.create({
@@ -227,8 +265,9 @@ const HomeScreen: React.FC = () => {
   }));
 
   // Helper function to convert ID to string for keyExtractor
-  const getKey = (item: Tour) => {
-    return typeof item.id === 'number' ? item.id.toString() : item.id;
+  const getKey = (item: Tour, index: number) => {
+    const id = typeof item.id === 'number' ? item.id.toString() : item.id;
+    return `${id}_${index}`;
   };
 
   return (
@@ -243,7 +282,7 @@ const HomeScreen: React.FC = () => {
       <FlatList
         data={loading ? skeletonData : tours}
         numColumns={2}
-        renderItem={({ item }) => (
+        renderItem={({ item, index }) => (
           loading ? renderSkeleton() :
           <View style={styles.tourCard}>
             <Image source={{ uri: item.image }} style={styles.tourImage} />
@@ -254,20 +293,22 @@ const HomeScreen: React.FC = () => {
               </View>
               <TouchableOpacity style={styles.exploreButton} onPress={() => router.push({
                 pathname: '/tour/[id]',
-                params: { id: getKey(item), name: item.name, image: item.image }
+                params: { id: typeof item.id === 'number' ? item.id.toString() : item.id, name: item.name, image: item.image }
               })}>
                 <Text style={styles.exploreButtonText}>Explore</Text>
               </TouchableOpacity>
             </View>
           </View>
         )}
-        keyExtractor={(item, index) => `${getKey(item)}_${index}`}
+        keyExtractor={(item, index) => getKey(item, index)}
         contentContainerStyle={{ paddingHorizontal: 7.5 }}
         ListHeaderComponent={renderHeader}
         ListFooterComponent={renderFooter}
         onEndReached={loadTours}
         onEndReachedThreshold={0.5}
         keyboardShouldPersistTaps="handled"
+        refreshing={loading && page.current === 1}
+        onRefresh={refreshTours}
       />
     </SafeAreaView>
   );

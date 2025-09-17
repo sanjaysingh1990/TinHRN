@@ -15,19 +15,28 @@ class TourService {
 
   async getHotToursPaginated(page: number, limitCount: number, lastVisible: DocumentData | null = null): Promise<{ tours: Tour[]; lastVisible: DocumentData | null }> {
     try {
-      let q = query(
-        this.toursCollection,
-        orderBy('name'),
-        limit(limitCount)
-      );
-
-      if (lastVisible) {
+      console.log(`TourService: Fetching page ${page} with limit ${limitCount}`);
+      console.log(`TourService: lastVisible provided: ${!!lastVisible}, page > 1: ${page > 1}`);
+      
+      let q;
+      
+      if (lastVisible && page > 1) {
+        // For pagination after the first page, use startAfter with the last document
         q = query(
           this.toursCollection,
           orderBy('name'),
           startAfter(lastVisible),
           limit(limitCount)
         );
+        console.log('TourService: Using startAfter query for pagination');
+      } else {
+        // For the first page or when no lastVisible is provided
+        q = query(
+          this.toursCollection,
+          orderBy('name'),
+          limit(limitCount)
+        );
+        console.log('TourService: Using first page query');
       }
 
       const querySnapshot = await getDocs(q);
@@ -45,6 +54,9 @@ class TourService {
           });
           lastDoc = doc;
         });
+        console.log(`TourService: Found ${tours.length} tours`);
+      } else {
+        console.log('TourService: No tours found');
       }
 
       return { tours, lastVisible: lastDoc };

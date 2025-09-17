@@ -78,8 +78,8 @@ container.register(SendPasswordResetEmailUseCaseToken, { useClass: SendPasswordR
 container.register(LoginViewModelToken, { useClass: LoginViewModel });
 container.register(SignupViewModelToken, { useClass: SignupViewModel });
 
-container.register(TourRepositoryToken, { useClass: TourRepository });
-container.register(HomeViewModelToken, { useClass: HomeViewModel });
+container.registerSingleton(TourRepositoryToken, TourRepository);
+container.registerSingleton(HomeViewModelToken, HomeViewModel);
 
 container.register(ExploreRepositoryToken, { useClass: ExploreRepository });
 container.register(ExploreViewModelToken, { useClass: ExploreViewModel });
