@@ -97,36 +97,65 @@ export class LoginViewModel {
     this.viewState.isFormValid = Object.keys(errors).length === 0;
   }
 
+  validateFormManually(): void {
+    this.validateForm();
+    this.notifyUpdate();
+  }
+
   clearErrors(): void {
     this.viewState.errors = {};
     this.notifyUpdate();
   }
 
+  clearGeneralError(): void {
+    this.viewState.errors.general = undefined;
+    this.notifyUpdate();
+  }
+
   async login(): Promise<User | null> {
+    console.log('[LoginViewModel] Starting login process...');
+    console.log('[LoginViewModel] Form data:', {
+      email: this.formData.email
+    });
+    
     try {
       this.viewState.isLoading = true;
       this.viewState.errors = {};
       this.notifyUpdate();
 
+      console.log('[LoginViewModel] Validating form...');
       // Validate form before submission
       this.validateForm();
       if (!this.viewState.isFormValid) {
+        console.log('[LoginViewModel] Form validation failed:', this.viewState.errors);
         this.viewState.isLoading = false;
         this.notifyUpdate();
         return null;
       }
 
+      console.log('[LoginViewModel] Form validation passed, calling login use case...');
       const user = await this.loginUseCase.execute({
         email: this.formData.email.trim(),
         password: this.formData.password,
       });
 
+      console.log('[LoginViewModel] Login use case completed successfully.');
       this.viewState.isLoading = false;
       this.notifyUpdate();
       return user;
     } catch (error: any) {
+      console.log('[LoginViewModel] Login failed with error:', error);
       this.viewState.isLoading = false;
-      this.viewState.errors.general = error.message || 'Login failed. Please try again.';
+      
+      // Handle different types of errors
+      if (error.name === 'AuthenticationError') {
+        // This is a user-friendly error from our AuthRepository
+        this.viewState.errors.general = error.message;
+      } else {
+        // This is an unexpected error
+        this.viewState.errors.general = error.message || 'Login failed. Please try again.';
+      }
+      
       this.notifyUpdate();
       return null;
     }

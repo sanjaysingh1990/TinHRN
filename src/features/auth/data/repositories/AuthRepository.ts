@@ -71,17 +71,44 @@ export class AuthRepository implements IAuthRepository {
   }
 
   async login(email: string, password: string): Promise<User> {
+    console.log('[AuthRepository] Starting login process...');
+    console.log('[AuthRepository] Login params:', { email });
+    
     try {
+      console.log('[AuthRepository] Attempting Firebase sign in...');
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const firebaseUser = userCredential.user;
+      console.log('[AuthRepository] Firebase sign in successful. UID:', firebaseUser.uid);
       
+      console.log('[AuthRepository] Fetching additional user data from Firestore...');
       // Get additional user data from Firestore
       const userDoc = await getDoc(doc(firestore, 'users', firebaseUser.uid));
       const additionalData = userDoc.exists() ? userDoc.data() : {};
+      console.log('[AuthRepository] User data fetched successfully.');
       
-      return this.mapFirebaseUserToUser(firebaseUser, additionalData);
+      const mappedUser = this.mapFirebaseUserToUser(firebaseUser, additionalData);
+      console.log('[AuthRepository] Login completed successfully. User:', {
+        id: mappedUser.id,
+        name: mappedUser.name,
+        email: mappedUser.email
+      });
+      
+      return mappedUser;
     } catch (error: any) {
-      throw new Error(this.getErrorMessage(error));
+      console.log('[AuthRepository] Login failed with error:', {
+        code: error.code,
+        message: error.message,
+        stack: error.stack
+      });
+      
+      // Get user-friendly error message
+      const errorMessage = this.getErrorMessage(error);
+      console.log('[AuthRepository] Throwing user-friendly error:', errorMessage);
+      
+      // Create a new error with the user-friendly message but preserve original error info
+      const userError = new Error(errorMessage);
+      userError.name = 'AuthenticationError';
+      throw userError;
     }
   }
 
@@ -160,7 +187,7 @@ export class AuthRepository implements IAuthRepository {
       
       return mappedUser;
     } catch (error: any) {
-      console.error('[AuthRepository] Signup failed with error:', {
+      console.log('[AuthRepository] Signup failed with error:', {
         code: error.code,
         message: error.message,
         stack: error.stack
@@ -179,7 +206,7 @@ export class AuthRepository implements IAuthRepository {
             const additionalData = userDoc.exists() ? userDoc.data() : {};
             return this.mapFirebaseUserToUser(currentUser, additionalData);
           } catch (fetchError) {
-            console.error('[AuthRepository] Error fetching existing user data:', fetchError);
+            console.log('[AuthRepository] Error fetching existing user data:', fetchError);
             // Fall through to original error handling
           }
         }
@@ -195,7 +222,20 @@ export class AuthRepository implements IAuthRepository {
     try {
       await signOut(auth);
     } catch (error: any) {
-      throw new Error(this.getErrorMessage(error));
+      console.log('[AuthRepository] Logout failed with error:', {
+        code: error.code,
+        message: error.message,
+        stack: error.stack
+      });
+      
+      // Get user-friendly error message
+      const errorMessage = this.getErrorMessage(error);
+      console.log('[AuthRepository] Throwing user-friendly error:', errorMessage);
+      
+      // Create a new error with the user-friendly message but preserve original error info
+      const userError = new Error(errorMessage);
+      userError.name = 'AuthenticationError';
+      throw userError;
     }
   }
 
@@ -229,7 +269,20 @@ export class AuthRepository implements IAuthRepository {
     try {
       await firebaseSendPasswordResetEmail(auth, email);
     } catch (error: any) {
-      throw new Error(this.getErrorMessage(error));
+      console.log('[AuthRepository] Password reset email failed with error:', {
+        code: error.code,
+        message: error.message,
+        stack: error.stack
+      });
+      
+      // Get user-friendly error message
+      const errorMessage = this.getErrorMessage(error);
+      console.log('[AuthRepository] Throwing user-friendly error:', errorMessage);
+      
+      // Create a new error with the user-friendly message but preserve original error info
+      const userError = new Error(errorMessage);
+      userError.name = 'AuthenticationError';
+      throw userError;
     }
   }
 
@@ -255,7 +308,20 @@ export class AuthRepository implements IAuthRepository {
       
       await updateDoc(doc(firestore, 'users', firebaseUser.uid), firestoreUpdates);
     } catch (error: any) {
-      throw new Error(this.getErrorMessage(error));
+      console.log('[AuthRepository] Profile update failed with error:', {
+        code: error.code,
+        message: error.message,
+        stack: error.stack
+      });
+      
+      // Get user-friendly error message
+      const errorMessage = this.getErrorMessage(error);
+      console.log('[AuthRepository] Throwing user-friendly error:', errorMessage);
+      
+      // Create a new error with the user-friendly message but preserve original error info
+      const userError = new Error(errorMessage);
+      userError.name = 'AuthenticationError';
+      throw userError;
     }
   }
 
@@ -266,7 +332,20 @@ export class AuthRepository implements IAuthRepository {
     try {
       await firebaseSendEmailVerification(firebaseUser);
     } catch (error: any) {
-      throw new Error(this.getErrorMessage(error));
+      console.log('[AuthRepository] Email verification failed with error:', {
+        code: error.code,
+        message: error.message,
+        stack: error.stack
+      });
+      
+      // Get user-friendly error message
+      const errorMessage = this.getErrorMessage(error);
+      console.log('[AuthRepository] Throwing user-friendly error:', errorMessage);
+      
+      // Create a new error with the user-friendly message but preserve original error info
+      const userError = new Error(errorMessage);
+      userError.name = 'AuthenticationError';
+      throw userError;
     }
   }
 
@@ -277,7 +356,20 @@ export class AuthRepository implements IAuthRepository {
     try {
       await reload(firebaseUser);
     } catch (error: any) {
-      throw new Error(this.getErrorMessage(error));
+      console.log('[AuthRepository] User reload failed with error:', {
+        code: error.code,
+        message: error.message,
+        stack: error.stack
+      });
+      
+      // Get user-friendly error message
+      const errorMessage = this.getErrorMessage(error);
+      console.log('[AuthRepository] Throwing user-friendly error:', errorMessage);
+      
+      // Create a new error with the user-friendly message but preserve original error info
+      const userError = new Error(errorMessage);
+      userError.name = 'AuthenticationError';
+      throw userError;
     }
   }
 
@@ -293,8 +385,16 @@ export class AuthRepository implements IAuthRepository {
         console.log('[AuthRepository] No current user to sign out');
       }
     } catch (error: any) {
-      console.error('[AuthRepository] Error clearing auth state:', error);
-      throw new Error(this.getErrorMessage(error));
+      console.log('[AuthRepository] Error clearing auth state:', error);
+      
+      // Get user-friendly error message
+      const errorMessage = this.getErrorMessage(error);
+      console.log('[AuthRepository] Throwing user-friendly error:', errorMessage);
+      
+      // Create a new error with the user-friendly message but preserve original error info
+      const userError = new Error(errorMessage);
+      userError.name = 'AuthenticationError';
+      throw userError;
     }
   }
 
@@ -309,23 +409,45 @@ export class AuthRepository implements IAuthRepository {
       case 'auth/user-not-found':
         return 'No user found with this email address.';
       case 'auth/wrong-password':
-        return 'Incorrect password.';
+        return 'Incorrect password. Please try again.';
+      case 'auth/invalid-credential':
+        return 'Invalid email or password. Please check your credentials and try again.';
+      case 'auth/user-disabled':
+        return 'This account has been disabled. Please contact support.';
       case 'auth/email-already-in-use':
         return 'An account with this email already exists. Please sign in instead or use a different email address.';
       case 'auth/weak-password':
         return 'Password should be at least 6 characters.';
       case 'auth/invalid-email':
-        return 'Invalid email address.';
+        return 'Invalid email address. Please enter a valid email.';
+      case 'auth/operation-not-allowed':
+        return 'Email/password accounts are not enabled. Please contact support.';
       case 'auth/too-many-requests':
-        return 'Too many failed attempts. Please try again later.';
+        return 'Too many failed attempts. Please try again later or reset your password.';
       case 'auth/network-request-failed':
-        return 'Network error. Please check your connection.';
+        return 'Network error. Please check your internet connection and try again.';
+      case 'auth/internal-error':
+        return 'An internal error occurred. Please try again later.';
+      case 'auth/invalid-api-key':
+        return 'Authentication service is misconfigured. Please contact support.';
+      case 'auth/app-deleted':
+        return 'Authentication service is unavailable. Please contact support.';
+      case 'auth/requires-recent-login':
+        return 'Please sign in again to complete this action.';
       default:
+        console.log('[AuthRepository] Unhandled error code:', error.code);
+        
+        // If it's a Firebase auth error but not handled above
+        if (error.code && error.code.startsWith('auth/')) {
+          return `Authentication error: ${error.message || 'Please try again.'}`;
+        }
+        
         // If it's not a Firebase auth error, return the original message
         if (error.message && !error.code) {
           return error.message;
         }
-        return error.message || 'An error occurred during authentication.';
+        
+        return 'An unexpected error occurred during authentication. Please try again.';
     }
   }
 }

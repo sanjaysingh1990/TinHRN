@@ -7,6 +7,7 @@ import { LoginViewModelToken } from '../../auth.di';
 import AuthButton from '../components/AuthButton';
 import AuthFooter from '../components/AuthFooter';
 import AuthInput from '../components/AuthInput';
+import ErrorToast from '../components/ErrorToast';
 import SocialButtons from '../components/SocialButtons';
 import { useAuth } from '../context/AuthContext';
 import { getAuthStyles } from '../styles/auth.styles';
@@ -23,28 +24,59 @@ const LoginScreen: React.FC = () => {
   const [passwordFocused, setPasswordFocused] = useState(false);
   const [viewState, setViewState] = useState(viewModel.viewState);
   const [formData, setFormData] = useState(viewModel.formData);
+  const [showErrorToast, setShowErrorToast] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     viewModel.setUpdateCallback(() => {
       setViewState({ ...viewModel.viewState });
       setFormData({ ...viewModel.formData });
+      
+      // Show error toast if there's a general error
+      if (viewModel.viewState.errors.general && !showErrorToast) {
+        setErrorMessage(viewModel.viewState.errors.general);
+        setShowErrorToast(true);
+      }
     });
 
     return () => {
       viewModel.reset();
     };
-  }, []);
+  }, [showErrorToast]);
 
   const handleLogin = async () => {
+    console.log('[LoginScreen] Starting login process...');
+    
+    // First validate the form
+    viewModel.validateFormManually();
+    
+    // Check if form is valid before proceeding
+    if (!viewModel.viewState.isFormValid) {
+      console.log('[LoginScreen] Form validation failed, not proceeding with login');
+      console.log('[LoginScreen] Validation errors:', viewModel.viewState.errors);
+      return;
+    }
+    
     try {
+      console.log('[LoginScreen] Form is valid, calling viewModel.login...');
       const user = await viewModel.login();
       if (user) {
-        // Use the AuthContext login as well to update global state
-        await authLogin(formData.email, formData.password);
+        console.log('[LoginScreen] Login successful, user:', {
+          id: user.id,
+          name: user.name,
+          email: user.email
+        });
+        
         router.replace('/(tabs)');
+      } else {
+        console.log('[LoginScreen] Login returned null user');
+        setErrorMessage('Login failed. Please try again.');
+        setShowErrorToast(true);
       }
     } catch (error: any) {
-      Alert.alert('Login Failed', error.message || 'An error occurred during login');
+      console.error('[LoginScreen] Login failed with error:', error);
+      setErrorMessage(error.message || 'An error occurred during login');
+      setShowErrorToast(true);
     }
   };
 
@@ -55,6 +87,11 @@ const LoginScreen: React.FC = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <ErrorToast 
+        message={errorMessage}
+        visible={showErrorToast}
+        onHide={() => setShowErrorToast(false)}
+      />
       <StatusBar 
         barStyle={isDarkMode ? "light-content" : "dark-content"} 
         backgroundColor={colors.background}
@@ -72,19 +109,6 @@ const LoginScreen: React.FC = () => {
       <TouchableOpacity style={styles.forgotPassword} onPress={handleForgotPassword}>
         <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
       </TouchableOpacity>
-
-      {viewState.errors.general && (
-        <View style={{ 
-          backgroundColor: isDarkMode ? '#ff6b6b' : '#ff4757', 
-          padding: 12, 
-          borderRadius: 8, 
-          marginBottom: 16,
-          borderWidth: 1,
-          borderColor: isDarkMode ? '#ff8e8e' : '#ff3838'
-        }}>
-          <Text style={{ color: 'white', fontSize: 14, fontWeight: '500' }}>{viewState.errors.general}</Text>
-        </View>
-      )}
 
       <AuthInput
         placeholder="Email or Username"
@@ -135,6 +159,7 @@ const LoginScreen: React.FC = () => {
         title={viewState.isLoading ? "Logging In..." : "Log In"} 
         onPress={handleLogin} 
         accessibilityLabel="Login button"
+        disabled={viewState.isLoading}
       />
 
       <View style={styles.dividerContainer}>

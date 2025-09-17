@@ -197,6 +197,11 @@ export class SignupViewModel {
     this.viewState.isFormValid = Object.keys(errors).length === 0;
   }
 
+  validateFormManually(): void {
+    this.validateForm();
+    this.notifyUpdate();
+  }
+
   clearErrors(): void {
     this.viewState.errors = {};
     this.notifyUpdate();
@@ -244,9 +249,18 @@ export class SignupViewModel {
       this.notifyUpdate();
       return user;
     } catch (error: any) {
-      console.error('[SignupViewModel] Signup failed with error:', error);
+      console.log('[SignupViewModel] Signup failed with error:', error);
       this.viewState.isLoading = false;
-      this.viewState.errors.general = error.message || 'Signup failed. Please try again.';
+      
+      // Handle different types of errors
+      if (error.name === 'AuthenticationError') {
+        // This is a user-friendly error from our AuthRepository
+        this.viewState.errors.general = error.message;
+      } else {
+        // This is an unexpected error
+        this.viewState.errors.general = error.message || 'Signup failed. Please try again.';
+      }
+      
       this.notifyUpdate();
       return null;
     }

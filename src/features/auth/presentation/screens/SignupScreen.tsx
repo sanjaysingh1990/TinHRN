@@ -67,8 +67,19 @@ const SignupScreen: React.FC = () => {
 
   const handleSignup = async () => {
     console.log('[SignupScreen] Starting signup process...');
+    
+    // First validate the form
+    viewModel.validateFormManually();
+    
+    // Check if form is valid before proceeding
+    if (!viewModel.viewState.isFormValid) {
+      console.log('[SignupScreen] Form validation failed, not proceeding with signup');
+      console.log('[SignupScreen] Validation errors:', viewModel.viewState.errors);
+      return;
+    }
+    
     try {
-      console.log('[SignupScreen] Calling viewModel.signup...');
+      console.log('[SignupScreen] Form is valid, calling viewModel.signup...');
       const user = await viewModel.signup();
       if (user) {
         console.log('[SignupScreen] Signup successful, user created:', {
