@@ -2,7 +2,7 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import React from 'react';
 import { TouchableOpacity, useColorScheme, View } from 'react-native';
-import { theme } from '../../../theme';
+import { theme } from '../../../../theme';
 import { getAuthStyles } from '../styles/auth.styles';
 
 const SocialButtons = () => {

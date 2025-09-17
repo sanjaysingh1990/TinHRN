@@ -1,18 +1,18 @@
 
-import { injectable } from 'tsyringe';
-import { 
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged,
-  sendPasswordResetEmail as firebaseSendPasswordResetEmail,
-  updateProfile as firebaseUpdateProfile,
-  sendEmailVerification as firebaseSendEmailVerification,
-  reload,
-  User as FirebaseUser
+import {
+    createUserWithEmailAndPassword,
+    sendEmailVerification as firebaseSendEmailVerification,
+    sendPasswordResetEmail as firebaseSendPasswordResetEmail,
+    updateProfile as firebaseUpdateProfile,
+    User as FirebaseUser,
+    onAuthStateChanged,
+    reload,
+    signInWithEmailAndPassword,
+    signOut
 } from 'firebase/auth';
-import { doc, setDoc, getDoc, updateDoc, serverTimestamp } from 'firebase/firestore';
-import { auth, firestore } from '../../../infrastructure/firebase/firebase.config';
+import { doc, getDoc, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore';
+import { injectable } from 'tsyringe';
+import { auth, firestore } from '../../../../infrastructure/firebase/firebase.config';
 import { User } from '../../domain/entities/User';
 import { IAuthRepository } from '../../domain/repositories/IAuthRepository';
 

@@ -1,8 +1,8 @@
-import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import container from '../../../../container';
+import { AuthRepositoryToken } from '../../auth.di';
 import { AuthState, User } from '../../domain/entities/User';
 import { IAuthRepository } from '../../domain/repositories/IAuthRepository';
-import { AuthRepositoryToken } from '../../tokens';
-import container from '../../../container';
 
 interface AuthContextType extends AuthState {
   login: (email: string, password: string) => Promise<void>;

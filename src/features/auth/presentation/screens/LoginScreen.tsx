@@ -1,7 +1,7 @@
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { Image, SafeAreaView, StatusBar, Text, TouchableOpacity, useColorScheme, View } from 'react-native';
-import { theme } from '../../../theme';
+import { theme } from '../../../../theme';
 import AuthButton from '../components/AuthButton';
 import AuthFooter from '../components/AuthFooter';
 import AuthInput from '../components/AuthInput';
@@ -32,7 +32,7 @@ const LoginScreen: React.FC = () => {
       />
       <View style={styles.logoContainer}>
         <Image 
-          source={require('../../../../assets/images/icon.png')} 
+          source={require('../../../../../assets/images/icon.png')} 
           style={styles.appLogo} 
           resizeMode="contain"
         />

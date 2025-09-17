@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import CountryPicker from 'react-native-country-picker-modal';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { theme } from '../../../theme';
+import { theme } from '../../../../theme';
 import AuthButton from '../components/AuthButton';
 import AuthFooter from '../components/AuthFooter';
 import AuthHeader from '../components/AuthHeader';

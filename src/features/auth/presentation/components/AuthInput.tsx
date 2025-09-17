@@ -2,7 +2,7 @@
 import React from 'react';
 import { TextInput, useColorScheme } from 'react-native';
 import { getAuthStyles } from '../styles/auth.styles';
-import { theme } from '../../../theme';
+import { theme } from '../../../../theme';
 
 const AuthInput = (props) => {
   const colorScheme = useColorScheme() ?? 'light';

@@ -3,7 +3,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, useColorScheme } from 'react-native';
 import { useRouter } from 'expo-router';
 import { getAuthStyles } from '../styles/auth.styles';
-import { theme } from '../../../theme';
+import { theme } from '../../../../theme';
 
 interface AuthHeaderProps {
   title: string;

@@ -5,10 +5,10 @@ import 'react-native-reanimated'; // 👈 must be first
 import { Provider, useSelector } from 'react-redux';
 import 'reflect-metadata';
 import '../src/container';
+import { AuthProvider } from '../src/features/auth/presentation/context/AuthContext';
 import { I18nProvider } from '../src/hooks/useI18n';
 import { RootState, store } from '../src/providers/store';
 import { theme } from '../src/theme';
-import { AuthProvider } from '../src/auth/presentation/context/AuthContext';
 
 
 import { GestureHandlerRootView } from 'react-native-gesture-handler';

@@ -1,7 +1,7 @@
 import { inject, injectable } from 'tsyringe';
-import { UseCase } from '../../../core/application/UseCase';
-import { IAuthRepository } from '../../domain/repositories/IAuthRepository';
-import { AuthRepositoryToken } from '../../tokens';
+import { UseCase } from '../../../../core/application/UseCase';
+import { AuthRepositoryToken } from '../../auth.di';
+import { IAuthRepository } from '../repositories/IAuthRepository';
 
 @injectable()
 export class SendPasswordResetEmailUseCase implements UseCase<{ email: string }, Promise<void>> {

@@ -1,13 +1,13 @@
 
 import "reflect-metadata";
 import { container } from "tsyringe";
-import { LoginUseCase } from "./auth/application/usecases/LoginUseCase";
-import { SignupUseCase } from "./auth/application/usecases/SignupUseCase";
-import { LogoutUseCase } from "./auth/application/usecases/LogoutUseCase";
-import { GetCurrentUserUseCase } from "./auth/application/usecases/GetCurrentUserUseCase";
-import { SendPasswordResetEmailUseCase } from "./auth/application/usecases/SendPasswordResetEmailUseCase";
-import { AuthRepository } from "./auth/infrastructure/repositories/AuthRepository";
-import { AuthRepositoryToken, LoginUseCaseToken, SignupUseCaseToken, LogoutUseCaseToken, GetCurrentUserUseCaseToken, SendPasswordResetEmailUseCaseToken } from "./auth/tokens";
+import { AuthRepositoryToken, GetCurrentUserUseCaseToken, LoginUseCaseToken, LogoutUseCaseToken, SendPasswordResetEmailUseCaseToken, SignupUseCaseToken } from "./features/auth/auth.di";
+import { AuthRepository } from "./features/auth/data/repositories/AuthRepository";
+import { GetCurrentUserUseCase } from "./features/auth/domain/usecases/GetCurrentUserUseCase";
+import { LoginUseCase } from "./features/auth/domain/usecases/LoginUseCase";
+import { LogoutUseCase } from "./features/auth/domain/usecases/LogoutUseCase";
+import { SendPasswordResetEmailUseCase } from "./features/auth/domain/usecases/SendPasswordResetEmailUseCase";
+import { SignupUseCase } from "./features/auth/domain/usecases/SignupUseCase";
 import { GetSampleDataUseCase } from "./sample/application/usecases/GetSampleDataUseCase";
 import { SampleRepository } from "./sample/infrastructure/repositories/SampleRepository";
 import { GetSampleDataUseCaseToken, SampleRepositoryToken } from "./sample/tokens";
@@ -17,10 +17,10 @@ import { HomeViewModelToken, TourRepositoryToken } from "./features/home/home.di
 import { HomeViewModel } from "./features/home/presentation/viewmodels/HomeViewModel";
 
 import { ExploreRepository } from "./features/explore/data/repositories/ExploreRepository";
-import { ExploreRepositoryToken, ExploreViewModelToken, MapViewExploreScreenViewModelToken, ExploreFilterViewModelToken } from "./features/explore/explore.di";
+import { ExploreFilterViewModelToken, ExploreRepositoryToken, ExploreViewModelToken, MapViewExploreScreenViewModelToken } from "./features/explore/explore.di";
+import { ExploreFilterViewModel } from "./features/explore/presentation/screens/ExploreFilterViewModel";
 import { ExploreViewModel } from "./features/explore/presentation/viewmodels/ExploreViewModel";
 import { MapViewExploreScreenViewModel } from "./features/explore/presentation/viewmodels/MapViewExploreScreenViewModel";
-import { ExploreFilterViewModel } from "./features/explore/presentation/screens/ExploreFilterViewModel";
 
 import { TourDetailsRepository } from "./features/tour-details/data/repositories/TourDetailsRepository";
 import { TourDetailsViewModel } from "./features/tour-details/presentation/viewmodels/TourDetailsViewModel";

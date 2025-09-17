@@ -1,4 +1,4 @@
 
-import LoginScreen from '../src/auth/presentation/screens/LoginScreen';
+import LoginScreen from '../src/features/auth/presentation/screens/LoginScreen';
 
 export default LoginScreen;

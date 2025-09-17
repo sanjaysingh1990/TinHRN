@@ -1,4 +1,4 @@
 
-import SignupScreen from '../src/auth/presentation/screens/SignupScreen';
+import SignupScreen from '../src/features/auth/presentation/screens/SignupScreen';
 
 export default SignupScreen;
