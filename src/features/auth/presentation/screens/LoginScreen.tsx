@@ -78,13 +78,36 @@ const LoginScreen: React.FC = () => {
         router.replace('/(tabs)');
       } else {
         console.log('[LoginScreen] Login returned null user');
-        setErrorMessage('Login failed. Please try again.');
+        // Use the specific error message from the ViewModel if available
+        const viewModelErrorMessage = viewModel.viewState.errors.general;
+        if (viewModelErrorMessage) {
+          setErrorMessage(viewModelErrorMessage);
+        } else {
+          setErrorMessage('Login failed. Please try again.');
+        }
         setShowErrorToast(true);
         // Don't clear the form fields on error
       }
     } catch (error: any) {
       console.error('[LoginScreen] Login failed with error:', error);
-      setErrorMessage(error.message || 'An error occurred during login');
+      
+      // Parse the error to show exact message
+      let errorMessage = 'An error occurred during login';
+      
+      // Check if it's our custom AuthenticationError (from AuthRepository)
+      if (error.name === 'AuthenticationError' && error.message) {
+        errorMessage = error.message;
+      }
+      // Check if it's a direct Firebase error with a code
+      else if (error.code && error.message) {
+        errorMessage = error.message;
+      }
+      // Check if it's a general error with message
+      else if (error.message) {
+        errorMessage = error.message;
+      }
+      
+      setErrorMessage(errorMessage);
       setShowErrorToast(true);
       // Don't clear the form fields on error
     }
