@@ -1,4 +1,3 @@
-
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
@@ -16,6 +15,7 @@ import {
   View,
 } from 'react-native';
 import { theme } from '../../../theme';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const StartScreen = () => {
   const router = useRouter();
@@ -37,6 +37,16 @@ const StartScreen = () => {
       tension: 40,
       useNativeDriver: true,
     }).start();
+  };
+
+  const handleBeginAdventure = async () => {
+    try {
+      // Set onboarding flag when user begins the adventure
+      await AsyncStorage.setItem('@viewedOnboarding', 'true');
+    } catch (error) {
+      console.error('Error setting onboarding flag:', error);
+    }
+    router.push('/onboarding');
   };
 
   const animatedStyle = {
@@ -63,7 +73,7 @@ const StartScreen = () => {
         activeOpacity={0.9}
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
-        onPress={() => router.push('/onboarding')}
+        onPress={handleBeginAdventure}
         accessibilityLabel="Begin Your Adventure"
       >
         <Animated.View style={[styles.button, animatedStyle]}>

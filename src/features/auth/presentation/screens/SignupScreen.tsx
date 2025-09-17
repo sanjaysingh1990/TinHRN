@@ -24,6 +24,7 @@ import SocialButtons from '../components/SocialButtons';
 import { useAuth } from '../context/AuthContext';
 import { getAuthStyles } from '../styles/auth.styles';
 import { SignupViewModel } from '../viewmodels/SignupViewModel';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SignupScreen: React.FC = () => {
   const router = useRouter();
@@ -83,10 +84,7 @@ const SignupScreen: React.FC = () => {
   }, []); // Empty dependency array to only run once on mount
 
   const handleSignup = async () => {
-    console.log('[SignupScreen] Starting signup process...');
-    
-    // First validate the form
-    viewModel.validateFormManually();
+    console.log('[SignupScreen] handleSignup called');
     
     // Check if form is valid before proceeding
     if (!viewModel.viewState.isFormValid) {
@@ -105,6 +103,13 @@ const SignupScreen: React.FC = () => {
           email: user.email,
           phoneNumber: user.phoneNumber
         });
+        
+        // Set onboarding flag to ensure consistent flow
+        try {
+          await AsyncStorage.setItem('@viewedOnboarding', 'true');
+        } catch (error) {
+          console.error('Error setting onboarding flag:', error);
+        }
         
         // Don't show the dialog, just redirect to the next screen
         console.log('[SignupScreen] Navigating to tabs screen...');

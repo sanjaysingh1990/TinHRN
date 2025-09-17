@@ -1,4 +1,3 @@
-
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
@@ -13,6 +12,7 @@ import {
 } from 'react-native';
 import PagerView from 'react-native-pager-view';
 import { theme } from '../../../theme';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { width, height } = Dimensions.get('window');
 
@@ -56,10 +56,16 @@ const OnboardingScreen = () => {
     }).start();
   }, [page]);
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (page < ONBOARDING_DATA.length - 1) {
       pagerRef.current?.setPage(page + 1);
     } else {
+      // User has completed onboarding, set flag in AsyncStorage
+      try {
+        await AsyncStorage.setItem('@viewedOnboarding', 'true');
+      } catch (error) {
+        console.error('Error setting onboarding flag:', error);
+      }
       router.push('/login');
     }
   };

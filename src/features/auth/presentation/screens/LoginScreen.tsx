@@ -12,6 +12,7 @@ import SocialButtons from '../components/SocialButtons';
 import { useAuth } from '../context/AuthContext';
 import { getAuthStyles } from '../styles/auth.styles';
 import { LoginViewModel } from '../viewmodels/LoginViewModel';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen: React.FC = () => {
   const router = useRouter();
@@ -53,10 +54,7 @@ const LoginScreen: React.FC = () => {
   }, []); // Empty dependency array to only run once on mount
 
   const handleLogin = async () => {
-    console.log('[LoginScreen] Starting login process...');
-    
-    // First validate the form
-    viewModel.validateFormManually();
+    console.log('[LoginScreen] handleLogin called');
     
     // Check if form is valid before proceeding
     if (!viewModel.viewState.isFormValid) {
@@ -74,6 +72,13 @@ const LoginScreen: React.FC = () => {
           name: user.name,
           email: user.email
         });
+        
+        // Set onboarding flag to ensure consistent flow
+        try {
+          await AsyncStorage.setItem('@viewedOnboarding', 'true');
+        } catch (error) {
+          console.error('Error setting onboarding flag:', error);
+        }
         
         router.replace('/(tabs)');
       } else {

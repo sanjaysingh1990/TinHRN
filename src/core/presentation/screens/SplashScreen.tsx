@@ -1,10 +1,15 @@
-
 import React, { useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, Animated, Easing } from 'react-native';
 import { Image } from 'expo-image';
+import { useRouter } from 'expo-router';
+import { container } from 'tsyringe';
+import { GetCurrentUserUseCaseToken } from '../../../features/auth/auth.di';
+import { GetCurrentUserUseCase } from '../../../features/auth/domain/usecases/GetCurrentUserUseCase';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SplashScreen = () => {
   const rotation = useRef(new Animated.Value(0)).current;
+  const router = useRouter();
 
   useEffect(() => {
     Animated.loop(
@@ -15,7 +20,41 @@ const SplashScreen = () => {
         useNativeDriver: true,
       })
     ).start();
+
+    // Check user session and onboarding status
+    checkUserSession();
   }, []);
+
+  const checkUserSession = async () => {
+    try {
+      // Add a small delay to show the splash screen
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Check if user is already logged in
+      const getCurrentUserUseCase = container.resolve<GetCurrentUserUseCase>(GetCurrentUserUseCaseToken);
+      const user = await getCurrentUserUseCase.execute();
+      
+      if (user) {
+        // User is logged in, navigate directly to home screen
+        router.replace('/(tabs)');
+      } else {
+        // User is not logged in, check if it's first time opening the app
+        const hasViewedOnboarding = await AsyncStorage.getItem('@viewedOnboarding');
+        
+        if (hasViewedOnboarding === null) {
+          // First time user, show start screen which leads to onboarding
+          router.replace('/start');
+        } else {
+          // Not first time, show login screen directly
+          router.replace('/login');
+        }
+      }
+    } catch (error) {
+      console.error('Error checking user session:', error);
+      // In case of error, default to start screen
+      router.replace('/start');
+    }
+  };
 
   const spin = rotation.interpolate({
     inputRange: [0, 1],
