@@ -1,4 +1,4 @@
-import { injectable, inject } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 import { Tour } from '../../domain/entities/Tour';
 import { ITourRepository } from '../../domain/repositories/ITourRepository';
 import { TourRepositoryToken } from '../../home.di';

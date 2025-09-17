@@ -1,6 +1,6 @@
-import { firestore } from './firebase.config';
-import { collection, getDocs, query, limit, startAfter, orderBy, where, DocumentData } from 'firebase/firestore';
+import { collection, DocumentData, getDocs, limit, orderBy, query, startAfter, where } from 'firebase/firestore';
 import { Tour } from '../../features/home/domain/entities/Tour';
+import { firestore } from './firebase.config';
 
 interface FirestoreTour {
   id: string;

@@ -2,19 +2,20 @@ import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { useRouter } from 'expo-router';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
-  Alert,
-  FlatList,
-  Linking,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
+    Alert,
+    FlatList,
+    Linking,
+    ScrollView,
+    StatusBar,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View
 } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import container from '../../../../container';
+import { useAuth } from '../../../../features/auth/presentation/context/AuthContext';
 import { useI18n } from '../../../../hooks/useI18n';
 import { useTheme } from '../../../../hooks/useTheme';
 import { Achievement } from '../../domain/models/Achievement';
@@ -28,7 +29,6 @@ import FavoritesShimmer from '../components/FavoritesShimmer';
 import PreferenceItem from '../components/PreferenceItem';
 import ProfileHeader from '../components/ProfileHeader';
 import { ProfileViewModel } from '../viewmodels/ProfileViewModel';
-import { useAuth } from '../../../../features/auth/presentation/context/AuthContext';
 
 const ProfileScreen = () => {
   const router = useRouter();

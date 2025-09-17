@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { Alert, Image, SafeAreaView, StatusBar, Text, TouchableOpacity, View } from 'react-native';
@@ -12,7 +13,6 @@ import SocialButtons from '../components/SocialButtons';
 import { useAuth } from '../context/AuthContext';
 import { getAuthStyles } from '../styles/auth.styles';
 import { LoginViewModel } from '../viewmodels/LoginViewModel';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen: React.FC = () => {
   const router = useRouter();

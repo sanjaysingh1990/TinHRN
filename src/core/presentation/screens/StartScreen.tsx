@@ -5,17 +5,17 @@ import React from 'react';
 import { Dimensions } from 'react-native';
 const { height } = Dimensions.get('window');
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
-  Animated,
-  ImageBackground,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  useColorScheme,
-  View,
+    Animated,
+    ImageBackground,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    useColorScheme,
+    View,
 } from 'react-native';
 import { theme } from '../../../theme';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const StartScreen = () => {
   const router = useRouter();

@@ -1,5 +1,5 @@
-import { firestore } from '../infrastructure/firebase/firebase.config';
 import { collection, doc, setDoc } from 'firebase/firestore';
+import { firestore } from '../infrastructure/firebase/firebase.config';
 
 // Sample tour data
 const sampleTours = {

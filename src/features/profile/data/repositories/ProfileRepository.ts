@@ -1,14 +1,13 @@
 
-import { injectable } from 'tsyringe';
+import { doc, getDoc, getFirestore } from 'firebase/firestore';
+import { container, injectable } from 'tsyringe';
+import { AuthRepositoryToken } from '../../../auth/auth.di';
+import { IAuthRepository } from '../../../auth/domain/repositories/IAuthRepository';
 import { Achievement } from '../../domain/models/Achievement';
 import { Faq } from '../../domain/models/Faq';
 import { Favorite } from '../../domain/models/Favorite';
 import { TeamMember } from '../../domain/models/TeamMember';
 import { IProfileRepository } from '../../domain/repositories/IProfileRepository';
-import { doc, getDoc, getFirestore } from 'firebase/firestore';
-import { container } from 'tsyringe';
-import { AuthRepositoryToken } from '../../../auth/auth.di';
-import { IAuthRepository } from '../../../auth/domain/repositories/IAuthRepository';
 
 const dummyAchievements: Achievement[] = [
   { id: 1, title: 'First Trek', icon: 'hiking', color: 'yellow' },

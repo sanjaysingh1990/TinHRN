@@ -1,10 +1,10 @@
-import { injectable, inject } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
+import { Achievement } from '../../domain/models/Achievement';
+import { Favorite } from '../../domain/models/Favorite';
 import { GetAchievementsUseCase } from '../../domain/usecases/GetAchievementsUseCase';
 import { GetFavoritesUseCase } from '../../domain/usecases/GetFavoritesUseCase';
 import { GetUserProfileUseCase } from '../../domain/usecases/GetUserProfileUseCase';
 import { GetAchievementsUseCaseToken, GetFavoritesUseCaseToken, GetUserProfileUseCaseToken } from '../../profile.di';
-import { Achievement } from '../../domain/models/Achievement';
-import { Favorite } from '../../domain/models/Favorite';
 
 @injectable()
 export class ProfileViewModel {

@@ -1,8 +1,8 @@
+import { DocumentData } from 'firebase/firestore';
 import { injectable } from 'tsyringe';
+import TourService from '../../../../infrastructure/firebase/tour.service';
 import { Tour } from '../../domain/entities/Tour';
 import { ITourRepository } from '../../domain/repositories/ITourRepository';
-import TourService from '../../../../infrastructure/firebase/tour.service';
-import { DocumentData } from 'firebase/firestore';
 
 @injectable()
 export class TourRepository implements ITourRepository {

@@ -1,11 +1,11 @@
-import React, { useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, Animated, Easing } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
+import React, { useEffect, useRef } from 'react';
+import { Animated, Easing, StyleSheet, Text, View } from 'react-native';
 import { container } from 'tsyringe';
 import { GetCurrentUserUseCaseToken } from '../../../features/auth/auth.di';
 import { GetCurrentUserUseCase } from '../../../features/auth/domain/usecases/GetCurrentUserUseCase';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SplashScreen = () => {
   const rotation = useRef(new Animated.Value(0)).current;
@@ -27,8 +27,8 @@ const SplashScreen = () => {
 
   const checkUserSession = async () => {
     try {
-      // Add a small delay to show the splash screen
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Add a longer delay to ensure Firebase auth is fully initialized
+      await new Promise(resolve => setTimeout(resolve, 3000));
       
       // Check if user is already logged in
       const getCurrentUserUseCase = container.resolve<GetCurrentUserUseCase>(GetCurrentUserUseCaseToken);

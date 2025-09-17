@@ -240,6 +240,9 @@ export class AuthRepository implements IAuthRepository {
   }
 
   async getCurrentUser(): Promise<User | null> {
+    // Add a small delay to ensure Firebase auth is fully initialized
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
     const firebaseUser = auth.currentUser;
     if (!firebaseUser) return null;
     

@@ -1,467 +1,467 @@
 {
-  "users": {
-    "user_123456": {
-      "id": "user_123456",
-      "name": "John Doe",
-      "email": "john.doe@example.com",
-      "phoneNumber": "+1234567890",
-      "photoURL": "https://randomuser.me/api/portraits/men/32.jpg",
-      "emailVerified": true,
-      "createdAt": {
-        "_seconds": 1705318200,
-        "_nanoseconds": 0
-      },
-      "updatedAt": {
-        "_seconds": 1705725900,
-        "_nanoseconds": 0
-      },
-      "lastLoginAt": {
-        "_seconds": 1705725900,
-        "_nanoseconds": 0
-      },
-      "preferences": {
-        "notifications": true,
-        "darkMode": false,
-        "language": "en"
-      },
-      "profile": {
-        "bio": "Adventure enthusiast and mountain lover",
-        "location": "Kathmandu, Nepal",
-        "dateOfBirth": {
-          "_seconds": 642758400,
-          "_nanoseconds": 0
+    "users": {
+        "user_123456": {
+            "id": "user_123456",
+            "name": "John Doe",
+            "email": "john.doe@example.com",
+            "phoneNumber": "+1234567890",
+            "photoURL": "https://randomuser.me/api/portraits/men/32.jpg",
+            "emailVerified": true,
+            "createdAt": {
+                "_seconds": 1705318200,
+                "_nanoseconds": 0
+            },
+            "updatedAt": {
+                "_seconds": 1705725900,
+                "_nanoseconds": 0
+            },
+            "lastLoginAt": {
+                "_seconds": 1705725900,
+                "_nanoseconds": 0
+            },
+            "preferences": {
+                "notifications": true,
+                "darkMode": false,
+                "language": "en"
+            },
+            "profile": {
+                "bio": "Adventure enthusiast and mountain lover",
+                "location": "Kathmandu, Nepal",
+                "dateOfBirth": {
+                    "_seconds": 642758400,
+                    "_nanoseconds": 0
+                }
+            },
+            "stats": {
+                "totalBookings": 3,
+                "totalAchievements": 5,
+                "totalFavorites": 12
+            }
+        },
+        "user_789012": {
+            "id": "user_789012",
+            "name": "Sarah Explorer",
+            "email": "sarah.explorer@example.com",
+            "phoneNumber": "+1987654321",
+            "photoURL": "https://randomuser.me/api/portraits/women/44.jpg",
+            "emailVerified": true,
+            "createdAt": {
+                "_seconds": 1705404600,
+                "_nanoseconds": 0
+            },
+            "updatedAt": {
+                "_seconds": 1705725900,
+                "_nanoseconds": 0
+            },
+            "lastLoginAt": {
+                "_seconds": 1705725900,
+                "_nanoseconds": 0
+            },
+            "preferences": {
+                "notifications": true,
+                "darkMode": true,
+                "language": "en"
+            },
+            "profile": {
+                "bio": "Professional trekker and photographer",
+                "location": "Pokhara, Nepal",
+                "dateOfBirth": {
+                    "_seconds": 705456000,
+                    "_nanoseconds": 0
+                }
+            },
+            "stats": {
+                "totalBookings": 7,
+                "totalAchievements": 12,
+                "totalFavorites": 25
+            }
         }
-      },
-      "stats": {
-        "totalBookings": 3,
-        "totalAchievements": 5,
-        "totalFavorites": 12
-      }
     },
-    "user_789012": {
-      "id": "user_789012",
-      "name": "Sarah Explorer",
-      "email": "sarah.explorer@example.com",
-      "phoneNumber": "+1987654321",
-      "photoURL": "https://randomuser.me/api/portraits/women/44.jpg",
-      "emailVerified": true,
-      "createdAt": {
-        "_seconds": 1705404600,
-        "_nanoseconds": 0
-      },
-      "updatedAt": {
-        "_seconds": 1705725900,
-        "_nanoseconds": 0
-      },
-      "lastLoginAt": {
-        "_seconds": 1705725900,
-        "_nanoseconds": 0
-      },
-      "preferences": {
-        "notifications": true,
-        "darkMode": true,
-        "language": "en"
-      },
-      "profile": {
-        "bio": "Professional trekker and photographer",
-        "location": "Pokhara, Nepal",
-        "dateOfBirth": {
-          "_seconds": 705456000,
-          "_nanoseconds": 0
+    "tours": {
+        "tour_111111": {
+            "id": "tour_111111",
+            "name": "Annapurna Base Camp Trek",
+            "description": "Experience the beauty of the Annapurna range with stunning mountain views. This 14-day trek takes you through rhododendron forests, traditional Gurung villages, and offers breathtaking views of the Annapurna massif.",
+            "duration": "14 Days",
+            "difficulty": "Moderate",
+            "altitude": "4,130m",
+            "image": "https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "images": [
+                "https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                "https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            ],
+            "price": {
+                "standard": 1200,
+                "premium": 1800
+            },
+            "location": {
+                "country": "Nepal",
+                "region": "Annapurna Region",
+                "coordinates": {
+                    "latitude": 28.5306,
+                    "longitude": 83.8795
+                }
+            },
+            "highlights": [
+                "Stunning mountain views",
+                "Traditional villages",
+                "Rhododendron forests",
+                "Cultural immersion"
+            ],
+            "includes": [
+                "Accommodation during trek",
+                "All meals (breakfast, lunch, dinner)",
+                "Experienced English-speaking guide",
+                "Porter service (1 porter for 2 guests)",
+                "All necessary permits",
+                "First aid kit"
+            ],
+            "excludes": [
+                "International flights",
+                "Travel insurance",
+                "Personal expenses",
+                "Alcoholic beverages"
+            ],
+            "bestTime": ["March", "April", "May", "October", "November"],
+            "createdAt": {
+                "_seconds": 1704886200,
+                "_nanoseconds": 0
+            },
+            "updatedAt": {
+                "_seconds": 1704886200,
+                "_nanoseconds": 0
+            },
+            "rating": 4.8,
+            "totalReviews": 125,
+            "popularity": 95
+        },
+        "tour_222222": {
+            "id": "tour_222222",
+            "name": "Everest Base Camp Trek",
+            "description": "The ultimate Himalayan adventure to the base of the world's highest mountain. This challenging 16-day trek offers unparalleled views and a true test of endurance.",
+            "duration": "16 Days",
+            "difficulty": "Challenging",
+            "altitude": "5,364m",
+            "image": "https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "images": [
+                "https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            ],
+            "price": {
+                "standard": 1500,
+                "premium": 2200
+            },
+            "location": {
+                "country": "Nepal",
+                "region": "Khumbu Region",
+                "coordinates": {
+                    "latitude": 27.9881,
+                    "longitude": 86.925
+                }
+            },
+            "highlights": [
+                "Base of the world's highest mountain",
+                "Sherpa culture",
+                "Tenzing-Hillary Airport",
+                "Namche Bazaar"
+            ],
+            "includes": [
+                "Accommodation during trek",
+                "All meals (breakfast, lunch, dinner)",
+                "Experienced English-speaking guide",
+                "Porter service (1 porter for 2 guests)",
+                "All necessary permits",
+                "First aid kit",
+                "Oxygen kit"
+            ],
+            "excludes": [
+                "International flights",
+                "Travel insurance",
+                "Personal expenses",
+                "Alcoholic beverages"
+            ],
+            "bestTime": ["March", "April", "May", "September", "October", "November"],
+            "createdAt": {
+                "_seconds": 1704886200,
+                "_nanoseconds": 0
+            },
+            "updatedAt": {
+                "_seconds": 1704886200,
+                "_nanoseconds": 0
+            },
+            "rating": 4.9,
+            "totalReviews": 210,
+            "popularity": 98
         }
-      },
-      "stats": {
-        "totalBookings": 7,
-        "totalAchievements": 12,
-        "totalFavorites": 25
-      }
-    }
-  },
-  "tours": {
-    "tour_111111": {
-      "id": "tour_111111",
-      "name": "Annapurna Base Camp Trek",
-      "description": "Experience the beauty of the Annapurna range with stunning mountain views. This 14-day trek takes you through rhododendron forests, traditional Gurung villages, and offers breathtaking views of the Annapurna massif.",
-      "duration": "14 Days",
-      "difficulty": "Moderate",
-      "altitude": "4,130m",
-      "image": "https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "images": [
-        "https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        "https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-      ],
-      "price": {
-        "standard": 1200,
-        "premium": 1800
-      },
-      "location": {
-        "country": "Nepal",
-        "region": "Annapurna Region",
-        "coordinates": {
-          "latitude": 28.5306,
-          "longitude": 83.8795
+    },
+    "categories": {
+        "cat_111111": {
+            "id": "cat_111111",
+            "name": "Treks",
+            "icon": "terrain",
+            "color": "#4CAF50",
+            "type": "trek",
+            "createdAt": {
+                "_seconds": 1704067200,
+                "_nanoseconds": 0
+            },
+            "updatedAt": {
+                "_seconds": 1704067200,
+                "_nanoseconds": 0
+            }
+        },
+        "cat_222222": {
+            "id": "cat_222222",
+            "name": "Adventures",
+            "icon": "outdoor-grill",
+            "color": "#FF9800",
+            "type": "adventure",
+            "createdAt": {
+                "_seconds": 1704067200,
+                "_nanoseconds": 0
+            },
+            "updatedAt": {
+                "_seconds": 1704067200,
+                "_nanoseconds": 0
+            }
+        },
+        "cat_333333": {
+            "id": "cat_333333",
+            "name": "Spiritual",
+            "icon": "self-improvement",
+            "color": "#9C27B0",
+            "type": "spiritual",
+            "createdAt": {
+                "_seconds": 1704067200,
+                "_nanoseconds": 0
+            },
+            "updatedAt": {
+                "_seconds": 1704067200,
+                "_nanoseconds": 0
+            }
+        },
+        "cat_444444": {
+            "id": "cat_444444",
+            "name": "Wildlife",
+            "icon": "pets",
+            "color": "#2196F3",
+            "type": "wildlife",
+            "createdAt": {
+                "_seconds": 1704067200,
+                "_nanoseconds": 0
+            },
+            "updatedAt": {
+                "_seconds": 1704067200,
+                "_nanoseconds": 0
+            }
         }
-      },
-      "highlights": [
-        "Stunning mountain views",
-        "Traditional villages",
-        "Rhododendron forests",
-        "Cultural immersion"
-      ],
-      "includes": [
-        "Accommodation during trek",
-        "All meals (breakfast, lunch, dinner)",
-        "Experienced English-speaking guide",
-        "Porter service (1 porter for 2 guests)",
-        "All necessary permits",
-        "First aid kit"
-      ],
-      "excludes": [
-        "International flights",
-        "Travel insurance",
-        "Personal expenses",
-        "Alcoholic beverages"
-      ],
-      "bestTime": ["March", "April", "May", "October", "November"],
-      "createdAt": {
-        "_seconds": 1704886200,
-        "_nanoseconds": 0
-      },
-      "updatedAt": {
-        "_seconds": 1704886200,
-        "_nanoseconds": 0
-      },
-      "rating": 4.8,
-      "totalReviews": 125,
-      "popularity": 95
     },
-    "tour_222222": {
-      "id": "tour_222222",
-      "name": "Everest Base Camp Trek",
-      "description": "The ultimate Himalayan adventure to the base of the world's highest mountain. This challenging 16-day trek offers unparalleled views and a true test of endurance.",
-      "duration": "16 Days",
-      "difficulty": "Challenging",
-      "altitude": "5,364m",
-      "image": "https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "images": [
-        "https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-      ],
-      "price": {
-        "standard": 1500,
-        "premium": 2200
-      },
-      "location": {
-        "country": "Nepal",
-        "region": "Khumbu Region",
-        "coordinates": {
-          "latitude": 27.9881,
-          "longitude": 86.925
+    "achievements": {
+        "ach_111111": {
+            "id": "ach_111111",
+            "title": "First Trek",
+            "description": "Complete your first trek with us",
+            "icon": "hiking",
+            "color": "yellow",
+            "points": 100,
+            "criteria": {
+                "type": "booking_count",
+                "value": 1
+            },
+            "createdAt": {
+                "_seconds": 1704067200,
+                "_nanoseconds": 0
+            }
+        },
+        "ach_222222": {
+            "id": "ach_222222",
+            "title": "Campfire Pro",
+            "description": "Complete 5 camping experiences",
+            "icon": "local_fire_department",
+            "color": "orange",
+            "points": 250,
+            "criteria": {
+                "type": "booking_count",
+                "value": 5
+            },
+            "createdAt": {
+                "_seconds": 1704067200,
+                "_nanoseconds": 0
+            }
+        },
+        "ach_333333": {
+            "id": "ach_333333",
+            "title": "Peak Bagger",
+            "description": "Complete 10 treks with us",
+            "icon": "area_chart",
+            "color": "cyan",
+            "points": 500,
+            "criteria": {
+                "type": "booking_count",
+                "value": 10
+            },
+            "createdAt": {
+                "_seconds": 1704067200,
+                "_nanoseconds": 0
+            }
+        },
+        "ach_444444": {
+            "id": "ach_444444",
+            "title": "Photo Master",
+            "description": "Share 20 photos from your adventures",
+            "icon": "photo_camera",
+            "color": "gray",
+            "points": 300,
+            "criteria": {
+                "type": "gallery_posts",
+                "value": 20
+            },
+            "createdAt": {
+                "_seconds": 1704067200,
+                "_nanoseconds": 0
+            }
         }
-      },
-      "highlights": [
-        "Base of the world's highest mountain",
-        "Sherpa culture",
-        "Tenzing-Hillary Airport",
-        "Namche Bazaar"
-      ],
-      "includes": [
-        "Accommodation during trek",
-        "All meals (breakfast, lunch, dinner)",
-        "Experienced English-speaking guide",
-        "Porter service (1 porter for 2 guests)",
-        "All necessary permits",
-        "First aid kit",
-        "Oxygen kit"
-      ],
-      "excludes": [
-        "International flights",
-        "Travel insurance",
-        "Personal expenses",
-        "Alcoholic beverages"
-      ],
-      "bestTime": ["March", "April", "May", "September", "October", "November"],
-      "createdAt": {
-        "_seconds": 1704886200,
-        "_nanoseconds": 0
-      },
-      "updatedAt": {
-        "_seconds": 1704886200,
-        "_nanoseconds": 0
-      },
-      "rating": 4.9,
-      "totalReviews": 210,
-      "popularity": 98
+    },
+    "faq": {
+        "faq_111111": {
+            "id": "faq_111111",
+            "question": "What should I pack for a Himalayan trek?",
+            "answer": "Essential items include warm clothing (layers), waterproof jacket, sturdy trekking boots, sleeping bag, headlamp, water bottles, first aid kit, sunscreen, sunglasses, and personal medications. We provide a detailed packing list upon booking confirmation.",
+            "category": "Preparation",
+            "createdAt": {
+                "_seconds": 1704067200,
+                "_nanoseconds": 0
+            },
+            "updatedAt": {
+                "_seconds": 1704067200,
+                "_nanoseconds": 0
+            },
+            "helpfulYes": 42,
+            "helpfulNo": 3
+        },
+        "faq_222222": {
+            "id": "faq_222222",
+            "question": "How difficult are the treks offered?",
+            "answer": "Our treks range from beginner-friendly to challenging expeditions. Each trek is rated on difficulty (Easy, Moderate, Difficult, Extreme) based on altitude, duration, terrain, and fitness requirements. We recommend consulting with our team to choose the right trek for your experience level.",
+            "category": "Difficulty",
+            "createdAt": {
+                "_seconds": 1704067200,
+                "_nanoseconds": 0
+            },
+            "updatedAt": {
+                "_seconds": 1704067200,
+                "_nanoseconds": 0
+            },
+            "helpfulYes": 38,
+            "helpfulNo": 2
+        },
+        "faq_333333": {
+            "id": "faq_333333",
+            "question": "What is included in the trek package?",
+            "answer": "Our packages typically include accommodation (tents/guesthouses), meals during the trek, experienced guides, permits, transportation to/from trek starting point, and safety equipment. Specific inclusions vary by trek - check individual trek details for complete information.",
+            "category": "Packages",
+            "createdAt": {
+                "_seconds": 1704067200,
+                "_nanoseconds": 0
+            },
+            "updatedAt": {
+                "_seconds": 1704067200,
+                "_nanoseconds": 0
+            },
+            "helpfulYes": 56,
+            "helpfulNo": 1
+        }
+    },
+    "destinations": {
+        "dest_111111": {
+            "id": "dest_111111",
+            "name": "Annapurna Circuit",
+            "country": "Nepal",
+            "image": "https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "rating": 4.8,
+            "description": "The Annapurna Circuit is one of the most popular trekking routes in the world, offering diverse landscapes and cultural experiences.",
+            "coordinates": {
+                "latitude": 28.5306,
+                "longitude": 83.8795
+            },
+            "bestTime": ["March", "April", "May", "October", "November"],
+            "createdAt": {
+                "_seconds": 1704067200,
+                "_nanoseconds": 0
+            },
+            "updatedAt": {
+                "_seconds": 1704067200,
+                "_nanoseconds": 0
+            }
+        },
+        "dest_222222": {
+            "id": "dest_222222",
+            "name": "Everest Base Camp",
+            "country": "Nepal",
+            "image": "https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "rating": 4.9,
+            "description": "The ultimate destination for mountaineers, offering unparalleled views of the world's highest peaks.",
+            "coordinates": {
+                "latitude": 27.9881,
+                "longitude": 86.925
+            },
+            "bestTime": ["March", "April", "May", "September", "October", "November"],
+            "createdAt": {
+                "_seconds": 1704067200,
+                "_nanoseconds": 0
+            },
+            "updatedAt": {
+                "_seconds": 1704067200,
+                "_nanoseconds": 0
+            }
+        }
+    },
+    "gallery": {
+        "post_111111": {
+            "id": "post_111111",
+            "userId": "user_123456",
+            "userName": "John Doe",
+            "userAvatar": "https://randomuser.me/api/portraits/men/32.jpg",
+            "title": "Everest Base Camp Trek",
+            "description": "An incredible journey to the base of the world's highest mountain. Experience breathtaking views and challenging terrain.",
+            "category": "Trekking",
+            "categoryId": "cat_111111",
+            "imageUrl": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop",
+            "viewsCount": 2450,
+            "likesCount": 189,
+            "commentsCount": 42,
+            "createdAt": {
+                "_seconds": 1705523400,
+                "_nanoseconds": 0
+            },
+            "updatedAt": {
+                "_seconds": 1705523400,
+                "_nanoseconds": 0
+            },
+            "tags": ["Everest", "Base Camp", "Mountains", "Adventure"]
+        },
+        "post_222222": {
+            "id": "post_222222",
+            "userId": "user_789012",
+            "userName": "Sarah Explorer",
+            "userAvatar": "https://randomuser.me/api/portraits/women/44.jpg",
+            "title": "Annapurna Circuit",
+            "description": "Classic Himalayan trek through diverse landscapes and cultures.",
+            "category": "Trekking",
+            "categoryId": "cat_111111",
+            "imageUrl": "https://images.unsplash.com/photo-1551632811-561732d1e306?w=800&h=600&fit=crop",
+            "viewsCount": 1890,
+            "likesCount": 156,
+            "commentsCount": 31,
+            "createdAt": {
+                "_seconds": 1705437000,
+                "_nanoseconds": 0
+            },
+            "updatedAt": {
+                "_seconds": 1705437000,
+                "_nanoseconds": 0
+            },
+            "tags": ["Annapurna", "Circuit", "Trekking", "Nepal"]
+        }
     }
-  },
-  "categories": {
-    "cat_111111": {
-      "id": "cat_111111",
-      "name": "Treks",
-      "icon": "terrain",
-      "color": "#4CAF50",
-      "type": "trek",
-      "createdAt": {
-        "_seconds": 1704067200,
-        "_nanoseconds": 0
-      },
-      "updatedAt": {
-        "_seconds": 1704067200,
-        "_nanoseconds": 0
-      }
-    },
-    "cat_222222": {
-      "id": "cat_222222",
-      "name": "Adventures",
-      "icon": "outdoor-grill",
-      "color": "#FF9800",
-      "type": "adventure",
-      "createdAt": {
-        "_seconds": 1704067200,
-        "_nanoseconds": 0
-      },
-      "updatedAt": {
-        "_seconds": 1704067200,
-        "_nanoseconds": 0
-      }
-    },
-    "cat_333333": {
-      "id": "cat_333333",
-      "name": "Spiritual",
-      "icon": "self-improvement",
-      "color": "#9C27B0",
-      "type": "spiritual",
-      "createdAt": {
-        "_seconds": 1704067200,
-        "_nanoseconds": 0
-      },
-      "updatedAt": {
-        "_seconds": 1704067200,
-        "_nanoseconds": 0
-      }
-    },
-    "cat_444444": {
-      "id": "cat_444444",
-      "name": "Wildlife",
-      "icon": "pets",
-      "color": "#2196F3",
-      "type": "wildlife",
-      "createdAt": {
-        "_seconds": 1704067200,
-        "_nanoseconds": 0
-      },
-      "updatedAt": {
-        "_seconds": 1704067200,
-        "_nanoseconds": 0
-      }
-    }
-  },
-  "achievements": {
-    "ach_111111": {
-      "id": "ach_111111",
-      "title": "First Trek",
-      "description": "Complete your first trek with us",
-      "icon": "hiking",
-      "color": "yellow",
-      "points": 100,
-      "criteria": {
-        "type": "booking_count",
-        "value": 1
-      },
-      "createdAt": {
-        "_seconds": 1704067200,
-        "_nanoseconds": 0
-      }
-    },
-    "ach_222222": {
-      "id": "ach_222222",
-      "title": "Campfire Pro",
-      "description": "Complete 5 camping experiences",
-      "icon": "local_fire_department",
-      "color": "orange",
-      "points": 250,
-      "criteria": {
-        "type": "booking_count",
-        "value": 5
-      },
-      "createdAt": {
-        "_seconds": 1704067200,
-        "_nanoseconds": 0
-      }
-    },
-    "ach_333333": {
-      "id": "ach_333333",
-      "title": "Peak Bagger",
-      "description": "Complete 10 treks with us",
-      "icon": "area_chart",
-      "color": "cyan",
-      "points": 500,
-      "criteria": {
-        "type": "booking_count",
-        "value": 10
-      },
-      "createdAt": {
-        "_seconds": 1704067200,
-        "_nanoseconds": 0
-      }
-    },
-    "ach_444444": {
-      "id": "ach_444444",
-      "title": "Photo Master",
-      "description": "Share 20 photos from your adventures",
-      "icon": "photo_camera",
-      "color": "gray",
-      "points": 300,
-      "criteria": {
-        "type": "gallery_posts",
-        "value": 20
-      },
-      "createdAt": {
-        "_seconds": 1704067200,
-        "_nanoseconds": 0
-      }
-    }
-  },
-  "faq": {
-    "faq_111111": {
-      "id": "faq_111111",
-      "question": "What should I pack for a Himalayan trek?",
-      "answer": "Essential items include warm clothing (layers), waterproof jacket, sturdy trekking boots, sleeping bag, headlamp, water bottles, first aid kit, sunscreen, sunglasses, and personal medications. We provide a detailed packing list upon booking confirmation.",
-      "category": "Preparation",
-      "createdAt": {
-        "_seconds": 1704067200,
-        "_nanoseconds": 0
-      },
-      "updatedAt": {
-        "_seconds": 1704067200,
-        "_nanoseconds": 0
-      },
-      "helpfulYes": 42,
-      "helpfulNo": 3
-    },
-    "faq_222222": {
-      "id": "faq_222222",
-      "question": "How difficult are the treks offered?",
-      "answer": "Our treks range from beginner-friendly to challenging expeditions. Each trek is rated on difficulty (Easy, Moderate, Difficult, Extreme) based on altitude, duration, terrain, and fitness requirements. We recommend consulting with our team to choose the right trek for your experience level.",
-      "category": "Difficulty",
-      "createdAt": {
-        "_seconds": 1704067200,
-        "_nanoseconds": 0
-      },
-      "updatedAt": {
-        "_seconds": 1704067200,
-        "_nanoseconds": 0
-      },
-      "helpfulYes": 38,
-      "helpfulNo": 2
-    },
-    "faq_333333": {
-      "id": "faq_333333",
-      "question": "What is included in the trek package?",
-      "answer": "Our packages typically include accommodation (tents/guesthouses), meals during the trek, experienced guides, permits, transportation to/from trek starting point, and safety equipment. Specific inclusions vary by trek - check individual trek details for complete information.",
-      "category": "Packages",
-      "createdAt": {
-        "_seconds": 1704067200,
-        "_nanoseconds": 0
-      },
-      "updatedAt": {
-        "_seconds": 1704067200,
-        "_nanoseconds": 0
-      },
-      "helpfulYes": 56,
-      "helpfulNo": 1
-    }
-  },
-  "destinations": {
-    "dest_111111": {
-      "id": "dest_111111",
-      "name": "Annapurna Circuit",
-      "country": "Nepal",
-      "image": "https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "rating": 4.8,
-      "description": "The Annapurna Circuit is one of the most popular trekking routes in the world, offering diverse landscapes and cultural experiences.",
-      "coordinates": {
-        "latitude": 28.5306,
-        "longitude": 83.8795
-      },
-      "bestTime": ["March", "April", "May", "October", "November"],
-      "createdAt": {
-        "_seconds": 1704067200,
-        "_nanoseconds": 0
-      },
-      "updatedAt": {
-        "_seconds": 1704067200,
-        "_nanoseconds": 0
-      }
-    },
-    "dest_222222": {
-      "id": "dest_222222",
-      "name": "Everest Base Camp",
-      "country": "Nepal",
-      "image": "https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "rating": 4.9,
-      "description": "The ultimate destination for mountaineers, offering unparalleled views of the world's highest peaks.",
-      "coordinates": {
-        "latitude": 27.9881,
-        "longitude": 86.925
-      },
-      "bestTime": ["March", "April", "May", "September", "October", "November"],
-      "createdAt": {
-        "_seconds": 1704067200,
-        "_nanoseconds": 0
-      },
-      "updatedAt": {
-        "_seconds": 1704067200,
-        "_nanoseconds": 0
-      }
-    }
-  },
-  "gallery": {
-    "post_111111": {
-      "id": "post_111111",
-      "userId": "user_123456",
-      "userName": "John Doe",
-      "userAvatar": "https://randomuser.me/api/portraits/men/32.jpg",
-      "title": "Everest Base Camp Trek",
-      "description": "An incredible journey to the base of the world's highest mountain. Experience breathtaking views and challenging terrain.",
-      "category": "Trekking",
-      "categoryId": "cat_111111",
-      "imageUrl": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop",
-      "viewsCount": 2450,
-      "likesCount": 189,
-      "commentsCount": 42,
-      "createdAt": {
-        "_seconds": 1705523400,
-        "_nanoseconds": 0
-      },
-      "updatedAt": {
-        "_seconds": 1705523400,
-        "_nanoseconds": 0
-      },
-      "tags": ["Everest", "Base Camp", "Mountains", "Adventure"]
-    },
-    "post_222222": {
-      "id": "post_222222",
-      "userId": "user_789012",
-      "userName": "Sarah Explorer",
-      "userAvatar": "https://randomuser.me/api/portraits/women/44.jpg",
-      "title": "Annapurna Circuit",
-      "description": "Classic Himalayan trek through diverse landscapes and cultures.",
-      "category": "Trekking",
-      "categoryId": "cat_111111",
-      "imageUrl": "https://images.unsplash.com/photo-1551632811-561732d1e306?w=800&h=600&fit=crop",
-      "viewsCount": 1890,
-      "likesCount": 156,
-      "commentsCount": 31,
-      "createdAt": {
-        "_seconds": 1705437000,
-        "_nanoseconds": 0
-      },
-      "updatedAt": {
-        "_seconds": 1705437000,
-        "_nanoseconds": 0
-      },
-      "tags": ["Annapurna", "Circuit", "Trekking", "Nepal"]
-    }
-  }
 }
