@@ -1,0 +1,1119 @@
+{
+  "tours": {
+    "tour_001": {
+      "id": "tour_001",
+      "name": "Annapurna Base Camp Trek",
+      "description": "Experience the beauty of the Annapurna range with stunning mountain views. This 14-day trek takes you through rhododendron forests, traditional Gurung villages, and offers breathtaking views of the Annapurna massif.",
+      "duration": "14 Days",
+      "difficulty": "Moderate",
+      "altitude": "4,130m",
+      "image": "https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "images": [
+        "https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      ],
+      "price": {
+        "standard": 1200,
+        "premium": 1800
+      },
+      "location": {
+        "country": "Nepal",
+        "region": "Annapurna Region",
+        "coordinates": {
+          "latitude": 28.5306,
+          "longitude": 83.8795
+        }
+      },
+      "highlights": [
+        "Stunning mountain views",
+        "Traditional villages",
+        "Rhododendron forests",
+        "Cultural immersion"
+      ],
+      "includes": [
+        "Accommodation during trek",
+        "All meals (breakfast, lunch, dinner)",
+        "Experienced English-speaking guide",
+        "Porter service (1 porter for 2 guests)",
+        "All necessary permits",
+        "First aid kit"
+      ],
+      "excludes": [
+        "International flights",
+        "Travel insurance",
+        "Personal expenses",
+        "Alcoholic beverages"
+      ],
+      "bestTime": ["March", "April", "May", "October", "November"],
+      "createdAt": {
+        "_seconds": 1704886200,
+        "_nanoseconds": 0
+      },
+      "updatedAt": {
+        "_seconds": 1704886200,
+        "_nanoseconds": 0
+      },
+      "rating": 4.8,
+      "totalReviews": 125,
+      "popularity": 95
+    },
+    "tour_002": {
+      "id": "tour_002",
+      "name": "Everest Base Camp Trek",
+      "description": "The ultimate Himalayan adventure to the base of the world's highest mountain. This challenging 16-day trek offers unparalleled views and a true test of endurance.",
+      "duration": "16 Days",
+      "difficulty": "Challenging",
+      "altitude": "5,364m",
+      "image": "https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "images": [
+        "https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      ],
+      "price": {
+        "standard": 1500,
+        "premium": 2200
+      },
+      "location": {
+        "country": "Nepal",
+        "region": "Khumbu Region",
+        "coordinates": {
+          "latitude": 27.9881,
+          "longitude": 86.925
+        }
+      },
+      "highlights": [
+        "Base of the world's highest mountain",
+        "Sherpa culture",
+        "Tenzing-Hillary Airport",
+        "Namche Bazaar"
+      ],
+      "includes": [
+        "Accommodation during trek",
+        "All meals (breakfast, lunch, dinner)",
+        "Experienced English-speaking guide",
+        "Porter service (1 porter for 2 guests)",
+        "All necessary permits",
+        "First aid kit",
+        "Oxygen kit"
+      ],
+      "excludes": [
+        "International flights",
+        "Travel insurance",
+        "Personal expenses",
+        "Alcoholic beverages"
+      ],
+      "bestTime": ["March", "April", "May", "September", "October", "November"],
+      "createdAt": {
+        "_seconds": 1704886200,
+        "_nanoseconds": 0
+      },
+      "updatedAt": {
+        "_seconds": 1704886200,
+        "_nanoseconds": 0
+      },
+      "rating": 4.9,
+      "totalReviews": 210,
+      "popularity": 98
+    },
+    "tour_003": {
+      "id": "tour_003",
+      "name": "Langtang Valley Trek",
+      "description": "A beautiful and less crowded trek through the Langtang National Park, offering diverse landscapes from subtropical forests to alpine meadows.",
+      "duration": "12 Days",
+      "difficulty": "Easy",
+      "altitude": "4,984m",
+      "image": "https://images.unsplash.com/photo-1604537529428-15bc512c298a?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "images": [
+        "https://images.unsplash.com/photo-1604537529428-15bc512c298a?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1542395975-16a58c6b68f7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      ],
+      "price": {
+        "standard": 950,
+        "premium": 1400
+      },
+      "location": {
+        "country": "Nepal",
+        "region": "Langtang Region",
+        "coordinates": {
+          "latitude": 28.2111,
+          "longitude": 85.5533
+        }
+      },
+      "highlights": [
+        "Langtang National Park",
+        "Kyanjin Gompa monastery",
+        "Diverse ecosystems",
+        "Less crowded trails"
+      ],
+      "includes": [
+        "Accommodation during trek",
+        "All meals (breakfast, lunch, dinner)",
+        "Experienced English-speaking guide",
+        "Porter service (1 porter for 2 guests)",
+        "All necessary permits"
+      ],
+      "excludes": [
+        "International flights",
+        "Travel insurance",
+        "Personal expenses"
+      ],
+      "bestTime": ["March", "April", "May", "October", "November"],
+      "createdAt": {
+        "_seconds": 1704886200,
+        "_nanoseconds": 0
+      },
+      "updatedAt": {
+        "_seconds": 1704886200,
+        "_nanoseconds": 0
+      },
+      "rating": 4.7,
+      "totalReviews": 89,
+      "popularity": 85
+    },
+    "tour_004": {
+      "id": "tour_004",
+      "name": "Manaslu Circuit Trek",
+      "description": "A remote and culturally rich trek around the eighth highest mountain in the world, offering authentic Tibetan culture and pristine landscapes.",
+      "duration": "18 Days",
+      "difficulty": "Challenging",
+      "altitude": "5,106m",
+      "image": "https://images.unsplash.com/photo-1542395975-16a58c6b68f7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "images": [
+        "https://images.unsplash.com/photo-1542395975-16a58c6b68f7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      ],
+      "price": {
+        "standard": 1400,
+        "premium": 2000
+      },
+      "location": {
+        "country": "Nepal",
+        "region": "Manaslu Region",
+        "coordinates": {
+          "latitude": 28.549,
+          "longitude": 84.5621
+        }
+      },
+      "highlights": [
+        "Remote and authentic experience",
+        "Tibetan Buddhist culture",
+        "Larkya La Pass (5,106m)",
+        "Diverse landscapes"
+      ],
+      "includes": [
+        "Accommodation during trek",
+        "All meals (breakfast, lunch, dinner)",
+        "Experienced English-speaking guide",
+        "Porter service (1 porter for 2 guests)",
+        "All necessary permits",
+        "First aid kit"
+      ],
+      "excludes": [
+        "International flights",
+        "Travel insurance",
+        "Personal expenses"
+      ],
+      "bestTime": ["March", "April", "May", "September", "October", "November"],
+      "createdAt": {
+        "_seconds": 1704886200,
+        "_nanoseconds": 0
+      },
+      "updatedAt": {
+        "_seconds": 1704886200,
+        "_nanoseconds": 0
+      },
+      "rating": 4.8,
+      "totalReviews": 76,
+      "popularity": 88
+    },
+    "tour_005": {
+      "id": "tour_005",
+      "name": "Gokyo Lakes Trek",
+      "description": "A spectacular trek to the turquoise Gokyo Lakes with panoramic views of Everest, Lhotse, Makalu, and Cho Oyu.",
+      "duration": "15 Days",
+      "difficulty": "Moderate",
+      "altitude": "5,357m",
+      "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "images": [
+        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      ],
+      "price": {
+        "standard": 1300,
+        "premium": 1900
+      },
+      "location": {
+        "country": "Nepal",
+        "region": "Khumbu Region",
+        "coordinates": {
+          "latitude": 27.9618,
+          "longitude": 86.6882
+        }
+      },
+      "highlights": [
+        "Turquoise Gokyo Lakes",
+        "Gokyo Ri viewpoint",
+        "Views of four 8000m peaks",
+        "Renjo La Pass"
+      ],
+      "includes": [
+        "Accommodation during trek",
+        "All meals (breakfast, lunch, dinner)",
+        "Experienced English-speaking guide",
+        "Porter service (1 porter for 2 guests)",
+        "All necessary permits"
+      ],
+      "excludes": [
+        "International flights",
+        "Travel insurance",
+        "Personal expenses"
+      ],
+      "bestTime": ["March", "April", "May", "September", "October", "November"],
+      "createdAt": {
+        "_seconds": 1704886200,
+        "_nanoseconds": 0
+      },
+      "updatedAt": {
+        "_seconds": 1704886200,
+        "_nanoseconds": 0
+      },
+      "rating": 4.7,
+      "totalReviews": 92,
+      "popularity": 82
+    },
+    "tour_006": {
+      "id": "tour_006",
+      "name": "Upper Mustang Trek",
+      "description": "A unique journey to the ancient Kingdom of Mustang, known for its Tibetan culture, desert landscapes, and historic monasteries.",
+      "duration": "17 Days",
+      "difficulty": "Moderate",
+      "altitude": "3,800m",
+      "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "images": [
+        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      ],
+      "price": {
+        "standard": 1600,
+        "premium": 2300
+      },
+      "location": {
+        "country": "Nepal",
+        "region": "Mustang Region",
+        "coordinates": {
+          "latitude": 28.88,
+          "longitude": 83.5
+        }
+      },
+      "highlights": [
+        "Ancient Kingdom of Mustang",
+        "Tibetan Buddhist culture",
+        "Desert landscapes",
+        "Historic monasteries"
+      ],
+      "includes": [
+        "Accommodation during trek",
+        "All meals (breakfast, lunch, dinner)",
+        "Experienced English-speaking guide",
+        "Porter service (1 porter for 2 guests)",
+        "All necessary permits",
+        "Special restricted area permit"
+      ],
+      "excludes": [
+        "International flights",
+        "Travel insurance",
+        "Personal expenses"
+      ],
+      "bestTime": ["March", "April", "May", "September", "October", "November"],
+      "createdAt": {
+        "_seconds": 1704886200,
+        "_nanoseconds": 0
+      },
+      "updatedAt": {
+        "_seconds": 1704886200,
+        "_nanoseconds": 0
+      },
+      "rating": 4.9,
+      "totalReviews": 68,
+      "popularity": 90
+    },
+    "tour_007": {
+      "id": "tour_007",
+      "name": "Kanchenjunga Base Camp Trek",
+      "description": "An adventurous trek to the base of the world's third highest mountain, offering pristine wilderness and diverse ethnic communities.",
+      "duration": "22 Days",
+      "difficulty": "Challenging",
+      "altitude": "5,143m",
+      "image": "https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "images": [
+        "https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1542395975-16a58c6b68f7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      ],
+      "price": {
+        "standard": 1800,
+        "premium": 2600
+      },
+      "location": {
+        "country": "Nepal",
+        "region": "Kanchenjunga Region",
+        "coordinates": {
+          "latitude": 27.72,
+          "longitude": 88.17
+        }
+      },
+      "highlights": [
+        "World's third highest mountain",
+        "Remote wilderness",
+        "Diverse ethnic communities",
+        "Rich biodiversity"
+      ],
+      "includes": [
+        "Accommodation during trek",
+        "All meals (breakfast, lunch, dinner)",
+        "Experienced English-speaking guide",
+        "Porter service (1 porter for 2 guests)",
+        "All necessary permits",
+        "First aid kit"
+      ],
+      "excludes": [
+        "International flights",
+        "Travel insurance",
+        "Personal expenses"
+      ],
+      "bestTime": ["March", "April", "May", "September", "October", "November"],
+      "createdAt": {
+        "_seconds": 1704886200,
+        "_nanoseconds": 0
+      },
+      "updatedAt": {
+        "_seconds": 1704886200,
+        "_nanoseconds": 0
+      },
+      "rating": 4.8,
+      "totalReviews": 45,
+      "popularity": 78
+    },
+    "tour_008": {
+      "id": "tour_008",
+      "name": "Makalu Base Camp Trek",
+      "description": "A challenging trek to the base of the world's fifth highest mountain, offering spectacular views and crossing the dramatic Shipton La pass.",
+      "duration": "24 Days",
+      "difficulty": "Challenging",
+      "altitude": "5,000m",
+      "image": "https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "images": [
+        "https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1604537529428-15bc512c298a?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      ],
+      "price": {
+        "standard": 1900,
+        "premium": 2700
+      },
+      "location": {
+        "country": "Nepal",
+        "region": "Makalu Region",
+        "coordinates": {
+          "latitude": 27.89,
+          "longitude": 87.05
+        }
+      },
+      "highlights": [
+        "World's fifth highest mountain",
+        "Shipton La pass (4,100m)",
+        "Barun Valley",
+        "Remote wilderness"
+      ],
+      "includes": [
+        "Accommodation during trek",
+        "All meals (breakfast, lunch, dinner)",
+        "Experienced English-speaking guide",
+        "Porter service (1 porter for 2 guests)",
+        "All necessary permits",
+        "First aid kit"
+      ],
+      "excludes": [
+        "International flights",
+        "Travel insurance",
+        "Personal expenses"
+      ],
+      "bestTime": ["March", "April", "May", "September", "October", "November"],
+      "createdAt": {
+        "_seconds": 1704886200,
+        "_nanoseconds": 0
+      },
+      "updatedAt": {
+        "_seconds": 1704886200,
+        "_nanoseconds": 0
+      },
+      "rating": 4.7,
+      "totalReviews": 38,
+      "popularity": 75
+    },
+    "tour_009": {
+      "id": "tour_009",
+      "name": "Poon Hill Trek",
+      "description": "A short and scenic trek offering spectacular sunrise views over the Annapurna range from Poon Hill (3,210m). Perfect for beginners.",
+      "duration": "5 Days",
+      "difficulty": "Easy",
+      "altitude": "3,210m",
+      "image": "https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "images": [
+        "https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      ],
+      "price": {
+        "standard": 600,
+        "premium": 900
+      },
+      "location": {
+        "country": "Nepal",
+        "region": "Annapurna Region",
+        "coordinates": {
+          "latitude": 28.42,
+          "longitude": 83.71
+        }
+      },
+      "highlights": [
+        "Spectacular sunrise views",
+        "Annapurna and Dhaulagiri ranges",
+        "Traditional Gurung villages",
+        "Short duration"
+      ],
+      "includes": [
+        "Accommodation during trek",
+        "All meals (breakfast, lunch, dinner)",
+        "Experienced English-speaking guide",
+        "Porter service (1 porter for 2 guests)",
+        "All necessary permits"
+      ],
+      "excludes": [
+        "International flights",
+        "Travel insurance",
+        "Personal expenses"
+      ],
+      "bestTime": ["March", "April", "May", "October", "November"],
+      "createdAt": {
+        "_seconds": 1704886200,
+        "_nanoseconds": 0
+      },
+      "updatedAt": {
+        "_seconds": 1704886200,
+        "_nanoseconds": 0
+      },
+      "rating": 4.6,
+      "totalReviews": 156,
+      "popularity": 92
+    },
+    "tour_010": {
+      "id": "tour_010",
+      "name": "Mardi Himal Trek",
+      "description": "An off-the-beaten-path trek offering close-up views of Machapuchare (Fishtail) and Annapurna South with fewer crowds.",
+      "duration": "7 Days",
+      "difficulty": "Easy",
+      "altitude": "4,500m",
+      "image": "https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "images": [
+        "https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1542395975-16a58c6b68f7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      ],
+      "price": {
+        "standard": 700,
+        "premium": 1050
+      },
+      "location": {
+        "country": "Nepal",
+        "region": "Annapurna Region",
+        "coordinates": {
+          "latitude": 28.35,
+          "longitude": 83.83
+        }
+      },
+      "highlights": [
+        "Close-up views of Machapuchare",
+        "Fewer crowds",
+        "Rhododendron forests",
+        "Traditional villages"
+      ],
+      "includes": [
+        "Accommodation during trek",
+        "All meals (breakfast, lunch, dinner)",
+        "Experienced English-speaking guide",
+        "Porter service (1 porter for 2 guests)",
+        "All necessary permits"
+      ],
+      "excludes": [
+        "International flights",
+        "Travel insurance",
+        "Personal expenses"
+      ],
+      "bestTime": ["March", "April", "May", "October", "November"],
+      "createdAt": {
+        "_seconds": 1704886200,
+        "_nanoseconds": 0
+      },
+      "updatedAt": {
+        "_seconds": 1704886200,
+        "_nanoseconds": 0
+      },
+      "rating": 4.5,
+      "totalReviews": 98,
+      "popularity": 80
+    },
+    "tour_011": {
+      "id": "tour_011",
+      "name": "Helambu Trek",
+      "description": "A culturally rich trek through the Helambu region, known for its Sherpa and Tamang communities, Buddhist monasteries, and beautiful scenery.",
+      "duration": "8 Days",
+      "difficulty": "Easy",
+      "altitude": "3,800m",
+      "image": "https://images.unsplash.com/photo-1604537529428-15bc512c298a?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "images": [
+        "https://images.unsplash.com/photo-1604537529428-15bc512c298a?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      ],
+      "price": {
+        "standard": 750,
+        "premium": 1100
+      },
+      "location": {
+        "country": "Nepal",
+        "region": "Langtang Region",
+        "coordinates": {
+          "latitude": 28.1,
+          "longitude": 85.5
+        }
+      },
+      "highlights": [
+        "Sherpa and Tamang culture",
+        "Buddhist monasteries",
+        "Beautiful mountain views",
+        "Shorter duration"
+      ],
+      "includes": [
+        "Accommodation during trek",
+        "All meals (breakfast, lunch, dinner)",
+        "Experienced English-speaking guide",
+        "Porter service (1 porter for 2 guests)",
+        "All necessary permits"
+      ],
+      "excludes": [
+        "International flights",
+        "Travel insurance",
+        "Personal expenses"
+      ],
+      "bestTime": ["March", "April", "May", "October", "November"],
+      "createdAt": {
+        "_seconds": 1704886200,
+        "_nanoseconds": 0
+      },
+      "updatedAt": {
+        "_seconds": 1704886200,
+        "_nanoseconds": 0
+      },
+      "rating": 4.4,
+      "totalReviews": 72,
+      "popularity": 75
+    },
+    "tour_012": {
+      "id": "tour_012",
+      "name": "Tsum Valley Trek",
+      "description": "A spiritual journey through the sacred Tsum Valley, known as the 'Hidden Valley of Dakinis', with ancient monasteries and traditional Tibetan culture.",
+      "duration": "16 Days",
+      "difficulty": "Moderate",
+      "altitude": "4,100m",
+      "image": "https://images.unsplash.com/photo-1542395975-16a58c6b68f7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "images": [
+        "https://images.unsplash.com/photo-1542395975-16a58c6b68f7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      ],
+      "price": {
+        "standard": 1400,
+        "premium": 2000
+      },
+      "location": {
+        "country": "Nepal",
+        "region": "Manaslu Region",
+        "coordinates": {
+          "latitude": 28.3,
+          "longitude": 84.8
+        }
+      },
+      "highlights": [
+        "Sacred 'Hidden Valley of Dakinis'",
+        "Ancient monasteries",
+        "Traditional Tibetan culture",
+        "Restricted area permit required"
+      ],
+      "includes": [
+        "Accommodation during trek",
+        "All meals (breakfast, lunch, dinner)",
+        "Experienced English-speaking guide",
+        "Porter service (1 porter for 2 guests)",
+        "All necessary permits",
+        "Special restricted area permit"
+      ],
+      "excludes": [
+        "International flights",
+        "Travel insurance",
+        "Personal expenses"
+      ],
+      "bestTime": ["March", "April", "May", "September", "October", "November"],
+      "createdAt": {
+        "_seconds": 1704886200,
+        "_nanoseconds": 0
+      },
+      "updatedAt": {
+        "_seconds": 1704886200,
+        "_nanoseconds": 0
+      },
+      "rating": 4.8,
+      "totalReviews": 54,
+      "popularity": 85
+    },
+    "tour_013": {
+      "id": "tour_013",
+      "name": "Dolpa Trek",
+      "description": "An adventurous trek through the remote and culturally rich Dolpa region, known for its Tibetan culture, Shey Phoksundo Lake, and ancient monasteries.",
+      "duration": "20 Days",
+      "difficulty": "Challenging",
+      "altitude": "5,200m",
+      "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "images": [
+        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      ],
+      "price": {
+        "standard": 1700,
+        "premium": 2400
+      },
+      "location": {
+        "country": "Nepal",
+        "region": "Dolpa Region",
+        "coordinates": {
+          "latitude": 29.1,
+          "longitude": 82.5
+        }
+      },
+      "highlights": [
+        "Remote and culturally rich region",
+        "Shey Phoksundo Lake",
+        "Ancient monasteries",
+        "Tibetan culture"
+      ],
+      "includes": [
+        "Accommodation during trek",
+        "All meals (breakfast, lunch, dinner)",
+        "Experienced English-speaking guide",
+        "Porter service (1 porter for 2 guests)",
+        "All necessary permits",
+        "Special restricted area permit"
+      ],
+      "excludes": [
+        "International flights",
+        "Travel insurance",
+        "Personal expenses"
+      ],
+      "bestTime": ["March", "April", "May", "September", "October", "November"],
+      "createdAt": {
+        "_seconds": 1704886200,
+        "_nanoseconds": 0
+      },
+      "updatedAt": {
+        "_seconds": 1704886200,
+        "_nanoseconds": 0
+      },
+      "rating": 4.7,
+      "totalReviews": 41,
+      "popularity": 72
+    },
+    "tour_014": {
+      "id": "tour_014",
+      "name": "Rara Lake Trek",
+      "description": "A peaceful trek to Nepal's largest lake, Rara Lake, located in the remote Mugu district, offering pristine natural beauty and cultural experiences.",
+      "duration": "12 Days",
+      "difficulty": "Easy",
+      "altitude": "2,990m",
+      "image": "https://images.unsplash.com/photo-1604537529428-15bc512c298a?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "images": [
+        "https://images.unsplash.com/photo-1604537529428-15bc512c298a?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1542395975-16a58c6b68f7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      ],
+      "price": {
+        "standard": 1000,
+        "premium": 1500
+      },
+      "location": {
+        "country": "Nepal",
+        "region": "Mugu Region",
+        "coordinates": {
+          "latitude": 29.5,
+          "longitude": 82.1
+        }
+      },
+      "highlights": [
+        "Nepal's largest lake",
+        "Pristine natural beauty",
+        "Rara National Park",
+        "Cultural experiences"
+      ],
+      "includes": [
+        "Accommodation during trek",
+        "All meals (breakfast, lunch, dinner)",
+        "Experienced English-speaking guide",
+        "Porter service (1 porter for 2 guests)",
+        "All necessary permits"
+      ],
+      "excludes": [
+        "International flights",
+        "Travel insurance",
+        "Personal expenses"
+      ],
+      "bestTime": ["March", "April", "May", "September", "October", "November"],
+      "createdAt": {
+        "_seconds": 1704886200,
+        "_nanoseconds": 0
+      },
+      "updatedAt": {
+        "_seconds": 1704886200,
+        "_nanoseconds": 0
+      },
+      "rating": 4.5,
+      "totalReviews": 33,
+      "popularity": 68
+    },
+    "tour_015": {
+      "id": "tour_015",
+      "name": "Khopra Danda Trek",
+      "description": "A short and scenic trek offering spectacular views of Annapurna South, Hiunchuli, and the entire Annapurna range from Khopra Danda.",
+      "duration": "9 Days",
+      "difficulty": "Easy",
+      "altitude": "3,600m",
+      "image": "https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "images": [
+        "https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      ],
+      "price": {
+        "standard": 800,
+        "premium": 1200
+      },
+      "location": {
+        "country": "Nepal",
+        "region": "Annapurna Region",
+        "coordinates": {
+          "latitude": 28.45,
+          "longitude": 83.65
+        }
+      },
+      "highlights": [
+        "Spectacular mountain views",
+        "Shorter duration",
+        "Traditional Gurung villages",
+        "Less crowded"
+      ],
+      "includes": [
+        "Accommodation during trek",
+        "All meals (breakfast, lunch, dinner)",
+        "Experienced English-speaking guide",
+        "Porter service (1 porter for 2 guests)",
+        "All necessary permits"
+      ],
+      "excludes": [
+        "International flights",
+        "Travel insurance",
+        "Personal expenses"
+      ],
+      "bestTime": ["March", "April", "May", "October", "November"],
+      "createdAt": {
+        "_seconds": 1704886200,
+        "_nanoseconds": 0
+      },
+      "updatedAt": {
+        "_seconds": 1704886200,
+        "_nanoseconds": 0
+      },
+      "rating": 4.4,
+      "totalReviews": 67,
+      "popularity": 74
+    },
+    "tour_016": {
+      "id": "tour_016",
+      "name": "Nar Phu Valley Trek",
+      "description": "An adventurous trek through the restricted Nar Phu Valley, known for its Tibetan culture, ancient monasteries, and pristine landscapes.",
+      "duration": "18 Days",
+      "difficulty": "Challenging",
+      "altitude": "5,300m",
+      "image": "https://images.unsplash.com/photo-1542395975-16a58c6b68f7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "images": [
+        "https://images.unsplash.com/photo-1542395975-16a58c6b68f7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      ],
+      "price": {
+        "standard": 1500,
+        "premium": 2200
+      },
+      "location": {
+        "country": "Nepal",
+        "region": "Manaslu Region",
+        "coordinates": {
+          "latitude": 28.25,
+          "longitude": 84.1
+        }
+      },
+      "highlights": [
+        "Restricted valley",
+        "Tibetan culture",
+        "Ancient monasteries",
+        "Pristine landscapes"
+      ],
+      "includes": [
+        "Accommodation during trek",
+        "All meals (breakfast, lunch, dinner)",
+        "Experienced English-speaking guide",
+        "Porter service (1 porter for 2 guests)",
+        "All necessary permits",
+        "Special restricted area permit"
+      ],
+      "excludes": [
+        "International flights",
+        "Travel insurance",
+        "Personal expenses"
+      ],
+      "bestTime": ["March", "April", "May", "September", "October", "November"],
+      "createdAt": {
+        "_seconds": 1704886200,
+        "_nanoseconds": 0
+      },
+      "updatedAt": {
+        "_seconds": 1704886200,
+        "_nanoseconds": 0
+      },
+      "rating": 4.8,
+      "totalReviews": 49,
+      "popularity": 83
+    },
+    "tour_017": {
+      "id": "tour_017",
+      "name": "Kanchenjunga Conservation Area Trek",
+      "description": "A diverse trek through the Kanchenjunga Conservation Area, offering rich biodiversity, traditional communities, and views of the world's third highest mountain.",
+      "duration": "21 Days",
+      "difficulty": "Challenging",
+      "altitude": "4,500m",
+      "image": "https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "images": [
+        "https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      ],
+      "price": {
+        "standard": 1700,
+        "premium": 2500
+      },
+      "location": {
+        "country": "Nepal",
+        "region": "Kanchenjunga Region",
+        "coordinates": {
+          "latitude": 27.6,
+          "longitude": 88.1
+        }
+      },
+      "highlights": [
+        "World's third highest mountain",
+        "Rich biodiversity",
+        "Traditional communities",
+        "Conservation area"
+      ],
+      "includes": [
+        "Accommodation during trek",
+        "All meals (breakfast, lunch, dinner)",
+        "Experienced English-speaking guide",
+        "Porter service (1 porter for 2 guests)",
+        "All necessary permits"
+      ],
+      "excludes": [
+        "International flights",
+        "Travel insurance",
+        "Personal expenses"
+      ],
+      "bestTime": ["March", "April", "May", "September", "October", "November"],
+      "createdAt": {
+        "_seconds": 1704886200,
+        "_nanoseconds": 0
+      },
+      "updatedAt": {
+        "_seconds": 1704886200,
+        "_nanoseconds": 0
+      },
+      "rating": 4.7,
+      "totalReviews": 42,
+      "popularity": 76
+    },
+    "tour_018": {
+      "id": "tour_018",
+      "name": "Annapurna Circuit Trek with Tilicho Lake",
+      "description": "An extended version of the classic Annapurna Circuit that includes the beautiful Tilicho Lake, one of the world's highest lakes.",
+      "duration": "20 Days",
+      "difficulty": "Challenging",
+      "altitude": "5,416m",
+      "image": "https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "images": [
+        "https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1542395975-16a58c6b68f7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      ],
+      "price": {
+        "standard": 1600,
+        "premium": 2300
+      },
+      "location": {
+        "country": "Nepal",
+        "region": "Annapurna Region",
+        "coordinates": {
+          "latitude": 28.55,
+          "longitude": 84.05
+        }
+      },
+      "highlights": [
+        "Tilicho Lake (4,919m)",
+        "Thorong La Pass (5,416m)",
+        "Diverse landscapes",
+        "Cultural experiences"
+      ],
+      "includes": [
+        "Accommodation during trek",
+        "All meals (breakfast, lunch, dinner)",
+        "Experienced English-speaking guide",
+        "Porter service (1 porter for 2 guests)",
+        "All necessary permits",
+        "First aid kit"
+      ],
+      "excludes": [
+        "International flights",
+        "Travel insurance",
+        "Personal expenses"
+      ],
+      "bestTime": ["March", "April", "May", "September", "October", "November"],
+      "createdAt": {
+        "_seconds": 1704886200,
+        "_nanoseconds": 0
+      },
+      "updatedAt": {
+        "_seconds": 1704886200,
+        "_nanoseconds": 0
+      },
+      "rating": 4.9,
+      "totalReviews": 87,
+      "popularity": 91
+    },
+    "tour_019": {
+      "id": "tour_019",
+      "name": "Lower Mustang Trek",
+      "description": "A culturally rich trek through the lower regions of Mustang, known for its Tibetan culture, desert landscapes, and ancient monasteries.",
+      "duration": "10 Days",
+      "difficulty": "Easy",
+      "altitude": "2,800m",
+      "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "images": [
+        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1604537529428-15bc512c298a?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      ],
+      "price": {
+        "standard": 900,
+        "premium": 1350
+      },
+      "location": {
+        "country": "Nepal",
+        "region": "Mustang Region",
+        "coordinates": {
+          "latitude": 28.8,
+          "longitude": 83.8
+        }
+      },
+      "highlights": [
+        "Tibetan culture",
+        "Desert landscapes",
+        "Ancient monasteries",
+        "Shorter duration"
+      ],
+      "includes": [
+        "Accommodation during trek",
+        "All meals (breakfast, lunch, dinner)",
+        "Experienced English-speaking guide",
+        "Porter service (1 porter for 2 guests)",
+        "All necessary permits"
+      ],
+      "excludes": [
+        "International flights",
+        "Travel insurance",
+        "Personal expenses"
+      ],
+      "bestTime": ["March", "April", "May", "September", "October", "November"],
+      "createdAt": {
+        "_seconds": 1704886200,
+        "_nanoseconds": 0
+      },
+      "updatedAt": {
+        "_seconds": 1704886200,
+        "_nanoseconds": 0
+      },
+      "rating": 4.6,
+      "totalReviews": 58,
+      "popularity": 79
+    },
+    "tour_020": {
+      "id": "tour_020",
+      "name": "Bhutan Himalayan Trek",
+      "description": "An adventurous trek through the pristine landscapes of Bhutan, offering unique cultural experiences and breathtaking mountain views.",
+      "duration": "15 Days",
+      "difficulty": "Moderate",
+      "altitude": "4,200m",
+      "image": "https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "images": [
+        "https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1542395975-16a58c6b68f7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      ],
+      "price": {
+        "standard": 2000,
+        "premium": 2800
+      },
+      "location": {
+        "country": "Bhutan",
+        "region": "Himalayan Region",
+        "coordinates": {
+          "latitude": 27.5,
+          "longitude": 90.5
+        }
+      },
+      "highlights": [
+        "Unique Bhutanese culture",
+        "Pristine landscapes",
+        "Mountain views",
+        "Cultural experiences"
+      ],
+      "includes": [
+        "Accommodation during trek",
+        "All meals (breakfast, lunch, dinner)",
+        "Experienced English-speaking guide",
+        "Porter service (1 porter for 2 guests)",
+        "All necessary permits",
+        "Bhutan visa fees"
+      ],
+      "excludes": [
+        "International flights",
+        "Travel insurance",
+        "Personal expenses",
+        "Alcoholic beverages"
+      ],
+      "bestTime": ["March", "April", "May", "September", "October", "November"],
+      "createdAt": {
+        "_seconds": 1704886200,
+        "_nanoseconds": 0
+      },
+      "updatedAt": {
+        "_seconds": 1704886200,
+        "_nanoseconds": 0
+      },
+      "rating": 4.8,
+      "totalReviews": 63,
+      "popularity": 87
+    }
+  }
+}

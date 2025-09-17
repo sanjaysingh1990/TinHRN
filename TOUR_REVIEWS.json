@@ -1,0 +1,734 @@
+{
+  "tours": {
+    "tour_001": {
+      "reviews": {
+        "7GGi05Sto8whLm09kJTb": {
+          "id": "7GGi05Sto8whLm09kJTb",
+          "userId": "user_12345",
+          "userName": "Alex Johnson",
+          "userPhotoURL": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=2000&auto=format&fit=crop",
+          "rating": 5,
+          "review": "An absolutely breathtaking experience! The Annapurna Base Camp trek exceeded all my expectations. The guides were knowledgeable and the scenery was out of this world. Would highly recommend to anyone looking for an adventure!",
+          "createdAt": {
+            "_seconds": 1704886200,
+            "_nanoseconds": 0
+          },
+          "helpful": 24
+        },
+        "8KLM4pqrSto8whLm09kDC": {
+          "id": "8KLM4pqrSto8whLm09kDC",
+          "userId": "user_67890",
+          "userName": "Sarah Williams",
+          "userPhotoURL": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=2000&auto=format&fit=crop",
+          "rating": 4,
+          "review": "Great trek overall, but found it quite challenging. The accommodation was basic but clean. The mountain views were spectacular, especially at sunrise. Some days were very long and tiring, but totally worth it.",
+          "createdAt": {
+            "_seconds": 1704972600,
+            "_nanoseconds": 0
+          },
+          "helpful": 18
+        },
+        "9XYZ3abcDef8ghIj09kLM": {
+          "id": "9XYZ3abcDef8ghIj09kLM",
+          "userId": "user_11111",
+          "userName": "Michael Chen",
+          "userPhotoURL": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2000&auto=format&fit=crop",
+          "rating": 5,
+          "review": "This was the trip of a lifetime! The Annapurna region is incredibly beautiful. Our guide was excellent and very knowledgeable about the local culture. The lodge owners were welcoming and the food was surprisingly good.",
+          "createdAt": {
+            "_seconds": 1705059000,
+            "_nanoseconds": 0
+          },
+          "helpful": 31
+        }
+      }
+    },
+    "tour_002": {
+      "reviews": {
+        "4DEF7mnoPqr8stUv09wXY": {
+          "id": "4DEF7mnoPqr8stUv09wXY",
+          "userId": "user_22222",
+          "userName": "Emma Thompson",
+          "userPhotoURL": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=2000&auto=format&fit=crop",
+          "rating": 5,
+          "review": "The Everest Base Camp trek was challenging but incredibly rewarding. Standing at the base of the world's highest mountain was a surreal experience. The Sherpa culture is fascinating and the people are so welcoming. Highly recommend this trek!",
+          "createdAt": {
+            "_seconds": 1705145400,
+            "_nanoseconds": 0
+          },
+          "helpful": 42
+        },
+        "5GHI8rstUvw9xyZa10bCD": {
+          "id": "5GHI8rstUvw9xyZa10bCD",
+          "userId": "user_33333",
+          "userName": "David Rodriguez",
+          "userPhotoURL": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2000&auto=format&fit=crop",
+          "rating": 4,
+          "review": "An epic adventure that tested my limits. The trek is physically demanding but the views are absolutely stunning. The altitude affected me more than expected, but the experience was unforgettable. Great organization by the tour company.",
+          "createdAt": {
+            "_seconds": 1705231800,
+            "_nanoseconds": 0
+          },
+          "helpful": 27
+        },
+        "6JKL9uvwXyz0abCd11eFG": {
+          "id": "6JKL9uvwXyz0abCd11eFG",
+          "userId": "user_44444",
+          "userName": "Priya Patel",
+          "userPhotoURL": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=2000&auto=format&fit=crop",
+          "rating": 5,
+          "review": "Simply amazing! The Everest Base Camp trek was everything I hoped for and more. The guides were professional and caring. The landscapes are breathtaking and the sense of accomplishment upon reaching Base Camp is indescribable.",
+          "createdAt": {
+            "_seconds": 1705318200,
+            "_nanoseconds": 0
+          },
+          "helpful": 38
+        },
+        "7MNO0xyzAbc1cdEf12hIJ": {
+          "id": "7MNO0xyzAbc1cdEf12hIJ",
+          "userId": "user_55555",
+          "userName": "James Wilson",
+          "userPhotoURL": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2000&auto=format&fit=crop",
+          "rating": 4,
+          "review": "A challenging but rewarding experience. The trek requires good physical fitness and mental determination. The mountain views are spectacular and the local culture is fascinating. Some lodges were quite basic but acceptable.",
+          "createdAt": {
+            "_seconds": 1705404600,
+            "_nanoseconds": 0
+          },
+          "helpful": 19
+        }
+      }
+    },
+    "tour_003": {
+      "reviews": {
+        "1ABC4defGhi5jkLm07nOP": {
+          "id": "1ABC4defGhi5jkLm07nOP",
+          "userId": "user_66666",
+          "userName": "Sophie Martin",
+          "userPhotoURL": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=2000&auto=format&fit=crop",
+          "rating": 4,
+          "review": "The Langtang Valley Trek was a wonderful introduction to trekking in Nepal. The trail was less crowded than other popular treks, which made for a more peaceful experience. The views were beautiful and the local culture was interesting to learn about.",
+          "createdAt": {
+            "_seconds": 1705491000,
+            "_nanoseconds": 0
+          },
+          "helpful": 15
+        },
+        "2BCD5efgHij6klMn08pQR": {
+          "id": "2BCD5efgHij6klMn08pQR",
+          "userId": "user_77777",
+          "userName": "Robert Kim",
+          "userPhotoURL": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2000&auto=format&fit=crop",
+          "rating": 5,
+          "review": "Absolutely loved this trek! The Langtang region is stunning and much less crowded than Everest or Annapurna regions. The Kyanjin Gompa monastery was a highlight. The trek was well-paced and the guides were excellent.",
+          "createdAt": {
+            "_seconds": 1705577400,
+            "_nanoseconds": 0
+          },
+          "helpful": 22
+        }
+      }
+    },
+    "tour_004": {
+      "reviews": {
+        "3CDE6fghIjk7lmNo09qRS": {
+          "id": "3CDE6fghIjk7lmNo09qRS",
+          "userId": "user_88888",
+          "userName": "Lisa Anderson",
+          "userPhotoURL": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=2000&auto=format&fit=crop",
+          "rating": 5,
+          "review": "The Manaslu Circuit Trek was an incredible adventure! The remote and pristine landscapes were breathtaking. The Tibetan Buddhist culture was fascinating to experience. The Larkya La Pass was challenging but the views from the top were worth every step.",
+          "createdAt": {
+            "_seconds": 1705663800,
+            "_nanoseconds": 0
+          },
+          "helpful": 28
+        },
+        "4DEF7hijKlm8mnOp10rST": {
+          "id": "4DEF7hijKlm8mnOp10rST",
+          "userId": "user_99999",
+          "userName": "Thomas Brown",
+          "userPhotoURL": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2000&auto=format&fit=crop",
+          "rating": 4,
+          "review": "A challenging but rewarding trek with incredible cultural experiences. The restricted area permit added to the sense of adventure. The mountain views were spectacular and the local hospitality was heartwarming. Well-organized tour.",
+          "createdAt": {
+            "_seconds": 1705750200,
+            "_nanoseconds": 0
+          },
+          "helpful": 17
+        },
+        "5EFG8ijkLmn9noPq11sTU": {
+          "id": "5EFG8ijkLmn9noPq11sTU",
+          "userId": "user_10101",
+          "userName": "Nina Garcia",
+          "userPhotoURL": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=2000&auto=format&fit=crop",
+          "rating": 5,
+          "review": "One of the best trekking experiences I've ever had! The Manaslu region is remote and pristine, offering a genuine adventure. The cultural immersion was fantastic and the mountain scenery was breathtaking. Highly recommended for experienced trekkers.",
+          "createdAt": {
+            "_seconds": 1705836600,
+            "_nanoseconds": 0
+          },
+          "helpful": 33
+        }
+      }
+    },
+    "tour_005": {
+      "reviews": {
+        "6FGH9jklMno0opQr12tUV": {
+          "id": "6FGH9jklMno0opQr12tUV",
+          "userId": "user_11112",
+          "userName": "Oliver Smith",
+          "userPhotoURL": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2000&auto=format&fit=crop",
+          "rating": 5,
+          "review": "The Gokyo Lakes Trek was absolutely stunning! The turquoise lakes are incredibly beautiful and the panoramic views of Everest, Lhotse, and Makalu from Gokyo Ri are unforgettable. The trek was well-paced and the guides were knowledgeable.",
+          "createdAt": {
+            "_seconds": 1705923000,
+            "_nanoseconds": 0
+          },
+          "helpful": 29
+        },
+        "7HIK0klmNop1pqRs13uVW": {
+          "id": "7HIK0klmNop1pqRs13uVW",
+          "userId": "user_12121",
+          "userName": "Isabella Jones",
+          "userPhotoURL": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=2000&auto=format&fit=crop",
+          "rating": 4,
+          "review": "A beautiful trek with spectacular mountain views. The Gokyo Lakes are truly unique and the climb to Gokyo Ri was challenging but rewarding. The accommodation in the lodges was basic but acceptable. Would recommend to anyone looking for an alternative to EBC.",
+          "createdAt": {
+            "_seconds": 1706009400,
+            "_nanoseconds": 0
+          },
+          "helpful": 21
+        }
+      }
+    },
+    "tour_006": {
+      "reviews": {
+        "8JLM1lmnOpq2qrSt14vWX": {
+          "id": "8JLM1lmnOpq2qrSt14vWX",
+          "userId": "user_13131",
+          "userName": "William Davis",
+          "userPhotoURL": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2000&auto=format&fit=crop",
+          "rating": 5,
+          "review": "The Upper Mustang Trek was a unique and unforgettable experience! The ancient Kingdom of Mustang feels like stepping back in time. The desert landscapes are unlike anywhere else in Nepal and the Buddhist monasteries are fascinating. A truly special trek.",
+          "createdAt": {
+            "_seconds": 1706095800,
+            "_nanoseconds": 0
+          },
+          "helpful": 35
+        },
+        "9MNP2mnoPqr3rsTu15wXY": {
+          "id": "9MNP2mnoPqr3rsTu15wXY",
+          "userId": "user_14141",
+          "userName": "Charlotte Miller",
+          "userPhotoURL": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=2000&auto=format&fit=crop",
+          "rating": 4,
+          "review": "An incredible journey through a unique landscape. Upper Mustang's Tibetan culture and desert scenery make it stand out from other Nepalese treks. The restricted area permit added to the sense of exclusivity. Well-organized and culturally enriching.",
+          "createdAt": {
+            "_seconds": 1706182200,
+            "_nanoseconds": 0
+          },
+          "helpful": 26
+        },
+        "0OPQ3nopQrs4stUv16xYZ": {
+          "id": "0OPQ3nopQrs4stUv16xYZ",
+          "userId": "user_15151",
+          "userName": "Benjamin Wilson",
+          "userPhotoURL": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2000&auto=format&fit=crop",
+          "rating": 5,
+          "review": "Absolutely amazing trek through a fascinating region! The ancient monasteries and traditional villages of Upper Mustang are incredible. The Lo Manthang walled city is a highlight. The trek requires good fitness but is incredibly rewarding.",
+          "createdAt": {
+            "_seconds": 1706268600,
+            "_nanoseconds": 0
+          },
+          "helpful": 30
+        }
+      }
+    },
+    "tour_007": {
+      "reviews": {
+        "1QRS4opqRst5tuVw17yZA": {
+          "id": "1QRS4opqRst5tuVw17yZA",
+          "userId": "user_16161",
+          "userName": "Amelia Taylor",
+          "userPhotoURL": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=2000&auto=format&fit=crop",
+          "rating": 5,
+          "review": "The Kanchenjunga Base Camp Trek was an adventure of a lifetime! The remote wilderness and pristine landscapes were breathtaking. The diverse ethnic communities we encountered were fascinating. The views of the third highest mountain in the world were spectacular.",
+          "createdAt": {
+            "_seconds": 1706355000,
+            "_nanoseconds": 0
+          },
+          "helpful": 22
+        },
+        "2RST5pqrStu6uvWx18zAB": {
+          "id": "2RST5pqrStu6uvWx18zAB",
+          "userId": "user_17171",
+          "userName": "Lucas Moore",
+          "userPhotoURL": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2000&auto=format&fit=crop",
+          "rating": 4,
+          "review": "A challenging but incredibly rewarding trek through remote and beautiful landscapes. The biodiversity of the Kanchenjunga region is impressive. The local communities were welcoming and their culture was interesting to learn about. Well-organized expedition.",
+          "createdAt": {
+            "_seconds": 1706441400,
+            "_nanoseconds": 0
+          },
+          "helpful": 18
+        }
+      }
+    },
+    "tour_008": {
+      "reviews": {
+        "3STU6qrsTuv7vwXy19ABC": {
+          "id": "3STU6qrsTuv7vwXy19ABC",
+          "userId": "user_18181",
+          "userName": "Mia Anderson",
+          "userPhotoURL": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=2000&auto=format&fit=crop",
+          "rating": 5,
+          "review": "The Makalu Base Camp Trek was an incredible adventure! The dramatic Shipton La pass was challenging but the views were absolutely stunning. The Barun Valley is pristine and remote. This trek offers a genuine wilderness experience away from the crowds.",
+          "createdAt": {
+            "_seconds": 1706527800,
+            "_nanoseconds": 0
+          },
+          "helpful": 25
+        },
+        "4TUV7rstUvw8wxYz20BCD": {
+          "id": "4TUV7rstUvw8wxYz20BCD",
+          "userId": "user_19191",
+          "userName": "Henry Thomas",
+          "userPhotoURL": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2000&auto=format&fit=crop",
+          "rating": 4,
+          "review": "A challenging trek through spectacular and remote landscapes. The views of Makalu and the surrounding peaks were breathtaking. The trek requires good physical condition and experience with high-altitude trekking. Excellent organization and guides.",
+          "createdAt": {
+            "_seconds": 1706614200,
+            "_nanoseconds": 0
+          },
+          "helpful": 19
+        }
+      }
+    },
+    "tour_009": {
+      "reviews": {
+        "5UVW8stuVwx9xyZa21CDE": {
+          "id": "5UVW8stuVwx9xyZa21CDE",
+          "userId": "user_20202",
+          "userName": "Evelyn Jackson",
+          "userPhotoURL": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=2000&auto=format&fit=crop",
+          "rating": 4,
+          "review": "The Poon Hill Trek was a perfect introduction to trekking in Nepal. The sunrise views over the Annapurna range from Poon Hill were spectacular. The trek was well-paced and suitable for beginners. The traditional Gurung villages were interesting to visit.",
+          "createdAt": {
+            "_seconds": 1706700600,
+            "_nanoseconds": 0
+          },
+          "helpful": 31
+        },
+        "6VWX9tuvWxy0yzAb22DEF": {
+          "id": "6VWX9tuvWxy0yzAb22DEF",
+          "userId": "user_21212",
+          "userName": "Jack White",
+          "userPhotoURL": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2000&auto=format&fit=crop",
+          "rating": 5,
+          "review": "Absolutely loved this short trek! The views from Poon Hill at sunrise were magical. Perfect for those with limited time but wanting to experience trekking in Nepal. The guides were friendly and knowledgeable. Great value for money.",
+          "createdAt": {
+            "_seconds": 1706787000,
+            "_nanoseconds": 0
+          },
+          "helpful": 27
+        },
+        "7WXY0uvwXyz1abCd23EFG": {
+          "id": "7WXY0uvwXyz1abCd23EFG",
+          "userId": "user_22223",
+          "userName": "Grace Harris",
+          "userPhotoURL": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=2000&auto=format&fit=crop",
+          "rating": 4,
+          "review": "A beautiful and accessible trek with stunning mountain views. The short duration makes it perfect for people with limited time. The accommodation in the lodges was basic but clean. The sunrise from Poon Hill was definitely the highlight.",
+          "createdAt": {
+            "_seconds": 1706873400,
+            "_nanoseconds": 0
+          },
+          "helpful": 23
+        }
+      }
+    },
+    "tour_010": {
+      "reviews": {
+        "8XYZ1vwxYza2bcDe24FGH": {
+          "id": "8XYZ1vwxYza2bcDe24FGH",
+          "userId": "user_23232",
+          "userName": "Daniel Clark",
+          "userPhotoURL": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2000&auto=format&fit=crop",
+          "rating": 4,
+          "review": "The Mardi Himal Trek was a great alternative to the more crowded Annapurna treks. The close-up views of Machapuchare and Annapurna South were stunning. The trek was less busy and offered a more peaceful experience. Well-organized and good value.",
+          "createdAt": {
+            "_seconds": 1706959800,
+            "_nanoseconds": 0
+          },
+          "helpful": 18
+        },
+        "9YZA2wxyZab3cdEf25GHI": {
+          "id": "9YZA2wxyZab3cdEf25GHI",
+          "userId": "user_24242",
+          "userName": "Zoe Lewis",
+          "userPhotoURL": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=2000&auto=format&fit=crop",
+          "rating": 5,
+          "review": "An absolutely beautiful trek with incredible mountain views! The rhododendron forests were spectacular during our spring visit. The fewer crowds made for a more intimate experience with nature. The guides were excellent and very knowledgeable.",
+          "createdAt": {
+            "_seconds": 1707046200,
+            "_nanoseconds": 0
+          },
+          "helpful": 24
+        }
+      }
+    },
+    "tour_011": {
+      "reviews": {
+        "0ABC3xyzAbc4deFg26HIJ": {
+          "id": "0ABC3xyzAbc4deFg26HIJ",
+          "userId": "user_25252",
+          "userName": "Matthew Walker",
+          "userPhotoURL": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2000&auto=format&fit=crop",
+          "rating": 4,
+          "review": "The Helambu Trek was a culturally rich experience with beautiful mountain scenery. The Sherpa and Tamang communities were welcoming and their Buddhist monasteries were fascinating to visit. The trek was well-paced and suitable for moderate fitness levels.",
+          "createdAt": {
+            "_seconds": 1707132600,
+            "_nanoseconds": 0
+          },
+          "helpful": 16
+        },
+        "1BCD4abcBcd5efGh27IJK": {
+          "id": "1BCD4abcBcd5efGh27IJK",
+          "userId": "user_26262",
+          "userName": "Lily Hall",
+          "userPhotoURL": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=2000&auto=format&fit=crop",
+          "rating": 5,
+          "review": "A wonderful trek through beautiful landscapes and rich cultural heritage. The Buddhist monasteries were peaceful and the mountain views were spectacular. The shorter duration made it perfect for our schedule. Excellent guides and good organization.",
+          "createdAt": {
+            "_seconds": 1707219000,
+            "_nanoseconds": 0
+          },
+          "helpful": 21
+        }
+      }
+    },
+    "tour_012": {
+      "reviews": {
+        "2CDE5bcdCde6fgHi28JKL": {
+          "id": "2CDE5bcdCde6fgHi28JKL",
+          "userId": "user_27272",
+          "userName": "Andrew Allen",
+          "userPhotoURL": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2000&auto=format&fit=crop",
+          "rating": 5,
+          "review": "The Tsum Valley Trek was a spiritual journey through a sacred valley. The ancient monasteries and traditional Tibetan culture were fascinating. The restricted area permit added to the sense of exclusivity. A truly unique and memorable experience.",
+          "createdAt": {
+            "_seconds": 1707305400,
+            "_nanoseconds": 0
+          },
+          "helpful": 28
+        },
+        "3DEF6cdeDef7ghIj29KLM": {
+          "id": "3DEF6cdeDef7ghIj29KLM",
+          "userId": "user_28282",
+          "userName": "Chloe Young",
+          "userPhotoURL": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=2000&auto=format&fit=crop",
+          "rating": 4,
+          "review": "A unique and culturally immersive trek through the sacred Tsum Valley. The ancient monasteries and traditional Tibetan culture were highlights. The trek was challenging but rewarding. The restricted area permit made it feel special and exclusive.",
+          "createdAt": {
+            "_seconds": 1707391800,
+            "_nanoseconds": 0
+          },
+          "helpful": 20
+        },
+        "4EFG7defEfg8hiJk30MNO": {
+          "id": "4EFG7defEfg8hiJk30MNO",
+          "userId": "user_29292",
+          "userName": "Ryan King",
+          "userPhotoURL": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2000&auto=format&fit=crop",
+          "rating": 5,
+          "review": "An incredible spiritual journey through a hidden valley. The ancient monasteries and traditional way of life were fascinating. The landscapes were beautiful and the trek was well-organized. A truly unique experience in Nepal.",
+          "createdAt": {
+            "_seconds": 1707478200,
+            "_nanoseconds": 0
+          },
+          "helpful": 25
+        }
+      }
+    },
+    "tour_013": {
+      "reviews": {
+        "5FGH8efgFgh9ijKl31NOP": {
+          "id": "5FGH8efgFgh9ijKl31NOP",
+          "userId": "user_30303",
+          "userName": "Victoria Scott",
+          "userPhotoURL": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=2000&auto=format&fit=crop",
+          "rating": 5,
+          "review": "The Dolpa Trek was an adventure through one of Nepal's most remote and culturally rich regions. Shey Phoksundo Lake is absolutely stunning and the ancient monasteries were fascinating. The Tibetan culture is well-preserved here. A truly unique experience.",
+          "createdAt": {
+            "_seconds": 1707564600,
+            "_nanoseconds": 0
+          },
+          "helpful": 22
+        },
+        "6HIJ9fghGhi0jkLm32OPQ": {
+          "id": "6HIJ9fghGhi0jkLm32OPQ",
+          "userId": "user_31313",
+          "userName": "Christopher Green",
+          "userPhotoURL": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2000&auto=format&fit=crop",
+          "rating": 4,
+          "review": "A challenging but rewarding trek through remote and beautiful landscapes. Shey Phoksundo Lake is spectacular and the Tibetan Buddhist culture is fascinating. The trek requires good physical fitness and time commitment. Well-organized expedition.",
+          "createdAt": {
+            "_seconds": 1707651000,
+            "_nanoseconds": 0
+          },
+          "helpful": 17
+        }
+      }
+    },
+    "tour_014": {
+      "reviews": {
+        "7IJK0ghiHij1klMn33PQR": {
+          "id": "7IJK0ghiHij1klMn33PQR",
+          "userId": "user_32323",
+          "userName": "Abigail Baker",
+          "userPhotoURL": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=2000&auto=format&fit=crop",
+          "rating": 4,
+          "review": "The Rara Lake Trek was a peaceful journey to Nepal's largest lake. The pristine natural beauty was refreshing and the cultural experiences were interesting. The trek was less challenging than others, making it suitable for a wider range of fitness levels.",
+          "createdAt": {
+            "_seconds": 1707737400,
+            "_nanoseconds": 0
+          },
+          "helpful": 15
+        },
+        "8KLM1hijIjk2lmNo34QRS": {
+          "id": "8KLM1hijIjk2lmNo34QRS",
+          "userId": "user_33334",
+          "userName": "Joshua Adams",
+          "userPhotoURL": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2000&auto=format&fit=crop",
+          "rating": 5,
+          "review": "A beautiful and tranquil trek to Nepal's largest lake. Rara Lake is stunning and the surrounding national park is pristine. The cultural experiences with local communities were enriching. Perfect for those looking for a less crowded trekking experience.",
+          "createdAt": {
+            "_seconds": 1707823800,
+            "_nanoseconds": 0
+          },
+          "helpful": 19
+        }
+      }
+    },
+    "tour_015": {
+      "reviews": {
+        "9MNP2ijkJkl3mnOp35RST": {
+          "id": "9MNP2ijkJkl3mnOp35RST",
+          "userId": "user_34343",
+          "userName": "Samantha Nelson",
+          "userPhotoURL": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=2000&auto=format&fit=crop",
+          "rating": 4,
+          "review": "The Khopra Danda Trek offered spectacular mountain views with fewer crowds than other Annapurna treks. The views of Annapurna South and Hiunchuli were breathtaking. The trek was well-paced and the accommodation was acceptable. Good value for money.",
+          "createdAt": {
+            "_seconds": 1707910200,
+            "_nanoseconds": 0
+          },
+          "helpful": 16
+        },
+        "0OPQ3jklKlm4noPq36STU": {
+          "id": "0OPQ3jklKlm4noPq36STU",
+          "userId": "user_35353",
+          "userName": "Nicholas Carter",
+          "userPhotoURL": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2000&auto=format&fit=crop",
+          "rating": 5,
+          "review": "Absolutely stunning views from Khopra Danda! The mountain vistas were some of the best I've seen in Nepal. The trek was less crowded than other popular treks, making for a more peaceful experience. The guides were knowledgeable and helpful.",
+          "createdAt": {
+            "_seconds": 1707996600,
+            "_nanoseconds": 0
+          },
+          "helpful": 23
+        }
+      }
+    },
+    "tour_016": {
+      "reviews": {
+        "1QRS4klmLmn5opQr37TUV": {
+          "id": "1QRS4klmLmn5opQr37TUV",
+          "userId": "user_36363",
+          "userName": "Hannah Mitchell",
+          "userPhotoURL": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=2000&auto=format&fit=crop",
+          "rating": 5,
+          "review": "The Nar Phu Valley Trek was an incredible adventure through restricted valleys with pristine landscapes. The Tibetan culture and ancient monasteries were fascinating. The trek was challenging but incredibly rewarding. A truly unique experience in Nepal.",
+          "createdAt": {
+            "_seconds": 1708083000,
+            "_nanoseconds": 0
+          },
+          "helpful": 26
+        },
+        "2RST5lmnMno6pqRs38UVW": {
+          "id": "2RST5lmnMno6pqRs38UVW",
+          "userId": "user_37373",
+          "userName": "Jonathan Perez",
+          "userPhotoURL": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2000&auto=format&fit=crop",
+          "rating": 4,
+          "review": "A challenging but rewarding trek through remote and restricted valleys. The pristine landscapes and Tibetan Buddhist culture were highlights. The restricted area permits added to the sense of adventure. Well-organized and culturally enriching.",
+          "createdAt": {
+            "_seconds": 1708169400,
+            "_nanoseconds": 0
+          },
+          "helpful": 18
+        },
+        "3STU6mnoNop7qrSt39VWX": {
+          "id": "3STU6mnoNop7qrSt39VWX",
+          "userId": "user_38383",
+          "userName": "Ava Roberts",
+          "userPhotoURL": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=2000&auto=format&fit=crop",
+          "rating": 5,
+          "review": "An unforgettable journey through the restricted Nar Phu Valley. The landscapes were pristine and the cultural experiences were authentic. The trek was challenging but the sense of accomplishment was immense. Highly recommended for experienced trekkers.",
+          "createdAt": {
+            "_seconds": 1708255800,
+            "_nanoseconds": 0
+          },
+          "helpful": 24
+        }
+      }
+    },
+    "tour_017": {
+      "reviews": {
+        "4TUV7nopOpq8rsTu40WXY": {
+          "id": "4TUV7nopOpq8rsTu40WXY",
+          "userId": "user_39393",
+          "userName": "Brandon Turner",
+          "userPhotoURL": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2000&auto=format&fit=crop",
+          "rating": 5,
+          "review": "The Kanchenjunga Conservation Area Trek was a diverse and beautiful journey. The rich biodiversity and traditional communities were fascinating. The views of the third highest mountain in the world were spectacular. A truly special trekking experience.",
+          "createdAt": {
+            "_seconds": 1708342200,
+            "_nanoseconds": 0
+          },
+          "helpful": 20
+        },
+        "5UVW8opqPqr9stUv41XYZ": {
+          "id": "5UVW8opqPqr9stUv41XYZ",
+          "userId": "user_40404",
+          "userName": "Madison Phillips",
+          "userPhotoURL": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=2000&auto=format&fit=crop",
+          "rating": 4,
+          "review": "A challenging trek through a conservation area with rich biodiversity. The traditional communities and their culture were interesting to learn about. The mountain views were spectacular and the trek was well-organized. Requires good physical fitness.",
+          "createdAt": {
+            "_seconds": 1708428600,
+            "_nanoseconds": 0
+          },
+          "helpful": 17
+        }
+      }
+    },
+    "tour_018": {
+      "reviews": {
+        "6VWX9pqrQrs0tuVw42YZA": {
+          "id": "6VWX9pqrQrs0tuVw42YZA",
+          "userId": "user_41414",
+          "userName": "Tyler Campbell",
+          "userPhotoURL": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2000&auto=format&fit=crop",
+          "rating": 5,
+          "review": "The Annapurna Circuit Trek with Tilicho Lake was epic! The diverse landscapes from subtropical forests to high mountain passes were incredible. Tilicho Lake is stunning and Thorong La Pass was challenging but rewarding. One of the best treks I've done.",
+          "createdAt": {
+            "_seconds": 1708515000,
+            "_nanoseconds": 0
+          },
+          "helpful": 35
+        },
+        "7WXY0qrsRst1uvWx43ABC": {
+          "id": "7WXY0qrsRst1uvWx43ABC",
+          "userId": "user_42424",
+          "userName": "Victoria Edwards",
+          "userPhotoURL": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=2000&auto=format&fit=crop",
+          "rating": 5,
+          "review": "An absolutely incredible trek with diverse landscapes and cultural experiences. Tilicho Lake is breathtaking and the mountain views throughout the circuit are spectacular. The trek is long but well-paced. The guides were excellent and very knowledgeable.",
+          "createdAt": {
+            "_seconds": 1708601400,
+            "_nanoseconds": 0
+          },
+          "helpful": 31
+        },
+        "8XYZ1rstStu2vwXy44BCD": {
+          "id": "8XYZ1rstStu2vwXy44BCD",
+          "userId": "user_43434",
+          "userName": "Austin Collins",
+          "userPhotoURL": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2000&auto=format&fit=crop",
+          "rating": 4,
+          "review": "A challenging but rewarding extended version of the classic Annapurna Circuit. The addition of Tilicho Lake made it even more special. The diverse landscapes and cultural experiences were highlights. Requires good physical fitness and time commitment.",
+          "createdAt": {
+            "_seconds": 1708687800,
+            "_nanoseconds": 0
+          },
+          "helpful": 22
+        }
+      }
+    },
+    "tour_019": {
+      "reviews": {
+        "9YZA2stuTuv3wxYz45CDE": {
+          "id": "9YZA2stuTuv3wxYz45CDE",
+          "userId": "user_44445",
+          "userName": "Avery Stewart",
+          "userPhotoURL": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=2000&auto=format&fit=crop",
+          "rating": 5,
+          "review": "The Pikey Peak Trek was a hidden gem with spectacular mountain views. The trek was less crowded than other popular treks, offering a more peaceful experience. The views of Everest, Lhotse, and Cho Oyu from Pikey Peak were absolutely breathtaking.",
+          "createdAt": {
+            "_seconds": 1708774200,
+            "_nanoseconds": 0
+          },
+          "helpful": 18
+        },
+        "0ABC3tuvUvw4xyZa46DEF": {
+          "id": "0ABC3tuvUvw4xyZa46DEF",
+          "userId": "user_45454",
+          "userName": "Scarlett Sanchez",
+          "userPhotoURL": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2000&auto=format&fit=crop",
+          "rating": 4,
+          "review": "A beautiful and less crowded trek with incredible mountain views. The climb to Pikey Peak was challenging but the panoramic views from the top were worth every step. The traditional Sherpa villages were interesting to visit. Well-organized trek.",
+          "createdAt": {
+            "_seconds": 1708860600,
+            "_nanoseconds": 0
+          },
+          "helpful": 15
+        }
+      }
+    },
+    "tour_020": {
+      "reviews": {
+        "1BCD4uvwVwx5yzAb47EFG": {
+          "id": "1BCD4uvwVwx5yzAb47EFG",
+          "userId": "user_46464",
+          "userName": "Dominic Morris",
+          "userPhotoURL": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2000&auto=format&fit=crop",
+          "rating": 5,
+          "review": "The Jomsom Muktinath Trek was a fantastic combination of mountain scenery and cultural heritage. The views of Annapurna and Dhaulagiri were spectacular. The Muktinath Temple is an important pilgrimage site with fascinating architecture. Highly recommended!",
+          "createdAt": {
+            "_seconds": 1708947000,
+            "_nanoseconds": 0
+          },
+          "helpful": 27
+        },
+        "2CDE5vwxWxy6abCd48FGH": {
+          "id": "2CDE5vwxWxy6abCd48FGH",
+          "userId": "user_47474",
+          "userName": "Penelope Rogers",
+          "userPhotoURL": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=2000&auto=format&fit=crop",
+          "rating": 4,
+          "review": "A beautiful trek through the Kali Gandaki Valley with spectacular mountain views. The Muktinath Temple is culturally significant and architecturally interesting. The trek can be done with flights to reduce walking days. Good organization and guides.",
+          "createdAt": {
+            "_seconds": 1709033400,
+            "_nanoseconds": 0
+          },
+          "helpful": 19
+        },
+        "3DEF6wxyXyz7bcDe49GHI": {
+          "id": "3DEF6wxyXyz7bcDe49GHI",
+          "userId": "user_48484",
+          "userName": "Sebastian Reed",
+          "userPhotoURL": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2000&auto=format&fit=crop",
+          "rating": 5,
+          "review": "An incredible journey through one of the world's deepest valleys with views of the world's highest peaks. The Muktinath Temple is a unique religious site for both Hindus and Buddhists. The trek was well-paced and culturally enriching. Amazing experience!",
+          "createdAt": {
+            "_seconds": 1709119800,
+            "_nanoseconds": 0
+          },
+          "helpful": 24
+        }
+      }
+    }
+  }
+}
