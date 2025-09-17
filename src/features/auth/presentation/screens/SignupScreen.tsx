@@ -48,22 +48,39 @@ const SignupScreen: React.FC = () => {
   const [showErrorToast, setShowErrorToast] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
+  // Set initial country info when component mounts
+  useEffect(() => {
+    // Initialize with default country code (US) and calling code (+1)
+    viewModel.setCountryInfo('US', '+1');
+  }, []);
+
   useEffect(() => {
     viewModel.setUpdateCallback(() => {
       setViewState({ ...viewModel.viewState });
-      setFormData({ ...viewModel.formData });
+      // Only update formData if it's actually different to prevent unnecessary resets
+      setFormData(prevFormData => {
+        if (prevFormData.name !== viewModel.formData.name || 
+            prevFormData.email !== viewModel.formData.email ||
+            prevFormData.phone !== viewModel.formData.phone ||
+            prevFormData.password !== viewModel.formData.password ||
+            prevFormData.confirmPassword !== viewModel.formData.confirmPassword) {
+          return { ...viewModel.formData };
+        }
+        return prevFormData;
+      });
       
-      // Show error toast if there's a general error
-      if (viewModel.viewState.errors.general && !showErrorToast) {
+      // Show error toast if there's a general error and it's not already shown
+      if (viewModel.viewState.errors.general && viewModel.viewState.errors.general !== errorMessage && !showErrorToast) {
         setErrorMessage(viewModel.viewState.errors.general);
         setShowErrorToast(true);
       }
     });
 
+    // Don't reset the form when component unmounts to preserve user input
     return () => {
-      viewModel.reset();
+      // viewModel.reset(); // Commented out to preserve form data
     };
-  }, [showErrorToast]);
+  }, []); // Empty dependency array to only run once on mount
 
   const handleSignup = async () => {
     console.log('[SignupScreen] Starting signup process...');
@@ -94,37 +111,39 @@ const SignupScreen: React.FC = () => {
         router.replace('/(tabs)');
       } else {
         console.log('[SignupScreen] Signup returned null user');
-        setErrorMessage('Signup failed. Please try again.');
-        setShowErrorToast(true);
+        // Use the specific error message from the ViewModel if available
+        const viewModelErrorMessage = viewModel.viewState.errors.general;
+        if (viewModelErrorMessage) {
+          setErrorMessage(viewModelErrorMessage);
+          setShowErrorToast(true);
+        } else {
+          setErrorMessage('Signup failed. Please try again.');
+          setShowErrorToast(true);
+        }
         // Don't clear the form fields on error
       }
     } catch (error: any) {
       console.error('[SignupScreen] Signup failed with error:', error);
       
-      // Check if it's an email already exists error
-      if (error.message && error.message.includes('already exists')) {
-        Alert.alert(
-          'Account Already Exists',
-          'An account with this email already exists. Would you like to sign in instead?',
-          [
-            {
-              text: 'Cancel',
-              style: 'cancel'
-            },
-            {
-              text: 'Sign In',
-              onPress: () => {
-                console.log('[SignupScreen] Redirecting to login screen...');
-                router.push('/login');
-              }
-            }
-          ]
-        );
-      } else {
-        setErrorMessage(error.message || 'An error occurred during signup');
-        setShowErrorToast(true);
-        // Don't clear the form fields on error
+      // Parse the error to show exact message
+      let errorMessage = 'An error occurred during signup';
+      
+      // Check if it's our custom AuthenticationError (from AuthRepository)
+      if (error.name === 'AuthenticationError' && error.message) {
+        errorMessage = error.message;
       }
+      // Check if it's a direct Firebase error with a code
+      else if (error.code && error.message) {
+        errorMessage = error.message;
+      }
+      // Check if it's a general error with message
+      else if (error.message) {
+        errorMessage = error.message;
+      }
+      
+      setErrorMessage(errorMessage);
+      setShowErrorToast(true);
+      // Don't clear the form fields on error
     }
   };
 
@@ -204,7 +223,7 @@ const SignupScreen: React.FC = () => {
               countryCode={countryCode}
             />
             <AuthInput
-              placeholder="Phone Number"
+              placeholder="Phone Number (without country code)"
               value={formData.phone}
               onChangeText={viewModel.setPhone.bind(viewModel)}
               onFocus={() => setPhoneFocused(true)}

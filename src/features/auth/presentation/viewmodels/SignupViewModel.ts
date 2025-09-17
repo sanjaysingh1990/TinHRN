@@ -44,8 +44,8 @@ export class SignupViewModel {
     phone: '',
     password: '',
     confirmPassword: '',
-    countryCode: 'US',
-    callingCode: '+1',
+    countryCode: 'US', // Will be updated by country picker
+    callingCode: '+1', // Will be updated by country picker
   };
 
   constructor(
@@ -100,11 +100,22 @@ export class SignupViewModel {
   getFormattedPhoneNumber(): string {
     if (!this.formData.phone.trim()) return '';
     
-    // Remove any existing country code from the phone number
-    let phoneNumber = this.formData.phone.replace(/^\+?\d{1,3}\s?/, '').trim();
+    // Clean the phone number by removing spaces and other formatting
+    const cleanedPhone = this.formData.phone.replace(/[\s\-\(\)\.]/g, '').trim();
     
-    // Add the selected country calling code
-    return `${this.formData.callingCode} ${phoneNumber}`;
+    // If it already starts with a +, it might have the country code included
+    if (cleanedPhone.startsWith('+')) {
+      return cleanedPhone;
+    }
+    
+    // If it starts with the country code without +, add the +
+    if (this.formData.callingCode && cleanedPhone.startsWith(this.formData.callingCode.replace('+', ''))) {
+      return `+${cleanedPhone}`;
+    }
+    
+    // Otherwise, prepend the calling code
+    const callingCode = this.formData.callingCode || '+1';
+    return `${callingCode}${cleanedPhone}`;
   }
 
   private validateName(name: string): string | undefined {
@@ -137,9 +148,14 @@ export class SignupViewModel {
       return 'Phone number is required';
     }
     
-    const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
-    if (!phoneRegex.test(phone.replace(/\s/g, ''))) {
-      return 'Please enter a valid phone number';
+    // Allow more flexible phone number formats
+    // Remove spaces and other formatting characters for validation
+    const cleanedPhone = phone.replace(/[\s\-\(\)\.]/g, '');
+    
+    // Check if it's a valid phone number (7-15 digits)
+    const phoneRegex = /^[\+]?[1-9][\d]{6,14}$/;
+    if (!phoneRegex.test(cleanedPhone)) {
+      return 'Please enter a valid phone number (7-15 digits)';
     }
     
     return undefined;
@@ -223,7 +239,9 @@ export class SignupViewModel {
     
     try {
       this.viewState.isLoading = true;
-      this.viewState.errors = {};
+      // Don't clear errors here, preserve them for the UI
+      // Only clear general errors
+      this.viewState.errors.general = undefined;
       this.notifyUpdate();
 
       console.log('[SignupViewModel] Validating form...');
@@ -267,14 +285,18 @@ export class SignupViewModel {
   }
 
   reset(): void {
+    // Preserve the country code and calling code
+    const currentCountryCode = this.formData.countryCode || 'US';
+    const currentCallingCode = this.formData.callingCode || '+1';
+    
     this.formData = {
       name: '',
       email: '',
       phone: '',
       password: '',
       confirmPassword: '',
-      countryCode: 'US',
-      callingCode: '+1',
+      countryCode: currentCountryCode,
+      callingCode: currentCallingCode,
     };
     this.viewState = {
       isLoading: false,
