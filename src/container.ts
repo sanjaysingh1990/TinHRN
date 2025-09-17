@@ -3,8 +3,11 @@ import "reflect-metadata";
 import { container } from "tsyringe";
 import { LoginUseCase } from "./auth/application/usecases/LoginUseCase";
 import { SignupUseCase } from "./auth/application/usecases/SignupUseCase";
+import { LogoutUseCase } from "./auth/application/usecases/LogoutUseCase";
+import { GetCurrentUserUseCase } from "./auth/application/usecases/GetCurrentUserUseCase";
+import { SendPasswordResetEmailUseCase } from "./auth/application/usecases/SendPasswordResetEmailUseCase";
 import { AuthRepository } from "./auth/infrastructure/repositories/AuthRepository";
-import { AuthRepositoryToken, LoginUseCaseToken, SignupUseCaseToken } from "./auth/tokens";
+import { AuthRepositoryToken, LoginUseCaseToken, SignupUseCaseToken, LogoutUseCaseToken, GetCurrentUserUseCaseToken, SendPasswordResetEmailUseCaseToken } from "./auth/tokens";
 import { GetSampleDataUseCase } from "./sample/application/usecases/GetSampleDataUseCase";
 import { SampleRepository } from "./sample/infrastructure/repositories/SampleRepository";
 import { GetSampleDataUseCaseToken, SampleRepositoryToken } from "./sample/tokens";
@@ -66,6 +69,9 @@ container.register(GetSampleDataUseCaseToken, {
 container.register(AuthRepositoryToken, { useClass: AuthRepository });
 container.register(LoginUseCaseToken, { useClass: LoginUseCase });
 container.register(SignupUseCaseToken, { useClass: SignupUseCase });
+container.register(LogoutUseCaseToken, { useClass: LogoutUseCase });
+container.register(GetCurrentUserUseCaseToken, { useClass: GetCurrentUserUseCase });
+container.register(SendPasswordResetEmailUseCaseToken, { useClass: SendPasswordResetEmailUseCase });
 
 container.register(TourRepositoryToken, { useClass: TourRepository });
 container.register(HomeViewModelToken, { useClass: HomeViewModel });

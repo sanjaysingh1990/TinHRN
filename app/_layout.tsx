@@ -8,6 +8,7 @@ import '../src/container';
 import { I18nProvider } from '../src/hooks/useI18n';
 import { RootState, store } from '../src/providers/store';
 import { theme } from '../src/theme';
+import { AuthProvider } from '../src/auth/presentation/context/AuthContext';
 
 
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -106,9 +107,11 @@ export default function RootLayout() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <PortalProvider>
         <Provider store={store}>
-          <I18nProvider>
-            <AppContent />
-          </I18nProvider>
+          <AuthProvider>
+            <I18nProvider>
+              <AppContent />
+            </I18nProvider>
+          </AuthProvider>
         </Provider>
       </PortalProvider>
     </GestureHandlerRootView>
