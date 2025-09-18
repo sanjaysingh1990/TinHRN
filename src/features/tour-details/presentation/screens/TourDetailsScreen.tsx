@@ -84,21 +84,18 @@ const TourDetailsScreen = () => {
   };
   
   const onBookPress = async () => {
-    if (bookingLoading) return; // Prevent multiple clicks
-    
-    try {
-      setBookingLoading(true);
-      const viewModel = container.resolve<TourDetailsViewModel>(TourDetailsViewModelToken);
-      const result = await viewModel.bookTour(id as string);
-      
-      // Navigate to booking confirmation with booking ID
-      router.push(`/booking-confirmation?bookingId=${result.bookingId}`);
-    } catch (error) {
-      console.error('Booking failed:', error);
-      // Handle error - could show an alert or toast
-    } finally {
-      setBookingLoading(false);
-    }
+    // Navigate to customization screen with tour info
+    router.push({
+      pathname: '/customize-tour',
+      params: { 
+        tourId: id as string,
+        tourName: name as string,
+        tourImage: image as string,
+        tourDuration: details?.duration || '',
+        tourDifficulty: details?.difficulty || '',
+        tourAltitude: details?.altitude || ''
+      }
+    });
   };
 
   const renderStars = (rating: number) => {
@@ -656,7 +653,7 @@ const TourDetailsScreen = () => {
               <Text style={styles.bookButtonText}>Booking...</Text>
             </View>
           ) : (
-            <Text style={styles.bookButtonText}>Book This Tour</Text>
+            <Text style={styles.bookButtonText}>Next</Text>
           )}
         </TouchableOpacity>
       </View>

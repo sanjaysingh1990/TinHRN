@@ -12,13 +12,15 @@ export class CustomizeTourViewModel {
   private _customizationData: CustomizeTourData | null = null;
   private _isLoading: boolean = false;
   private _selection: CustomizationSelection = {
-    selectedDate: null,
+    startDate: null,
+    endDate: null,
     selectedTent: null,
     selectedAddOns: [],
     totalPrice: 0
   };
   private _bookingLoading: boolean = false;
   private _updateCallback: (() => void) | null = null;
+  private _tourId: string = '';
 
   constructor(
     @inject(CustomizeTourRepositoryToken) 
@@ -27,6 +29,10 @@ export class CustomizeTourViewModel {
 
   setUpdateCallback(callback: () => void): void {
     this._updateCallback = callback;
+  }
+
+  setTourId(tourId: string): void {
+    this._tourId = tourId;
   }
 
   private notifyUpdate(): void {
@@ -69,10 +75,23 @@ export class CustomizeTourViewModel {
     }
   }
 
-  selectDate(date: Date): void {
-    this._selection.selectedDate = date;
+  selectStartDate(date: Date): void {
+    this._selection.startDate = date;
+    // If end date is before start date, reset end date
+    if (this._selection.endDate && this._selection.endDate < date) {
+      this._selection.endDate = null;
+    }
     this.calculateTotalPrice();
     this.notifyUpdate();
+  }
+
+  selectEndDate(date: Date): void {
+    // Only allow end date to be set if start date is already selected
+    if (this._selection.startDate && date >= this._selection.startDate) {
+      this._selection.endDate = date;
+      this.calculateTotalPrice();
+      this.notifyUpdate();
+    }
   }
 
   selectTent(tent: TentOption): void {
@@ -116,9 +135,18 @@ export class CustomizeTourViewModel {
   private calculateTotalPrice(): void {
     let total = 0;
 
-    // Add tent price (assuming 1 night for now)
+    // Calculate number of nights
+    let nights = 1;
+    if (this._selection.startDate && this._selection.endDate) {
+      const timeDiff = this._selection.endDate.getTime() - this._selection.startDate.getTime();
+      nights = Math.ceil(timeDiff / (1000 * 3600 * 24));
+      // Ensure at least 1 night
+      nights = Math.max(1, nights);
+    }
+
+    // Add tent price for number of nights
     if (this._selection.selectedTent) {
-      total += this._selection.selectedTent.pricePerNight;
+      total += this._selection.selectedTent.pricePerNight * nights;
     }
 
     // Add selected add-ons
@@ -130,7 +158,7 @@ export class CustomizeTourViewModel {
   }
 
   async saveCustomization(): Promise<{ success: boolean; customizationId: string }> {
-    if (!this._selection.selectedDate || !this._selection.selectedTent) {
+    if (!this._selection.startDate || !this._selection.selectedTent) {
       throw new Error('Please select a date and tent before saving');
     }
 
@@ -144,14 +172,18 @@ export class CustomizeTourViewModel {
   }
 
   async bookTour(): Promise<{ success: boolean; bookingId: string }> {
-    if (!this._selection.selectedDate || !this._selection.selectedTent) {
+    if (!this._selection.startDate || !this._selection.selectedTent) {
       throw new Error('Please select a date and tent before booking');
+    }
+
+    if (!this._tourId) {
+      throw new Error('Tour ID is required for booking');
     }
 
     this._bookingLoading = true;
     this.notifyUpdate();
     try {
-      const result = await this.repository.bookTour(this._selection);
+      const result = await this.repository.bookTour(this._tourId, this._selection);
       return result;
     } catch (error) {
       console.error('Error booking tour:', error);
@@ -163,12 +195,13 @@ export class CustomizeTourViewModel {
   }
 
   isSelectionComplete(): boolean {
-    return this._selection.selectedDate !== null && this._selection.selectedTent !== null;
+    return this._selection.startDate !== null && this._selection.selectedTent !== null;
   }
 
   resetSelection(): void {
     this._selection = {
-      selectedDate: null,
+      startDate: null,
+      endDate: null,
       selectedTent: null,
       selectedAddOns: [],
       totalPrice: 0

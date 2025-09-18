@@ -1,5 +1,5 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
     Alert,
@@ -28,6 +28,14 @@ const { width } = Dimensions.get('window');
 
 const CustomizeTourScreen: React.FC = () => {
   const router = useRouter();
+  const { 
+    tourId, 
+    tourName, 
+    tourImage, 
+    tourDuration, 
+    tourDifficulty, 
+    tourAltitude 
+  } = useLocalSearchParams();
   const { colors, isDarkMode } = useTheme();
   const [customizeTourViewModel] = useState(() => 
     container.resolve<CustomizeTourViewModel>(CustomizeTourViewModelToken)
@@ -43,8 +51,13 @@ const CustomizeTourScreen: React.FC = () => {
       setForceUpdate(prev => prev + 1);
     });
     
+    // Set tour ID in ViewModel
+    if (tourId) {
+      customizeTourViewModel.setTourId(tourId as string);
+    }
+    
     loadData();
-  }, []);;
+  }, []);
 
   const loadData = async () => {
     setLoading(true);
@@ -66,8 +79,8 @@ const CustomizeTourScreen: React.FC = () => {
     try {
       const result = await customizeTourViewModel.bookTour();
       if (result.success) {
-        // Navigate to booking confirmation with bookingId
-        router.push(`/booking-confirmation?bookingId=${result.bookingId}`);
+        // Navigate to the Bookings tab in the Home screen
+        router.replace('/(tabs)/bookings');
       }
     } catch (error) {
       Alert.alert('Error', 'Failed to book tour. Please try again.');
@@ -114,9 +127,12 @@ const CustomizeTourScreen: React.FC = () => {
         const isAvailable = data.availableDates.some(
           availableDate => availableDate.toDateString() === date.toDateString()
         );
-        const isSelected = customizeTourViewModel.selection.selectedDate?.toDateString() === date.toDateString();
+        const isStartDate = customizeTourViewModel.selection.startDate?.toDateString() === date.toDateString();
+        const isEndDate = customizeTourViewModel.selection.endDate?.toDateString() === date.toDateString();
+        const isInSelectedRange = customizeTourViewModel.selection.startDate && customizeTourViewModel.selection.endDate &&
+          date > customizeTourViewModel.selection.startDate && date < customizeTourViewModel.selection.endDate;
         
-        days.push({ day, date, isAvailable, isSelected });
+        days.push({ day, date, isAvailable, isStartDate, isEndDate, isInSelectedRange });
       }
       
       return days;
@@ -184,8 +200,14 @@ const CustomizeTourScreen: React.FC = () => {
       availableDay: {
         backgroundColor: 'transparent',
       },
-      selectedDay: {
+      startDate: {
         backgroundColor: colors.primary,
+      },
+      endDate: {
+        backgroundColor: colors.primary,
+      },
+      inRange: {
+        backgroundColor: colors.primary + '40',
       },
       unavailableDay: {
         backgroundColor: 'transparent',
@@ -201,6 +223,9 @@ const CustomizeTourScreen: React.FC = () => {
       },
       selectedDayText: {
         color: isDarkMode ? '#111714' : '#ffffff',
+      },
+      inRangeDayText: {
+        color: colors.text,
       },
       unavailableDayText: {
         color: colors.secondary,
@@ -249,32 +274,46 @@ const CustomizeTourScreen: React.FC = () => {
               return <View key={index} style={styles.dayCell} />;
             }
 
-            const { day, date, isAvailable, isSelected } = dayData;
+            const { day, date, isAvailable, isStartDate, isEndDate, isInSelectedRange } = dayData;
+            
+            let dayCellStyle = styles.availableDay;
+            let dayTextStyle = styles.availableDayText;
+            
+            if (isStartDate || isEndDate) {
+              dayCellStyle = styles.startDate; // Both start and end use the same style
+              dayTextStyle = styles.selectedDayText;
+            } else if (isInSelectedRange) {
+              dayCellStyle = styles.inRange;
+              dayTextStyle = styles.inRangeDayText;
+            } else if (!isAvailable) {
+              dayCellStyle = styles.unavailableDay;
+              dayTextStyle = styles.unavailableDayText;
+            }
             
             return (
               <TouchableOpacity
                 key={index}
-                style={[
-                  styles.dayCell,
-                  isSelected 
-                    ? styles.selectedDay 
-                    : isAvailable 
-                      ? styles.availableDay 
-                      : styles.unavailableDay
-                ]}
+                style={[styles.dayCell, dayCellStyle]}
                 disabled={!isAvailable}
-                onPress={() => isAvailable && customizeTourViewModel.selectDate(date)}
+                onPress={() => {
+                  if (!isAvailable) return;
+                  
+                  // If no start date selected, set as start date
+                  if (!customizeTourViewModel.selection.startDate) {
+                    customizeTourViewModel.selectStartDate(date);
+                  } 
+                  // If start date is selected but no end date, set as end date (if after start)
+                  else if (!customizeTourViewModel.selection.endDate && date >= customizeTourViewModel.selection.startDate) {
+                    customizeTourViewModel.selectEndDate(date);
+                  } 
+                  // If both dates selected, reset and set as new start date
+                  else if (customizeTourViewModel.selection.startDate && customizeTourViewModel.selection.endDate) {
+                    customizeTourViewModel.selectStartDate(date);
+                    customizeTourViewModel.selectEndDate(null as any); // Reset end date
+                  }
+                }}
               >
-                <Text 
-                  style={[
-                    styles.dayText,
-                    isSelected 
-                      ? styles.selectedDayText 
-                      : isAvailable 
-                        ? styles.availableDayText 
-                        : styles.unavailableDayText
-                  ]}
-                >
+                <Text style={[styles.dayText, dayTextStyle]}>
                   {day}
                 </Text>
               </TouchableOpacity>
@@ -644,7 +683,7 @@ const CustomizeTourScreen: React.FC = () => {
           disabled={!customizeTourViewModel.isSelectionComplete() || customizeTourViewModel.isBookingLoading}
         >
           <Text style={mainStyles.continueButtonText}>
-            {customizeTourViewModel.isBookingLoading ? 'Booking...' : 'Continue'}
+            {customizeTourViewModel.isBookingLoading ? 'Booking...' : 'Book your tour'}
           </Text>
         </TouchableOpacity>
       </View>

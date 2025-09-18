@@ -1,4 +1,6 @@
+import { addDoc, collection, doc, getFirestore, serverTimestamp, setDoc } from 'firebase/firestore';
 import { injectable } from 'tsyringe';
+import { firestore } from '../../../../infrastructure/firebase/firebase.config';
 import {
     AddOn,
     CustomizationSelection,
@@ -33,14 +35,83 @@ export class CustomizeTourRepository implements ICustomizeTourRepository {
     };
   }
 
-  async bookTour(selection: CustomizationSelection): Promise<{ success: boolean; bookingId: string }> {
-    // Simulate 3-second API call delay
-    await new Promise(resolve => setTimeout(resolve, 3000));
-    
-    return {
-      success: true,
-      bookingId: `booking_${Date.now()}`
-    };
+  async bookTour(tourId: string, selection: CustomizationSelection): Promise<{ success: boolean; bookingId: string }> {
+    try {
+      // Create booking document in Firestore
+      const bookingsCollection = collection(firestore, 'bookings');
+      
+      // Generate a unique booking reference
+      const bookingReference = 'THB-' + Math.random().toString(36).substr(2, 8).toUpperCase();
+      
+      // Calculate duration
+      let duration = '1 Night';
+      if (selection.startDate && selection.endDate) {
+        const timeDiff = selection.endDate.getTime() - selection.startDate.getTime();
+        const days = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        duration = `${days} Days`;
+      }
+      
+      // Calculate total amount
+      let totalAmount = 0;
+      let nights = 1;
+      if (selection.startDate && selection.endDate) {
+        const timeDiff = selection.endDate.getTime() - selection.startDate.getTime();
+        nights = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        nights = Math.max(1, nights);
+      }
+      
+      if (selection.selectedTent) {
+        totalAmount += selection.selectedTent.pricePerNight * nights;
+      }
+      selection.selectedAddOns.forEach(addOn => {
+        totalAmount += addOn.price;
+      });
+      
+      // Create booking document
+      const bookingDoc = await addDoc(bookingsCollection, {
+        userId: 'current-user-id', // This should be replaced with actual user ID
+        tourId: tourId,
+        tourName: 'Tour Name', // This should be replaced with actual tour name
+        bookingReference: bookingReference,
+        startDate: selection.startDate || new Date(),
+        endDate: selection.endDate || new Date(),
+        duration: duration,
+        status: 'confirmed',
+        totalAmount: totalAmount,
+        currency: 'USD',
+        packageType: 'standard',
+        travelers: 1,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+        payment: {
+          method: 'credit_card',
+          status: 'completed',
+          transactionId: 'txn_' + Math.random().toString(36).substr(2, 10)
+        },
+        customisation: {
+          tentType: selection.selectedTent ? {
+            type: selection.selectedTent.name,
+            price: selection.selectedTent.pricePerNight
+          } : {
+            type: '',
+            price: 0
+          },
+          addons: selection.selectedAddOns.map(addOn => ({
+            addonName: addOn.name,
+            addonDescription: addOn.description,
+            addOnPrice: addOn.price
+          }))
+        }
+      });
+      
+      return {
+        success: true,
+        bookingId: bookingDoc.id
+      };
+    } catch (error) {
+      console.error('Error creating booking:', error);
+      throw error;
+    }
   }
 
   private generateAvailableDates(): Date[] {

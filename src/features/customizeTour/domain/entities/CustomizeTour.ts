@@ -35,7 +35,8 @@ export interface SupportOption {
 }
 
 export interface CustomizationSelection {
-  selectedDate: Date | null;
+  startDate: Date | null;
+  endDate: Date | null;
   selectedTent: TentOption | null;
   selectedAddOns: AddOn[];
   totalPrice: number;

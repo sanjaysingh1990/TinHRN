@@ -3,5 +3,5 @@ import { CustomizationSelection, CustomizeTourData } from '../entities/Customize
 export interface ICustomizeTourRepository {
   getCustomizationData(): Promise<CustomizeTourData>;
   saveCustomization(selection: CustomizationSelection): Promise<{ success: boolean; customizationId: string }>;
-  bookTour(selection: CustomizationSelection): Promise<{ success: boolean; bookingId: string }>;
+  bookTour(tourId: string, selection: CustomizationSelection): Promise<{ success: boolean; bookingId: string }>;
 }
