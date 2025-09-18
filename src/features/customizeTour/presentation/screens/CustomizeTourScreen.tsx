@@ -53,9 +53,17 @@ const CustomizeTourScreen: React.FC = () => {
       setForceUpdate(prev => prev + 1);
     });
     
-    // Set tour ID in ViewModel
+    // Set tour ID, tour name, and tour image in ViewModel
     if (tourId) {
       customizeTourViewModel.setTourId(tourId as string);
+    }
+    
+    if (tourName) {
+      customizeTourViewModel.setTourName(tourName as string);
+    }
+    
+    if (tourImage) {
+      customizeTourViewModel.setTourImage(tourImage as string);
     }
     
     // Parse bestTime data

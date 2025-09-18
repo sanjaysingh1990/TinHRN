@@ -1,5 +1,5 @@
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
-import { injectable } from 'tsyringe';
+import { addDoc, collection, doc, serverTimestamp, updateDoc } from 'firebase/firestore';
+import { inject, injectable } from 'tsyringe';
 import { firestore } from '../../../../infrastructure/firebase/firebase.config';
 import {
   AddOn,
@@ -9,9 +9,15 @@ import {
   TentOption
 } from '../../domain/entities/CustomizeTour';
 import { ICustomizeTourRepository } from '../../domain/repositories/ICustomizeTourRepository';
+import { AuthRepositoryToken } from '../../../../features/auth/auth.di';
+import { IAuthRepository } from '../../../../features/auth/domain/repositories/IAuthRepository';
 
 @injectable()
 export class CustomizeTourRepository implements ICustomizeTourRepository {
+  
+  constructor(
+    @inject(AuthRepositoryToken) private authRepository: IAuthRepository
+  ) {}
   
   async getCustomizationData(): Promise<CustomizeTourData> {
     // Simulate 2-second API delay
@@ -35,8 +41,12 @@ export class CustomizeTourRepository implements ICustomizeTourRepository {
     };
   }
 
-  async bookTour(tourId: string, selection: CustomizationSelection): Promise<{ success: boolean; bookingId: string }> {
+  async bookTour(tourId: string, tourName: string, tourImage: string, selection: CustomizationSelection): Promise<{ success: boolean; bookingId: string }> {
     try {
+      // Get current user ID
+      const currentUser = await this.authRepository.getCurrentUser();
+      const userId = currentUser?.id || 'unknown-user';
+      
       // Create booking document in Firestore
       const bookingsCollection = collection(firestore, 'bookings');
       
@@ -69,9 +79,10 @@ export class CustomizeTourRepository implements ICustomizeTourRepository {
       
       // Create booking document
       const bookingDoc = await addDoc(bookingsCollection, {
-        userId: 'current-user-id', // This should be replaced with actual user ID
-        tourId: tourId,
-        tourName: 'Tour Name', // This should be replaced with actual tour name
+        userId: userId, // Use actual user ID
+        tourId: tourId, // Use actual tour ID
+        tourName: tourName, // Set tourName to the actual tour name from Tour Details screen
+        tourImage: tourImage, // Set tourImage to the actual tour image from Tour Details screen
         bookingReference: bookingReference,
         startDate: selection.startDate || new Date(),
         endDate: selection.endDate || new Date(),
@@ -102,6 +113,11 @@ export class CustomizeTourRepository implements ICustomizeTourRepository {
             addOnPrice: addOn.price
           }))
         }
+      });
+      
+      // As per requirements, add bookingId inside the document using the created document ID
+      await updateDoc(doc(firestore, 'bookings', bookingDoc.id), {
+        bookingId: bookingDoc.id
       });
       
       return {

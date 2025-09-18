@@ -21,6 +21,8 @@ export class CustomizeTourViewModel {
   private _bookingLoading: boolean = false;
   private _updateCallback: (() => void) | null = null;
   private _tourId: string = '';
+  private _tourName: string = '';
+  private _tourImage: string = '';
 
   constructor(
     @inject(CustomizeTourRepositoryToken) 
@@ -33,6 +35,14 @@ export class CustomizeTourViewModel {
 
   setTourId(tourId: string): void {
     this._tourId = tourId;
+  }
+
+  setTourName(tourName: string): void {
+    this._tourName = tourName;
+  }
+
+  setTourImage(tourImage: string): void {
+    this._tourImage = tourImage;
   }
 
   private notifyUpdate(): void {
@@ -180,10 +190,18 @@ export class CustomizeTourViewModel {
       throw new Error('Tour ID is required for booking');
     }
 
+    if (!this._tourName) {
+      throw new Error('Tour name is required for booking');
+    }
+
+    if (!this._tourImage) {
+      throw new Error('Tour image is required for booking');
+    }
+
     this._bookingLoading = true;
     this.notifyUpdate();
     try {
-      const result = await this.repository.bookTour(this._tourId, this._selection);
+      const result = await this.repository.bookTour(this._tourId, this._tourName, this._tourImage, this._selection);
       return result;
     } catch (error) {
       console.error('Error booking tour:', error);
