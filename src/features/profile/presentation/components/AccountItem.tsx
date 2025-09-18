@@ -1,4 +1,3 @@
-
 import { MaterialIcons } from '@expo/vector-icons';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
@@ -8,9 +7,10 @@ interface AccountItemProps {
   icon: string;
   title: string;
   onPress: () => void;
+  noBorder?: boolean;
 }
 
-const AccountItem: React.FC<AccountItemProps> = ({ icon, title, onPress }) => {
+const AccountItem: React.FC<AccountItemProps> = ({ icon, title, onPress, noBorder = false }) => {
   const { colors } = useTheme();
   
   const styles = StyleSheet.create({
@@ -18,7 +18,7 @@ const AccountItem: React.FC<AccountItemProps> = ({ icon, title, onPress }) => {
       flexDirection: 'row',
       alignItems: 'center',
       paddingVertical: 15,
-      borderBottomWidth: 1,
+      borderBottomWidth: noBorder ? 0 : 1,
       borderBottomColor: colors.borderColor,
     },
     title: {

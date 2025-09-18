@@ -275,7 +275,7 @@ const ProfileScreen = () => {
                 </View>
                 <AccountItem icon="person-outline" title="Personal Info" onPress={() => {}} />
                 <AccountItem icon="history" title="Booking History" onPress={() => {}} />
-                <AccountItem icon="payment" title="Payment Methods" onPress={() => {}} />
+                <AccountItem icon="payment" title="Payment Methods" onPress={() => {}} noBorder />
               </View>
 
               <View style={styles.card}>
@@ -294,7 +294,7 @@ const ProfileScreen = () => {
                   value={isDarkMode}
                   onValueChange={toggleDarkMode}
                 />
-                <AccountItem icon="language" title="Language" onPress={() => bottomSheetRef.current?.snapToIndex(0)} />
+                <AccountItem icon="language" title="Language" onPress={() => bottomSheetRef.current?.snapToIndex(0)} noBorder />
               </View>
 
               <View style={styles.card}>
@@ -303,7 +303,7 @@ const ProfileScreen = () => {
                 </View>
                 <AccountItem icon="info-outline" title="About Us" onPress={() => router.push('/about-us')} />
                 <AccountItem icon="help-outline" title="FAQ" onPress={() => router.push('/faq')} />
-                <AccountItem icon="description" title="Terms and Conditions" onPress={handleTermsAndConditions} />
+                <AccountItem icon="description" title="Terms and Conditions" onPress={handleTermsAndConditions} noBorder />
               </View>
 
             <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>

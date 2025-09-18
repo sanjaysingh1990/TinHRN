@@ -1,4 +1,3 @@
-
 import { MaterialIcons } from '@expo/vector-icons';
 import React from 'react';
 import { StyleSheet, Switch, Text, View } from 'react-native';
@@ -9,9 +8,10 @@ interface PreferenceItemProps {
   title: string;
   value: boolean;
   onValueChange: (value: boolean) => void;
+  noBorder?: boolean;
 }
 
-const PreferenceItem: React.FC<PreferenceItemProps> = ({ icon, title, value, onValueChange }) => {
+const PreferenceItem: React.FC<PreferenceItemProps> = ({ icon, title, value, onValueChange, noBorder = false }) => {
   const { colors, isDarkMode } = useTheme();
   
   const styles = StyleSheet.create({
@@ -19,7 +19,7 @@ const PreferenceItem: React.FC<PreferenceItemProps> = ({ icon, title, value, onV
       flexDirection: 'row',
       alignItems: 'center',
       paddingVertical: 15,
-      borderBottomWidth: 1,
+      borderBottomWidth: noBorder ? 0 : 1,
       borderBottomColor: colors.borderColor,
     },
     title: {
