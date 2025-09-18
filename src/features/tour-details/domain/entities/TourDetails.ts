@@ -32,6 +32,7 @@ export interface TourDetails {
   highlights: string[];
   includes: string[];
   excludes: string[];
+  bestTime: string[];
   image: string;
   duration: string;
   difficulty: string;

@@ -71,6 +71,7 @@ export class TourDetailsRepository implements ITourDetailsRepository {
         highlights: tourData.highlights || [],
         includes: tourData.includes || [],
         excludes: tourData.excludes || [],
+        bestTime: tourData.bestTime || [],
         image: tourData.image || '',
         duration: tourData.duration || '',
         difficulty: tourData.difficulty || '',

@@ -557,6 +557,9 @@ const TourDetailsScreen = () => {
             {/* Excludes Section */}
             {renderChips(details?.excludes || [], 'Excludes')}
 
+            {/* Best Time Section */}
+            {renderChips(details?.bestTime || [], 'Best Time')}
+
             {/* Itinerary Section */}
             <View style={styles.card}>
               <View style={styles.sectionHeader}>
