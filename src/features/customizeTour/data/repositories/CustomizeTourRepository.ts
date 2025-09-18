@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, getFirestore, serverTimestamp, setDoc } from 'firebase/firestore';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { injectable } from 'tsyringe';
 import { firestore } from '../../../../infrastructure/firebase/firebase.config';
 import {
