@@ -1,4 +1,3 @@
-
 import { MaterialIcons } from '@expo/vector-icons';
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -12,6 +11,11 @@ interface BookingCardProps {
 const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
   const { colors, isDarkMode } = useTheme();
   const isUpcoming = booking.type === 'upcoming';
+
+  // Format date range
+  const formatDateRange = (start: Date, end: Date) => {
+    return `${start.toLocaleDateString()} - ${end.toLocaleDateString()}`;
+  };
 
   const styles = StyleSheet.create({
     card: {
@@ -50,6 +54,12 @@ const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
       fontSize: 14,
       color: colors.secondary,
     },
+    status: {
+      fontSize: 12,
+      fontWeight: 'bold',
+      color: booking.status === 'confirmed' ? 'green' : colors.secondary,
+      marginTop: 3,
+    },
     actions: {
       flexDirection: 'column',
       alignItems: 'flex-start',
@@ -73,11 +83,12 @@ const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
 
   return (
     <View style={[styles.card, !isUpcoming && styles.pastCard]}>
-      <Image source={{ uri: booking.imageUrl }} style={styles.image} />
+      <Image source={{ uri: booking.tourImage }} style={styles.image} />
       <View style={styles.info}>
         <Text style={styles.vendor}>{booking.vendor}</Text>
-        <Text style={styles.title}>{booking.title}</Text>
-        <Text style={styles.date}>{booking.dateRange}</Text>
+        <Text style={styles.title}>{booking.tourName}</Text>
+        <Text style={styles.date}>{formatDateRange(booking.startDate, booking.endDate)}</Text>
+        <Text style={styles.status}>{booking.status}</Text>
         <View style={styles.actions}>
           {isUpcoming ? (
             <>

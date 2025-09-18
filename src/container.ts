@@ -1,4 +1,3 @@
-
 import "reflect-metadata";
 import { container } from "tsyringe";
 import { AuthRepositoryToken, GetCurrentUserUseCaseToken, LoginUseCaseToken, LoginViewModelToken, LogoutUseCaseToken, SendPasswordResetEmailUseCaseToken, SignupUseCaseToken, SignupViewModelToken } from "./features/auth/auth.di";
@@ -39,9 +38,10 @@ import { ProfileViewModel } from "./features/profile/presentation/viewmodels/Pro
 import { AboutUsViewModelToken, FaqViewModelToken, GetAchievementsUseCaseToken, GetFaqListUseCaseToken, GetFavoritesUseCaseToken, GetUserProfileUseCaseToken, ProfileRepositoryToken, ProfileViewModelToken } from "./features/profile/profile.di";
 
 import { MyBookingsRepository } from "./features/mybookings/data/repositories/MyBookingsRepository";
+import { GetAllBookingsUseCase } from "./features/mybookings/domain/usecases/GetAllBookingsUseCase";
 import { GetPastBookingsUseCase } from "./features/mybookings/domain/usecases/GetPastBookingsUseCase";
 import { GetUpcomingBookingsUseCase } from "./features/mybookings/domain/usecases/GetUpcomingBookingsUseCase";
-import { GetPastBookingsUseCaseToken, GetUpcomingBookingsUseCaseToken, MyBookingsRepositoryToken, MyBookingsViewModelToken } from "./features/mybookings/mybookings.di";
+import { GetAllBookingsUseCaseToken, GetPastBookingsUseCaseToken, GetUpcomingBookingsUseCaseToken, MyBookingsRepositoryToken, MyBookingsViewModelToken } from "./features/mybookings/mybookings.di";
 import { MyBookingsViewModel } from "./features/mybookings/presentation/viewmodels/MyBookingsViewModel";
 
 import { NotificationsRepository } from "./features/notifications/data/repositories/NotificationsRepository";
@@ -101,6 +101,7 @@ container.register(FaqViewModelToken, { useClass: FaqViewModel });
 container.register(MyBookingsRepositoryToken, { useClass: MyBookingsRepository });
 container.register(GetUpcomingBookingsUseCaseToken, { useClass: GetUpcomingBookingsUseCase });
 container.register(GetPastBookingsUseCaseToken, { useClass: GetPastBookingsUseCase });
+container.register(GetAllBookingsUseCaseToken, { useClass: GetAllBookingsUseCase });
 container.register(MyBookingsViewModelToken, { useClass: MyBookingsViewModel });
 
 container.register(NotificationsRepositoryToken, { useClass: NotificationsRepository });

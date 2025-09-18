@@ -1,4 +1,3 @@
-
 import { injectable, inject } from 'tsyringe';
 import { IMyBookingsRepository } from '../repositories/IMyBookingsRepository';
 import { MyBookingsRepositoryToken } from '../../mybookings.di';
@@ -10,7 +9,7 @@ export class GetUpcomingBookingsUseCase {
     @inject(MyBookingsRepositoryToken) private myBookingsRepository: IMyBookingsRepository
   ) {}
 
-  execute(): Promise<Booking[]> {
-    return this.myBookingsRepository.getUpcomingBookings();
+  async execute(pageSize?: number, lastDoc?: any): Promise<{ bookings: Booking[]; lastDoc?: any }> {
+    return await this.myBookingsRepository.getUpcomingBookings(pageSize, lastDoc);
   }
 }
