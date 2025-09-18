@@ -2,16 +2,16 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
-    Dimensions,
-    FlatList,
-    Image,
-    SafeAreaView,
-    ScrollView,
-    StatusBar,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Dimensions,
+  FlatList,
+  Image,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import container from '../../../../container';
 import { useTheme } from '../../../../hooks/useTheme';
@@ -123,7 +123,10 @@ const GalleryScreen: React.FC = () => {
       <View style={styles.categoryOverlay} />
       <View style={styles.categoryTextContainer}>
         <Text style={[styles.categoryText, { color: '#FFFFFF' }]}>{item.name}</Text>
-        <Text style={[styles.categoryCount, { color: '#F5F5F5' }]}>{item.postsCount} posts</Text>
+        <View style={styles.categoryCountContainer}>
+          <MaterialIcons name="collections" size={12} color="#F5F5F5" />
+          <Text style={[styles.categoryCount, { color: '#F5F5F5' }]}> {item.postsCount}</Text>
+        </View>
       </View>
     </TouchableOpacity>
   );
@@ -324,10 +327,14 @@ const GalleryScreen: React.FC = () => {
       right: 0,
       padding: 12,
     },
+    categoryCountContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginTop: 4,
+    },
     categoryText: {
       fontSize: 16,
       fontWeight: 'bold',
-      marginBottom: 4,
       fontFamily: 'SplineSans',
     },
     categoryCount: {
