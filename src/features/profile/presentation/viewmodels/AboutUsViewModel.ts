@@ -1,8 +1,8 @@
 import { inject, injectable } from 'tsyringe';
+import { AboutUs } from '../../domain/models/AboutUs';
 import { TeamMember } from '../../domain/models/TeamMember';
 import { IProfileRepository } from '../../domain/repositories/IProfileRepository';
 import { ProfileRepositoryToken } from '../../profile.di';
-import { AboutUs } from '../../domain/models/AboutUs';
 
 @injectable()
 export class AboutUsViewModel {

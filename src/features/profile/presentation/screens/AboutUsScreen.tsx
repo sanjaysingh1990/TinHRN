@@ -4,14 +4,14 @@ import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useRef, useState } from 'react';
 import {
-    FlatList,
-    Image,
-    SafeAreaView,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  FlatList,
+  Image,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import container from '../../../../container';
@@ -19,11 +19,11 @@ import { useI18n } from '../../../../hooks/useI18n';
 import { useTheme } from '../../../../hooks/useTheme';
 import { TeamMember } from '../../domain/models/TeamMember';
 import { AboutUsViewModelToken } from '../../profile.di';
+import AboutUsShimmer from '../components/AboutUsShimmer';
 import TeamMemberBottomSheet from '../components/TeamMemberBottomSheet';
 import TeamMemberCard from '../components/TeamMemberCard';
 import TeamMemberShimmer from '../components/TeamMemberShimmer';
 import { AboutUsViewModel } from '../viewmodels/AboutUsViewModel';
-import AboutUsShimmer from '../components/AboutUsShimmer';
 
 const AboutUsScreen: React.FC = () => {
   const router = useRouter();
