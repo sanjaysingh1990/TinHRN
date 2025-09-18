@@ -2,25 +2,25 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
-  Alert,
-  Dimensions,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
+    Alert,
+    Dimensions,
+    SafeAreaView,
+    ScrollView,
+    StatusBar,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
 } from 'react-native';
 import container from '../../../../container';
 import { useTheme } from '../../../../hooks/useTheme';
 import { CustomizeTourViewModelToken } from '../../data/di/tokens';
 import { AddOn, SupportOption, TentOption } from '../../domain/entities/CustomizeTour';
 import {
-  AddOnsShimmer,
-  CalendarShimmer,
-  SupportCardsShimmer,
-  TentOptionsShimmer,
+    AddOnsShimmer,
+    CalendarShimmer,
+    SupportCardsShimmer,
+    TentOptionsShimmer,
 } from '../components/CustomizeTourShimmers';
 import { CustomizeTourViewModel } from '../viewmodels/CustomizeTourViewModel';
 
