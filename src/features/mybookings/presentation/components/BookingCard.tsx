@@ -12,9 +12,12 @@ const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
   const { colors, isDarkMode } = useTheme();
   const isUpcoming = booking.type === 'upcoming';
 
-  // Format date range
+  // Format date range like "2 jun 25 - 5 jun 25"
   const formatDateRange = (start: Date, end: Date) => {
-    return `${start.toLocaleDateString()} - ${end.toLocaleDateString()}`;
+    const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'short', year: '2-digit' };
+    const startDate = start.toLocaleDateString('en-GB', options).replace(/ /g, ' ').toLowerCase();
+    const endDate = end.toLocaleDateString('en-GB', options).replace(/ /g, ' ').toLowerCase();
+    return `${startDate} - ${endDate}`;
   };
 
   const styles = StyleSheet.create({
@@ -59,6 +62,8 @@ const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
       fontWeight: 'bold',
       color: booking.status === 'confirmed' ? 'green' : colors.secondary,
       marginTop: 3,
+      textTransform: 'uppercase', // Display status in ALL CAPS
+      // Removed rounded borders styling
     },
     actions: {
       flexDirection: 'column',
@@ -71,7 +76,7 @@ const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
       backgroundColor: colors.primary,
       paddingVertical: 8,
       paddingHorizontal: 12,
-      borderRadius: 20,
+      borderRadius: 4, // Keep little rounded corners
       marginBottom: 10,
     },
     buttonText: {

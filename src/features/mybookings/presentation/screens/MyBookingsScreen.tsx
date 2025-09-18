@@ -1,3 +1,4 @@
+import { MaterialIcons } from '@expo/vector-icons';
 import React, { useEffect, useState } from 'react';
 import {
   SectionList,
@@ -15,7 +16,6 @@ import { MyBookingsViewModelToken } from '../../mybookings.di';
 import BookingCard from '../components/BookingCard';
 import ShimmerBookingCard from '../components/ShimmerBookingCard';
 import { MyBookingsViewModel } from '../viewmodels/MyBookingsViewModel';
-
 
 const MyBookingsScreen = () => {
   const { colors, isDarkMode } = useTheme();
@@ -36,16 +36,16 @@ const MyBookingsScreen = () => {
     try {
       const viewModel = container.resolve<MyBookingsViewModel>(MyBookingsViewModelToken);
       const [upcomingResult, pastResult] = await Promise.all([
-        viewModel.getUpcomingBookings(10),
-        viewModel.getPastBookings(10)
+        viewModel.getUpcomingBookings(5),
+        viewModel.getPastBookings(5)
       ]);
       
       setUpcomingBookings(upcomingResult.bookings);
       setPastBookings(pastResult.bookings);
       setUpcomingLastDoc(upcomingResult.lastDoc);
       setPastLastDoc(pastResult.lastDoc);
-      setHasMoreUpcoming(upcomingResult.bookings.length === 10);
-      setHasMorePast(pastResult.bookings.length === 10);
+      setHasMoreUpcoming(upcomingResult.bookings.length === 5);
+      setHasMorePast(pastResult.bookings.length === 5);
     } catch (error) {
       console.error('Error loading bookings:', error);
     } finally {
@@ -58,11 +58,11 @@ const MyBookingsScreen = () => {
     
     try {
       const viewModel = container.resolve<MyBookingsViewModel>(MyBookingsViewModelToken);
-      const result = await viewModel.getUpcomingBookings(10, upcomingLastDoc);
+      const result = await viewModel.getUpcomingBookings(5, upcomingLastDoc);
       
       setUpcomingBookings(prev => [...prev, ...result.bookings]);
       setUpcomingLastDoc(result.lastDoc);
-      setHasMoreUpcoming(result.bookings.length === 10);
+      setHasMoreUpcoming(result.bookings.length === 5);
     } catch (error) {
       console.error('Error loading more upcoming bookings:', error);
     }
@@ -73,29 +73,30 @@ const MyBookingsScreen = () => {
     
     try {
       const viewModel = container.resolve<MyBookingsViewModel>(MyBookingsViewModelToken);
-      const result = await viewModel.getPastBookings(10, pastLastDoc);
+      const result = await viewModel.getPastBookings(5, pastLastDoc);
       
       setPastBookings(prev => [...prev, ...result.bookings]);
       setPastLastDoc(result.lastDoc);
-      setHasMorePast(result.bookings.length === 10);
+      setHasMorePast(result.bookings.length === 5);
     } catch (error) {
       console.error('Error loading more past bookings:', error);
     }
   };
 
+  // Filter out empty sections
   const sections = [
-    {
+    ...(upcomingBookings.length > 0 ? [{
       title: 'Upcoming',
       data: upcomingBookings,
       loadMore: loadMoreUpcoming,
       hasMore: hasMoreUpcoming
-    },
-    {
+    }] : []),
+    ...(pastBookings.length > 0 ? [{
       title: 'Past',
       data: pastBookings,
       loadMore: loadMorePast,
       hasMore: hasMorePast
-    },
+    }] : []),
   ];
 
   const renderSectionHeader = ({ section }: { section: any }) => (
@@ -120,6 +121,17 @@ const MyBookingsScreen = () => {
     </View>
   );
 
+  const renderEmptyView = () => (
+    <View style={styles.emptyContainer}>
+      <MaterialIcons 
+        name="event-busy" 
+        size={64} 
+        color={colors.secondary} 
+      />
+      <Text style={[styles.emptyText, { color: colors.text }]}>No data found</Text>
+    </View>
+  );
+
   return (
     <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.background }]}>
       <StatusBar barStyle={isDarkMode ? "light-content" : "dark-content"} />
@@ -128,7 +140,7 @@ const MyBookingsScreen = () => {
       </View>
       {loading ? (
         renderShimmerItems()
-      ) : (
+      ) : sections.length > 0 ? (
         <SectionList
           sections={sections}
           renderItem={renderBookingItem}
@@ -139,6 +151,8 @@ const MyBookingsScreen = () => {
           onRefresh={loadBookings}
           refreshing={loading}
         />
+      ) : (
+        renderEmptyView()
       )}
     </SafeAreaView>
   );
@@ -175,6 +189,17 @@ const styles = StyleSheet.create({
   },
   loadMoreText: {
     fontWeight: 'bold',
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 100,
+  },
+  emptyText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginTop: 16,
   },
 });
 

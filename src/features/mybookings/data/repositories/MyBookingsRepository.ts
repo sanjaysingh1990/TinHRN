@@ -12,7 +12,7 @@ export class MyBookingsRepository implements IMyBookingsRepository {
     @inject(AuthRepositoryToken) private authRepository: IAuthRepository
   ) {}
 
-  async getUpcomingBookings(pageSize: number = 10, lastDoc?: any): Promise<{ bookings: Booking[]; lastDoc?: any }> {
+  async getUpcomingBookings(pageSize: number = 5, lastDoc?: any): Promise<{ bookings: Booking[]; lastDoc?: any }> {
     try {
       // Get current user ID
       const currentUser = await this.authRepository.getCurrentUser();
@@ -68,7 +68,7 @@ export class MyBookingsRepository implements IMyBookingsRepository {
     }
   }
 
-  async getPastBookings(pageSize: number = 10, lastDoc?: any): Promise<{ bookings: Booking[]; lastDoc?: any }> {
+  async getPastBookings(pageSize: number = 5, lastDoc?: any): Promise<{ bookings: Booking[]; lastDoc?: any }> {
     try {
       // Get current user ID
       const currentUser = await this.authRepository.getCurrentUser();
