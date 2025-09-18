@@ -387,6 +387,15 @@ const TourDetailsScreen = () => {
     });
   };
 
+  const onReviewPress = () => {
+    router.push({
+      pathname: '/add-review',
+      params: { 
+        tourId: id as string
+      }
+    });
+  };
+
   const renderStars = (rating: number) => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
@@ -640,7 +649,9 @@ const TourDetailsScreen = () => {
           <MaterialIcons name="arrow-back" size={24} color="#fff" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Tour Details</Text>
-        <View style={styles.headerButton} />
+        <TouchableOpacity onPress={onReviewPress} style={styles.headerButton}>
+          <MaterialIcons name="rate-review" size={24} color="#fff" />
+        </TouchableOpacity>
       </View>
 
       {/* Sticky Footer Button */}

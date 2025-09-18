@@ -63,6 +63,11 @@ import { CustomizeTourRepositoryToken, CustomizeTourViewModelToken } from "./fea
 import { CustomizeTourRepository } from "./features/customizeTour/data/repositories/CustomizeTourRepository";
 import { CustomizeTourViewModel } from "./features/customizeTour/presentation/viewmodels/CustomizeTourViewModel";
 
+// AddReview module dependencies
+import { ReviewRepository } from "./features/addreview/data/repositories/ReviewRepository";
+import { AddReviewScreenViewModel } from "./features/addreview/presentation/viewmodels/AddReviewScreenViewModel";
+import { ReviewRepositoryToken, AddReviewScreenViewModelToken } from "./features/addreview/addreview.di";
+
 
 container.register(SampleRepositoryToken, {
   useClass: SampleRepository,
@@ -121,6 +126,10 @@ container.register(GalleryViewModelToken, { useClass: GalleryViewModel });
 
 container.register(CustomizeTourRepositoryToken, { useClass: CustomizeTourRepository });
 container.register(CustomizeTourViewModelToken, { useClass: CustomizeTourViewModel });
+
+// AddReview module dependencies registration
+container.register(ReviewRepositoryToken, { useClass: ReviewRepository });
+container.register(AddReviewScreenViewModelToken, { useClass: AddReviewScreenViewModel });
 
 
 export default container;
