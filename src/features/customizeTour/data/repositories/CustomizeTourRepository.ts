@@ -2,11 +2,11 @@ import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { injectable } from 'tsyringe';
 import { firestore } from '../../../../infrastructure/firebase/firebase.config';
 import {
-    AddOn,
-    CustomizationSelection,
-    CustomizeTourData,
-    SupportOption,
-    TentOption
+  AddOn,
+  CustomizationSelection,
+  CustomizeTourData,
+  SupportOption,
+  TentOption
 } from '../../domain/entities/CustomizeTour';
 import { ICustomizeTourRepository } from '../../domain/repositories/ICustomizeTourRepository';
 
@@ -18,7 +18,7 @@ export class CustomizeTourRepository implements ICustomizeTourRepository {
     await new Promise(resolve => setTimeout(resolve, 2000));
     
     return {
-      availableDates: this.generateAvailableDates(),
+      availableDates: [], // No longer generating random dates
       tentOptions: this.getDummyTentOptions(),
       addOns: this.getDummyAddOns(),
       supportOptions: this.getSupportOptions()
@@ -112,31 +112,6 @@ export class CustomizeTourRepository implements ICustomizeTourRepository {
       console.error('Error creating booking:', error);
       throw error;
     }
-  }
-
-  private generateAvailableDates(): Date[] {
-    const dates: Date[] = [];
-    const today = new Date();
-    
-    // Generate 4-5 random future dates within next 30 days
-    const randomCount = 4 + Math.floor(Math.random() * 2); // 4 or 5 dates
-    const usedDays = new Set<number>();
-    
-    while (dates.length < randomCount) {
-      const randomDay = 1 + Math.floor(Math.random() * 30); // 1-30 days from today
-      
-      if (!usedDays.has(randomDay)) {
-        usedDays.add(randomDay);
-        const date = new Date(today);
-        date.setDate(today.getDate() + randomDay);
-        dates.push(date);
-      }
-    }
-    
-    // Sort dates chronologically
-    dates.sort((a, b) => a.getTime() - b.getTime());
-    
-    return dates;
   }
 
   private getDummyTentOptions(): TentOption[] {

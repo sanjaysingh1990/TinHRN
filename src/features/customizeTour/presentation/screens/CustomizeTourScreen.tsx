@@ -34,7 +34,8 @@ const CustomizeTourScreen: React.FC = () => {
     tourImage, 
     tourDuration, 
     tourDifficulty, 
-    tourAltitude 
+    tourAltitude,
+    bestTime
   } = useLocalSearchParams();
   const { colors, isDarkMode } = useTheme();
   const [customizeTourViewModel] = useState(() => 
@@ -44,6 +45,7 @@ const CustomizeTourScreen: React.FC = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [saving, setSaving] = useState(false);
   const [forceUpdate, setForceUpdate] = useState(0);
+  const [bestTimeMonths, setBestTimeMonths] = useState<string[]>([]);
 
   useEffect(() => {
     // Set up the update callback for ViewModel
@@ -54,6 +56,17 @@ const CustomizeTourScreen: React.FC = () => {
     // Set tour ID in ViewModel
     if (tourId) {
       customizeTourViewModel.setTourId(tourId as string);
+    }
+    
+    // Parse bestTime data
+    if (bestTime) {
+      try {
+        const parsedBestTime = JSON.parse(bestTime as string);
+        setBestTimeMonths(parsedBestTime);
+      } catch (e) {
+        console.error('Error parsing bestTime:', e);
+        setBestTimeMonths([]);
+      }
     }
     
     loadData();
@@ -106,6 +119,10 @@ const CustomizeTourScreen: React.FC = () => {
       'July', 'August', 'September', 'October', 'November', 'December'
     ];
 
+    // Check if current month is in bestTimeMonths
+    const isCurrentMonthAvailable = bestTimeMonths.length === 0 || 
+      bestTimeMonths.includes(monthNames[currentMonth.getMonth()]);
+
     const getDaysInMonth = (date: Date) => {
       const year = date.getFullYear();
       const month = date.getMonth();
@@ -124,9 +141,8 @@ const CustomizeTourScreen: React.FC = () => {
       // Add days of the month
       for (let day = 1; day <= daysInMonth; day++) {
         const date = new Date(year, month, day);
-        const isAvailable = data.availableDates.some(
-          availableDate => availableDate.toDateString() === date.toDateString()
-        );
+        // All days are available now, but selection is restricted by month
+        const isAvailable = isCurrentMonthAvailable;
         const isStartDate = customizeTourViewModel.selection.startDate?.toDateString() === date.toDateString();
         const isEndDate = customizeTourViewModel.selection.endDate?.toDateString() === date.toDateString();
         const isInSelectedRange = customizeTourViewModel.selection.startDate && customizeTourViewModel.selection.endDate &&
@@ -261,6 +277,17 @@ const CustomizeTourScreen: React.FC = () => {
             <MaterialIcons name="chevron-right" size={24} color={isDarkMode ? '#111714' : '#ffffff'} />
           </TouchableOpacity>
         </View>
+
+        {!isCurrentMonthAvailable && bestTimeMonths.length > 0 && (
+          <Text style={{ 
+            color: colors.secondary, 
+            textAlign: 'center', 
+            marginBottom: 10,
+            fontStyle: 'italic'
+          }}>
+            This month is not recommended for this tour. Best months: {bestTimeMonths.join(', ')}
+          </Text>
+        )}
 
         <View style={styles.weekDaysRow}>
           {weekDays.map((day, index) => (

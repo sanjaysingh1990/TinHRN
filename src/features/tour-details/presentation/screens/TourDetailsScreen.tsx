@@ -25,6 +25,294 @@ import { TourDetailsViewModel } from '../viewmodels/TourDetailsViewModel';
 
 const { width } = Dimensions.get('window');
 
+// Move styles outside the component to ensure they're defined before use
+const getStyles = (colors: any, isDarkMode: boolean) => StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.background,
+  },
+  scrollView: {
+    flex: 1,
+  },
+  scrollContent: {
+    paddingBottom: 100, // Space for the sticky footer
+  },
+  headerContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingTop: StatusBar.currentHeight,
+    paddingHorizontal: 16,
+    height: 60 + (StatusBar.currentHeight || 0),
+  },
+  headerButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  headerTitle: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  heroImage: {
+    width: '100%',
+    height: 360,
+  },
+  content: {
+    padding: 16,
+  },
+  card: {
+    backgroundColor: colors.cardBackgroundColor,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: colors.borderColor,
+    borderStyle: 'dashed',
+    padding: 20,
+    marginBottom: 24,
+    alignItems: 'center',
+  },
+  badge: {
+    position: 'absolute',
+    top: -14,
+    backgroundColor: colors.primary,
+    borderRadius: 14,
+    paddingVertical: 4,
+    paddingHorizontal: 12,
+  },
+  badgeText: {
+    color: isDarkMode ? '#111714' : '#fff',
+    fontWeight: 'bold',
+    fontSize: 12,
+  },
+  cardTitle: {
+    color: colors.text,
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginTop: 16,
+  },
+  cardSubtitle: {
+    color: colors.secondary,
+    fontSize: 14,
+    marginTop: 4,
+    marginBottom: 16,
+  },
+  cardBody: {
+    color: colors.secondary,
+    fontSize: 16,
+    lineHeight: 24,
+    textAlign: 'center',
+  },
+  chipsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    width: '100%',
+  },
+  chip: {
+    backgroundColor: colors.primary + '20',
+    borderRadius: 16,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    margin: 4,
+  },
+  chipText: {
+    color: colors.primary,
+    fontSize: 14,
+  },
+  itineraryItem: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    width: '100%',
+    marginBottom: 16,
+    position: 'relative',
+  },
+  itineraryMarker: {
+    alignItems: 'center',
+    marginRight: 16,
+    position: 'relative',
+    zIndex: 1,
+  },
+  itineraryIconContainer: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: colors.primary,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 2,
+  },
+  itineraryLine: {
+    position: 'absolute',
+    top: 32,
+    left: 15,
+    width: 2,
+    height: 120,
+    backgroundColor: colors.borderColor,
+  },
+  itineraryContent: {
+    flex: 1,
+  },
+  itineraryDay: {
+    color: colors.secondary,
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
+  itineraryTitle: {
+    color: colors.text,
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginTop: 4,
+  },
+  itineraryDetail: {
+    color: colors.secondary,
+    fontSize: 14,
+    marginTop: 2,
+  },
+  pricingRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.borderColor,
+  },
+  pricingLabel: {
+    color: colors.text,
+    fontSize: 16,
+  },
+  pricingValue: {
+    color: colors.text,
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  reviewItem: {
+    flexDirection: 'row',
+    width: '100%',
+    marginBottom: 20,
+  },
+  reviewAvatar: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    marginRight: 16,
+  },
+  reviewContent: {
+    flex: 1,
+  },
+  reviewHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 4,
+  },
+  reviewName: {
+    color: colors.text,
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  reviewDate: {
+    color: colors.secondary,
+    fontSize: 12,
+  },
+  reviewStars: {
+    flexDirection: 'row',
+    marginBottom: 8,
+  },
+  reviewText: {
+    color: colors.secondary,
+    fontSize: 14,
+    lineHeight: 20,
+  },
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    marginBottom: 16,
+  },
+  sectionTitle: {
+    color: colors.text,
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  seeMoreButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  seeMoreText: {
+    color: colors.primary,
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginRight: 4,
+  },
+  footer: {
+    position: 'absolute',
+    bottom: 50,
+    left: 16,
+    right: 16,
+    backgroundColor: isDarkMode ? 'rgba(17, 23, 20, 0.8)' : 'rgba(255, 255, 255, 0.8)',
+  },
+  bookButton: {
+    backgroundColor: colors.primary,
+    borderRadius: 12,
+    paddingVertical: 16,
+    alignItems: 'center',
+  },
+  bookButtonLoading: {
+    opacity: 0.7,
+  },
+  buttonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  loadingIcon: {
+    marginRight: 8,
+  },
+  bookButtonText: {
+    color: isDarkMode ? '#111714' : '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: colors.background,
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.borderColor,
+  },
+  modalTitle: {
+    color: colors.text,
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  modalContent: {
+    flex: 1,
+    padding: 16,
+  },
+  loadMoreButton: {
+    padding: 16,
+    alignItems: 'center',
+  },
+  loadMoreText: {
+    color: colors.primary,
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+});
+
 const TourDetailsScreen = () => {
   const router = useRouter();
   const { colors, isDarkMode } = useTheme();
@@ -93,7 +381,8 @@ const TourDetailsScreen = () => {
         tourImage: image as string,
         tourDuration: details?.duration || '',
         tourDifficulty: details?.difficulty || '',
-        tourAltitude: details?.altitude || ''
+        tourAltitude: details?.altitude || '',
+        bestTime: details?.bestTime ? JSON.stringify(details.bestTime) : '[]'
       }
     });
   };
@@ -231,292 +520,8 @@ const TourDetailsScreen = () => {
     </Modal>
   );
 
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: colors.background,
-    },
-    scrollView: {
-      flex: 1,
-    },
-    scrollContent: {
-      paddingBottom: 100, // Space for the sticky footer
-    },
-    headerContainer: {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      paddingTop: StatusBar.currentHeight,
-      paddingHorizontal: 16,
-      height: 60 + (StatusBar.currentHeight || 0),
-    },
-    headerButton: {
-      width: 40,
-      height: 40,
-      borderRadius: 20,
-      backgroundColor: 'rgba(0,0,0,0.3)',
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    headerTitle: {
-      color: '#fff',
-      fontSize: 18,
-      fontWeight: 'bold',
-    },
-    heroImage: {
-      width: '100%',
-      height: 360,
-    },
-    content: {
-      padding: 16,
-    },
-    card: {
-      backgroundColor: colors.cardBackgroundColor,
-      borderRadius: 16,
-      borderWidth: 1,
-      borderColor: colors.borderColor,
-      borderStyle: 'dashed',
-      padding: 20,
-      marginBottom: 24,
-      alignItems: 'center',
-    },
-    badge: {
-      position: 'absolute',
-      top: -14,
-      backgroundColor: colors.primary,
-      borderRadius: 14,
-      paddingVertical: 4,
-      paddingHorizontal: 12,
-    },
-    badgeText: {
-      color: isDarkMode ? '#111714' : '#fff',
-      fontWeight: 'bold',
-      fontSize: 12,
-    },
-    cardTitle: {
-      color: colors.text,
-      fontSize: 24,
-      fontWeight: 'bold',
-      marginTop: 16,
-    },
-    cardSubtitle: {
-      color: colors.secondary,
-      fontSize: 14,
-      marginTop: 4,
-      marginBottom: 16,
-    },
-    cardBody: {
-      color: colors.secondary,
-      fontSize: 16,
-      lineHeight: 24,
-      textAlign: 'center',
-    },
-    chipsContainer: {
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      justifyContent: 'center',
-      width: '100%',
-    },
-    chip: {
-      backgroundColor: colors.primary + '20',
-      borderRadius: 16,
-      paddingVertical: 6,
-      paddingHorizontal: 12,
-      margin: 4,
-    },
-    chipText: {
-      color: colors.primary,
-      fontSize: 14,
-    },
-    itineraryItem: {
-      flexDirection: 'row',
-      alignItems: 'flex-start',
-      width: '100%',
-      marginBottom: 16,
-      position: 'relative',
-    },
-    itineraryMarker: {
-      alignItems: 'center',
-      marginRight: 16,
-      position: 'relative',
-      zIndex: 1,
-    },
-    itineraryIconContainer: {
-      width: 32,
-      height: 32,
-      borderRadius: 16,
-      backgroundColor: colors.primary,
-      justifyContent: 'center',
-      alignItems: 'center',
-      zIndex: 2,
-    },
-    itineraryLine: {
-      position: 'absolute',
-      top: 32,
-      left: 15,
-      width: 2,
-      height: 120,
-      backgroundColor: colors.borderColor,
-    },
-    itineraryContent: {
-      flex: 1,
-    },
-    itineraryDay: {
-      color: colors.secondary,
-      fontSize: 12,
-      fontWeight: 'bold',
-    },
-    itineraryTitle: {
-      color: colors.text,
-      fontSize: 16,
-      fontWeight: 'bold',
-      marginTop: 4,
-    },
-    itineraryDetail: {
-      color: colors.secondary,
-      fontSize: 14,
-      marginTop: 2,
-    },
-    pricingRow: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      width: '100%',
-      paddingVertical: 12,
-      borderBottomWidth: 1,
-      borderBottomColor: colors.borderColor,
-    },
-    pricingLabel: {
-      color: colors.text,
-      fontSize: 16,
-    },
-    pricingValue: {
-      color: colors.text,
-      fontSize: 16,
-      fontWeight: 'bold',
-    },
-    reviewItem: {
-      flexDirection: 'row',
-      width: '100%',
-      marginBottom: 20,
-    },
-    reviewAvatar: {
-      width: 48,
-      height: 48,
-      borderRadius: 24,
-      marginRight: 16,
-    },
-    reviewContent: {
-      flex: 1,
-    },
-    reviewHeader: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      marginBottom: 4,
-    },
-    reviewName: {
-      color: colors.text,
-      fontWeight: 'bold',
-      fontSize: 16,
-    },
-    reviewDate: {
-      color: colors.secondary,
-      fontSize: 12,
-    },
-    reviewStars: {
-      flexDirection: 'row',
-      marginBottom: 8,
-    },
-    reviewText: {
-      color: colors.secondary,
-      fontSize: 14,
-      lineHeight: 20,
-    },
-    sectionHeader: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      width: '100%',
-      marginBottom: 16,
-    },
-    sectionTitle: {
-      color: colors.text,
-      fontSize: 20,
-      fontWeight: 'bold',
-    },
-    seeMoreButton: {
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
-    seeMoreText: {
-      color: colors.primary,
-      fontSize: 14,
-      fontWeight: 'bold',
-      marginRight: 4,
-    },
-    footer: {
-      position: 'absolute',
-      bottom: 50,
-      left: 16,
-      right: 16,
-      backgroundColor: isDarkMode ? 'rgba(17, 23, 20, 0.8)' : 'rgba(255, 255, 255, 0.8)',
-    },
-    bookButton: {
-      backgroundColor: colors.primary,
-      borderRadius: 12,
-      paddingVertical: 16,
-      alignItems: 'center',
-    },
-    bookButtonLoading: {
-      opacity: 0.7,
-    },
-    buttonContent: {
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
-    loadingIcon: {
-      marginRight: 8,
-    },
-    bookButtonText: {
-      color: isDarkMode ? '#111714' : '#fff',
-      fontSize: 18,
-      fontWeight: 'bold',
-    },
-    modalContainer: {
-      flex: 1,
-      backgroundColor: colors.background,
-    },
-    modalHeader: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      padding: 16,
-      borderBottomWidth: 1,
-      borderBottomColor: colors.borderColor,
-    },
-    modalTitle: {
-      color: colors.text,
-      fontSize: 20,
-      fontWeight: 'bold',
-    },
-    modalContent: {
-      flex: 1,
-      padding: 16,
-    },
-    loadMoreButton: {
-      padding: 16,
-      alignItems: 'center',
-    },
-    loadMoreText: {
-      color: colors.primary,
-      fontSize: 16,
-      fontWeight: 'bold',
-    },
-  });
+  // Get styles with current theme
+  const styles = getStyles(colors, isDarkMode);
 
   return (
     <View style={styles.container}>
@@ -635,9 +640,7 @@ const TourDetailsScreen = () => {
           <MaterialIcons name="arrow-back" size={24} color="#fff" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Tour Details</Text>
-        <TouchableOpacity onPress={onSettingsPress} style={styles.headerButton}>
-          <MaterialIcons name="settings" size={24} color="#fff" />
-        </TouchableOpacity>
+        <View style={styles.headerButton} />
       </View>
 
       {/* Sticky Footer Button */}
