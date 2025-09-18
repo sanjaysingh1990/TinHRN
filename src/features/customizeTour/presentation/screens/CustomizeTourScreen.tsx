@@ -131,6 +131,10 @@ const CustomizeTourScreen: React.FC = () => {
       const daysInMonth = lastDay.getDate();
       const startDayOfWeek = firstDay.getDay();
 
+      // Get today's date for comparison (set to start of day for accurate comparison)
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
       const days = [];
       
       // Add empty cells for days before the first day of month
@@ -141,14 +145,16 @@ const CustomizeTourScreen: React.FC = () => {
       // Add days of the month
       for (let day = 1; day <= daysInMonth; day++) {
         const date = new Date(year, month, day);
-        // All days are available now, but selection is restricted by month
-        const isAvailable = isCurrentMonthAvailable;
+        // Check if date is in the past
+        const isPastDate = date < today;
+        // All days are available now, but selection is restricted by month and past dates
+        const isAvailable = isCurrentMonthAvailable && !isPastDate;
         const isStartDate = customizeTourViewModel.selection.startDate?.toDateString() === date.toDateString();
         const isEndDate = customizeTourViewModel.selection.endDate?.toDateString() === date.toDateString();
         const isInSelectedRange = customizeTourViewModel.selection.startDate && customizeTourViewModel.selection.endDate &&
           date > customizeTourViewModel.selection.startDate && date < customizeTourViewModel.selection.endDate;
         
-        days.push({ day, date, isAvailable, isStartDate, isEndDate, isInSelectedRange });
+        days.push({ day, date, isAvailable, isStartDate, isEndDate, isInSelectedRange, isPastDate });
       }
       
       return days;
@@ -258,6 +264,7 @@ const CustomizeTourScreen: React.FC = () => {
               prevMonth.setMonth(prevMonth.getMonth() - 1);
               setCurrentMonth(prevMonth);
             }}
+            disabled={currentMonth <= new Date(new Date().getFullYear(), new Date().getMonth(), 1)}
           >
             <MaterialIcons name="chevron-left" size={24} color={isDarkMode ? '#111714' : '#ffffff'} />
           </TouchableOpacity>
@@ -301,7 +308,7 @@ const CustomizeTourScreen: React.FC = () => {
               return <View key={index} style={styles.dayCell} />;
             }
 
-            const { day, date, isAvailable, isStartDate, isEndDate, isInSelectedRange } = dayData;
+            const { day, date, isAvailable, isStartDate, isEndDate, isInSelectedRange, isPastDate } = dayData;
             
             let dayCellStyle = styles.availableDay;
             let dayTextStyle = styles.availableDayText;
@@ -313,6 +320,9 @@ const CustomizeTourScreen: React.FC = () => {
               dayCellStyle = styles.inRange;
               dayTextStyle = styles.inRangeDayText;
             } else if (!isAvailable) {
+              dayCellStyle = styles.unavailableDay;
+              dayTextStyle = styles.unavailableDayText;
+            } else if (isPastDate) {
               dayCellStyle = styles.unavailableDay;
               dayTextStyle = styles.unavailableDayText;
             }
