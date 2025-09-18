@@ -1,5 +1,7 @@
 import { addDoc, collection, doc, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { inject, injectable } from 'tsyringe';
+import { AuthRepositoryToken } from '../../../../features/auth/auth.di';
+import { IAuthRepository } from '../../../../features/auth/domain/repositories/IAuthRepository';
 import { firestore } from '../../../../infrastructure/firebase/firebase.config';
 import {
   AddOn,
@@ -9,8 +11,6 @@ import {
   TentOption
 } from '../../domain/entities/CustomizeTour';
 import { ICustomizeTourRepository } from '../../domain/repositories/ICustomizeTourRepository';
-import { AuthRepositoryToken } from '../../../../features/auth/auth.di';
-import { IAuthRepository } from '../../../../features/auth/domain/repositories/IAuthRepository';
 
 @injectable()
 export class CustomizeTourRepository implements ICustomizeTourRepository {
@@ -94,6 +94,7 @@ export class CustomizeTourRepository implements ICustomizeTourRepository {
         travelers: 1,
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
+        vendor: "Tent'in Himalayas",
         payment: {
           method: 'credit_card',
           status: 'completed',
