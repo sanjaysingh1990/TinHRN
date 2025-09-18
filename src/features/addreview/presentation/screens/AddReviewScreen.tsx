@@ -9,7 +9,6 @@ import {
   StyleSheet, 
   SafeAreaView, 
   StatusBar, 
-  Alert,
   Animated,
   Dimensions
 } from 'react-native';
@@ -19,6 +18,103 @@ import { AddReviewScreenViewModel } from '../viewmodels/AddReviewScreenViewModel
 import { AddReviewScreenViewModelToken } from '../../addreview.di';
 import { GetCurrentUserUseCase } from '../../../../features/auth/domain/usecases/GetCurrentUserUseCase';
 import { GetCurrentUserUseCaseToken } from '../../../../features/auth/auth.di';
+
+// Add ErrorToast component
+const ErrorToast: React.FC<{ 
+  message: string; 
+  visible: boolean; 
+  onHide: () => void; 
+  duration?: number;
+}> = ({ 
+  message, 
+  visible, 
+  onHide, 
+  duration = 4000 
+}) => {
+  const { colors, isDarkMode } = useTheme();
+  const fadeAnim = React.useRef(new Animated.Value(0)).current;
+  const translateY = React.useRef(new Animated.Value(-100)).current;
+
+  useEffect(() => {
+    if (visible) {
+      // Show animation
+      Animated.parallel([
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+        Animated.timing(translateY, {
+          toValue: 0,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+      ]).start();
+
+      // Auto hide after duration
+      const timer = setTimeout(() => {
+        hideToast();
+      }, duration);
+
+      return () => clearTimeout(timer);
+    }
+  }, [visible]);
+
+  const hideToast = () => {
+    Animated.parallel([
+      Animated.timing(fadeAnim, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+      Animated.timing(translateY, {
+        toValue: -100,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+    ]).start(() => {
+      onHide();
+    });
+  };
+
+  if (!visible) return null;
+
+  return (
+    <Animated.View
+      style={[
+        {
+          position: 'absolute',
+          top: 60,
+          left: 20,
+          right: 20,
+          padding: 16,
+          borderRadius: 12,
+          borderWidth: 1,
+          zIndex: 1000,
+          elevation: 1000,
+          shadowColor: '#000',
+          shadowOffset: {
+            width: 0,
+            height: 2,
+          },
+          shadowOpacity: 0.25,
+          shadowRadius: 4,
+          backgroundColor: isDarkMode ? '#ff6b6b' : '#ff4757',
+          borderColor: isDarkMode ? '#ff8e8e' : '#ff3838',
+          opacity: fadeAnim,
+          transform: [{ translateY }],
+        },
+      ]}
+    >
+      <Text style={{
+        color: 'white',
+        fontSize: 14,
+        fontWeight: '500',
+        textAlign: 'center',
+      }}>{message}</Text>
+    </Animated.View>
+  );
+};
 
 const { width } = Dimensions.get('window');
 
@@ -31,6 +127,8 @@ const AddReviewScreen: React.FC = () => {
   
   const [user, setUser] = useState<any>(null);
   const [starAnimations] = useState(() => Array(5).fill(0).map(() => new Animated.Value(1)));
+  const [showErrorToast, setShowErrorToast] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   
   useEffect(() => {
     const fetchUser = async () => {
@@ -39,7 +137,8 @@ const AddReviewScreen: React.FC = () => {
         setUser(currentUser);
       } catch (error) {
         console.error('Error fetching user:', error);
-        Alert.alert('Error', 'Failed to fetch user information');
+        setErrorMessage('Failed to fetch user information');
+        setShowErrorToast(true);
       }
     };
     
@@ -47,31 +146,42 @@ const AddReviewScreen: React.FC = () => {
   }, []);
 
   const handleStarPress = (rating: number) => {
-    viewModel.setRating(rating);
+    // Standard star rating behavior:
+    // - Tap a star to select it and all stars before it
+    // - Tap the currently selected star to deselect all stars
+    const newRating = viewModel.rating === rating ? 0 : rating;
+    viewModel.setRating(newRating);
     
-    // Animate the selected star
-    Animated.sequence([
-      Animated.timing(starAnimations[rating - 1], {
-        toValue: 1.2,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-      Animated.timing(starAnimations[rating - 1], {
-        toValue: 1,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-    ]).start();
+    // Reset all animations first
+    starAnimations.forEach(anim => anim.setValue(1));
+    
+    // Animate stars that should be selected
+    for (let i = 0; i < newRating; i++) {
+      Animated.sequence([
+        Animated.timing(starAnimations[i], {
+          toValue: 1.2,
+          duration: 100,
+          useNativeDriver: true,
+        }),
+        Animated.timing(starAnimations[i], {
+          toValue: 1,
+          duration: 100,
+          useNativeDriver: true,
+        }),
+      ]).start();
+    }
   };
 
   const handleSubmit = async () => {
     if (!user) {
-      Alert.alert('Error', 'User not found');
+      setErrorMessage('User not found');
+      setShowErrorToast(true);
       return;
     }
     
     if (!tourId) {
-      Alert.alert('Error', 'Tour ID not found');
+      setErrorMessage('Tour ID not found');
+      setShowErrorToast(true);
       return;
     }
     
@@ -83,11 +193,15 @@ const AddReviewScreen: React.FC = () => {
     );
     
     if (success) {
-      Alert.alert('Success', 'Review submitted successfully', [
-        { text: 'OK', onPress: () => router.back() }
-      ]);
+      // Show success message and navigate back
+      setErrorMessage('Review submitted successfully');
+      setShowErrorToast(true);
+      setTimeout(() => {
+        router.back();
+      }, 1000);
     } else if (viewModel.error) {
-      Alert.alert('Error', viewModel.error);
+      setErrorMessage(viewModel.error);
+      setShowErrorToast(true);
     }
   };
 
@@ -96,6 +210,7 @@ const AddReviewScreen: React.FC = () => {
       <View style={styles.starsContainer}>
         {Array.from({ length: 5 }, (_, index) => {
           const starValue = index + 1;
+          // isSelected should be true if the starValue is less than or equal to the current rating
           const isSelected = starValue <= viewModel.rating;
           
           return (
@@ -134,17 +249,17 @@ const AddReviewScreen: React.FC = () => {
     header: {
       flexDirection: 'row',
       alignItems: 'center',
-      justifyContent: 'center',
+      justifyContent: 'flex-start', // Align items to the left
       paddingHorizontal: 16,
       paddingVertical: 16,
       borderBottomWidth: 1,
       borderBottomColor: colors.borderColor,
       paddingTop: StatusBar.currentHeight,
+      minHeight: 60 + (StatusBar.currentHeight || 0),
     },
     backButton: {
-      position: 'absolute',
-      left: 16,
       padding: 8,
+      marginRight: 16,
     },
     headerTitle: {
       fontSize: 18,
@@ -228,6 +343,13 @@ const AddReviewScreen: React.FC = () => {
       <StatusBar 
         barStyle={isDarkMode ? 'light-content' : 'dark-content'} 
         backgroundColor={colors.background} 
+      />
+      
+      {/* Error Toast */}
+      <ErrorToast 
+        message={errorMessage}
+        visible={showErrorToast}
+        onHide={() => setShowErrorToast(false)}
       />
       
       <View style={styles.container}>
