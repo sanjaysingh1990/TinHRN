@@ -75,6 +75,11 @@ const GalleryScreen: React.FC = () => {
     });
   };
 
+  const handleAddPost = () => {
+    // TODO: Implement add post functionality
+    console.log('Add post button pressed');
+  };
+
   const renderFeaturedPost = () => {
     if (loading) {
       return <FeaturedPostShimmer />;
@@ -368,6 +373,25 @@ const GalleryScreen: React.FC = () => {
       flex: 1,
       fontFamily: 'NotoSans',
     },
+    floatingButton: {
+      position: 'absolute',
+      bottom: 30,
+      right: 30,
+      width: 56,
+      height: 56,
+      borderRadius: 28,
+      backgroundColor: colors.primary,
+      justifyContent: 'center',
+      alignItems: 'center',
+      elevation: 8,
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+    },
   });
 
   return (
@@ -401,6 +425,15 @@ const GalleryScreen: React.FC = () => {
         </View>
         {renderGrid()}
       </ScrollView>
+
+      {/* Floating Plus Button */}
+      <TouchableOpacity 
+        style={styles.floatingButton}
+        onPress={handleAddPost}
+        activeOpacity={0.7}
+      >
+        <MaterialIcons name="add" size={24} color="#FFFFFF" />
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
