@@ -4,12 +4,22 @@ import { useTheme } from '../../../../hooks/useTheme';
 import { TeamMember } from '../../domain/models/TeamMember';
 
 interface TeamMemberCardProps {
-  member: TeamMember;
+  member: TeamMember & { 
+    title?: string; 
+    profilePic?: string; 
+    description?: string;
+  };
   onPress: (member: TeamMember) => void;
 }
 
 const TeamMemberCard: React.FC<TeamMemberCardProps> = ({ member, onPress }) => {
   const { colors } = useTheme();
+
+  // Handle both old and new data structures
+  const name = member.name;
+  const designation = member.designation || member.title || '';
+  const image = member.image || member.profilePic || '';
+  const tagline = member.tagline || '';
 
   const styles = StyleSheet.create({
     container: {
@@ -53,10 +63,10 @@ const TeamMemberCard: React.FC<TeamMemberCardProps> = ({ member, onPress }) => {
 
   return (
     <TouchableOpacity style={styles.container} onPress={() => onPress(member)} activeOpacity={0.7}>
-      <Image source={{ uri: member.image }} style={styles.profileImage} />
-      <Text style={styles.name} numberOfLines={1}>{member.name}</Text>
-      <Text style={styles.designation} numberOfLines={1}>{member.designation}</Text>
-      <Text style={styles.tagline} numberOfLines={2}>{member.tagline}</Text>
+      <Image source={{ uri: image }} style={styles.profileImage} />
+      <Text style={styles.name} numberOfLines={1}>{name}</Text>
+      <Text style={styles.designation} numberOfLines={1}>{designation}</Text>
+      <Text style={styles.tagline} numberOfLines={2}>{tagline}</Text>
     </TouchableOpacity>
   );
 };

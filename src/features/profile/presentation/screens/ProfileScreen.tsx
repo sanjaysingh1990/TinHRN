@@ -109,17 +109,57 @@ const ProfileScreen = () => {
       setUserProfileLoading(false);
     });
     
-    // Load achievements
-    viewModel.getAchievements().then((achievements) => {
-      setAchievements(achievements);
-      setAchievementsLoading(false);
-    });
+    // Load achievements with dummy data
+    setAchievements([
+      {
+        id: 1,
+        title: 'First Booking',
+        icon: 'trophy',
+        color: '#FFD700',
+      },
+      {
+        id: 2,
+        title: 'Adventure Master',
+        icon: 'mountain',
+        color: '#87CEEB',
+      },
+      {
+        id: 3,
+        title: 'Explorer',
+        icon: 'map',
+        color: '#98FB98',
+      },
+      {
+        id: 4,
+        title: 'Eco Warrior',
+        icon: 'leaf',
+        color: '#90EE90',
+      },
+    ]);
+    setAchievementsLoading(false);
     
-    // Load favorites
-    viewModel.getFavorites().then((favorites) => {
-      setFavorites(favorites);
-      setFavoritesLoading(false);
-    });
+    // Load favorites with dummy data
+    setFavorites([
+      {
+        id: 1,
+        title: 'Himalayan Trek',
+        location: 'Manali, Himachal Pradesh',
+        imageUrl: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
+      },
+      {
+        id: 2,
+        title: 'Campfire Nights',
+        location: 'Leh, Ladakh',
+        imageUrl: 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
+      },
+      {
+        id: 3,
+        title: 'River Rafting',
+        location: 'Rishikesh, Uttarakhand',
+        imageUrl: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
+      },
+    ]);
+    setFavoritesLoading(false);
   }, []);
 
   const createStyles = (colors: any) => StyleSheet.create({

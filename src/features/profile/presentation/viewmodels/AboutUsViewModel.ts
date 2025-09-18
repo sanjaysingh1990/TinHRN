@@ -2,6 +2,7 @@ import { inject, injectable } from 'tsyringe';
 import { TeamMember } from '../../domain/models/TeamMember';
 import { IProfileRepository } from '../../domain/repositories/IProfileRepository';
 import { ProfileRepositoryToken } from '../../profile.di';
+import { AboutUs } from '../../domain/models/AboutUs';
 
 @injectable()
 export class AboutUsViewModel {
@@ -15,6 +16,28 @@ export class AboutUsViewModel {
     } catch (error) {
       console.error('Error fetching team members:', error);
       return [];
+    }
+  }
+
+  async getAboutUsData(): Promise<AboutUs> {
+    try {
+      const data = await this.profileRepository.getAboutUsData();
+      console.log('AboutUsViewModel: Data received from repository:', data);
+      return data;
+    } catch (error) {
+      console.error('Error fetching About Us data in ViewModel:', error);
+      // Return a default structure in case of error
+      return {
+        ourMission: {
+          heading: '',
+          description: ''
+        },
+        ourTeam: {
+          heading: '',
+          description: '',
+          members: []
+        }
+      };
     }
   }
 }

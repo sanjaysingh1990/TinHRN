@@ -5,8 +5,14 @@ import { Image, Linking, StyleSheet, Text, TouchableOpacity, View } from 'react-
 import { useTheme } from '../../../../hooks/useTheme';
 import { TeamMember } from '../../domain/models/TeamMember';
 
+interface ExtendedTeamMember extends TeamMember {
+  title?: string;
+  profilePic?: string;
+  description?: string;
+}
+
 interface TeamMemberBottomSheetProps {
-  member: TeamMember | null;
+  member: ExtendedTeamMember | null;
   onClose: () => void;
 }
 
@@ -15,15 +21,25 @@ const TeamMemberBottomSheet = forwardRef<BottomSheet, TeamMemberBottomSheetProps
     const { colors, isDarkMode } = useTheme();
     const snapPoints = useMemo(() => ['50%', '75%'], []);
 
+    if (!member) return null;
+
+    // Handle both old and new data structures
+    const name = member.name;
+    const designation = member.designation || member.title || '';
+    const image = member.image || member.profilePic || '';
+    const tagline = member.tagline || '';
+    const phone = member.phone || '';
+    const email = member.email || '';
+
     const handleCall = () => {
-      if (member?.phone) {
-        Linking.openURL(`tel:${member.phone}`);
+      if (phone) {
+        Linking.openURL(`tel:${phone}`);
       }
     };
 
     const handleEmail = () => {
-      if (member?.email) {
-        Linking.openURL(`mailto:${member.email}`);
+      if (email) {
+        Linking.openURL(`mailto:${email}`);
       }
     };
 
@@ -99,8 +115,6 @@ const TeamMemberBottomSheet = forwardRef<BottomSheet, TeamMemberBottomSheetProps
       },
     });
 
-    if (!member) return null;
-
     return (
       <BottomSheet
         ref={ref}
@@ -116,37 +130,41 @@ const TeamMemberBottomSheet = forwardRef<BottomSheet, TeamMemberBottomSheetProps
         }}
       >
         <BottomSheetView style={styles.content}>
-          <Image source={{ uri: member.image }} style={styles.profileImage} />
-          <Text style={styles.name}>{member.name}</Text>
-          <Text style={styles.designation}>{member.designation}</Text>
-          <Text style={styles.tagline}>{member.tagline}</Text>
+          <Image source={{ uri: image }} style={styles.profileImage} />
+          <Text style={styles.name}>{name}</Text>
+          <Text style={styles.designation}>{designation}</Text>
+          <Text style={styles.tagline}>{tagline}</Text>
           
           <View style={styles.contactContainer}>
-            <TouchableOpacity style={styles.contactButton} onPress={handleCall}>
-              <MaterialIcons 
-                name="phone" 
-                size={24} 
-                color={colors.primary} 
-                style={styles.contactIcon}
-              />
-              <View style={styles.contactInfo}>
-                <Text style={styles.contactLabel}>Phone</Text>
-                <Text style={styles.contactValue}>{member.phone}</Text>
-              </View>
-            </TouchableOpacity>
+            {phone && (
+              <TouchableOpacity style={styles.contactButton} onPress={handleCall}>
+                <MaterialIcons 
+                  name="phone" 
+                  size={24} 
+                  color={colors.primary} 
+                  style={styles.contactIcon}
+                />
+                <View style={styles.contactInfo}>
+                  <Text style={styles.contactLabel}>Phone</Text>
+                  <Text style={styles.contactValue}>{phone}</Text>
+                </View>
+              </TouchableOpacity>
+            )}
             
-            <TouchableOpacity style={styles.contactButton} onPress={handleEmail}>
-              <MaterialIcons 
-                name="email" 
-                size={24} 
-                color={colors.primary} 
-                style={styles.contactIcon}
-              />
-              <View style={styles.contactInfo}>
-                <Text style={styles.contactLabel}>Email</Text>
-                <Text style={styles.contactValue}>{member.email}</Text>
-              </View>
-            </TouchableOpacity>
+            {email && (
+              <TouchableOpacity style={styles.contactButton} onPress={handleEmail}>
+                <MaterialIcons 
+                  name="email" 
+                  size={24} 
+                  color={colors.primary} 
+                  style={styles.contactIcon}
+                />
+                <View style={styles.contactInfo}>
+                  <Text style={styles.contactLabel}>Email</Text>
+                  <Text style={styles.contactValue}>{email}</Text>
+                </View>
+              </TouchableOpacity>
+            )}
           </View>
         </BottomSheetView>
       </BottomSheet>

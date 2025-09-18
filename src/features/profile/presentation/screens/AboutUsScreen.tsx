@@ -23,31 +23,67 @@ import TeamMemberBottomSheet from '../components/TeamMemberBottomSheet';
 import TeamMemberCard from '../components/TeamMemberCard';
 import TeamMemberShimmer from '../components/TeamMemberShimmer';
 import { AboutUsViewModel } from '../viewmodels/AboutUsViewModel';
+import AboutUsShimmer from '../components/AboutUsShimmer';
 
 const AboutUsScreen: React.FC = () => {
   const router = useRouter();
   const { colors, isDarkMode } = useTheme();
   const { t } = useI18n();
-  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
-  const [isLoadingTeam, setIsLoadingTeam] = useState(true);
+  const [aboutUsData, setAboutUsData] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
   const bottomSheetRef = useRef<BottomSheet>(null);
 
   const aboutUsViewModel = container.resolve<AboutUsViewModel>(AboutUsViewModelToken);
 
   useEffect(() => {
-    loadTeamMembers();
+    loadAboutUsData();
   }, []);
 
-  const loadTeamMembers = async () => {
-    setIsLoadingTeam(true);
+  const loadAboutUsData = async () => {
+    setIsLoading(true);
     try {
-      const members = await aboutUsViewModel.getTeamMembers();
-      setTeamMembers(members);
+      console.log('Fetching About Us data...');
+      const data = await aboutUsViewModel.getAboutUsData();
+      console.log('About Us Data received in screen:', data); // Debug log
+      
+      // Check if we received valid data
+      if (data) {
+        setAboutUsData(data);
+      } else {
+        console.log('No data received from view model, using empty data');
+        setAboutUsData({
+          ourMission: {
+            heading: '',
+            description: ''
+          },
+          ourTeam: {
+            heading: '',
+            description: '',
+            members: []
+          }
+        });
+      }
+      
+      // Add a small delay to ensure UI updates properly
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 300);
     } catch (error) {
-      console.error('Error loading team members:', error);
-    } finally {
-      setIsLoadingTeam(false);
+      console.error('Error loading About Us data:', error);
+      // Set default empty data on error
+      setAboutUsData({
+        ourMission: {
+          heading: '',
+          description: ''
+        },
+        ourTeam: {
+          heading: '',
+          description: '',
+          members: []
+        }
+      });
+      setIsLoading(false);
     }
   };
 
@@ -60,8 +96,20 @@ const AboutUsScreen: React.FC = () => {
     setSelectedMember(null);
   };
 
-  const renderTeamMember = ({ item }: { item: TeamMember }) => (
-    <TeamMemberCard member={item} onPress={handleTeamMemberPress} />
+  const renderTeamMember = ({ item }: { item: any }) => (
+    // Convert the new TeamMember structure to the old one for compatibility
+    <TeamMemberCard 
+      member={{
+        id: item.id,
+        name: item.name,
+        designation: item.title,
+        tagline: item.tagline,
+        phone: item.phone,
+        email: item.email,
+        image: item.profilePic
+      }} 
+      onPress={handleTeamMemberPress} 
+    />
   );
 
   const renderTeamShimmer = ({ index }: { index: number }) => (
@@ -207,40 +255,60 @@ const AboutUsScreen: React.FC = () => {
           <View style={styles.heroGradientOverlay} />
         </View>
 
-        {/* Our Mission Section */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>{t('aboutUs.missionTitle')}</Text>
-          <Text style={styles.sectionText}>{t('aboutUs.missionText')}</Text>
-        </View>
+        {isLoading ? (
+          <AboutUsShimmer />
+        ) : (
+          <>
+            {/* Our Mission Section */}
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>
+                {aboutUsData?.ourMission?.heading || t('aboutUs.missionTitle')}
+              </Text>
+              <Text style={styles.sectionText}>
+                {aboutUsData?.ourMission?.description || t('aboutUs.missionText')}
+              </Text>
+            </View>
 
-        {/* Our Team Section */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>{t('aboutUs.teamTitle')}</Text>
-          <Text style={styles.sectionText}>{t('aboutUs.teamText')}</Text>
-          
-          {/* Team Members Horizontal List */}
-          <View style={styles.teamContainer}>
-            {isLoadingTeam ? (
-              <FlatList
-                data={Array.from({ length: 5 }, (_, i) => i)}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                renderItem={renderTeamShimmer}
-                keyExtractor={(_, index) => `shimmer-${index}`}
-                contentContainerStyle={styles.teamList}
-              />
-            ) : (
-              <FlatList
-                data={teamMembers}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                renderItem={renderTeamMember}
-                keyExtractor={(item) => item.id}
-                contentContainerStyle={styles.teamList}
-              />
-            )}
-          </View>
-        </View>
+            {/* Our Team Section */}
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>
+                {aboutUsData?.ourTeam?.heading || t('aboutUs.teamTitle')}
+              </Text>
+              <Text style={styles.sectionText}>
+                {aboutUsData?.ourTeam?.description || t('aboutUs.teamText')}
+              </Text>
+              
+              {/* Team Members Horizontal List */}
+              <View style={styles.teamContainer}>
+                {aboutUsData?.ourTeam?.members && aboutUsData.ourTeam.members.length > 0 ? (
+                  <FlatList
+                    data={aboutUsData.ourTeam.members}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    renderItem={renderTeamMember}
+                    keyExtractor={(item) => item.id}
+                    contentContainerStyle={styles.teamList}
+                  />
+                ) : !isLoading ? (
+                  <Text style={[styles.sectionText, { fontStyle: 'italic' }]}>
+                    {t('aboutUs.noTeamMembers')}
+                  </Text>
+                ) : null}
+                
+                {isLoading && (
+                  <FlatList
+                    data={Array.from({ length: 5 }, (_, i) => i)}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    renderItem={renderTeamShimmer}
+                    keyExtractor={(_, index) => `shimmer-${index}`}
+                    contentContainerStyle={styles.teamList}
+                  />
+                )}
+              </View>
+            </View>
+          </>
+        )}
       </ScrollView>
 
       {/* Team Member Bottom Sheet */}

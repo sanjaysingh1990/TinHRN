@@ -1,96 +1,29 @@
-
 import { collection, doc, getDoc, getDocs, getFirestore } from 'firebase/firestore';
 import { container, injectable } from 'tsyringe';
 import { AuthRepositoryToken } from '../../../auth/auth.di';
 import { IAuthRepository } from '../../../auth/domain/repositories/IAuthRepository';
+import { AboutUs } from '../../domain/models/AboutUs';
 import { Achievement } from '../../domain/models/Achievement';
 import { Faq } from '../../domain/models/Faq';
 import { Favorite } from '../../domain/models/Favorite';
 import { TeamMember } from '../../domain/models/TeamMember';
 import { IProfileRepository } from '../../domain/repositories/IProfileRepository';
 
-const dummyAchievements: Achievement[] = [
-  { id: 1, title: 'First Trek', icon: 'hiking', color: 'yellow' },
-  { id: 2, title: 'Campfire Pro', icon: 'local_fire_department', color: 'orange' },
-  { id: 3, title: 'Peak Bagger', icon: 'area_chart', color: 'cyan' },
-  { id: 4, title: 'Photo Master', icon: 'photo_camera', color: 'gray', locked: true },
-];
-
-const dummyFavorites: Favorite[] = [
-  {
-    id: 1,
-    title: 'Valley of Flowers',
-    location: 'Uttarakhand, India',
-    imageUrl: 'https://images.unsplash.com/photo-1542395975-16a58c6b68f7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  },
-  {
-    id: 2,
-    title: 'Tawang Monastery',
-    location: 'Arunachal Pradesh, India',
-    imageUrl: 'https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  },
-];
-
-const dummyTeamMembers: TeamMember[] = [
-  {
-    id: '1',
-    name: 'Arjun Sharma',
-    designation: 'Lead Trek Guide',
-    tagline: 'Passionate mountain explorer with 10+ years experience',
-    phone: '+91 98765 43210',
-    email: 'arjun@tentinhimalayas.com',
-    image: 'https://randomuser.me/api/portraits/men/32.jpg',
-  },
-  {
-    id: '2',
-    name: 'Priya Kumari',
-    designation: 'Operations Manager',
-    tagline: 'Ensuring seamless adventures for every traveler',
-    phone: '+91 98765 43211',
-    email: 'priya@tentinhimalayas.com',
-    image: 'https://randomuser.me/api/portraits/women/44.jpg',
-  },
-  {
-    id: '3',
-    name: 'Rohit Singh',
-    designation: 'Safety & Equipment Specialist',
-    tagline: 'Your safety is our top priority in the mountains',
-    phone: '+91 98765 43212',
-    email: 'rohit@tentinhimalayas.com',
-    image: 'https://randomuser.me/api/portraits/men/45.jpg',
-  },
-  {
-    id: '4',
-    name: 'Anjali Patel',
-    designation: 'Cultural Experience Coordinator',
-    tagline: 'Connecting travelers with authentic local experiences',
-    phone: '+91 98765 43213',
-    email: 'anjali@tentinhimalayas.com',
-    image: 'https://randomuser.me/api/portraits/women/68.jpg',
-  },
-  {
-    id: '5',
-    name: 'Vikram Thapa',
-    designation: 'Photography & Documentation',
-    tagline: 'Capturing memories that last a lifetime',
-    phone: '+91 98765 43214',
-    email: 'vikram@tentinhimalayas.com',
-    image: 'https://randomuser.me/api/portraits/men/67.jpg',
-  },
-];
-
 @injectable()
 export class ProfileRepository implements IProfileRepository {
   async getAchievements(): Promise<Achievement[]> {
-    return dummyAchievements;
+    // In a real implementation, this would fetch from Firestore
+    return [];
   }
 
   async getFavorites(): Promise<Favorite[]> {
-    return dummyFavorites;
+    // In a real implementation, this would fetch from Firestore
+    return [];
   }
 
   async getTeamMembers(): Promise<TeamMember[]> {
-    return dummyTeamMembers;
+    // This is now handled by the AboutUs data
+    return [];
   }
 
   async getFaqList(): Promise<Faq[]> {
@@ -150,4 +83,99 @@ export class ProfileRepository implements IProfileRepository {
       throw error;
     }
   }
+
+  async getAboutUsData(): Promise<AboutUs> {
+    try {
+      const firestore = getFirestore();
+      const aboutDoc = await getDoc(doc(firestore, 'aboutUs', 'main'));
+      
+      if (aboutDoc.exists()) {
+        const data = aboutDoc.data();
+        console.log('Firebase About Us Data:', data); // Debug log
+        
+        // Check if data has the expected structure
+        const ourMissionData = data.ourMission || data.aboutUs?.ourMission || {};
+        const ourTeamData = data.ourTeam || data.aboutUs?.ourTeam || {};
+        const teamMembersData = ourTeamData.members || data.members || [];
+        
+        // Transform team members data to match our model
+        const teamMembers = teamMembersData.map((member: any) => ({
+          id: member.id || '',
+          name: member.name || '',
+          title: member.title || member.designation || '',
+          phone: member.phone || '',
+          email: member.email || '',
+          tagline: member.tagline || '',
+          description: member.description || '',
+          profilePic: member.profilePic || member.image || ''
+        }));
+        
+        return {
+          ourMission: {
+            heading: ourMissionData.heading || '',
+            description: ourMissionData.description || ''
+          },
+          ourTeam: {
+            heading: ourTeamData.heading || '',
+            description: ourTeamData.description || '',
+            members: teamMembers
+          }
+        };
+      } else {
+        console.log('About Us document does not exist, using default data');
+        // Return default structure if document doesn't exist
+        return this.getDefaultAboutUsData();
+      }
+    } catch (error) {
+      console.error('Error fetching About Us data from Firestore:', error);
+      // Return default structure on error
+      return this.getDefaultAboutUsData();
+    }
+  }
+
+  private getDefaultAboutUsData(): AboutUs {
+    return {
+      ourMission: {
+        heading: 'Our Mission',
+        description: 'At Tent in Himalayas, our mission is to provide unforgettable adventure experiences in the majestic Himalayas while promoting sustainable and responsible tourism. We believe in connecting people with nature and creating memories that last a lifetime.'
+      },
+      ourTeam: {
+        heading: 'Our Team',
+        description: 'Meet the passionate individuals who make our adventures possible. Our team consists of experienced guides, hospitality experts, and nature enthusiasts dedicated to providing you with the best experience in the Himalayas.',
+        members: [
+          {
+            id: '1',
+            name: 'Rajesh Kumar',
+            title: 'Founder & CEO',
+            phone: '+91 9876543210',
+            email: 'rajesh@tentinhimalayas.com',
+            tagline: 'Adventure Enthusiast',
+            description: 'With over 15 years of experience in Himalayan trekking, Rajesh founded Tent in Himalayas to share his passion for the mountains with the world.',
+            profilePic: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80'
+          },
+          {
+            id: '2',
+            name: 'Priya Sharma',
+            title: 'Head Guide',
+            phone: '+91 9876543211',
+            email: 'priya@tentinhimalayas.com',
+            tagline: 'Nature Expert',
+            description: 'Priya is a certified mountaineer with expertise in multiple Himalayan regions. She ensures every trek is safe, educational, and enjoyable.',
+            profilePic: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80'
+          },
+          {
+            id: '3',
+            name: 'Amit Patel',
+            title: 'Operations Manager',
+            phone: '+91 9876543212',
+            email: 'amit@tentinhimalayas.com',
+            tagline: 'Logistics Expert',
+            description: 'Amit handles all the behind-the-scenes operations to ensure smooth and hassle-free adventures for our guests.',
+            profilePic: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80'
+          }
+        ]
+      }
+    };
+  }
+
 }

@@ -1,0 +1,413 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2822
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\froman\fcharset0 Times-Roman;\f2\froman\fcharset0 Times-Bold;
+\f3\fmodern\fcharset0 Courier;\f4\froman\fcharset0 Times-Italic;\f5\fnil\fcharset0 Menlo-Regular;
+\f6\fmodern\fcharset0 Courier-Bold;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red109\green109\blue109;\red202\green202\blue202;
+\red19\green20\blue21;\red193\green193\blue193;\red188\green188\blue188;\red140\green211\blue254;\red89\green138\blue67;
+\red212\green214\blue154;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;\cssrgb\c50196\c50196\c50196;\cssrgb\c83137\c83137\c83137;
+\cssrgb\c9412\c10196\c10588;\cssrgb\c80000\c80000\c80000;\cssrgb\c78431\c78431\c78431;\cssrgb\c61176\c86275\c99608;\cssrgb\c41569\c60000\c33333;
+\cssrgb\c86275\c86275\c66667;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}}{\leveltext\leveltemplateid1\'01\'00;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{circle\}}{\leveltext\leveltemplateid2\'01\uc0\u9702 ;}{\levelnumbers;}\fi-360\li1440\lin1440 }{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{square\}}{\leveltext\leveltemplateid3\'01\uc0\u9642 ;}{\levelnumbers;}\fi-360\li2160\lin2160 }{\listname ;}\listid1}
+{\list\listtemplateid2\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid101\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid2}
+{\list\listtemplateid3\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid201\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid3}
+{\list\listtemplateid4\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid301\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid4}
+{\list\listtemplateid5\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid401\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid5}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}{\listoverride\listid3\listoverridecount0\ls3}{\listoverride\listid4\listoverridecount0\ls4}{\listoverride\listid5\listoverridecount0\ls5}}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 Do the following changes in tour details screen\
+- fetch the tour details info from firebase \'93tours/tourid\'94\
+-  create 3 new sections like we have pricing and reviews etc to show highlights, includes, excludes string array in chips view\
+- fetch the latest top 5 reviews from the collection \'93tours/tourid/reviews\'94 . If reviews are more than 5 show see more at right top corner of the review section. Taping on will go to the new page called reviews with showing 10 reviews with pagination with same card design we have currently\
+\
+- in itinerary section show itinerary info with info like day, location, activity, accommodation, means distance, and duration till day 5 for more days add see more. Clicking on see more will show the dialog with same ui and stepper showing till day 5.\
+\
+- remove the dummy data and delay from tour details repository and fetch data form firebase \
+\
+\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1 \cf0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Here\'92s a refined version of your prompt while keeping all the original info intact but structured more clearly and professionally:\
+\
+Update the 
+\f2\b Tour Details Screen
+\f1\b0  with the following changes:\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sa240\partightenfactor0
+\ls1\ilvl0
+\f2\b \cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	1	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Tour Details Data
+\f1\b0 \
+\pard\tx940\tx1440\pardeftab720\li1440\fi-1440\sa240\partightenfactor0
+\ls1\ilvl1\cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u9702 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Fetch tour details directly from Firebase at: 
+\f3\fs26 tours/\{tourId\}
+\f1\fs24 .\
+\ls1\ilvl1\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u9702 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Remove all dummy data and delay logic from the Tour Details Repository.\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sa240\partightenfactor0
+\ls1\ilvl0
+\f2\b \cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	2	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 New Sections
+\f1\b0 \
+\pard\tx940\tx1440\pardeftab720\li1440\fi-1440\sa240\partightenfactor0
+\ls1\ilvl1\cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u9702 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Add three new sections (similar to 
+\f4\i Pricing
+\f1\i0  and 
+\f4\i Reviews
+\f1\i0 ) to display:\
+\pard\tx1660\tx2160\pardeftab720\li2160\fi-2160\sa240\partightenfactor0
+\ls1\ilvl2
+\f2\b \cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u9642 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Highlights
+\f1\b0  (string array)\
+\ls1\ilvl2
+\f2\b \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u9642 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Includes
+\f1\b0  (string array)\
+\ls1\ilvl2
+\f2\b \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u9642 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Excludes
+\f1\b0  (string array)\
+\pard\tx940\tx1440\pardeftab720\li1440\fi-1440\sa240\partightenfactor0
+\ls1\ilvl1\cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u9702 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Render these arrays in a 
+\f2\b chips view
+\f1\b0  layout.\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sa240\partightenfactor0
+\ls1\ilvl0
+\f2\b \cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	3	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Reviews Section
+\f1\b0 \
+\pard\tx940\tx1440\pardeftab720\li1440\fi-1440\sa240\partightenfactor0
+\ls1\ilvl1\cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u9702 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Fetch the 
+\f2\b latest 5 reviews
+\f1\b0  from: 
+\f3\fs26 tours/\{tourId\}/reviews
+\f1\fs24 .\
+\ls1\ilvl1\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u9702 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 If there are more than 5 reviews:\
+\pard\tx1660\tx2160\pardeftab720\li2160\fi-2160\sa240\partightenfactor0
+\ls1\ilvl2\cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u9642 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Show a 
+\f2\b \'93See More\'94
+\f1\b0  button on the top-right corner of the Reviews section.\
+\ls1\ilvl2\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u9642 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 On tap, navigate to a new 
+\f2\b Reviews Page
+\f1\b0  showing reviews in the current card design.\
+\ls1\ilvl2\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u9642 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Load 10 reviews at a time with 
+\f2\b pagination
+\f1\b0  support.\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sa240\partightenfactor0
+\ls1\ilvl0
+\f2\b \cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	4	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Itinerary Section
+\f1\b0 \
+\pard\tx940\tx1440\pardeftab720\li1440\fi-1440\sa240\partightenfactor0
+\ls1\ilvl1\cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u9702 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Display itinerary details including:\
+\pard\tx1660\tx2160\pardeftab720\li2160\fi-2160\sa240\partightenfactor0
+\ls1\ilvl2\cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u9642 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Day\
+\ls1\ilvl2\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u9642 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Location\
+\ls1\ilvl2\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u9642 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Activity\
+\ls1\ilvl2\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u9642 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Accommodation\
+\ls1\ilvl2\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u9642 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Means of transport\
+\ls1\ilvl2\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u9642 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Distance\
+\ls1\ilvl2\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u9642 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Duration\
+\pard\tx940\tx1440\pardeftab720\li1440\fi-1440\sa240\partightenfactor0
+\ls1\ilvl1\cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u9702 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Show details only up to 
+\f2\b Day 5
+\f1\b0  by default.\
+\ls1\ilvl1\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u9702 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 For itineraries beyond Day 5:\
+\pard\tx1660\tx2160\pardeftab720\li2160\fi-2160\sa240\partightenfactor0
+\ls1\ilvl2\cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u9642 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Add a 
+\f2\b \'93See More\'94
+\f1\b0  option.\
+\ls1\ilvl2\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u9642 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 On click, open a 
+\f2\b dialog
+\f1\b0  with the same UI and stepper showing details up to Day 5.\
+\pard\pardeftab720\partightenfactor0
+\cf3 \strokec3 \
+\
+Fix the ui issue in tour details screen\
+- tour top image is not showing add that tour image back at top and rest ui below of it like it was before and keep rest changes as it is\
+\
+Do the following changes in tour details screen\
+- make Itinerary in all caps\
+- connect the line between day1 to day2 and so on end to end. In full itinerary dialog as well\
+- if there is no reviews don\'92t show the review section\
+\
+\
+\
+Update the booking flow\
+- in tour detail page instead having \'93book this tour\'94 change it to next button. Tapping on this user will redirect  to customziaton screen by passing the tour info into the customizedtourscreen.\
+\
+- in customised tour screen user will pick the tour start and end date from the calendar so make calendar as range selector along with other extra option will be added to total cost of the tour\
+-  In this booking model 
+\f5 \cf4 \cb5 \strokec4 \{\cf6 \cb1 \strokec6 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \cb5 \strokec4   \cf7 \strokec7 id\cf4 \strokec4 : \cf8 \strokec8 string\cf4 \strokec4 ,                      \cf9 \strokec9 // Booking ID (same as document ID)\cf6 \cb1 \strokec6 \
+\cf4 \cb5 \strokec4   \cf7 \strokec7 userId\cf4 \strokec4 : \cf8 \strokec8 string\cf4 \strokec4 ,                  \cf9 \strokec9 // Reference to user\cf6 \cb1 \strokec6 \
+\cf4 \cb5 \strokec4   \cf7 \strokec7 tourId\cf4 \strokec4 : \cf8 \strokec8 string\cf4 \strokec4 ,                  \cf9 \strokec9 // Reference to tour\cf6 \cb1 \strokec6 \
+\cf4 \cb5 \strokec4   \cf7 \strokec7 tourName\cf4 \strokec4 : \cf8 \strokec8 string\cf4 \strokec4 ,                \cf9 \strokec9 // Tour name (denormalized for quick access)\cf6 \cb1 \strokec6 \
+\cf4 \cb5 \strokec4   \cf7 \strokec7 bookingReference\cf4 \strokec4 : \cf8 \strokec8 string\cf4 \strokec4 ,        \cf9 \strokec9 // Booking reference number\cf6 \cb1 \strokec6 \
+\cf4 \cb5 \strokec4   \cf7 \strokec7 startDate\cf4 \strokec4 : \cf8 \strokec8 timestamp\cf4 \strokec4 ,            \cf9 \strokec9 // Start date of tour\cf6 \cb1 \strokec6 \
+\cf4 \cb5 \strokec4   \cf7 \strokec7 endDate\cf4 \strokec4 : \cf8 \strokec8 timestamp\cf4 \strokec4 ,              \cf9 \strokec9 // End date of tour\cf6 \cb1 \strokec6 \
+\cf4 \cb5 \strokec4   \cf7 \strokec7 duration\cf4 \strokec4 : \cf8 \strokec8 string\cf4 \strokec4 ,                \cf9 \strokec9 // Duration (e.g., "14 Days")\cf6 \cb1 \strokec6 \
+\cf4 \cb5 \strokec4   \cf7 \strokec7 status\cf4 \strokec4 : \cf8 \strokec8 string\cf4 \strokec4 ,                  \cf9 \strokec9 // Booking status (confirmed, pending, cancelled)\cf6 \cb1 \strokec6 \
+\cf4 \cb5 \strokec4   \cf7 \strokec7 totalAmount\cf4 \strokec4 : \cf8 \strokec8 number\cf4 \strokec4 ,             \cf9 \strokec9 // Total amount paid\cf6 \cb1 \strokec6 \
+\cf4 \cb5 \strokec4   \cf7 \strokec7 currency\cf4 \strokec4 : \cf8 \strokec8 string\cf4 \strokec4 ,                \cf9 \strokec9 // Currency code (e.g., USD)\cf6 \cb1 \strokec6 \
+\cf4 \cb5 \strokec4   \cf7 \strokec7 packageType\cf4 \strokec4 : \cf8 \strokec8 string\cf4 \strokec4 ,             \cf9 \strokec9 // Package type (standard, premium)\cf6 \cb1 \strokec6 \
+\cf4 \cb5 \strokec4   \cf7 \strokec7 travelers\cf4 \strokec4 : \cf8 \strokec8 number\cf4 \strokec4 ,               \cf9 \strokec9 // Number of travelers\cf6 \cb1 \strokec6 \
+\cf4 \cb5 \strokec4   \cf7 \strokec7 createdAt\cf4 \strokec4 : \cf8 \strokec8 timestamp\cf4 \strokec4 ,            \cf9 \strokec9 // Booking creation timestamp\cf6 \cb1 \strokec6 \
+\cf4 \cb5 \strokec4   \cf7 \strokec7 updatedAt\cf4 \strokec4 : \cf8 \strokec8 timestamp\cf4 \strokec4 ,            \cf9 \strokec9 // Last update timestamp\cf6 \cb1 \strokec6 \
+\cf4 \cb5 \strokec4   \cf7 \strokec7 payment\cf4 \strokec4 : \{\cf6 \cb1 \strokec6 \
+\cf4 \cb5 \strokec4     \cf7 \strokec7 method\cf4 \strokec4 : \cf8 \strokec8 string\cf4 \strokec4 ,                \cf9 \strokec9 // Payment method\cf6 \cb1 \strokec6 \
+\cf4 \cb5 \strokec4     \cf7 \strokec7 status\cf4 \strokec4 : \cf8 \strokec8 string\cf4 \strokec4 ,                \cf9 \strokec9 // Payment status\cf6 \cb1 \strokec6 \
+\cf4 \cb5 \strokec4     \cf7 \strokec7 transactionId\cf4 \strokec4 : \cf8 \strokec8 string\cf4 \strokec4           \cf9 \strokec9 // Transaction ID\cf6 \cb1 \strokec6 \
+\cf4 \cb5 \strokec4   \},\
+Customisation:\{\
+ tentType:\{\
+   Type:String,\
+   Price:number\
+\},\
+Adding:[\{\
+ addonName:String,\
+ addonDescription:String,\
+ addOnPrice:number\
+\}]\
+\}\cf6 \cb1 \strokec6 \
+\cf4 \cb5 \strokec4 \}\
+\
+- in customisation screen change continue button Book your tour. \
+ create the document in bookings collection.\
+\
+- once booking is done redirect user to bookings tab in home\
+- \cf6 \cb1 \strokec6 \
+\pard\pardeftab720\partightenfactor0
+
+\f1 \cf3 \strokec3 \
+\
+\
+\
+\
+\
+\
+\pard\pardeftab720\sa240\partightenfactor0
+\cf0 \strokec2 Here\'92s your refined prompt:\
+\pard\pardeftab720\partightenfactor0
+\cf3 \strokec3 \
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f2\b \cf0 \strokec2 Update the booking flow
+\f1\b0 \
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sa240\partightenfactor0
+\ls2\ilvl0\cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 In the 
+\f2\b tour detail page
+\f1\b0 , replace the \'93Book this tour\'94 button with a 
+\f2\b Next
+\f1\b0  button. On tap, redirect the user to the 
+\f2\b Customization screen
+\f1\b0 , passing the selected tour info into 
+\f3\fs26 customizedTourScreen
+\f1\fs24 .\
+\ls2\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 In the 
+\f2\b Customization screen
+\f1\b0 , allow the user to select 
+\f2\b start and end dates
+\f1\b0  using a 
+\f2\b range calendar selector
+\f1\b0 . Include extra options that can be added to the tour cost.\
+\ls2\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Use the following 
+\f2\b Booking model
+\f1\b0  when creating a booking document:\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 \{\
+  id: string,                      // Booking ID (same as document ID)\
+  userId: string,                  // Reference to user\
+  tourId: string,                  // Reference to tour\
+  tourName: string,                // Tour name (denormalized for quick access)\
+  bookingReference: string,        // Booking reference number\
+  startDate: timestamp,            // Start date of tour\
+  endDate: timestamp,              // End date of tour\
+  duration: string,                // Duration (e.g., "14 Days")\
+  status: string,                  // Booking status (confirmed, pending, cancelled)\
+  totalAmount: number,             // Total amount paid\
+  currency: string,                // Currency code (e.g., USD)\
+  packageType: string,             // Package type (standard, premium)\
+  travelers: number,               // Number of travelers\
+  createdAt: timestamp,            // Booking creation timestamp\
+  updatedAt: timestamp,            // Last update timestamp\
+  payment: \{\
+    method: string,                // Payment method\
+    status: string,                // Payment status\
+    transactionId: string          // Transaction ID\
+  \},\
+  customisation: \{\
+    tentType: \{\
+      type: string,\
+      price: number\
+    \},\
+    addons: [\{\
+      addonName: string,\
+      addonDescription: string,\
+      addOnPrice: number\
+    \}]\
+  \}\
+\}\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sa240\partightenfactor0
+\ls3\ilvl0
+\f1\fs24 \cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 In the 
+\f2\b Customization screen
+\f1\b0 , change the 
+\f2\b Continue
+\f1\b0  button text to 
+\f2\b Book your tour
+\f1\b0 .\
+\ls3\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 On booking confirmation, create a document in the 
+\f6\b\fs26 bookings
+\f2\fs24  collection
+\f1\b0  using the above model.\
+\ls3\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 After successful booking, redirect the user to the 
+\f2\b Bookings tab
+\f1\b0  in the Home screen.\
+\pard\tx720\pardeftab720\sa240\partightenfactor0
+\cf0 \
+Do the following changes in booking flow\
+- from tour details screen remove the setting icons from the top right corner \
+- in customise your tour section calendar month wise enabled for date selection based on the best time months values coming in tour details \
+\
+\
+Do the following changes in customizetourscreen\
+- remove the function and flow of 
+\f5 \cf10 \cb5 \strokec10 generateAvailableDates\cf6 \cb1 \strokec6  inside customized repository. Calendar dates will be available to select only based on tours best time month. \
+- make sure calendar next and previous month should work and dates must be available to select only for best time months of the tour\
+\
+\
+Do the following changes in about us section.\
+- pull data from firebase from collection about/main\
+- our mission and description\
+- our team description and members list all come from the firebase with the structure \
+\{\
+  "aboutUs": \{\
+    "ourMission": \{\
+      "heading": "string", \
+      "description": "string"\
+    \},\
+    "ourTeam": \{\
+      "heading": "string",\
+      "description": "string",\
+      "members": [\
+        \{\
+          "id": "string",              // unique member ID (e.g. member_001)\
+          "name": "string",            // full name\
+          "title": "string",           // role or designation\
+          "phone": "string|null",      // phone number (nullable if not available)\
+          "email": "string",           // email address\
+          "tagline": "string",         // short one-liner about member\
+          "description": "string",     // detailed description/experience\
+          "profilePic": "string"       // image URL\
+        \}\
+      ]\
+    \}\
+  \}\
+\}\
+- so add shimmer view for our mission and our team section as well for members already shimmer there.\
+- remove the dummy or local data for about us only data will come from firebase.\
+
+\f1 \cf0 \strokec2 \
+\pard\pardeftab720\partightenfactor0
+\cf3 \strokec3 \
+\
+\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f2\b \cf0 \strokec2 Do the following changes in About Us section
+\f1\b0 \
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sa240\partightenfactor0
+\ls4\ilvl0\cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Fetch data from 
+\f2\b Firebase
+\f1\b0  collection: 
+\f3\fs26 about/main
+\f1\fs24 .\
+\ls4\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Populate 
+\f2\b Our Mission
+\f1\b0  (heading + description) and 
+\f2\b Our Team
+\f1\b0  (heading, description, members list) from Firebase using the following structure:\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 \strokec2 \{\
+  "aboutUs": \{\
+    "ourMission": \{\
+      "heading": "string",\
+      "description": "string"\
+    \},\
+    "ourTeam": \{\
+      "heading": "string",\
+      "description": "string",\
+      "members": [\
+        \{\
+          "id": "string",           // Unique member ID (e.g., member_001)\
+          "name": "string",         // Full name\
+          "title": "string",        // Role or designation\
+          "phone": "string|null",   // Phone number (nullable)\
+          "email": "string",        // Email address\
+          "tagline": "string",      // Short one-liner about the member\
+          "description": "string",  // Detailed description/experience\
+          "profilePic": "string"    // Image URL\
+        \}\
+      ]\
+    \}\
+  \}\
+\}\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sa240\partightenfactor0
+\ls5\ilvl0
+\f1\fs24 \cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Add 
+\f2\b shimmer view
+\f1\b0  for 
+\f4\i Our Mission
+\f1\i0  and 
+\f4\i Our Team
+\f1\i0  sections, along with shimmer for team members (already present).\
+\ls5\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Remove all 
+\f2\b dummy/local data
+\f1\b0  \'97 the About Us section should use 
+\f2\b only Firebase data
+\f1\b0 .\
+\pard\pardeftab720\partightenfactor0
+\cf3 \strokec3 \
+\pard\pardeftab720\sa240\partightenfactor0
+\cf0 \strokec2 \
+\pard\pardeftab720\partightenfactor0
+\cf3 \strokec3 \
+\
+}

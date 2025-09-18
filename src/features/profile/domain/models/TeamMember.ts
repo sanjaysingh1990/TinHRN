@@ -6,4 +6,7 @@ export interface TeamMember {
   phone: string;
   email: string;
   image: string;
+  title?: string;
+  profilePic?: string;
+  description?: string;
 }
