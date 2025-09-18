@@ -274,7 +274,7 @@ const ProfileScreen = () => {
                   <Text style={styles.badgeText}>ACCOUNT</Text>
                 </View>
                 <AccountItem icon="person-outline" title="Personal Info" onPress={() => {}} />
-                <AccountItem icon="history" title="Booking History" onPress={() => {}} />
+                <AccountItem icon="history" title="Booking History" onPress={() => router.push('/booking-history')} />
                 <AccountItem icon="payment" title="Payment Methods" onPress={() => {}} noBorder />
               </View>
 

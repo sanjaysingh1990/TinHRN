@@ -6,3 +6,4 @@ export const GetUserProfileUseCaseToken = Symbol.for("GetUserProfileUseCase");
 export const ProfileViewModelToken = Symbol.for("ProfileViewModel");
 export const AboutUsViewModelToken = Symbol.for("AboutUsViewModel");
 export const FaqViewModelToken = Symbol.for("FaqViewModel");
+export const BookingHistoryViewModelToken = Symbol.for("BookingHistoryViewModel");

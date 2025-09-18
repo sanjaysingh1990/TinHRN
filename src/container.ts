@@ -33,15 +33,17 @@ import { GetFaqListUseCase } from "./features/profile/domain/usecases/GetFaqList
 import { GetFavoritesUseCase } from "./features/profile/domain/usecases/GetFavoritesUseCase";
 import { GetUserProfileUseCase } from "./features/profile/domain/usecases/GetUserProfileUseCase";
 import { AboutUsViewModel } from "./features/profile/presentation/viewmodels/AboutUsViewModel";
+import { BookingHistoryViewModel } from "./features/profile/presentation/viewmodels/BookingHistoryViewModel";
 import { FaqViewModel } from "./features/profile/presentation/viewmodels/FaqViewModel";
 import { ProfileViewModel } from "./features/profile/presentation/viewmodels/ProfileViewModel";
-import { AboutUsViewModelToken, FaqViewModelToken, GetAchievementsUseCaseToken, GetFaqListUseCaseToken, GetFavoritesUseCaseToken, GetUserProfileUseCaseToken, ProfileRepositoryToken, ProfileViewModelToken } from "./features/profile/profile.di";
+import { AboutUsViewModelToken, BookingHistoryViewModelToken, FaqViewModelToken, GetAchievementsUseCaseToken, GetFaqListUseCaseToken, GetFavoritesUseCaseToken, GetUserProfileUseCaseToken, ProfileRepositoryToken, ProfileViewModelToken } from "./features/profile/profile.di";
 
 import { MyBookingsRepository } from "./features/mybookings/data/repositories/MyBookingsRepository";
+import { GetAllBookingsOrderedByCreatedAtUseCase } from "./features/mybookings/domain/usecases/GetAllBookingsOrderedByCreatedAtUseCase";
 import { GetAllBookingsUseCase } from "./features/mybookings/domain/usecases/GetAllBookingsUseCase";
 import { GetPastBookingsUseCase } from "./features/mybookings/domain/usecases/GetPastBookingsUseCase";
 import { GetUpcomingBookingsUseCase } from "./features/mybookings/domain/usecases/GetUpcomingBookingsUseCase";
-import { GetAllBookingsUseCaseToken, GetPastBookingsUseCaseToken, GetUpcomingBookingsUseCaseToken, MyBookingsRepositoryToken, MyBookingsViewModelToken } from "./features/mybookings/mybookings.di";
+import { GetAllBookingsOrderedByCreatedAtUseCaseToken, GetAllBookingsUseCaseToken, GetPastBookingsUseCaseToken, GetUpcomingBookingsUseCaseToken, MyBookingsRepositoryToken, MyBookingsViewModelToken } from "./features/mybookings/mybookings.di";
 import { MyBookingsViewModel } from "./features/mybookings/presentation/viewmodels/MyBookingsViewModel";
 
 import { NotificationsRepository } from "./features/notifications/data/repositories/NotificationsRepository";
@@ -97,11 +99,13 @@ container.register(GetUserProfileUseCaseToken, { useClass: GetUserProfileUseCase
 container.register(ProfileViewModelToken, { useClass: ProfileViewModel });
 container.register(AboutUsViewModelToken, { useClass: AboutUsViewModel });
 container.register(FaqViewModelToken, { useClass: FaqViewModel });
+container.register(BookingHistoryViewModelToken, { useClass: BookingHistoryViewModel });
 
 container.register(MyBookingsRepositoryToken, { useClass: MyBookingsRepository });
 container.register(GetUpcomingBookingsUseCaseToken, { useClass: GetUpcomingBookingsUseCase });
 container.register(GetPastBookingsUseCaseToken, { useClass: GetPastBookingsUseCase });
 container.register(GetAllBookingsUseCaseToken, { useClass: GetAllBookingsUseCase });
+container.register(GetAllBookingsOrderedByCreatedAtUseCaseToken, { useClass: GetAllBookingsOrderedByCreatedAtUseCase });
 container.register(MyBookingsViewModelToken, { useClass: MyBookingsViewModel });
 
 container.register(NotificationsRepositoryToken, { useClass: NotificationsRepository });
