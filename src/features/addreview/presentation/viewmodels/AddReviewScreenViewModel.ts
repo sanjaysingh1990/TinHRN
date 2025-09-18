@@ -16,10 +16,12 @@ export class AddReviewScreenViewModel {
 
   // Getters
   get rating(): number {
+    console.log('Getting rating:', this._rating); // Debug log
     return this._rating;
   }
 
   get reviewText(): string {
+    console.log('Getting review text:', this._reviewText); // Debug log
     return this._reviewText;
   }
 
@@ -33,15 +35,19 @@ export class AddReviewScreenViewModel {
 
   // Setters
   setRating(stars: number): void {
+    console.log('Setting rating to:', stars); // Debug log
     this._rating = stars;
   }
 
   setReviewText(text: string): void {
+    console.log('Setting review text to:', text); // Debug log
     this._reviewText = text;
   }
 
   // Methods
   async submitReview(tourId: string, userId: string, userName: string, userPhotoURL: string): Promise<boolean> {
+    console.log('Submitting review with rating:', this._rating, 'and text:', this._reviewText); // Debug log
+    
     if (this._rating === 0) {
       this._error = 'Please provide a rating';
       return false;

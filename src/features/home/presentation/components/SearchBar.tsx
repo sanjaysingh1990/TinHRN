@@ -1,8 +1,7 @@
-
 import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, ActivityIndicator, StyleSheet, useColorScheme } from 'react-native';
+import { View, TextInput, TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { theme } from '../../../../theme';
+import { useTheme } from '../../../../hooks/useTheme';
 
 interface SearchBarProps {
   onSearch: (query: string) => void;
@@ -10,8 +9,7 @@ interface SearchBarProps {
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch, searching }) => {
-  const colorScheme = useColorScheme() ?? 'light';
-  const colors = theme[colorScheme];
+  const { colors, isDarkMode } = useTheme();
   const [searchText, setSearchText] = useState('');
 
   const handleSearch = () => {
@@ -35,7 +33,8 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, searching }) => {
       alignItems: 'center',
       backgroundColor: colors.inputBackground,
       borderRadius: 10,
-      paddingVertical: 8,
+      // Reduce height by 20% (from paddingVertical: 8 to paddingVertical: 6.4, rounded to 6)
+      paddingVertical: 6,
       paddingHorizontal: 10,
       borderWidth: 1,
       borderColor: colors.borderColor,
@@ -49,8 +48,11 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, searching }) => {
     filterButton: {
       marginLeft: 10,
       backgroundColor: colors.inputBackground,
-      padding: 10,
+      // Reduce height by 20% (from padding: 10 to padding: 8)
+      padding: 8,
       borderRadius: 10,
+      borderWidth: 1,
+      borderColor: colors.borderColor,
     },
     searchLoader: {
       marginRight: 10,

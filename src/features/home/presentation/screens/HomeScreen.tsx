@@ -22,6 +22,7 @@ import { HomeViewModel } from '../viewmodels/HomeViewModel';
 import { useRouter } from 'expo-router';
 
 import { StatusBar } from 'expo-status-bar';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const HomeScreen: React.FC = () => {
   const router = useRouter();
@@ -154,6 +155,15 @@ const HomeScreen: React.FC = () => {
       margin: 15,
       borderRadius: 12,
       overflow: 'hidden',
+      // Add shadow effect
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      shadowOpacity: 0.3,
+      shadowRadius: 6,
+      elevation: 8, // For Android
     },
     heroTitle: {
       fontSize: 24,
@@ -227,16 +237,23 @@ const HomeScreen: React.FC = () => {
   const renderHeader = useCallback(() => (
     <>
       <SearchBar onSearch={handleSearch} searching={searching} />
-      <ImageBackground 
-        source={{ uri: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD2R-D8bon07gNln5JYqh2DiwvqM5mD-4EtOIjoAPGd1e-IrwZseSxR8ONqLPRRLEQIturvHZWU1YaxJ4rQ04GAeWG_-1OroireJvI9p-tIbeYAr9-ryL9A0-ZhWhtaVzVlWyEf0B3BHjONWCgXJeA0h7UTbaSfTCYBP0y05epzqCjgkpxPQlwsocRiwiOcPDLzkcc8bz7RweQ2XS3mSt1ae7b_WqpaZTjeMw2a4YKn4LZQFS4CUzSVkehP3SQU99sezw5okLxauKCC' }}
-        style={styles.heroSection}
-      >
-        <Text style={styles.heroTitle}>Discover the Himalayas</Text>
-        <Text style={styles.heroSubtitle}>Your next adventure awaits</Text>
-        <TouchableOpacity style={styles.heroButton}>
-          <Text style={styles.heroButtonText}>Explore Now</Text>
-        </TouchableOpacity>
-      </ImageBackground>
+      <View style={styles.heroSection}>
+        <ImageBackground 
+          source={{ uri: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD2R-D8bon07gNln5JYqh2DiwvqM5mD-4EtOIjoAPGd1e-IrwZseSxR8ONqLPRRLEQIturvHZWU1YaxJ4rQ04GAeWG_-1OroireJvI9p-tIbeYAr9-ryL9A0-ZhWhtaVzVlWyEf0B3BHjONWCgXJeA0h7UTbaSfTCYBP0y05epzqCjgkpxPQlwsocRiwiOcPDLzkcc8bz7RweQ2XS3mSt1ae7b_WqpaZTjeMw2a4YKn4LZQFS4CUzSVkehP3SQU99sezw5okLxauKCC' }}
+          style={StyleSheet.absoluteFillObject}
+        />
+        <LinearGradient
+          colors={['rgba(0,0,0,0.6)', 'rgba(0,0,0,0.3)', 'transparent', 'rgba(0,0,0,0.1)', 'rgba(0,0,0,0.4)']}
+          style={StyleSheet.absoluteFillObject}
+        />
+        <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
+          <Text style={styles.heroTitle}>Discover the Himalayas</Text>
+          <Text style={styles.heroSubtitle}>Your next adventure awaits</Text>
+          <TouchableOpacity style={styles.heroButton} onPress={() => router.push('/(tabs)/explore')}>
+            <Text style={styles.heroButtonText}>Explore Now</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
 
       <Text style={styles.sectionTitle}>Hot Tours</Text>
     </>

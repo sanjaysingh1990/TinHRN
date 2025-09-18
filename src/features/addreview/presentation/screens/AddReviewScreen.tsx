@@ -1,23 +1,23 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import { useRouter, useLocalSearchParams } from 'expo-router';
-import React, { useState, useEffect } from 'react';
-import { 
-  View, 
-  Text, 
-  TextInput, 
-  TouchableOpacity, 
-  StyleSheet, 
-  SafeAreaView, 
-  StatusBar, 
-  Animated,
-  Dimensions
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import React, { useEffect, useState } from 'react';
+import {
+    Animated,
+    Dimensions,
+    SafeAreaView,
+    StatusBar,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View
 } from 'react-native';
-import { useTheme } from '../../../../hooks/useTheme';
 import container from '../../../../container';
-import { AddReviewScreenViewModel } from '../viewmodels/AddReviewScreenViewModel';
-import { AddReviewScreenViewModelToken } from '../../addreview.di';
-import { GetCurrentUserUseCase } from '../../../../features/auth/domain/usecases/GetCurrentUserUseCase';
 import { GetCurrentUserUseCaseToken } from '../../../../features/auth/auth.di';
+import { GetCurrentUserUseCase } from '../../../../features/auth/domain/usecases/GetCurrentUserUseCase';
+import { useTheme } from '../../../../hooks/useTheme';
+import { AddReviewScreenViewModelToken } from '../../addreview.di';
+import { AddReviewScreenViewModel } from '../viewmodels/AddReviewScreenViewModel';
 
 // Add ErrorToast component
 const ErrorToast: React.FC<{ 
@@ -126,7 +126,8 @@ const AddReviewScreen: React.FC = () => {
   const [getCurrentUserUseCase] = useState(() => container.resolve<GetCurrentUserUseCase>(GetCurrentUserUseCaseToken));
   
   const [user, setUser] = useState<any>(null);
-  const [starAnimations] = useState(() => Array(5).fill(0).map(() => new Animated.Value(1)));
+  const [rating, setRating] = useState(0); // Local state for rating
+  const [reviewText, setReviewText] = useState(''); // Local state for review text
   const [showErrorToast, setShowErrorToast] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   
@@ -145,31 +146,19 @@ const AddReviewScreen: React.FC = () => {
     fetchUser();
   }, []);
 
-  const handleStarPress = (rating: number) => {
-    // Standard star rating behavior:
-    // - Tap a star to select it and all stars before it
-    // - Tap the currently selected star to deselect all stars
-    const newRating = viewModel.rating === rating ? 0 : rating;
+  const handleStarPress = (starIndex: number) => {
+    console.log('Star pressed:', starIndex);
+    // starIndex is 1-based (1 to 5)
+    const newRating = rating === starIndex ? 0 : starIndex;
+    console.log('New rating:', newRating);
+    setRating(newRating);
     viewModel.setRating(newRating);
-    
-    // Reset all animations first
-    starAnimations.forEach(anim => anim.setValue(1));
-    
-    // Animate stars that should be selected
-    for (let i = 0; i < newRating; i++) {
-      Animated.sequence([
-        Animated.timing(starAnimations[i], {
-          toValue: 1.2,
-          duration: 100,
-          useNativeDriver: true,
-        }),
-        Animated.timing(starAnimations[i], {
-          toValue: 1,
-          duration: 100,
-          useNativeDriver: true,
-        }),
-      ]).start();
-    }
+  };
+
+  const handleTextChange = (text: string) => {
+    console.log('Text changed:', text); // Debug log
+    setReviewText(text);
+    viewModel.setReviewText(text);
   };
 
   const handleSubmit = async () => {
@@ -185,6 +174,11 @@ const AddReviewScreen: React.FC = () => {
       return;
     }
     
+    // Update ViewModel with current local state before submitting
+    viewModel.setRating(rating);
+    viewModel.setReviewText(reviewText);
+    console.log("user",user);
+    // Use local rating state instead of viewModel.rating
     const success = await viewModel.submitReview(
       tourId as string,
       user.id,
@@ -211,7 +205,7 @@ const AddReviewScreen: React.FC = () => {
         {Array.from({ length: 5 }, (_, index) => {
           const starValue = index + 1;
           // isSelected should be true if the starValue is less than or equal to the current rating
-          const isSelected = starValue <= viewModel.rating;
+          const isSelected = starValue <= rating;
           
           return (
             <TouchableOpacity
@@ -219,17 +213,11 @@ const AddReviewScreen: React.FC = () => {
               onPress={() => handleStarPress(starValue)}
               style={styles.starButton}
             >
-              <Animated.View
-                style={{
-                  transform: [{ scale: starAnimations[index] }],
-                }}
-              >
-                <MaterialIcons
-                  name={isSelected ? 'star' : 'star-border'}
-                  size={40}
-                  color={isSelected ? '#FFD700' : colors.text}
-                />
-              </Animated.View>
+              <MaterialIcons
+                name={isSelected ? 'star' : 'star-border'}
+                size={40}
+                color={isSelected ? '#FFD700' : colors.text}
+              />
             </TouchableOpacity>
           );
         })}
@@ -288,6 +276,7 @@ const AddReviewScreen: React.FC = () => {
     },
     starButton: {
       marginHorizontal: 8,
+      padding: 10, // Increase touchable area
     },
     textAreaContainer: {
       borderWidth: 1,
@@ -382,9 +371,10 @@ const AddReviewScreen: React.FC = () => {
               placeholderTextColor={colors.secondary}
               multiline
               numberOfLines={4}
-              value={viewModel.reviewText}
-              onChangeText={(text) => viewModel.setReviewText(text)}
+              value={reviewText}
+              onChangeText={handleTextChange}
               editable={!viewModel.loading}
+              textAlignVertical="top" // Ensure text starts at the top
             />
           </View>
           

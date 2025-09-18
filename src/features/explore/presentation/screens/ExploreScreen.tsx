@@ -214,16 +214,18 @@ const ExploreScreen: React.FC<ExploreScreenProps> = ({ hideHeader = false, onSea
         </View>
 
         {/* Top Treks Section */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Top Treks</Text>
-          <View style={styles.treksContainer}>
-            {treksData.map((item, index) => (
-              <View key={index}>
-                {renderTrek({ item, index })}
-              </View>
-            ))}
+        {(isLoading || exploreData.topTreks.length > 0) && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Top Treks</Text>
+            <View style={styles.treksContainer}>
+              {treksData.map((item, index) => (
+                <View key={index}>
+                  {renderTrek({ item, index })}
+                </View>
+              ))}
+            </View>
           </View>
-        </View>
+        )}
       </ScrollView>
     </SafeAreaView>
   );
