@@ -1,9 +1,9 @@
-import { injectable, inject } from 'tsyringe';
-import { GetUpcomingBookingsUseCase } from '../../domain/usecases/GetUpcomingBookingsUseCase';
-import { GetPastBookingsUseCase } from '../../domain/usecases/GetPastBookingsUseCase';
-import { GetAllBookingsUseCase } from '../../domain/usecases/GetAllBookingsUseCase';
-import { GetUpcomingBookingsUseCaseToken, GetPastBookingsUseCaseToken, GetAllBookingsUseCaseToken } from '../../mybookings.di';
+import { inject, injectable } from 'tsyringe';
 import { Booking } from '../../domain/models/Booking';
+import { GetAllBookingsUseCase } from '../../domain/usecases/GetAllBookingsUseCase';
+import { GetPastBookingsUseCase } from '../../domain/usecases/GetPastBookingsUseCase';
+import { GetUpcomingBookingsUseCase } from '../../domain/usecases/GetUpcomingBookingsUseCase';
+import { GetAllBookingsUseCaseToken, GetPastBookingsUseCaseToken, GetUpcomingBookingsUseCaseToken } from '../../mybookings.di';
 
 @injectable()
 export class MyBookingsViewModel {

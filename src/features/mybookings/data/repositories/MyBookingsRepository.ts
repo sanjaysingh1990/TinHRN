@@ -1,4 +1,4 @@
-import { collection, getDocs, query, where, orderBy, limit, startAfter, Timestamp } from 'firebase/firestore';
+import { collection, getDocs, limit, orderBy, query, startAfter, Timestamp, where } from 'firebase/firestore';
 import { inject, injectable } from 'tsyringe';
 import { AuthRepositoryToken } from '../../../../features/auth/auth.di';
 import { IAuthRepository } from '../../../../features/auth/domain/repositories/IAuthRepository';
@@ -48,43 +48,15 @@ export class MyBookingsRepository implements IMyBookingsRepository {
         // Convert Firestore Timestamps to Date objects
         const startDate = data.startDate instanceof Timestamp ? data.startDate.toDate() : data.startDate;
         const endDate = data.endDate instanceof Timestamp ? data.endDate.toDate() : data.endDate;
-        const createdAt = data.createdAt instanceof Timestamp ? data.createdAt.toDate() : data.createdAt;
-        const updatedAt = data.updatedAt instanceof Timestamp ? data.updatedAt.toDate() : data.updatedAt;
 
         bookings.push({
           id: doc.id,
-          userId: data.userId || '',
-          tourId: data.tourId || '',
+          vendor: data.vendor || "Tent'in Himalayas",
           tourName: data.tourName || 'Untitled Tour',
           tourImage: data.tourImage || '',
-          bookingReference: data.bookingReference || '',
           startDate: startDate,
           endDate: endDate,
-          duration: data.duration || 0,
           status: data.status || 'confirmed',
-          totalAmount: data.totalAmount || 0,
-          currency: data.currency || 'USD',
-          packageType: data.packageType || 'standard',
-          travelers: data.travelers || 1,
-          createdAt: createdAt,
-          updatedAt: updatedAt,
-          vendor: data.vendor || "Tent'in Himalayas",
-          payment: {
-            method: data.payment?.method || 'credit_card',
-            status: data.payment?.status || 'completed',
-            transactionId: data.payment?.transactionId || ''
-          },
-          customisation: {
-            tentType: {
-              type: data.customisation?.tentType?.type || '',
-              price: data.customisation?.tentType?.price || 0
-            },
-            addons: data.customisation?.addons?.map((addon: any) => ({
-              addonName: addon.addonName || '',
-              addonDescription: addon.addonDescription || '',
-              addOnPrice: addon.addOnPrice || 0
-            })) || []
-          },
           type: 'upcoming'
         });
       });
@@ -132,43 +104,15 @@ export class MyBookingsRepository implements IMyBookingsRepository {
         // Convert Firestore Timestamps to Date objects
         const startDate = data.startDate instanceof Timestamp ? data.startDate.toDate() : data.startDate;
         const endDate = data.endDate instanceof Timestamp ? data.endDate.toDate() : data.endDate;
-        const createdAt = data.createdAt instanceof Timestamp ? data.createdAt.toDate() : data.createdAt;
-        const updatedAt = data.updatedAt instanceof Timestamp ? data.updatedAt.toDate() : data.updatedAt;
 
         bookings.push({
           id: doc.id,
-          userId: data.userId || '',
-          tourId: data.tourId || '',
+          vendor: data.vendor || "Tent'in Himalayas",
           tourName: data.tourName || 'Untitled Tour',
           tourImage: data.tourImage || '',
-          bookingReference: data.bookingReference || '',
           startDate: startDate,
           endDate: endDate,
-          duration: data.duration || 0,
           status: data.status || 'confirmed',
-          totalAmount: data.totalAmount || 0,
-          currency: data.currency || 'USD',
-          packageType: data.packageType || 'standard',
-          travelers: data.travelers || 1,
-          createdAt: createdAt,
-          updatedAt: updatedAt,
-          vendor: data.vendor || "Tent'in Himalayas",
-          payment: {
-            method: data.payment?.method || 'credit_card',
-            status: data.payment?.status || 'completed',
-            transactionId: data.payment?.transactionId || ''
-          },
-          customisation: {
-            tentType: {
-              type: data.customisation?.tentType?.type || '',
-              price: data.customisation?.tentType?.price || 0
-            },
-            addons: data.customisation?.addons?.map((addon: any) => ({
-              addonName: addon.addonName || '',
-              addonDescription: addon.addonDescription || '',
-              addOnPrice: addon.addOnPrice || 0
-            })) || []
-          },
           type: 'past'
         });
       });

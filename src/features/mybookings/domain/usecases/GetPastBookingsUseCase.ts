@@ -1,7 +1,7 @@
-import { injectable, inject } from 'tsyringe';
-import { IMyBookingsRepository } from '../repositories/IMyBookingsRepository';
+import { inject, injectable } from 'tsyringe';
 import { MyBookingsRepositoryToken } from '../../mybookings.di';
 import { Booking } from '../models/Booking';
+import { IMyBookingsRepository } from '../repositories/IMyBookingsRepository';
 
 @injectable()
 export class GetPastBookingsUseCase {
