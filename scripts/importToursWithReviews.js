@@ -11,26 +11,17 @@
 
 const fs = require('fs');
 const path = require('path');
-const { initializeApp } = require('firebase/app');
 const { getFirestore, collection, doc, setDoc } = require('firebase/firestore');
 
 // Load the tours and reviews data
 const toursDataPath = path.join(__dirname, '..', 'TOURS_WITH_REVIEWS.json');
 const toursData = JSON.parse(fs.readFileSync(toursDataPath, 'utf8'));
 
-// Firebase configuration - replace with your actual config
-const firebaseConfig = {
-    apiKey: "AIzaSyBjcV4BykdV3boinmn_-LQZ4IHgTqUwKvw",
-    authDomain: "bubble-2d982.firebaseapp.com",
-    projectId: "bubble-2d982",
-    storageBucket: "bubble-2d982.appspot.com",
-    messagingSenderId: "680561170660",
-    appId: "1:680561170660:web:64598540804f465c7274f1"
-};
+// Use the centralized Firebase configuration
+const { default: app, firestore } = require('../src/infrastructure/firebase/firebase.config');
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+// Use the existing Firestore instance
+const db = firestore;
 
 async function importToursWithReviews() {
     console.log('Starting Firestore tours and reviews import...');

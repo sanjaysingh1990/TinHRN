@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { Alert, Image, SafeAreaView, StatusBar, Text, TouchableOpacity, View } from 'react-native';
@@ -23,6 +24,7 @@ const LoginScreen: React.FC = () => {
   const [viewModel] = useState(() => container.resolve<LoginViewModel>(LoginViewModelToken));
   const [emailFocused, setEmailFocused] = useState(false);
   const [passwordFocused, setPasswordFocused] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // Add state for password visibility
   const [viewState, setViewState] = useState(viewModel.viewState);
   const [formData, setFormData] = useState(viewModel.formData);
   const [showErrorToast, setShowErrorToast] = useState(false);
@@ -171,16 +173,29 @@ const LoginScreen: React.FC = () => {
         </Text>
       )}
       
-      <AuthInput
-        placeholder="Password"
-        value={formData.password}
-        onChangeText={viewModel.setPassword.bind(viewModel)}
-        onFocus={() => setPasswordFocused(true)}
-        onBlur={() => setPasswordFocused(false)}
-        secureTextEntry
-        accessibilityLabel="Password input"
-        focused={passwordFocused}
-      />
+      {/* Password Input with Eye Icon */}
+      <View style={styles.passwordContainer}>
+        <AuthInput
+          placeholder="Password"
+          value={formData.password}
+          onChangeText={viewModel.setPassword.bind(viewModel)}
+          onFocus={() => setPasswordFocused(true)}
+          onBlur={() => setPasswordFocused(false)}
+          secureTextEntry={!showPassword}
+          accessibilityLabel="Password input"
+          focused={passwordFocused}
+          style={{
+            flex: 1, 
+            paddingHorizontal: 0, 
+            backgroundColor: 'transparent', 
+            marginBottom: 0,
+            color: colors.text
+          }}
+        />
+        <TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={styles.eyeIcon}>
+          <MaterialIcons name={showPassword ? 'visibility-off' : 'visibility'} size={24} color={colors.secondary} />
+        </TouchableOpacity>
+      </View>
       {viewState.errors.password && (
         <Text style={{ 
           color: isDarkMode ? '#ff6b6b' : '#ff4757', 
