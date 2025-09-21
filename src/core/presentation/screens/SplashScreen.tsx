@@ -3,10 +3,12 @@ import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useRef } from 'react';
 import { Animated, Easing, StyleSheet, Text, View } from 'react-native';
-import { container } from 'tsyringe';
+import { container, InjectionToken } from 'tsyringe';
 import { GetCurrentUserUseCaseToken } from '../../../features/auth/auth.di';
 import { GetCurrentUserUseCase } from '../../../features/auth/domain/usecases/GetCurrentUserUseCase';
 import { auth } from '../../../infrastructure/firebase/firebase.config';
+// Ensure container is initialized
+import '../../../container';
 
 const SplashScreen = () => {
   const rotation = useRef(new Animated.Value(0)).current;
@@ -47,11 +49,48 @@ const SplashScreen = () => {
       });
       
       // Add a small delay to ensure everything is ready
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise(resolve => setTimeout(resolve, 1500));
       
       // Check if user is already logged in
-      const getCurrentUserUseCase = container.resolve<GetCurrentUserUseCase>(GetCurrentUserUseCaseToken);
-      const user = await getCurrentUserUseCase.execute();
+      // Use a more defensive approach to handle DI issues
+      let user = null;
+      try {
+        // Check if the token is registered before trying to resolve it
+        if (container.isRegistered(GetCurrentUserUseCaseToken as InjectionToken)) {
+          const getCurrentUserUseCase = container.resolve<GetCurrentUserUseCase>(GetCurrentUserUseCaseToken);
+          user = await getCurrentUserUseCase.execute();
+        } else {
+          console.log('[SplashScreen] GetCurrentUserUseCaseToken not registered, falling back to direct auth check');
+          // Fallback to direct Firebase auth check
+          const firebaseUser = auth.currentUser;
+          if (firebaseUser) {
+            user = {
+              id: firebaseUser.uid,
+              name: firebaseUser.displayName || '',
+              email: firebaseUser.email || '',
+              photoURL: firebaseUser.photoURL || undefined,
+              emailVerified: firebaseUser.emailVerified,
+              createdAt: new Date(),
+              updatedAt: new Date()
+            };
+          }
+        }
+      } catch (diError) {
+        console.log('[SplashScreen] Dependency injection error, falling back to direct auth check:', diError);
+        // Fallback to direct Firebase auth check
+        const firebaseUser = auth.currentUser;
+        if (firebaseUser) {
+          user = {
+            id: firebaseUser.uid,
+            name: firebaseUser.displayName || '',
+            email: firebaseUser.email || '',
+            photoURL: firebaseUser.photoURL || undefined,
+            emailVerified: firebaseUser.emailVerified,
+            createdAt: new Date(),
+            updatedAt: new Date()
+          };
+        }
+      }
       
       console.log('[SplashScreen] Final user check result:', user);
       

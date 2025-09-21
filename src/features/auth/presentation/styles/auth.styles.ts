@@ -140,6 +140,8 @@ export const getAuthStyles = (colors: any, colorScheme: string | null | undefine
   backButton: {
     position: 'absolute',
     left: 15,
+    zIndex: 1,
+    padding: 5,
   },
   backButtonText: {
     color: colors.text,

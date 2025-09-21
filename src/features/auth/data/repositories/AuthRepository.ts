@@ -1,25 +1,25 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as AppleAuthentication from 'expo-apple-authentication';
 import {
   createUserWithEmailAndPassword,
+  FacebookAuthProvider,
   sendEmailVerification as firebaseSendEmailVerification,
   sendPasswordResetEmail as firebaseSendPasswordResetEmail,
   updateProfile as firebaseUpdateProfile,
   User as FirebaseUser,
+  GoogleAuthProvider,
+  OAuthProvider,
   onAuthStateChanged,
   reload,
-  signInWithEmailAndPassword,
-  signOut,
   signInWithCredential,
-  GoogleAuthProvider,
-  FacebookAuthProvider,
-  OAuthProvider
+  signInWithEmailAndPassword,
+  signOut
 } from 'firebase/auth';
 import { doc, getDoc, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore';
 import { injectable } from 'tsyringe';
 import { auth, firestore } from '../../../../infrastructure/firebase/firebase.config';
 import { User } from '../../domain/entities/User';
 import { IAuthRepository } from '../../domain/repositories/IAuthRepository';
-import * as AppleAuthentication from 'expo-apple-authentication';
 import { SocialAuthService } from '../services/SocialAuthService';
 
 @injectable()
@@ -281,11 +281,12 @@ export class AuthRepository implements IAuthRepository {
         console.log('[AuthRepository] New Google user, creating Firestore document...');
         
         const userData = {
-          id: firebaseUser.uid,
+          uid: firebaseUser.uid,
           name: firebaseUser.displayName || '',
           email: firebaseUser.email || '',
-          phoneNumber: null,
+          photoURL: firebaseUser.photoURL || '',
           emailVerified: firebaseUser.emailVerified,
+          phoneNumber: firebaseUser.phoneNumber || '',
           createdAt: serverTimestamp(),
           updatedAt: serverTimestamp()
         };
@@ -316,6 +317,11 @@ export class AuthRepository implements IAuthRepository {
         message: error.message,
         stack: error.stack
       });
+      
+      // Provide more specific error messages for common issues
+      if (error.message && error.message.includes('redirect')) {
+        throw new Error('Google Sign In redirect failed. Please ensure all redirect URIs are properly configured in Google Cloud Console.');
+      }
       
       throw new Error(this.getErrorMessage(error));
     }

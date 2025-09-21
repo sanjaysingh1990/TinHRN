@@ -4,14 +4,20 @@
     "slug": "TiNHRn",
     "version": "1.0.0",
     "orientation": "portrait",
+    "owner": "sanjubisht",
+    "platforms": ["ios", "android", "web"],
     "icon": "./assets/images/icon.png",
     "scheme": "tinhrn",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
+      "bundleIdentifier": "com.app.trekking",
       "config": {
-        "googleMapsApiKey": "AIzaSyAWoR7v4wdvae_wN4ZAjcVwXYCZpKJtOkw"
+        "googleMapsApiKey": "AIzaSyAWoR7v4wdvae_wN4ZAjcVwXYCZpKJtOkw",
+        "googleSignIn": {
+          "reservedClientId": "YOUR_REVERSED_CLIENT_ID"
+        }
       }
     },
     "android": {
@@ -21,8 +27,6 @@
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
-      "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false,
       "package": "com.app.trekking",
       "config": {
         "googleMaps": {
