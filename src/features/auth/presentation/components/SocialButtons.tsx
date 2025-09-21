@@ -1,27 +1,48 @@
-
 import { MaterialIcons } from '@expo/vector-icons';
 import React from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { Alert, TouchableOpacity, View } from 'react-native';
 import { useTheme } from '../../../../hooks/useTheme';
 import { getAuthStyles } from '../styles/auth.styles';
+import { useAuth } from '../context/AuthContext';
 
 const SocialButtons = () => {
   const { colors, isDarkMode } = useTheme();
   const styles = getAuthStyles(colors, isDarkMode ? 'dark' : 'light');
+  const { signInWithGoogle, signInWithFacebook, signInWithApple } = useAuth();
 
-  const handleGoogleLogin = () => {
-    // TODO: Implement Google login
-    console.log('Google login pressed');
+  const handleGoogleLogin = async () => {
+    try {
+      await signInWithGoogle();
+    } catch (error: any) {
+      console.error('Google Sign In Error:', error);
+      Alert.alert(
+        'Google Sign In', 
+        error.message || 'Failed to sign in with Google. Please try again.',
+        [{ text: 'OK' }]
+      );
+    }
   };
 
-  const handleFacebookLogin = () => {
-    // TODO: Implement Facebook login
-    console.log('Facebook login pressed');
+  const handleFacebookLogin = async () => {
+    try {
+      await signInWithFacebook();
+    } catch (error: any) {
+      console.error('Facebook Sign In Error:', error);
+      Alert.alert(
+        'Facebook Sign In', 
+        error.message || 'Failed to sign in with Facebook. Please try again.',
+        [{ text: 'OK' }]
+      );
+    }
   };
 
-  const handleAppleLogin = () => {
-    // TODO: Implement Apple login
-    console.log('Apple login pressed');
+  const handleAppleLogin = async () => {
+    try {
+      await signInWithApple();
+    } catch (error: any) {
+      console.error('Apple Sign In Error:', error);
+      Alert.alert('Error', error.message || 'Failed to sign in with Apple');
+    }
   };
 
   return (

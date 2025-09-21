@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
+    ActivityIndicator,
     KeyboardAvoidingView,
     Platform,
     ScrollView,
@@ -29,7 +30,7 @@ const SignupScreen: React.FC = () => {
   const router = useRouter();
   const { colors, isDarkMode } = useTheme();
   const styles = getAuthStyles(colors, isDarkMode ? 'dark' : 'light');
-  const { signup: authSignup } = useAuth();
+  const { signup: authSignup, isLoading: authLoading } = useAuth();
 
   const [viewModel] = useState(() => container.resolve<SignupViewModel>(SignupViewModelToken));
   const [countryCode, setCountryCode] = useState<CountryCode>('US');
@@ -338,7 +339,15 @@ const SignupScreen: React.FC = () => {
             <View style={styles.stitch} />
           </View>
 
-          <SocialButtons />
+          {/* Show loading indicator when auth is loading (social login) */}
+          {authLoading ? (
+            <View style={styles.loadingContainer}>
+              <ActivityIndicator size="large" color={colors.primary} />
+              <Text style={[styles.loadingText, { color: colors.text }]}>Signing up...</Text>
+            </View>
+          ) : (
+            <SocialButtons />
+          )}
 
           <AuthFooter 
             text="Already have an account? "

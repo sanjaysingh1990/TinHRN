@@ -1,4 +1,3 @@
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   createUserWithEmailAndPassword,
@@ -9,13 +8,19 @@ import {
   onAuthStateChanged,
   reload,
   signInWithEmailAndPassword,
-  signOut
+  signOut,
+  signInWithCredential,
+  GoogleAuthProvider,
+  FacebookAuthProvider,
+  OAuthProvider
 } from 'firebase/auth';
 import { doc, getDoc, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore';
 import { injectable } from 'tsyringe';
 import { auth, firestore } from '../../../../infrastructure/firebase/firebase.config';
 import { User } from '../../domain/entities/User';
 import { IAuthRepository } from '../../domain/repositories/IAuthRepository';
+import * as AppleAuthentication from 'expo-apple-authentication';
+import { SocialAuthService } from '../services/SocialAuthService';
 
 @injectable()
 export class AuthRepository implements IAuthRepository {
@@ -248,6 +253,219 @@ export class AuthRepository implements IAuthRepository {
       const userError = new Error(errorMessage);
       userError.name = 'AuthenticationError';
       throw userError;
+    }
+  }
+
+  async signInWithGoogle(): Promise<User> {
+    console.log('[AuthRepository] Starting Google sign in process...');
+    
+    try {
+      // Use the SocialAuthService to handle the OAuth flow
+      const idToken = await SocialAuthService.signInWithGoogle();
+      
+      // Create Firebase credential from Google ID token
+      const firebaseCredential = GoogleAuthProvider.credential(idToken);
+      
+      // Sign in with Firebase
+      const userCredential = await signInWithCredential(auth, firebaseCredential);
+      const firebaseUser = userCredential.user;
+      
+      console.log('[AuthRepository] Google sign in successful. UID:', firebaseUser.uid);
+      
+      // Get additional user data from Firestore
+      const userDoc = await getDoc(doc(firestore, 'users', firebaseUser.uid));
+      let additionalData = userDoc.exists() ? userDoc.data() : {};
+      
+      // If this is a new user, we might need to create a Firestore document
+      if (!userDoc.exists()) {
+        console.log('[AuthRepository] New Google user, creating Firestore document...');
+        
+        const userData = {
+          id: firebaseUser.uid,
+          name: firebaseUser.displayName || '',
+          email: firebaseUser.email || '',
+          phoneNumber: null,
+          emailVerified: firebaseUser.emailVerified,
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp()
+        };
+        
+        await setDoc(doc(firestore, 'users', firebaseUser.uid), userData);
+        additionalData = userData;
+      }
+      
+      const mappedUser = this.mapFirebaseUserToUser(firebaseUser, additionalData);
+      console.log('[AuthRepository] Google sign in completed successfully. User:', {
+        id: mappedUser.id,
+        name: mappedUser.name,
+        email: mappedUser.email
+      });
+      
+      // Store user data in AsyncStorage for faster loading next time
+      try {
+        await AsyncStorage.setItem('@currentUser', JSON.stringify(mappedUser));
+        console.log('[AuthRepository] User data stored in AsyncStorage successfully');
+      } catch (storageError) {
+        console.log('[AuthRepository] Error storing user data in AsyncStorage:', storageError);
+      }
+      
+      return mappedUser;
+    } catch (error: any) {
+      console.log('[AuthRepository] Google sign in failed with error:', {
+        code: error.code,
+        message: error.message,
+        stack: error.stack
+      });
+      
+      throw new Error(this.getErrorMessage(error));
+    }
+  }
+
+  async signInWithFacebook(): Promise<User> {
+    console.log('[AuthRepository] Starting Facebook sign in process...');
+    
+    try {
+      // Use the SocialAuthService to handle the OAuth flow
+      const { accessToken } = await SocialAuthService.signInWithFacebook();
+      
+      // Create Firebase credential from Facebook access token
+      const firebaseCredential = FacebookAuthProvider.credential(accessToken);
+      
+      // Sign in with Firebase
+      const userCredential = await signInWithCredential(auth, firebaseCredential);
+      const firebaseUser = userCredential.user;
+      
+      console.log('[AuthRepository] Facebook sign in successful. UID:', firebaseUser.uid);
+      
+      // Get additional user data from Firestore
+      const userDoc = await getDoc(doc(firestore, 'users', firebaseUser.uid));
+      let additionalData = userDoc.exists() ? userDoc.data() : {};
+      
+      // If this is a new user, we might need to create a Firestore document
+      if (!userDoc.exists()) {
+        console.log('[AuthRepository] New Facebook user, creating Firestore document...');
+        
+        const userData = {
+          id: firebaseUser.uid,
+          name: firebaseUser.displayName || '',
+          email: firebaseUser.email || '',
+          phoneNumber: null,
+          emailVerified: firebaseUser.emailVerified,
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp()
+        };
+        
+        await setDoc(doc(firestore, 'users', firebaseUser.uid), userData);
+        additionalData = userData;
+      }
+      
+      const mappedUser = this.mapFirebaseUserToUser(firebaseUser, additionalData);
+      console.log('[AuthRepository] Facebook sign in completed successfully. User:', {
+        id: mappedUser.id,
+        name: mappedUser.name,
+        email: mappedUser.email
+      });
+      
+      // Store user data in AsyncStorage for faster loading next time
+      try {
+        await AsyncStorage.setItem('@currentUser', JSON.stringify(mappedUser));
+        console.log('[AuthRepository] User data stored in AsyncStorage successfully');
+      } catch (storageError) {
+        console.log('[AuthRepository] Error storing user data in AsyncStorage:', storageError);
+      }
+      
+      return mappedUser;
+    } catch (error: any) {
+      console.log('[AuthRepository] Facebook sign in failed with error:', {
+        code: error.code,
+        message: error.message,
+        stack: error.stack
+      });
+      
+      throw new Error(this.getErrorMessage(error));
+    }
+  }
+
+  async signInWithApple(): Promise<User> {
+    console.log('[AuthRepository] Starting Apple sign in process...');
+    
+    try {
+      // For Apple Sign In, we can use the expo-apple-authentication package
+      const credential = await AppleAuthentication.signInAsync({
+        requestedScopes: [
+          AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+          AppleAuthentication.AppleAuthenticationScope.EMAIL,
+        ],
+      });
+      
+      // Create Firebase credential from Apple ID token
+      const firebaseCredential = new OAuthProvider('apple.com').credential({
+        idToken: credential.identityToken || undefined,
+      });
+      
+      // Sign in with Firebase
+      const userCredential = await signInWithCredential(auth, firebaseCredential);
+      const firebaseUser = userCredential.user;
+      
+      console.log('[AuthRepository] Apple sign in successful. UID:', firebaseUser.uid);
+      
+      // Get additional user data from Firestore
+      const userDoc = await getDoc(doc(firestore, 'users', firebaseUser.uid));
+      let additionalData = userDoc.exists() ? userDoc.data() : {};
+      
+      // If this is a new user, we might need to create a Firestore document
+      if (!userDoc.exists()) {
+        console.log('[AuthRepository] New Apple user, creating Firestore document...');
+        
+        // Extract name from Apple credential if available
+        let name = '';
+        if (credential.fullName) {
+          name = `${credential.fullName.givenName || ''} ${credential.fullName.familyName || ''}`.trim();
+        }
+        
+        const userData = {
+          id: firebaseUser.uid,
+          name: name || firebaseUser.displayName || '',
+          email: firebaseUser.email || '',
+          phoneNumber: null,
+          emailVerified: firebaseUser.emailVerified,
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp()
+        };
+        
+        await setDoc(doc(firestore, 'users', firebaseUser.uid), userData);
+        additionalData = userData;
+      }
+      
+      const mappedUser = this.mapFirebaseUserToUser(firebaseUser, additionalData);
+      console.log('[AuthRepository] Apple sign in completed successfully. User:', {
+        id: mappedUser.id,
+        name: mappedUser.name,
+        email: mappedUser.email
+      });
+      
+      // Store user data in AsyncStorage for faster loading next time
+      try {
+        await AsyncStorage.setItem('@currentUser', JSON.stringify(mappedUser));
+        console.log('[AuthRepository] User data stored in AsyncStorage successfully');
+      } catch (storageError) {
+        console.log('[AuthRepository] Error storing user data in AsyncStorage:', storageError);
+      }
+      
+      return mappedUser;
+    } catch (error: any) {
+      console.log('[AuthRepository] Apple sign in failed with error:', {
+        code: error.code,
+        message: error.message,
+        stack: error.stack
+      });
+      
+      // Handle specific Apple Sign In errors
+      if (error.code === 'ERR_REQUEST_CANCELED') {
+        throw new Error('Apple Sign In was canceled.');
+      }
+      
+      throw new Error(this.getErrorMessage(error));
     }
   }
 
@@ -559,6 +777,12 @@ export class AuthRepository implements IAuthRepository {
         return 'Authentication service is unavailable. Please contact support.';
       case 'auth/requires-recent-login':
         return 'Please sign in again to complete this action.';
+      case 'auth/account-exists-with-different-credential':
+        return 'An account already exists with the same email address but different sign-in credentials. Please sign in using the provider associated with this email address.';
+      case 'auth/popup-closed-by-user':
+        return 'Sign in process was cancelled. Please try again.';
+      case 'auth/cancelled-popup-request':
+        return 'Sign in process was cancelled. Please try again.';
       default:
         console.log('[AuthRepository] Unhandled error code:', error.code);
         

@@ -1,4 +1,3 @@
-
 import { User } from '../entities/User';
 
 export interface IAuthRepository {
@@ -6,6 +5,11 @@ export interface IAuthRepository {
   login(email: string, password: string): Promise<User>;
   signup(name: string, email: string, password: string, phoneNumber?: string): Promise<User>;
   logout(): Promise<void>;
+  
+  // Social authentication methods
+  signInWithGoogle(): Promise<User>;
+  signInWithFacebook(): Promise<User>;
+  signInWithApple(): Promise<User>;
   
   // User state methods
   getCurrentUser(): Promise<User | null>;

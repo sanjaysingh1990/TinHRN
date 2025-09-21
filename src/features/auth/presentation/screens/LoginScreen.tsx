@@ -2,7 +2,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { Alert, Image, SafeAreaView, StatusBar, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Alert, Image, SafeAreaView, StatusBar, Text, TouchableOpacity, View } from 'react-native';
 import container from '../../../../container';
 import { useTheme } from '../../../../hooks/useTheme';
 import { LoginViewModelToken } from '../../auth.di';
@@ -19,7 +19,7 @@ const LoginScreen: React.FC = () => {
   const router = useRouter();
   const { colors, isDarkMode } = useTheme();
   const styles = getAuthStyles(colors, isDarkMode ? 'dark' : 'light');
-  const { login: authLogin } = useAuth();
+  const { login: authLogin, isLoading: authLoading } = useAuth();
   
   const [viewModel] = useState(() => container.resolve<LoginViewModel>(LoginViewModelToken));
   const [emailFocused, setEmailFocused] = useState(false);
@@ -221,7 +221,15 @@ const LoginScreen: React.FC = () => {
         <View style={styles.stitch} />
       </View>
 
-      <SocialButtons />
+      {/* Show loading indicator when auth is loading (social login) */}
+      {authLoading ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={colors.primary} />
+          <Text style={[styles.loadingText, { color: colors.text }]}>Signing in...</Text>
+        </View>
+      ) : (
+        <SocialButtons />
+      )}
 
       <AuthFooter 
         text="Don't have an account? "

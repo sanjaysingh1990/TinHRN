@@ -14,6 +14,11 @@ interface AuthContextType extends AuthState {
   reloadUser: () => Promise<void>;
   error: string | null;
   clearError: () => void;
+  
+  // Social login methods
+  signInWithGoogle: () => Promise<void>;
+  signInWithFacebook: () => Promise<void>;
+  signInWithApple: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -143,6 +148,45 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  const signInWithGoogle = async () => {
+    try {
+      clearError();
+      setAuthState((prev: AuthState) => ({ ...prev, isLoading: true }));
+      await authRepository.signInWithGoogle();
+      // User state will be updated via onAuthStateChanged
+    } catch (error) {
+      handleError(error);
+      setAuthState((prev: AuthState) => ({ ...prev, isLoading: false }));
+      throw error;
+    }
+  };
+
+  const signInWithFacebook = async () => {
+    try {
+      clearError();
+      setAuthState((prev: AuthState) => ({ ...prev, isLoading: true }));
+      await authRepository.signInWithFacebook();
+      // User state will be updated via onAuthStateChanged
+    } catch (error) {
+      handleError(error);
+      setAuthState((prev: AuthState) => ({ ...prev, isLoading: false }));
+      throw error;
+    }
+  };
+
+  const signInWithApple = async () => {
+    try {
+      clearError();
+      setAuthState((prev: AuthState) => ({ ...prev, isLoading: true }));
+      await authRepository.signInWithApple();
+      // User state will be updated via onAuthStateChanged
+    } catch (error) {
+      handleError(error);
+      setAuthState((prev: AuthState) => ({ ...prev, isLoading: false }));
+      throw error;
+    }
+  };
+
   const value: AuthContextType = {
     ...authState,
     login,
@@ -154,6 +198,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     reloadUser,
     error,
     clearError,
+    
+    // Social login methods
+    signInWithGoogle,
+    signInWithFacebook,
+    signInWithApple,
   };
 
   return (

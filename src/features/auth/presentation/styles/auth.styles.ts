@@ -1,4 +1,3 @@
-
 import { StyleSheet } from 'react-native';
 
 export const getAuthStyles = (colors: any, colorScheme: string | null | undefined) => StyleSheet.create({
@@ -182,5 +181,15 @@ export const getAuthStyles = (colors: any, colorScheme: string | null | undefine
   },
   scrollContainer: {
     paddingBottom: 20,
+  },
+  loadingContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 20,
+  },
+  loadingText: {
+    marginLeft: 10,
+    fontSize: 16,
   },
 });
