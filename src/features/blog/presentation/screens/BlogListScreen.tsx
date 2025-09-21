@@ -2,13 +2,14 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import ShimmerPlaceHolder from 'react-native-shimmer-placeholder';
 import container from '../../../../container';
 import { useTheme } from '../../../../hooks/useTheme';
 import { BlogListViewModelToken } from '../../blog.di';
-import { Blog } from '../../domain/models/Blog';
 import { BlogListViewModel } from '../viewmodels/BlogListViewModel';
+import { Blog } from '../../domain/models/Blog';
 
 const BlogListScreen: React.FC = () => {
   const router = useRouter();
@@ -88,23 +89,27 @@ const BlogListScreen: React.FC = () => {
       })}
     >
       <View style={styles.imageContainer}>
-        <ShimmerPlaceHolder
-          visible={!!item.thumbnail}
-          shimmerColors={isDarkMode ? ['#211911', '#332517', '#211911'] : ['#f8f7f6', '#e0dcd8', '#f8f7f6']}
-          LinearGradient={LinearGradient}
-        >
-          <View style={styles.imagePlaceholder}>
-            {item.thumbnail ? (
-              <View style={styles.image} />
-            ) : null}
-          </View>
-        </ShimmerPlaceHolder>
+        {/* Show actual image when available, otherwise show placeholder */}
+        {item.thumbnail ? (
+          <Image 
+            source={{ uri: item.thumbnail }} 
+            style={styles.image}
+            resizeMode="cover"
+          />
+        ) : (
+          <View style={[styles.imagePlaceholder, { backgroundColor: colors.borderColor }]} />
+        )}
       </View>
       
       <View style={styles.contentContainer}>
+        {/* Show all tags instead of just the first one */}
         {item.tags && item.tags.length > 0 && (
-          <View style={[styles.tag, { backgroundColor: '#cf7317' }]}>
-            <Text style={styles.tagText}>{item.tags[0]}</Text>
+          <View style={styles.tagsContainer}>
+            {item.tags.map((tag: string, index: number) => (
+              <View key={index} style={[styles.tag, { backgroundColor: '#cf7317' }]}>
+                <Text style={styles.tagText}>{tag}</Text>
+              </View>
+            ))}
           </View>
         )}
         
@@ -180,7 +185,8 @@ const BlogListScreen: React.FC = () => {
   if (loading && blogs.length === 0) {
     console.log('[BlogListScreen] Rendering shimmer/loading state');
     return (
-      <View style={[styles.container, { backgroundColor: colors.background }]}>
+      // Only apply safe area padding to top and sides, not bottom to avoid extra space with tab bar
+      <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['top', 'left', 'right']}>
         <View style={styles.header}>
           <Text style={[styles.headerTitle, { color: colors.text }]}>Blog</Text>
         </View>
@@ -191,26 +197,28 @@ const BlogListScreen: React.FC = () => {
           contentContainerStyle={styles.listContainer}
           showsVerticalScrollIndicator={false}
         />
-      </View>
+      </SafeAreaView>
     );
   }
 
   if (error) {
     console.log('[BlogListScreen] Rendering error state');
     return (
-      <View style={[styles.container, { backgroundColor: colors.background, justifyContent: 'center', alignItems: 'center' }]}>
+      // Only apply safe area padding to top and sides, not bottom to avoid extra space with tab bar
+      <SafeAreaView style={[styles.container, { backgroundColor: colors.background, justifyContent: 'center', alignItems: 'center' }]} edges={['top', 'left', 'right']}>
         <MaterialIcons name="error-outline" size={48} color={isDarkMode ? '#ff6b6b' : '#ff4757'} />
         <Text style={[styles.errorText, { color: colors.text, marginBottom: 16 }]}>{error}</Text>
         <TouchableOpacity style={[styles.retryButton, { backgroundColor: '#cf7317' }]} onPress={loadBlogs}>
           <Text style={styles.retryButtonText}>Retry</Text>
         </TouchableOpacity>
-      </View>
+      </SafeAreaView>
     );
   }
 
   console.log('[BlogListScreen] Rendering blog list with', blogs.length, 'blogs');
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
+    // Only apply safe area padding to top and sides, not bottom to avoid extra space with tab bar
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['top', 'left', 'right']}>
       <View style={styles.header}>
         <Text style={[styles.headerTitle, { color: colors.text }]}>Blog</Text>
       </View>
@@ -230,7 +238,7 @@ const BlogListScreen: React.FC = () => {
           </View>
         }
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -269,11 +277,11 @@ const styles = StyleSheet.create({
   imageContainer: {
     height: 180,
   },
-  imagePlaceholder: {
+  image: {
     height: 180,
     width: '100%',
   },
-  image: {
+  imagePlaceholder: {
     height: 180,
     width: '100%',
     backgroundColor: '#e0e0e0',
@@ -281,11 +289,17 @@ const styles = StyleSheet.create({
   contentContainer: {
     padding: 16,
   },
+  tagsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginBottom: 8,
+  },
   tag: {
     alignSelf: 'flex-start',
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 4,
+    marginRight: 8,
     marginBottom: 8,
   },
   tagText: {

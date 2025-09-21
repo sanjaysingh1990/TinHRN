@@ -21,8 +21,8 @@ import { HomeViewModel } from '../viewmodels/HomeViewModel';
 
 import { useRouter } from 'expo-router';
 
-import { StatusBar } from 'expo-status-bar';
 import { LinearGradient } from 'expo-linear-gradient';
+import { StatusBar } from 'expo-status-bar';
 
 const HomeScreen: React.FC = () => {
   const router = useRouter();
@@ -288,7 +288,7 @@ const HomeScreen: React.FC = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container}  edges={['top', 'left', 'right']}>
       <StatusBar style={colorScheme === 'dark' ? "light" : "dark"} />
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Tent'in Himalayas</Text>

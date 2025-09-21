@@ -230,7 +230,7 @@ const ProfileScreen = () => {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.background }]}>
+      <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.background }]}  edges={['top', 'left', 'right']}>
         <StatusBar barStyle={isDarkMode ? "light-content" : "dark-content"} />
         <ScrollView style={styles.scrollView}>
           <ProfileHeader userProfile={userProfile} loading={userProfileLoading} />

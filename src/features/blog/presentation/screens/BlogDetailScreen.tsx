@@ -98,13 +98,14 @@ const BlogDetailScreen: React.FC = () => {
     console.log('[BlogDetailScreen] Rendering loading state');
     return (
       <View style={[styles.container, { backgroundColor: colors.background }]}>
-        <View style={styles.header}>
+        {/* Add top padding for back button */}
+        <View style={[styles.header, { paddingTop: 10 }]}>
           <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
             <MaterialIcons name="arrow-back" size={24} color={colors.text} />
           </TouchableOpacity>
         </View>
         
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
           <ShimmerPlaceHolder
             visible={false}
             shimmerColors={isDarkMode ? ['#211911', '#332517', '#211911'] : ['#f8f7f6', '#e0dcd8', '#f8f7f6']}
@@ -215,13 +216,14 @@ const BlogDetailScreen: React.FC = () => {
   console.log('[BlogDetailScreen] Rendering content state. Blog:', blog, 'Content:', content);
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <View style={styles.header}>
+      {/* Add top padding for back button */}
+      <View style={[styles.header, { paddingTop: 50 }]}>
         <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
           <MaterialIcons name="arrow-back" size={24} color={colors.text} />
         </TouchableOpacity>
       </View>
       
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
         {/* Banner Image */}
         <View style={styles.bannerImage}>
           <Image 
@@ -340,6 +342,19 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
     justifyContent: 'center',
     alignItems: 'center',
+    // Add shadow for better visibility
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  scrollContent: {
+    // Add bottom padding for the watch video section
+    paddingBottom: 30,
   },
   bannerImage: {
     width: '100%',
@@ -418,6 +433,15 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 8,
     marginBottom: 16,
+    // Add shadow for better visibility
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   videoText: {
     flex: 1,
