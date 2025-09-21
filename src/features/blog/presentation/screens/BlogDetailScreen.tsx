@@ -1,7 +1,7 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Dimensions, Image, Linking, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import ShimmerPlaceHolder from 'react-native-shimmer-placeholder';
 import WebView from 'react-native-webview';
@@ -16,8 +16,23 @@ const BlogDetailScreen: React.FC = () => {
   const router = useRouter();
   const { id } = useLocalSearchParams();
   const { colors, isDarkMode } = useTheme();
-  const [viewModel] = useState(() => container.resolve<BlogDetailViewModel>(BlogDetailViewModelToken));
+  
+  // Local state for UI concerns
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [blog, setBlog] = useState<any>(null);
+  const [content, setContent] = useState<any>(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [webViewHeight, setWebViewHeight] = useState(200); // Default height
+
+  // Refs
+  const webViewRef = useRef<WebView>(null);
+
+  // Get the ViewModel instance once and memoize it (fix for infinite loop)
+  const blogDetailViewModel = useMemo(() => {
+    console.log('[BlogDetailScreen] Creating blogDetailViewModel instance');
+    return container.resolve<BlogDetailViewModel>(BlogDetailViewModelToken);
+  }, []);
 
   useEffect(() => {
     console.log('[BlogDetailScreen] useEffect called with id:', id);
@@ -28,11 +43,26 @@ const BlogDetailScreen: React.FC = () => {
     }
   }, [id]);
 
-  const loadBlogDetail = async (blogId: string) => {
+  const loadBlogDetail = useCallback(async (blogId: string) => {
     console.log('[BlogDetailScreen] loadBlogDetail called with blogId:', blogId);
-    await viewModel.fetchBlogDetail(blogId);
-    console.log('[BlogDetailScreen] loadBlogDetail completed. Loading:', viewModel.loading, 'Error:', viewModel.error);
-  };
+    setLoading(true);
+    setError(null);
+    
+    try {
+      await blogDetailViewModel.fetchBlogDetail(blogId);
+      console.log('[BlogDetailScreen] fetchBlogDetail completed. Blog:', blogDetailViewModel.blog, 'Content:', blogDetailViewModel.content);
+      
+      // Update local state with data from ViewModel
+      setBlog(blogDetailViewModel.blog);
+      setContent(blogDetailViewModel.content);
+      setError(blogDetailViewModel.error);
+    } catch (err) {
+      console.error('[BlogDetailScreen] Error loading blog detail:', err);
+      setError('Failed to load blog details. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  }, [blogDetailViewModel]);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -52,7 +82,19 @@ const BlogDetailScreen: React.FC = () => {
     });
   };
 
-  if (viewModel.loading) {
+  // Function to handle WebView height changes
+  const onWebViewMessage = (event: any) => {
+    try {
+      const height = parseInt(event.nativeEvent.data, 10);
+      if (!isNaN(height)) {
+        setWebViewHeight(Math.max(height, 200)); // Minimum height of 200
+      }
+    } catch (error) {
+      console.log('Error parsing WebView height:', error);
+    }
+  };
+
+  if (loading) {
     console.log('[BlogDetailScreen] Rendering loading state');
     return (
       <View style={[styles.container, { backgroundColor: colors.background }]}>
@@ -78,7 +120,7 @@ const BlogDetailScreen: React.FC = () => {
               style={styles.shimmerTitle}
             />
             
-            <View style={styles.metaContainer}>
+            <View style={styles.tagsContainer}>
               <ShimmerPlaceHolder
                 visible={false}
                 shimmerColors={isDarkMode ? ['#211911', '#332517', '#211911'] : ['#f8f7f6', '#e0dcd8', '#f8f7f6']}
@@ -105,12 +147,12 @@ const BlogDetailScreen: React.FC = () => {
     );
   }
 
-  if (viewModel.error) {
-    console.log('[BlogDetailScreen] Rendering error state:', viewModel.error);
+  if (error) {
+    console.log('[BlogDetailScreen] Rendering error state:', error);
     return (
       <View style={[styles.container, { backgroundColor: colors.background, justifyContent: 'center', alignItems: 'center' }]}>
         <MaterialIcons name="error-outline" size={48} color={isDarkMode ? '#ff6b6b' : '#ff4757'} />
-        <Text style={[styles.errorText, { color: colors.text, marginBottom: 16 }]}>{viewModel.error}</Text>
+        <Text style={[styles.errorText, { color: colors.text, marginBottom: 16 }]}>{error}</Text>
         <TouchableOpacity 
           style={[styles.retryButton, { backgroundColor: '#cf7317' }]} 
           onPress={() => loadBlogDetail(id as string)}
@@ -121,8 +163,8 @@ const BlogDetailScreen: React.FC = () => {
     );
   }
 
-  if (!viewModel.blog || !viewModel.content) {
-    console.log('[BlogDetailScreen] Rendering not found state. Blog:', viewModel.blog, 'Content:', viewModel.content);
+  if (!blog || !content) {
+    console.log('[BlogDetailScreen] Rendering not found state. Blog:', blog, 'Content:', content);
     return (
       <View style={[styles.container, { backgroundColor: colors.background, justifyContent: 'center', alignItems: 'center' }]}>
         <MaterialIcons name="article" size={48} color={colors.secondary} />
@@ -131,7 +173,46 @@ const BlogDetailScreen: React.FC = () => {
     );
   }
 
-  console.log('[BlogDetailScreen] Rendering content state. Blog:', viewModel.blog, 'Content:', viewModel.content);
+  // HTML content with JavaScript to communicate height
+  const htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+      <style>
+        body {
+          font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+          line-height: 1.6;
+          margin: 0;
+          padding: 16px;
+          color: ${colors.text};
+          background-color: ${colors.background};
+        }
+        img {
+          max-width: 100%;
+          height: auto;
+        }
+        a {
+          color: #cf7317;
+        }
+      </style>
+    </head>
+    <body>
+      <div id="content">${content.description}</div>
+      <script>
+        setTimeout(function() {
+          const content = document.getElementById('content');
+          if (content) {
+            const height = Math.max(content.scrollHeight, content.offsetHeight, content.clientHeight);
+            window.ReactNativeWebView.postMessage(height.toString());
+          }
+        }, 500);
+      </script>
+    </body>
+    </html>
+  `;
+
+  console.log('[BlogDetailScreen] Rendering content state. Blog:', blog, 'Content:', content);
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <View style={styles.header}>
@@ -144,7 +225,7 @@ const BlogDetailScreen: React.FC = () => {
         {/* Banner Image */}
         <View style={styles.bannerImage}>
           <Image 
-            source={{ uri: viewModel.blog.thumbnail }} 
+            source={{ uri: blog.thumbnail }} 
             style={styles.bannerImage} 
             resizeMode="cover"
           />
@@ -152,31 +233,42 @@ const BlogDetailScreen: React.FC = () => {
         
         <View style={styles.contentContainer}>
           {/* Title */}
-          <Text style={[styles.title, { color: colors.text }]}>{viewModel.blog.title}</Text>
+          <Text style={[styles.title, { color: colors.text }]}>{blog.title}</Text>
           
-          {/* Meta Info */}
-          <View style={styles.metaContainer}>
-            {viewModel.blog.tags && viewModel.blog.tags.length > 0 && (
-              <View style={[styles.tag, { backgroundColor: '#cf7317' }]}>
-                <Text style={styles.tagText}>{viewModel.blog.tags[0]}</Text>
-              </View>
-            )}
-            <Text style={[styles.date, { color: colors.secondary }]}>{formatDate(viewModel.blog.createdAt)}</Text>
-          </View>
+          {/* Tags - Show all tags instead of just the first one */}
+          {blog.tags && blog.tags.length > 0 && (
+            <View style={styles.tagsContainer}>
+              {blog.tags.map((tag: string, index: number) => (
+                <View key={index} style={[styles.tag, { backgroundColor: '#cf7317' }]}>
+                  <Text style={styles.tagText}>{tag}</Text>
+                </View>
+              ))}
+            </View>
+          )}
           
-          {/* Description */}
+          {/* Date */}
+          <Text style={[styles.date, { color: colors.secondary }]}>{formatDate(blog.createdAt)}</Text>
+          
+          {/* Description - Properly render HTML content with dynamic height */}
           <View style={styles.descriptionContainer}>
             <WebView
+              ref={webViewRef}
               originWhitelist={['*']}
-              source={{ html: `<div style="color: ${colors.text}; font-family: -apple-system, BlinkMacSystemFont, sans-serif; line-height: 1.6;">${viewModel.content.description}</div>` }}
-              style={styles.webView}
+              source={{ html: htmlContent }}
+              style={[styles.webView, { height: webViewHeight }]}
               scrollEnabled={false}
               showsVerticalScrollIndicator={false}
+              onMessage={onWebViewMessage}
+              javaScriptEnabled={true}
+              domStorageEnabled={true}
+              scalesPageToFit={false}
+              bounces={false}
+              automaticallyAdjustContentInsets={false}
             />
           </View>
           
           {/* Images Carousel */}
-          {viewModel.content.images && viewModel.content.images.length > 0 && (
+          {content.images && content.images.length > 0 && (
             <View style={styles.imagesSection}>
               <Text style={[styles.sectionTitle, { color: colors.text }]}>Gallery</Text>
               <ScrollView 
@@ -188,7 +280,7 @@ const BlogDetailScreen: React.FC = () => {
                   setActiveImageIndex(index);
                 }}
               >
-                {viewModel.content.images.map((image, index) => (
+                {content.images.map((image: string, index: number) => (
                   <View key={index} style={styles.imageContainer}>
                     <Image source={{ uri: image }} style={styles.carouselImage} resizeMode="cover" />
                   </View>
@@ -197,7 +289,7 @@ const BlogDetailScreen: React.FC = () => {
               
               {/* Image Indicators */}
               <View style={styles.indicatorsContainer}>
-                {viewModel.content.images.map((_, index) => (
+                {content.images.map((_: any, index: number) => (
                   <View 
                     key={index} 
                     style={[
@@ -213,10 +305,10 @@ const BlogDetailScreen: React.FC = () => {
           )}
           
           {/* YouTube Video */}
-          {viewModel.content.youtubeVideoId && (
+          {content.youtubeVideoId && (
             <TouchableOpacity 
               style={[styles.videoContainer, { backgroundColor: colors.inputBackground }]}
-              onPress={() => openYouTubeVideo(viewModel.content!.youtubeVideoId!)}
+              onPress={() => openYouTubeVideo(content.youtubeVideoId!)}
             >
               <MaterialIcons name="play-circle-filled" size={48} color="#cf7317" />
               <Text style={[styles.videoText, { color: colors.text }]}>Watch Video</Text>
@@ -261,16 +353,17 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 12,
   },
-  metaContainer: {
+  tagsContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 16,
+    flexWrap: 'wrap',
+    marginBottom: 8,
   },
   tag: {
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 4,
+    marginRight: 8,
+    marginBottom: 8,
   },
   tagText: {
     color: '#fff',
@@ -279,6 +372,7 @@ const styles = StyleSheet.create({
   },
   date: {
     fontSize: 14,
+    marginBottom: 16,
   },
   descriptionContainer: {
     marginBottom: 24,

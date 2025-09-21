@@ -7,8 +7,8 @@ import ShimmerPlaceHolder from 'react-native-shimmer-placeholder';
 import container from '../../../../container';
 import { useTheme } from '../../../../hooks/useTheme';
 import { BlogListViewModelToken } from '../../blog.di';
-import { BlogListViewModel } from '../viewmodels/BlogListViewModel';
 import { Blog } from '../../domain/models/Blog';
+import { BlogListViewModel } from '../viewmodels/BlogListViewModel';
 
 const BlogListScreen: React.FC = () => {
   const router = useRouter();
