@@ -64,18 +64,17 @@ import { CustomizeTourRepository } from "./features/customizeTour/data/repositor
 import { CustomizeTourViewModel } from "./features/customizeTour/presentation/viewmodels/CustomizeTourViewModel";
 
 // AddReview module dependencies
+import { AddReviewScreenViewModelToken, ReviewRepositoryToken } from "./features/addreview/addreview.di";
 import { ReviewRepository } from "./features/addreview/data/repositories/ReviewRepository";
 import { AddReviewScreenViewModel } from "./features/addreview/presentation/viewmodels/AddReviewScreenViewModel";
-import { ReviewRepositoryToken, AddReviewScreenViewModelToken } from "./features/addreview/addreview.di";
 
+// Blog module dependencies
+import { BlogDetailViewModelToken, BlogListViewModelToken, BlogRepositoryToken } from "./features/blog/blog.di";
+import { BlogRepositoryImpl } from "./features/blog/data/repositories/BlogRepository";
+import { BlogDetailViewModel } from "./features/blog/presentation/viewmodels/BlogDetailViewModel";
+import { BlogListViewModel } from "./features/blog/presentation/viewmodels/BlogListViewModel";
 
-container.register(SampleRepositoryToken, {
-  useClass: SampleRepository,
-});
-container.register(GetSampleDataUseCaseToken, {
-  useClass: GetSampleDataUseCase,
-});
-
+// Register Auth dependencies first to ensure proper initialization
 container.register(AuthRepositoryToken, { useClass: AuthRepository });
 container.register(LoginUseCaseToken, { useClass: LoginUseCase });
 container.register(SignupUseCaseToken, { useClass: SignupUseCase });
@@ -84,6 +83,14 @@ container.register(GetCurrentUserUseCaseToken, { useClass: GetCurrentUserUseCase
 container.register(SendPasswordResetEmailUseCaseToken, { useClass: SendPasswordResetEmailUseCase });
 container.register(LoginViewModelToken, { useClass: LoginViewModel });
 container.register(SignupViewModelToken, { useClass: SignupViewModel });
+
+// Register other dependencies
+container.register(SampleRepositoryToken, {
+  useClass: SampleRepository,
+});
+container.register(GetSampleDataUseCaseToken, {
+  useClass: GetSampleDataUseCase,
+});
 
 container.registerSingleton(TourRepositoryToken, TourRepository);
 container.registerSingleton(HomeViewModelToken, HomeViewModel);
@@ -131,5 +138,9 @@ container.register(CustomizeTourViewModelToken, { useClass: CustomizeTourViewMod
 container.register(ReviewRepositoryToken, { useClass: ReviewRepository });
 container.register(AddReviewScreenViewModelToken, { useClass: AddReviewScreenViewModel });
 
+// Blog module dependencies registration
+container.register(BlogRepositoryToken, { useClass: BlogRepositoryImpl });
+container.register(BlogListViewModelToken, { useClass: BlogListViewModel });
+container.register(BlogDetailViewModelToken, { useClass: BlogDetailViewModel });
 
 export default container;

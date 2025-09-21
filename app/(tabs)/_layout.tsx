@@ -1,4 +1,3 @@
-
 import { MaterialIcons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import React from 'react';
@@ -46,7 +45,13 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <MaterialIcons name="photo-library" size={24} color={color} />,
         }}
       />
-     
+      <Tabs.Screen
+        name="blog"
+        options={{
+          title: 'Blog',
+          tabBarIcon: ({ color }) => <MaterialIcons name="article" size={24} color={color} />,
+        }}
+      />
       <Tabs.Screen
         name="profile"
         options={{
@@ -54,9 +59,6 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <MaterialIcons name="person" size={24} color={color} />,
         }}
       />
-     
     </Tabs>
-   
-   
   );
 }

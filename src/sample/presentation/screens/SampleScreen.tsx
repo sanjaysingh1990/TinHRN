@@ -1,12 +1,12 @@
 
 import React, { useEffect } from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
+import { Button, StyleSheet, Text, View } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import container from '../../../container';
+import { AppDispatch, RootState } from '../../../providers/store';
 import { GetSampleDataUseCase } from '../../application/usecases/GetSampleDataUseCase';
 import { GetSampleDataUseCaseToken } from '../../tokens';
-import { fetchDataStart, fetchDataSuccess, fetchDataFailure } from '../state/sample.slice';
-import { RootState, AppDispatch } from '../../../providers/store';
+import { fetchDataFailure, fetchDataStart, fetchDataSuccess } from '../state/sample.slice';
 
 const SampleScreen: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -21,7 +21,7 @@ const SampleScreen: React.FC = () => {
     try {
       const result = await getSampleDataUseCase.execute();
       dispatch(fetchDataSuccess(result));
-    } catch (e) {
+    } catch (e: any) {
       dispatch(fetchDataFailure(e.message));
     }
   };
