@@ -1,2 +1,2 @@
-export const CustomizeTourRepositoryToken = 'CustomizeTourRepository';
-export const CustomizeTourViewModelToken = 'CustomizeTourViewModel';
+export const CustomizeTourRepositoryToken = Symbol('CustomizeTourRepository');
+export const PaymentServiceToken = Symbol('PaymentService');

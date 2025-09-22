@@ -7,7 +7,7 @@ A modern tourism application built with React Native and Expo, featuring AI-powe
 - **AI-Powered Recommendations**: Gemini AI integration for personalized tour suggestions
 - **Tour Discovery**: Browse and search for tours with detailed information
 - **User Authentication**: Complete authentication system with email/password and social login (Google, Facebook, Apple)
-- **Tour Booking**: Seamless booking process with payment integration
+- **Tour Booking**: Seamless booking process with secure payment integration (Stripe)
 - **User Profiles**: Personalized user profiles with booking history
 - **Interactive Maps**: Location-based tour discovery
 - **Clean Architecture**: Well-structured codebase following clean architecture principles
@@ -21,6 +21,7 @@ A modern tourism application built with React Native and Expo, featuring AI-powe
 - **AI**: Google Gemini API
 - **State Management**: Redux Toolkit
 - **Navigation**: React Navigation
+- **Payment Processing**: Stripe React Native SDK
 - **UI Components**: Custom component library with Material Design principles
 - **Dependency Injection**: TSyringe
 - **Animations**: React Native Reanimated
@@ -38,6 +39,21 @@ The app features a complete authentication system with:
 ### Social Login Setup
 
 To enable social login providers, follow the setup guide in [SOCIAL_LOGIN_SETUP.md](SOCIAL_LOGIN_SETUP.md).
+
+## Payment Processing
+
+The app integrates with Stripe for secure payment processing:
+
+- Credit and debit card payments
+- Apple Pay and Google Pay support
+- Test environment by default
+- Secure payment sheet implementation
+
+**Note**: Due to compatibility issues with Expo and the Stripe SDK on iOS, the actual Stripe payment sheet is currently mocked to prevent app crashes. The payment flow simulates a successful payment to allow users to complete the booking process. This is a temporary solution until the compatibility issues are resolved.
+
+For more details on the Stripe integration, see:
+- [STRIPE_INTEGRATION.md](STRIPE_INTEGRATION.md) (Integration details)
+- [STRIPE_SETUP.md](STRIPE_SETUP.md) (Setup and configuration guide)
 
 ## Project Structure
 

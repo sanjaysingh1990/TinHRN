@@ -3,6 +3,7 @@ import { inject, injectable } from 'tsyringe';
 import { AuthRepositoryToken } from '../../../../features/auth/auth.di';
 import { IAuthRepository } from '../../../../features/auth/domain/repositories/IAuthRepository';
 import { firestore } from '../../../../infrastructure/firebase/firebase.config';
+import { PaymentServiceToken } from '../../customizeTour.di';
 import {
   AddOn,
   CustomizationSelection,
@@ -11,12 +12,14 @@ import {
   TentOption
 } from '../../domain/entities/CustomizeTour';
 import { ICustomizeTourRepository } from '../../domain/repositories/ICustomizeTourRepository';
+import { PaymentService } from '../services/PaymentService';
 
 @injectable()
 export class CustomizeTourRepository implements ICustomizeTourRepository {
   
   constructor(
-    @inject(AuthRepositoryToken) private authRepository: IAuthRepository
+    @inject(AuthRepositoryToken) private authRepository: IAuthRepository,
+    @inject(PaymentServiceToken) private paymentService: PaymentService
   ) {}
   
   async getCustomizationData(): Promise<CustomizeTourData> {
@@ -39,6 +42,39 @@ export class CustomizeTourRepository implements ICustomizeTourRepository {
       success: true,
       customizationId: `custom_${Date.now()}`
     };
+  }
+
+  async processPayment(amount: number, currency: string, customerEmail: string): Promise<{ success: boolean; error?: string }> {
+    try {
+      // Add validation
+      if (!amount || amount <= 0) {
+        return { success: false, error: 'Invalid payment amount' };
+      }
+      
+      if (!customerEmail || !customerEmail.includes('@')) {
+        return { success: false, error: 'Invalid email address' };
+      }
+
+      // Initialize the payment sheet
+      console.log('Initializing payment sheet with amount:', amount, 'currency:', currency);
+      const initResult = await this.paymentService.initializePaymentSheet(amount, currency, customerEmail);
+      console.log('Payment sheet initialization result:', initResult);
+      
+      if (!initResult.success) {
+        return { success: false, error: initResult.error || 'Failed to initialize payment' };
+      }
+      
+      // Present the payment sheet to the user
+      console.log('Presenting payment sheet');
+      const presentResult = await this.paymentService.presentPaymentSheet();
+      console.log('Payment sheet presentation result:', presentResult);
+      
+      return presentResult;
+    } catch (error: any) {
+      console.error('Error processing payment:', error);
+      // Return a user-friendly error message instead of throwing
+      return { success: false, error: error.message || 'Failed to process payment. Please try again.' };
+    }
   }
 
   async bookTour(tourId: string, tourName: string, tourImage: string, selection: CustomizationSelection): Promise<{ success: boolean; bookingId: string }> {

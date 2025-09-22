@@ -41,6 +41,13 @@
     "plugins": [
       "expo-router",
       [
+        "@stripe/stripe-react-native",
+        {
+          "merchantIdentifier": "merchant.com.tentinhimalayas",
+          "enableGooglePay": true
+      }
+      ],
+      [
         "expo-build-properties",
         {
           "android": {

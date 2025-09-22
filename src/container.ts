@@ -59,8 +59,9 @@ import { GalleryRepository } from "./features/gallery/data/repositories/GalleryR
 import { GetGalleryDataUseCase, GetPostByIdUseCase } from "./features/gallery/domain/usecases/GalleryUseCases";
 import { GalleryViewModel } from "./features/gallery/presentation/viewmodels/GalleryViewModel";
 
-import { CustomizeTourRepositoryToken, CustomizeTourViewModelToken } from "./features/customizeTour/data/di/tokens";
+import { CustomizeTourRepositoryToken, CustomizeTourViewModelToken, PaymentServiceToken } from "./features/customizeTour/customizeTour.di";
 import { CustomizeTourRepository } from "./features/customizeTour/data/repositories/CustomizeTourRepository";
+import { PaymentService } from "./features/customizeTour/data/services/PaymentService";
 import { CustomizeTourViewModel } from "./features/customizeTour/presentation/viewmodels/CustomizeTourViewModel";
 
 // AddReview module dependencies
@@ -132,6 +133,7 @@ container.register(GetPostByIdUseCaseToken, { useClass: GetPostByIdUseCase });
 container.register(GalleryViewModelToken, { useClass: GalleryViewModel });
 
 container.register(CustomizeTourRepositoryToken, { useClass: CustomizeTourRepository });
+container.register(PaymentServiceToken, { useClass: PaymentService });
 container.register(CustomizeTourViewModelToken, { useClass: CustomizeTourViewModel });
 
 // AddReview module dependencies registration

@@ -14,7 +14,8 @@ import {
 } from 'react-native';
 import container from '../../../../container';
 import { useTheme } from '../../../../hooks/useTheme';
-import { CustomizeTourViewModelToken } from '../../data/di/tokens';
+import { showErrorToast } from '../../../../utils/toast';
+import { CustomizeTourViewModelToken } from '../../customizeTour.di';
 import { AddOn, SupportOption, TentOption } from '../../domain/entities/CustomizeTour';
 import {
     AddOnsShimmer,
@@ -22,6 +23,7 @@ import {
     SupportCardsShimmer,
     TentOptionsShimmer,
 } from '../components/CustomizeTourShimmers';
+import PaymentScreen from '../components/PaymentScreen';
 import { CustomizeTourViewModel } from '../viewmodels/CustomizeTourViewModel';
 
 const { width } = Dimensions.get('window');
@@ -46,6 +48,7 @@ const CustomizeTourScreen: React.FC = () => {
   const [saving, setSaving] = useState(false);
   const [forceUpdate, setForceUpdate] = useState(0);
   const [bestTimeMonths, setBestTimeMonths] = useState<string[]>([]);
+  const [showPaymentScreen, setShowPaymentScreen] = useState(false);
 
   useEffect(() => {
     // Set up the update callback for ViewModel
@@ -93,19 +96,35 @@ const CustomizeTourScreen: React.FC = () => {
 
   const handleContinue = async () => {
     if (!customizeTourViewModel.isSelectionComplete()) {
-      Alert.alert('Incomplete Selection', 'Please select a date and tent option before continuing.');
+      showErrorToast('Please select a date and tent option before continuing.');
       return;
     }
 
+    // Show payment screen instead of directly booking
+    setShowPaymentScreen(true);
+  };
+
+  const handlePaymentSuccess = async () => {
+    console.log('Payment successful, proceeding with booking');
     try {
       const result = await customizeTourViewModel.bookTour();
       if (result.success) {
         // Navigate to the Bookings tab in the Home screen
+        console.log('Booking successful, navigating to bookings');
         router.replace('/(tabs)/bookings');
+      } else {
+        console.error('Booking failed:', result);
+        showErrorToast('Failed to complete your booking. Please try again.');
       }
-    } catch (error) {
-      Alert.alert('Error', 'Failed to book tour. Please try again.');
+    } catch (error: any) {
+      console.error('Booking error:', error);
+      showErrorToast(error.message || 'Failed to book tour. Please try again.');
     }
+  };
+
+  const handlePaymentCancel = () => {
+    console.log('Payment canceled or failed, returning to customization');
+    setShowPaymentScreen(false);
   };
 
   const handleSupportAction = (option: SupportOption) => {
@@ -607,133 +626,149 @@ const CustomizeTourScreen: React.FC = () => {
     );
   };
 
-  const mainStyles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: colors.background,
-    },
-    header: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      paddingHorizontal: 20,
-      paddingVertical: 16,
-      paddingTop: 40,
-      backgroundColor: colors.background,
-      borderBottomWidth: 1,
-      borderBottomColor: colors.borderColor,
-    },
-    backButton: {
-      padding: 8,
-    },
-    headerTitle: {
-      fontSize: 20,
-      fontWeight: 'bold',
-      color: colors.text,
-      fontFamily: 'SplineSans',
-    },
-    placeholder: {
-      width: 40,
-    },
-    scrollContainer: {
-      flex: 1,
-    },
-    sectionTitle: {
-      fontSize: 18,
-      fontWeight: 'bold',
-      color: colors.text,
-      marginLeft: 20,
-      marginTop: 20,
-      marginBottom: 16,
-      fontFamily: 'SplineSans',
-    },
-    footer: {
-      position: 'absolute',
-      bottom: 0,
-      left: 0,
-      right: 0,
-      backgroundColor: colors.background,
-      borderTopWidth: 1,
-      borderTopColor: colors.borderColor,
-      paddingHorizontal: 20,
-      paddingVertical: 16,
-      paddingBottom: 30,
-    },
-    continueButton: {
-      backgroundColor: colors.primary,
-      borderRadius: 12,
-      paddingVertical: 16,
-      alignItems: 'center',
-      marginBottom: 10,
-    },
-    continueButtonDisabled: {
-      opacity: 0.5,
-    },
-    continueButtonText: {
-      color: isDarkMode ? '#111714' : '#ffffff',
-      fontSize: 18,
-      fontWeight: 'bold',
-      fontFamily: 'SplineSans',
-    },
-    totalPrice: {
-      fontSize: 16,
-      color: colors.text,
-      textAlign: 'center',
-      fontFamily: 'NotoSans',
-    },
-  });
+  const renderMainContent = () => {
+    const mainStyles = StyleSheet.create({
+      container: {
+        flex: 1,
+        backgroundColor: colors.background,
+      },
+      header: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingHorizontal: 20,
+        paddingVertical: 16,
+        paddingTop: 40,
+        backgroundColor: colors.background,
+        borderBottomWidth: 1,
+        borderBottomColor: colors.borderColor,
+      },
+      backButton: {
+        padding: 8,
+      },
+      headerTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: colors.text,
+        fontFamily: 'SplineSans',
+      },
+      placeholder: {
+        width: 40,
+      },
+      scrollContainer: {
+        flex: 1,
+      },
+      sectionTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: colors.text,
+        marginLeft: 20,
+        marginTop: 20,
+        marginBottom: 16,
+        fontFamily: 'SplineSans',
+      },
+      footer: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        backgroundColor: colors.background,
+        borderTopWidth: 1,
+        borderTopColor: colors.borderColor,
+        paddingHorizontal: 20,
+        paddingVertical: 16,
+        paddingBottom: 30,
+      },
+      continueButton: {
+        backgroundColor: colors.primary,
+        borderRadius: 12,
+        paddingVertical: 16,
+        alignItems: 'center',
+        marginBottom: 10,
+      },
+      continueButtonDisabled: {
+        opacity: 0.5,
+      },
+      continueButtonText: {
+        color: isDarkMode ? '#111714' : '#ffffff',
+        fontSize: 18,
+        fontWeight: 'bold',
+        fontFamily: 'SplineSans',
+      },
+      totalPrice: {
+        fontSize: 16,
+        color: colors.text,
+        textAlign: 'center',
+        fontFamily: 'NotoSans',
+      },
+    });
 
-  return (
-    <SafeAreaView style={mainStyles.container}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} backgroundColor={colors.background} />
-      
-      {/* Header */}
-      <View style={mainStyles.header}>
-        <TouchableOpacity style={mainStyles.backButton} onPress={() => router.back()}>
-          <MaterialIcons name="arrow-back" size={24} color={colors.text} />
-        </TouchableOpacity>
-        <Text style={mainStyles.headerTitle}>Customize Your Tour</Text>
-        <View style={mainStyles.placeholder} />
-      </View>
+    return (
+      <SafeAreaView style={mainStyles.container}>
+        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} backgroundColor={colors.background} />
+        
+        {/* Header */}
+        <View style={mainStyles.header}>
+          <TouchableOpacity style={mainStyles.backButton} onPress={() => router.back()}>
+            <MaterialIcons name="arrow-back" size={24} color={colors.text} />
+          </TouchableOpacity>
+          <Text style={mainStyles.headerTitle}>Customize Your Tour</Text>
+          <View style={mainStyles.placeholder} />
+        </View>
 
-      <ScrollView style={mainStyles.scrollContainer} showsVerticalScrollIndicator={false}>
-        {/* Step 1: Choose Dates */}
-        <Text style={mainStyles.sectionTitle}>Step 1: Choose Dates</Text>
-        {renderCalendar()}
+        <ScrollView style={mainStyles.scrollContainer} showsVerticalScrollIndicator={false}>
+          {/* Step 1: Choose Dates */}
+          <Text style={mainStyles.sectionTitle}>Step 1: Choose Dates</Text>
+          {renderCalendar()}
 
-        {/* Step 2: Select Your Tent */}
-        <Text style={mainStyles.sectionTitle}>Step 2: Select Your Tent</Text>
-        {renderTentOptions()}
+          {/* Step 2: Select Your Tent */}
+          <Text style={mainStyles.sectionTitle}>Step 2: Select Your Tent</Text>
+          {renderTentOptions()}
 
-        {/* Step 3: Add-ons */}
-        <Text style={mainStyles.sectionTitle}>Step 3: Add-ons</Text>
-        {renderAddOns()}
+          {/* Step 3: Add-ons */}
+          <Text style={mainStyles.sectionTitle}>Step 3: Add-ons</Text>
+          {renderAddOns()}
 
-        {/* Help Section */}
-        <Text style={mainStyles.sectionTitle}>Need Help?</Text>
-        {renderSupportCards()}
-      </ScrollView>
+          {/* Help Section */}
+          <Text style={mainStyles.sectionTitle}>Need Help?</Text>
+          {renderSupportCards()}
+        </ScrollView>
 
-      {/* Footer */}
-      <View style={mainStyles.footer}>
-        <Text style={mainStyles.totalPrice}>
-          Total: ${customizeTourViewModel.selection.totalPrice}
-        </Text>
-        <TouchableOpacity
-          style={[
-            mainStyles.continueButton,
-            (!customizeTourViewModel.isSelectionComplete() || customizeTourViewModel.isBookingLoading) && mainStyles.continueButtonDisabled
-          ]}
-          onPress={handleContinue}
-          disabled={!customizeTourViewModel.isSelectionComplete() || customizeTourViewModel.isBookingLoading}
-        >
-          <Text style={mainStyles.continueButtonText}>
-            {customizeTourViewModel.isBookingLoading ? 'Booking...' : 'Book your tour'}
+        {/* Footer */}
+        <View style={mainStyles.footer}>
+          <Text style={mainStyles.totalPrice}>
+            Total: ${customizeTourViewModel.selection.totalPrice}
           </Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
-  );
+          <TouchableOpacity
+            style={[
+              mainStyles.continueButton,
+              (!customizeTourViewModel.isSelectionComplete() || customizeTourViewModel.isBookingLoading) && mainStyles.continueButtonDisabled
+            ]}
+            onPress={handleContinue}
+            disabled={!customizeTourViewModel.isSelectionComplete() || customizeTourViewModel.isBookingLoading}
+          >
+            <Text style={mainStyles.continueButtonText}>
+              {customizeTourViewModel.isBookingLoading ? 'Booking...' : 'Continue to Payment'}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    );
+  };
+
+  // Render payment screen if showPaymentScreen is true
+  if (showPaymentScreen) {
+    return (
+      <PaymentScreen
+        totalPrice={customizeTourViewModel.selection.totalPrice}
+        onPaymentSuccess={handlePaymentSuccess}
+        onPaymentCancel={handlePaymentCancel}
+        processPayment={customizeTourViewModel.processPayment.bind(customizeTourViewModel)}
+      />
+    );
+  }
+
+  return renderMainContent();
 };
 
 export default CustomizeTourScreen;

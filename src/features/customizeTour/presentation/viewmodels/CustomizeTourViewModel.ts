@@ -1,5 +1,5 @@
 import { inject, injectable } from 'tsyringe';
-import { CustomizeTourRepositoryToken } from '../../data/di/tokens';
+import { CustomizeTourRepositoryToken } from '../../customizeTour.di';
 import {
     CustomizationSelection,
     CustomizeTourData,
@@ -19,6 +19,7 @@ export class CustomizeTourViewModel {
     totalPrice: 0
   };
   private _bookingLoading: boolean = false;
+  private _paymentProcessing: boolean = false;
   private _updateCallback: (() => void) | null = null;
   private _tourId: string = '';
   private _tourName: string = '';
@@ -69,6 +70,10 @@ export class CustomizeTourViewModel {
 
   get isBookingLoading(): boolean {
     return this._bookingLoading;
+  }
+
+  get isPaymentProcessing(): boolean {
+    return this._paymentProcessing;
   }
 
   async loadCustomizationData(): Promise<void> {
@@ -178,6 +183,33 @@ export class CustomizeTourViewModel {
     } catch (error) {
       console.error('Error saving customization:', error);
       throw error;
+    }
+  }
+
+  async processPayment(customerEmail: string): Promise<{ success: boolean; error?: string }> {
+    if (!this._selection.startDate || !this._selection.selectedTent) {
+      const errorMsg = 'Please select a date and tent before processing payment';
+      console.error(errorMsg);
+      return { success: false, error: errorMsg };
+    }
+
+    this._paymentProcessing = true;
+    this.notifyUpdate();
+    try {
+      console.log('Processing payment with amount:', this._selection.totalPrice);
+      const result = await this.repository.processPayment(
+        this._selection.totalPrice,
+        'USD',
+        customerEmail
+      );
+      console.log('Payment processing result:', result);
+      return result;
+    } catch (error: any) {
+      console.error('Error processing payment:', error);
+      return { success: false, error: error.message || 'Failed to process payment' };
+    } finally {
+      this._paymentProcessing = false;
+      this.notifyUpdate();
     }
   }
 
