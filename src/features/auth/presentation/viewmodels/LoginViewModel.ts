@@ -1,4 +1,5 @@
 import { inject, injectable } from 'tsyringe';
+import { BaseViewModel } from '../../../../core/presentation/BaseViewModel';
 import { LoginUseCaseToken } from '../../auth.di';
 import { User } from '../../domain/entities/User';
 import { LoginUseCase } from '../../domain/usecases/LoginUseCase';
@@ -21,9 +22,7 @@ export interface LoginViewState {
 }
 
 @injectable()
-export class LoginViewModel {
-  private _updateCallback?: () => void;
-  
+export class LoginViewModel extends BaseViewModel {
   public viewState: LoginViewState = {
     isLoading: false,
     errors: {},
@@ -37,14 +36,8 @@ export class LoginViewModel {
 
   constructor(
     @inject(LoginUseCaseToken) private loginUseCase: LoginUseCase
-  ) {}
-
-  setUpdateCallback(callback: () => void): void {
-    this._updateCallback = callback;
-  }
-
-  private notifyUpdate(): void {
-    this._updateCallback?.();
+  ) {
+    super();
   }
 
   setEmail(email: string): void {
@@ -63,12 +56,12 @@ export class LoginViewModel {
     if (!email.trim()) {
       return 'Email is required';
     }
-    
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return 'Please enter a valid email address';
     }
-    
+
     return undefined;
   }
 
@@ -76,23 +69,23 @@ export class LoginViewModel {
     if (!password) {
       return 'Password is required';
     }
-    
+
     if (password.length < 6) {
       return 'Password must be at least 6 characters';
     }
-    
+
     return undefined;
   }
 
   private validateForm(): void {
     const errors: LoginValidationErrors = {};
-    
+
     const emailError = this.validateEmail(this.formData.email);
     const passwordError = this.validatePassword(this.formData.password);
-    
+
     if (emailError) errors.email = emailError;
     if (passwordError) errors.password = passwordError;
-    
+
     this.viewState.errors = errors;
     this.viewState.isFormValid = Object.keys(errors).length === 0;
   }
@@ -117,7 +110,7 @@ export class LoginViewModel {
     console.log('[LoginViewModel] Form data:', {
       email: this.formData.email
     });
-    
+
     try {
       this.viewState.isLoading = true;
       // Don't clear errors here, preserve them for the UI
@@ -148,7 +141,7 @@ export class LoginViewModel {
     } catch (error: any) {
       console.log('[LoginViewModel] Login failed with error:', error);
       this.viewState.isLoading = false;
-      
+
       // Handle different types of errors
       if (error.name === 'AuthenticationError') {
         // This is a user-friendly error from our AuthRepository
@@ -157,7 +150,7 @@ export class LoginViewModel {
         // This is an unexpected error
         this.viewState.errors.general = error.message || 'Login failed. Please try again.';
       }
-      
+
       this.notifyUpdate();
       return null;
     }

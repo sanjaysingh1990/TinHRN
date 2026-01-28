@@ -194,4 +194,24 @@ export const getAuthStyles = (colors: any, colorScheme: string | null | undefine
     marginLeft: 10,
     fontSize: 16,
   },
+  errorText: {
+    fontSize: 12,
+    marginTop: 4,
+    marginBottom: 8,
+    fontWeight: '500',
+  },
+  passwordInput: {
+    flex: 1,
+    paddingHorizontal: 0,
+    backgroundColor: 'transparent',
+    marginBottom: 0,
+    color: colors.text,
+  },
+  phoneInput: {
+    flex: 1,
+    paddingHorizontal: 0,
+    backgroundColor: 'transparent',
+    marginBottom: 0,
+    color: colors.text,
+  },
 });

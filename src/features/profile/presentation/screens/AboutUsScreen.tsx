@@ -1,5 +1,6 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import BottomSheet from '@gorhom/bottom-sheet';
+import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useRef, useState } from 'react';
@@ -14,80 +15,38 @@ import {
   View,
 } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import container from '../../../../container';
 import { useI18n } from '../../../../hooks/useI18n';
 import { useTheme } from '../../../../hooks/useTheme';
+import { useViewModel } from '../../../../hooks/useViewModel';
 import { TeamMember } from '../../domain/models/TeamMember';
 import { AboutUsViewModelToken } from '../../profile.di';
 import AboutUsShimmer from '../components/AboutUsShimmer';
 import TeamMemberBottomSheet from '../components/TeamMemberBottomSheet';
 import TeamMemberCard from '../components/TeamMemberCard';
-import TeamMemberShimmer from '../components/TeamMemberShimmer';
 import { AboutUsViewModel } from '../viewmodels/AboutUsViewModel';
 
 const AboutUsScreen: React.FC = () => {
   const router = useRouter();
   const { colors, isDarkMode } = useTheme();
   const { t } = useI18n();
-  const [aboutUsData, setAboutUsData] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(true);
+
+  const viewModel = useViewModel<AboutUsViewModel>(AboutUsViewModelToken);
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
   const bottomSheetRef = useRef<BottomSheet>(null);
 
-  const aboutUsViewModel = container.resolve<AboutUsViewModel>(AboutUsViewModelToken);
-
   useEffect(() => {
-    loadAboutUsData();
-  }, []);
+    viewModel.loadData();
+  }, [viewModel]);
 
-  const loadAboutUsData = async () => {
-    setIsLoading(true);
-    try {
-      console.log('Fetching About Us data...');
-      const data = await aboutUsViewModel.getAboutUsData();
-      console.log('About Us Data received in screen:', data); // Debug log
-      
-      // Check if we received valid data
-      if (data) {
-        setAboutUsData(data);
-      } else {
-        console.log('No data received from view model, using empty data');
-        setAboutUsData({
-          ourMission: {
-            heading: '',
-            description: ''
-          },
-          ourTeam: {
-            heading: '',
-            description: '',
-            members: []
-          }
-        });
-      }
-      
-      // Add a small delay to ensure UI updates properly
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 300);
-    } catch (error) {
-      console.error('Error loading About Us data:', error);
-      // Set default empty data on error
-      setAboutUsData({
-        ourMission: {
-          heading: '',
-          description: ''
-        },
-        ourTeam: {
-          heading: '',
-          description: '',
-          members: []
-        }
-      });
-      setIsLoading(false);
-    }
+  const { aboutData, teamMembers, isLoading } = viewModel;
+
+  const handleBack = () => {
+    Haptics.selectionAsync();
+    router.back();
   };
 
   const handleTeamMemberPress = (member: TeamMember) => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     setSelectedMember(member);
     bottomSheetRef.current?.snapToIndex(0);
   };
@@ -96,31 +55,7 @@ const AboutUsScreen: React.FC = () => {
     setSelectedMember(null);
   };
 
-  const renderTeamMember = ({ item }: { item: any }) => (
-    // Convert the new TeamMember structure to the old one for compatibility
-    <TeamMemberCard 
-      member={{
-        id: item.id,
-        name: item.name,
-        designation: item.title,
-        tagline: item.tagline,
-        phone: item.phone,
-        email: item.email,
-        image: item.profilePic
-      }} 
-      onPress={handleTeamMemberPress} 
-    />
-  );
-
-  const renderTeamShimmer = ({ index }: { index: number }) => (
-    <TeamMemberShimmer key={`shimmer-${index}`} />
-  );
-
   const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: colors.background,
-    },
     safeArea: {
       flex: 1,
       backgroundColor: colors.background,
@@ -130,7 +65,7 @@ const AboutUsScreen: React.FC = () => {
       alignItems: 'center',
       paddingHorizontal: 16,
       paddingVertical: 16,
-      paddingTop: 20, // Header margin requirement from memory
+      paddingTop: 20,
       backgroundColor: colors.background,
     },
     backButton: {
@@ -147,7 +82,7 @@ const AboutUsScreen: React.FC = () => {
       resizeMode: 'contain',
     },
     headerSpacer: {
-      width: 40, // Same width as back button to center logo
+      width: 40,
     },
     scrollContent: {
       paddingHorizontal: 20,
@@ -159,7 +94,7 @@ const AboutUsScreen: React.FC = () => {
       color: colors.text,
       textAlign: 'center',
       marginVertical: 24,
-      fontFamily: 'SplineSans', // Font family from requirements
+      fontFamily: 'SplineSans',
     },
     heroImageContainer: {
       width: '100%',
@@ -216,108 +151,102 @@ const AboutUsScreen: React.FC = () => {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaView style={styles.safeArea}>
         <StatusBar style={isDarkMode ? 'light' : 'dark'} />
-      
-      {/* Header with back button, logo, and spacer */}
-      <View style={styles.header}>
-        <TouchableOpacity 
-          style={styles.backButton} 
-          onPress={() => router.back()}
+
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={handleBack}
+          >
+            <MaterialIcons name="arrow-back-ios" size={24} color={colors.text} />
+          </TouchableOpacity>
+
+          <View style={styles.logoContainer}>
+            <Image
+              source={{ uri: 'https://via.placeholder.com/120x40/df9c20/ffffff?text=Tent+in+Himalayas' }}
+              style={styles.logoImage}
+            />
+          </View>
+
+          <View style={styles.headerSpacer} />
+        </View>
+
+        <ScrollView
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
         >
-          <MaterialIcons name="arrow-back-ios" size={24} color={colors.text} />
-        </TouchableOpacity>
-        
-        <View style={styles.logoContainer}>
-          <Image
-            source={{ uri: 'https://via.placeholder.com/120x40/df9c20/ffffff?text=Tent+in+Himalayas' }}
-            style={styles.logoImage}
-          />
-        </View>
-        
-        <View style={styles.headerSpacer} />
-      </View>
+          <Text style={styles.title}>{t('aboutUs.title')}</Text>
 
-      <ScrollView 
-        style={styles.container}
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-      >
-        {/* Title */}
-        <Text style={styles.title}>{t('aboutUs.title')}</Text>
+          <View style={styles.heroImageContainer}>
+            <Image
+              source={{
+                uri: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
+              }}
+              style={styles.heroImage}
+            />
+            <View style={styles.heroGradientOverlay} />
+          </View>
 
-        {/* Hero Image with gradient overlay and dashed border */}
-        <View style={styles.heroImageContainer}>
-          <Image
-            source={{ 
-              uri: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80' 
-            }}
-            style={styles.heroImage}
-          />
-          <View style={styles.heroGradientOverlay} />
-        </View>
-
-        {isLoading ? (
-          <AboutUsShimmer />
-        ) : (
-          <>
-            {/* Our Mission Section */}
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>
-                {aboutUsData?.ourMission?.heading || t('aboutUs.missionTitle')}
-              </Text>
-              <Text style={styles.sectionText}>
-                {aboutUsData?.ourMission?.description || t('aboutUs.missionText')}
-              </Text>
-            </View>
-
-            {/* Our Team Section */}
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>
-                {aboutUsData?.ourTeam?.heading || t('aboutUs.teamTitle')}
-              </Text>
-              <Text style={styles.sectionText}>
-                {aboutUsData?.ourTeam?.description || t('aboutUs.teamText')}
-              </Text>
-              
-              {/* Team Members Horizontal List */}
-              <View style={styles.teamContainer}>
-                {aboutUsData?.ourTeam?.members && aboutUsData.ourTeam.members.length > 0 ? (
-                  <FlatList
-                    data={aboutUsData.ourTeam.members}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    renderItem={renderTeamMember}
-                    keyExtractor={(item) => item.id}
-                    contentContainerStyle={styles.teamList}
-                  />
-                ) : !isLoading ? (
-                  <Text style={[styles.sectionText, { fontStyle: 'italic' }]}>
-                    {t('aboutUs.noTeamMembers')}
-                  </Text>
-                ) : null}
-                
-                {isLoading && (
-                  <FlatList
-                    data={Array.from({ length: 5 }, (_, i) => i)}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    renderItem={renderTeamShimmer}
-                    keyExtractor={(_, index) => `shimmer-${index}`}
-                    contentContainerStyle={styles.teamList}
-                  />
-                )}
+          {isLoading && !aboutData ? (
+            <AboutUsShimmer />
+          ) : (
+            <>
+              <View style={styles.section}>
+                <Text style={styles.sectionTitle}>
+                  {aboutData?.ourMission?.heading || t('aboutUs.missionTitle')}
+                </Text>
+                <Text style={styles.sectionText}>
+                  {aboutData?.ourMission?.description || t('aboutUs.missionText')}
+                </Text>
               </View>
-            </View>
-          </>
-        )}
-      </ScrollView>
 
-      {/* Team Member Bottom Sheet */}
-      <TeamMemberBottomSheet
-        ref={bottomSheetRef}
-        member={selectedMember}
-        onClose={handleBottomSheetClose}
-      />
-    </SafeAreaView>
+              <View style={styles.section}>
+                <Text style={styles.sectionTitle}>
+                  {aboutData?.ourTeam?.heading || t('aboutUs.teamTitle')}
+                </Text>
+                <Text style={styles.sectionText}>
+                  {aboutData?.ourTeam?.description || t('aboutUs.teamText')}
+                </Text>
+
+                <View style={styles.teamContainer}>
+                  {teamMembers.length > 0 ? (
+                    <FlatList
+                      data={teamMembers}
+                      horizontal
+                      showsHorizontalScrollIndicator={false}
+                      renderItem={({ item }) => (
+                        <TeamMemberCard
+                          member={{
+                            id: item.id,
+                            name: item.name,
+                            designation: item.title || '',
+                            tagline: item.tagline || '',
+                            phone: item.phone || '',
+                            email: item.email || '',
+                            image: item.profilePic || ''
+                          }}
+                          onPress={handleTeamMemberPress}
+                        />
+                      )}
+                      keyExtractor={(item) => item.id}
+                      contentContainerStyle={styles.teamList}
+                    />
+                  ) : !isLoading ? (
+                    <Text style={[styles.sectionText, { fontStyle: 'italic' }]}>
+                      {t('aboutUs.noTeamMembers')}
+                    </Text>
+                  ) : null}
+                </View>
+              </View>
+            </>
+          )}
+        </ScrollView>
+
+        <TeamMemberBottomSheet
+          ref={bottomSheetRef}
+          member={selectedMember}
+          onClose={handleBottomSheetClose}
+        />
+      </SafeAreaView>
     </GestureHandlerRootView>
   );
 };

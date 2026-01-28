@@ -1,18 +1,19 @@
 import { MaterialIcons } from '@expo/vector-icons';
+import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
-    FlatList,
-    SafeAreaView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  FlatList,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import container from '../../../../container';
 import { useI18n } from '../../../../hooks/useI18n';
 import { useTheme } from '../../../../hooks/useTheme';
+import { useViewModel } from '../../../../hooks/useViewModel';
 import { Faq } from '../../domain/models/Faq';
 import { FaqViewModelToken } from '../../profile.di';
 import FaqItem from '../components/FaqItem';
@@ -23,25 +24,17 @@ const FaqScreen: React.FC = () => {
   const router = useRouter();
   const { colors, isDarkMode } = useTheme();
   const { t } = useI18n();
-  const [faqs, setFaqs] = useState<Faq[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  const faqViewModel = container.resolve<FaqViewModel>(FaqViewModelToken);
+  const viewModel = useViewModel<FaqViewModel>(FaqViewModelToken);
 
   useEffect(() => {
-    loadFaqs();
-  }, []);
+    viewModel.loadFaqList();
+  }, [viewModel]);
 
-  const loadFaqs = async () => {
-    setIsLoading(true);
-    try {
-      const faqList = await faqViewModel.getFaqList();
-      setFaqs(faqList);
-    } catch (error) {
-      console.error('Error loading FAQs:', error);
-    } finally {
-      setIsLoading(false);
-    }
+  const { faqList, isLoading } = viewModel;
+
+  const handleBack = () => {
+    Haptics.selectionAsync();
+    router.back();
   };
 
   const renderFaq = ({ item }: { item: Faq }) => (
@@ -53,10 +46,6 @@ const FaqScreen: React.FC = () => {
   );
 
   const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: colors.background,
-    },
     safeArea: {
       flex: 1,
       backgroundColor: colors.background,
@@ -66,7 +55,7 @@ const FaqScreen: React.FC = () => {
       alignItems: 'center',
       paddingHorizontal: 16,
       paddingVertical: 16,
-      paddingTop: 20, // Header margin requirement from memory
+      paddingTop: 20,
       backgroundColor: colors.background,
       borderBottomWidth: 1,
       borderBottomColor: colors.borderColor,
@@ -81,7 +70,7 @@ const FaqScreen: React.FC = () => {
       fontWeight: 'bold',
       color: colors.text,
       textAlign: 'center',
-      marginRight: 40, // Compensate for back button width
+      marginRight: 40,
       fontFamily: 'SplineSans',
     },
     content: {
@@ -116,12 +105,11 @@ const FaqScreen: React.FC = () => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar style={isDarkMode ? 'light' : 'dark'} />
-      
-      {/* Header with back button and title */}
+
       <View style={styles.header}>
-        <TouchableOpacity 
-          style={styles.backButton} 
-          onPress={() => router.back()}
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={handleBack}
         >
           <MaterialIcons name="arrow-back" size={24} color={colors.text} />
         </TouchableOpacity>
@@ -129,14 +117,12 @@ const FaqScreen: React.FC = () => {
       </View>
 
       <View style={styles.content}>
-        {/* Title and subtitle */}
         <Text style={styles.title}>{t('faq.title')}</Text>
         <Text style={styles.subtitle}>
           {t('faq.subtitle')}
         </Text>
 
-        {/* FAQ List */}
-        {isLoading ? (
+        {isLoading && faqList.length === 0 ? (
           <FlatList
             style={styles.list}
             data={Array.from({ length: 6 }, (_, i) => i)}
@@ -148,7 +134,7 @@ const FaqScreen: React.FC = () => {
         ) : (
           <FlatList
             style={styles.list}
-            data={faqs}
+            data={faqList}
             renderItem={renderFaq}
             keyExtractor={(item) => item.id}
             showsVerticalScrollIndicator={false}

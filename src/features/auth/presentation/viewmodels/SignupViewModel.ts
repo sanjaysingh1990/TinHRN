@@ -1,4 +1,5 @@
 import { inject, injectable } from 'tsyringe';
+import { BaseViewModel } from '../../../../core/presentation/BaseViewModel';
 import { SignupUseCaseToken } from '../../auth.di';
 import { User } from '../../domain/entities/User';
 import { SignupUseCase } from '../../domain/usecases/SignupUseCase';
@@ -29,9 +30,7 @@ export interface SignupViewState {
 }
 
 @injectable()
-export class SignupViewModel {
-  private _updateCallback?: () => void;
-  
+export class SignupViewModel extends BaseViewModel {
   public viewState: SignupViewState = {
     isLoading: false,
     errors: {},
@@ -50,14 +49,8 @@ export class SignupViewModel {
 
   constructor(
     @inject(SignupUseCaseToken) private signupUseCase: SignupUseCase
-  ) {}
-
-  setUpdateCallback(callback: () => void): void {
-    this._updateCallback = callback;
-  }
-
-  private notifyUpdate(): void {
-    this._updateCallback?.();
+  ) {
+    super();
   }
 
   setName(name: string): void {
@@ -99,20 +92,20 @@ export class SignupViewModel {
 
   getFormattedPhoneNumber(): string {
     if (!this.formData.phone.trim()) return '';
-    
+
     // Clean the phone number by removing spaces and other formatting
     const cleanedPhone = this.formData.phone.replace(/[\s\-\(\)\.]/g, '').trim();
-    
+
     // If it already starts with a +, it might have the country code included
     if (cleanedPhone.startsWith('+')) {
       return cleanedPhone;
     }
-    
+
     // If it starts with the country code without +, add the +
     if (this.formData.callingCode && cleanedPhone.startsWith(this.formData.callingCode.replace('+', ''))) {
       return `+${cleanedPhone}`;
     }
-    
+
     // Otherwise, prepend the calling code
     const callingCode = this.formData.callingCode || '+1';
     return `${callingCode}${cleanedPhone}`;
@@ -122,11 +115,11 @@ export class SignupViewModel {
     if (!name.trim()) {
       return 'Name is required';
     }
-    
+
     if (name.trim().length < 2) {
       return 'Name must be at least 2 characters';
     }
-    
+
     return undefined;
   }
 
@@ -134,12 +127,12 @@ export class SignupViewModel {
     if (!email.trim()) {
       return 'Email is required';
     }
-    
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return 'Please enter a valid email address';
     }
-    
+
     return undefined;
   }
 
@@ -147,17 +140,17 @@ export class SignupViewModel {
     if (!phone.trim()) {
       return 'Phone number is required';
     }
-    
+
     // Allow more flexible phone number formats
     // Remove spaces and other formatting characters for validation
     const cleanedPhone = phone.replace(/[\s\-\(\)\.]/g, '');
-    
+
     // Check if it's a valid phone number (7-15 digits)
     const phoneRegex = /^[\+]?[1-9][\d]{6,14}$/;
     if (!phoneRegex.test(cleanedPhone)) {
       return 'Please enter a valid phone number (7-15 digits)';
     }
-    
+
     return undefined;
   }
 
@@ -165,20 +158,20 @@ export class SignupViewModel {
     if (!password) {
       return 'Password is required';
     }
-    
+
     if (password.length < 8) {
       return 'Password must be at least 8 characters';
     }
-    
+
     // Check for mix of letters, numbers & symbols
     const hasLetter = /[a-zA-Z]/.test(password);
     const hasNumber = /\d/.test(password);
     const hasSymbol = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-    
+
     if (!hasLetter || !hasNumber) {
       return 'Password must contain letters and numbers';
     }
-    
+
     return undefined;
   }
 
@@ -186,29 +179,29 @@ export class SignupViewModel {
     if (!confirmPassword) {
       return 'Please confirm your password';
     }
-    
+
     if (password !== confirmPassword) {
       return 'Passwords do not match';
     }
-    
+
     return undefined;
   }
 
   private validateForm(): void {
     const errors: SignupValidationErrors = {};
-    
+
     const nameError = this.validateName(this.formData.name);
     const emailError = this.validateEmail(this.formData.email);
     const phoneError = this.validatePhone(this.formData.phone);
     const passwordError = this.validatePassword(this.formData.password);
     const confirmPasswordError = this.validateConfirmPassword(this.formData.password, this.formData.confirmPassword);
-    
+
     if (nameError) errors.name = nameError;
     if (emailError) errors.email = emailError;
     if (phoneError) errors.phone = phoneError;
     if (passwordError) errors.password = passwordError;
     if (confirmPasswordError) errors.confirmPassword = confirmPasswordError;
-    
+
     this.viewState.errors = errors;
     this.viewState.isFormValid = Object.keys(errors).length === 0;
   }
@@ -236,7 +229,7 @@ export class SignupViewModel {
       phone: this.formData.phone,
       formattedPhone: this.getFormattedPhoneNumber()
     });
-    
+
     try {
       this.viewState.isLoading = true;
       // Don't clear errors here, preserve them for the UI
@@ -253,7 +246,7 @@ export class SignupViewModel {
         this.notifyUpdate();
         return null;
       }
-      
+
       console.log('[SignupViewModel] Form validation passed, calling signup use case...');
       const user = await this.signupUseCase.execute({
         name: this.formData.name.trim(),
@@ -261,7 +254,7 @@ export class SignupViewModel {
         password: this.formData.password,
         phoneNumber: this.getFormattedPhoneNumber() || undefined,
       });
-      
+
       console.log('[SignupViewModel] Signup use case completed successfully.');
       this.viewState.isLoading = false;
       this.notifyUpdate();
@@ -269,7 +262,7 @@ export class SignupViewModel {
     } catch (error: any) {
       console.log('[SignupViewModel] Signup failed with error:', error);
       this.viewState.isLoading = false;
-      
+
       // Handle different types of errors
       if (error.name === 'AuthenticationError') {
         // This is a user-friendly error from our AuthRepository
@@ -278,7 +271,7 @@ export class SignupViewModel {
         // This is an unexpected error
         this.viewState.errors.general = error.message || 'Signup failed. Please try again.';
       }
-      
+
       this.notifyUpdate();
       return null;
     }
@@ -288,7 +281,7 @@ export class SignupViewModel {
     // Preserve the country code and calling code
     const currentCountryCode = this.formData.countryCode || 'US';
     const currentCallingCode = this.formData.callingCode || '+1';
-    
+
     this.formData = {
       name: '',
       email: '',

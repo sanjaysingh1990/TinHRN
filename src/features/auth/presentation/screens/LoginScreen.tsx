@@ -1,10 +1,11 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { ActivityIndicator, Alert, Image, SafeAreaView, StatusBar, Text, TouchableOpacity, View } from 'react-native';
-import container from '../../../../container';
 import { useTheme } from '../../../../hooks/useTheme';
+import { useViewModel } from '../../../../hooks/useViewModel';
 import { LoginViewModelToken } from '../../auth.di';
 import AuthButton from '../components/AuthButton';
 import AuthFooter from '../components/AuthFooter';
@@ -19,133 +20,79 @@ const LoginScreen: React.FC = () => {
   const router = useRouter();
   const { colors, isDarkMode } = useTheme();
   const styles = getAuthStyles(colors, isDarkMode ? 'dark' : 'light');
-  const { login: authLogin, isLoading: authLoading } = useAuth();
-  
-  const [viewModel] = useState(() => container.resolve<LoginViewModel>(LoginViewModelToken));
+  const { isLoading: authLoading } = useAuth();
+
+  const viewModel = useViewModel<LoginViewModel>(LoginViewModelToken);
   const [emailFocused, setEmailFocused] = useState(false);
   const [passwordFocused, setPasswordFocused] = useState(false);
-  const [showPassword, setShowPassword] = useState(false); // Add state for password visibility
-  const [viewState, setViewState] = useState(viewModel.viewState);
-  const [formData, setFormData] = useState(viewModel.formData);
+  const [showPassword, setShowPassword] = useState(false);
   const [showErrorToast, setShowErrorToast] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  useEffect(() => {
-    viewModel.setUpdateCallback(() => {
-      setViewState({ ...viewModel.viewState });
-      // Only update formData if it's actually different to prevent unnecessary resets
-      setFormData(prevFormData => {
-        if (prevFormData.email !== viewModel.formData.email || 
-            prevFormData.password !== viewModel.formData.password) {
-          return { ...viewModel.formData };
-        }
-        return prevFormData;
-      });
-      
-      // Show error toast if there's a general error
-      if (viewModel.viewState.errors.general && !showErrorToast) {
-        setErrorMessage(viewModel.viewState.errors.general);
-        setShowErrorToast(true);
-      }
-    });
-
-    // Don't reset the form when component unmounts to preserve user input
-    return () => {
-      // viewModel.reset(); // Commented out to preserve form data
-    };
-  }, []); // Empty dependency array to only run once on mount
+  const { viewState, formData } = viewModel;
 
   const handleLogin = async () => {
-    console.log('[LoginScreen] handleLogin called');
-    
-    // Check if form is valid before proceeding
-    if (!viewModel.viewState.isFormValid) {
-      console.log('[LoginScreen] Form validation failed, not proceeding with login');
-      console.log('[LoginScreen] Validation errors:', viewModel.viewState.errors);
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+
+    if (!viewState.isFormValid) {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+      viewModel.validateFormManually();
       return;
     }
-    
+
     try {
-      console.log('[LoginScreen] Form is valid, calling viewModel.login...');
       const user = await viewModel.login();
       if (user) {
-        console.log('[LoginScreen] Login successful, user:', {
-          id: user.id,
-          name: user.name,
-          email: user.email
-        });
-        
-        // Set onboarding flag to ensure consistent flow
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         try {
           await AsyncStorage.setItem('@viewedOnboarding', 'true');
         } catch (error) {
           console.error('Error setting onboarding flag:', error);
         }
-        
         router.replace('/(tabs)');
       } else {
-        console.log('[LoginScreen] Login returned null user');
-        // Use the specific error message from the ViewModel if available
-        const viewModelErrorMessage = viewModel.viewState.errors.general;
-        if (viewModelErrorMessage) {
-          setErrorMessage(viewModelErrorMessage);
-        } else {
-          setErrorMessage('Login failed. Please try again.');
-        }
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+        setErrorMessage(viewState.errors.general || 'Login failed. Please try again.');
         setShowErrorToast(true);
-        // Don't clear the form fields on error
       }
     } catch (error: any) {
-      console.error('[LoginScreen] Login failed with error:', error);
-      
-      // Parse the error to show exact message
-      let errorMessage = 'An error occurred during login';
-      
-      // Check if it's our custom AuthenticationError (from AuthRepository)
-      if (error.name === 'AuthenticationError' && error.message) {
-        errorMessage = error.message;
-      }
-      // Check if it's a direct Firebase error with a code
-      else if (error.code && error.message) {
-        errorMessage = error.message;
-      }
-      // Check if it's a general error with message
-      else if (error.message) {
-        errorMessage = error.message;
-      }
-      
-      setErrorMessage(errorMessage);
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+      setErrorMessage(error.message || 'An error occurred during login');
       setShowErrorToast(true);
-      // Don't clear the form fields on error
     }
   };
 
   const handleForgotPassword = () => {
-    // TODO: Navigate to forgot password screen
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     Alert.alert('Forgot Password', 'This feature will be implemented soon.');
+  };
+
+  const handleSignUpPress = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    router.push('/signup');
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <ErrorToast 
+      <ErrorToast
         message={errorMessage}
         visible={showErrorToast}
         onHide={() => setShowErrorToast(false)}
       />
-      <StatusBar 
-        barStyle={isDarkMode ? "light-content" : "dark-content"} 
+      <StatusBar
+        barStyle={isDarkMode ? "light-content" : "dark-content"}
         backgroundColor={colors.background}
       />
       <View style={styles.logoContainer}>
-        <Image 
-          source={require('../../../../../assets/images/icon.png')} 
-          style={styles.appLogo} 
+        <Image
+          source={require('../../../../../assets/images/icon.png')}
+          style={styles.appLogo}
           resizeMode="contain"
         />
       </View>
       <Text style={styles.title}>Welcome Back</Text>
       <Text style={styles.subtitle}>Log in to continue your adventure.</Text>
-      
+
       <TouchableOpacity style={styles.forgotPassword} onPress={handleForgotPassword}>
         <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
       </TouchableOpacity>
@@ -158,22 +105,14 @@ const LoginScreen: React.FC = () => {
         onBlur={() => setEmailFocused(false)}
         keyboardType="email-address"
         autoCapitalize="none"
-        accessibilityLabel="Email or Username input"
         focused={emailFocused}
       />
       {viewState.errors.email && (
-        <Text style={{ 
-          color: isDarkMode ? '#ff6b6b' : '#ff4757', 
-          fontSize: 12, 
-          marginTop: 4, 
-          marginBottom: 8,
-          fontWeight: '500'
-        }}>
+        <Text style={[styles.errorText, { color: isDarkMode ? '#ff6b6b' : '#ff4757' }]}>
           {viewState.errors.email}
         </Text>
       )}
-      
-      {/* Password Input with Eye Icon */}
+
       <View style={styles.passwordContainer}>
         <AuthInput
           placeholder="Password"
@@ -182,35 +121,25 @@ const LoginScreen: React.FC = () => {
           onFocus={() => setPasswordFocused(true)}
           onBlur={() => setPasswordFocused(false)}
           secureTextEntry={!showPassword}
-          accessibilityLabel="Password input"
           focused={passwordFocused}
-          style={{
-            flex: 1, 
-            paddingHorizontal: 0, 
-            backgroundColor: 'transparent', 
-            marginBottom: 0,
-            color: colors.text
-          }}
+          style={styles.passwordInput}
         />
-        <TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={styles.eyeIcon}>
+        <TouchableOpacity onPress={() => {
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          setShowPassword(!showPassword);
+        }} style={styles.eyeIcon}>
           <MaterialIcons name={showPassword ? 'visibility-off' : 'visibility'} size={24} color={colors.secondary} />
         </TouchableOpacity>
       </View>
       {viewState.errors.password && (
-        <Text style={{ 
-          color: isDarkMode ? '#ff6b6b' : '#ff4757', 
-          fontSize: 12, 
-          marginTop: 4, 
-          marginBottom: 8,
-          fontWeight: '500'
-        }}>
+        <Text style={[styles.errorText, { color: isDarkMode ? '#ff6b6b' : '#ff4757' }]}>
           {viewState.errors.password}
         </Text>
       )}
 
-      <AuthButton 
-        title={viewState.isLoading ? "Logging In..." : "Log In"} 
-        onPress={handleLogin} 
+      <AuthButton
+        title={viewState.isLoading ? "Logging In..." : "Log In"}
+        onPress={handleLogin}
         accessibilityLabel="Login button"
         disabled={viewState.isLoading}
       />
@@ -221,7 +150,6 @@ const LoginScreen: React.FC = () => {
         <View style={styles.stitch} />
       </View>
 
-      {/* Show loading indicator when auth is loading (social login) */}
       {authLoading ? (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={colors.primary} />
@@ -231,10 +159,10 @@ const LoginScreen: React.FC = () => {
         <SocialButtons />
       )}
 
-      <AuthFooter 
+      <AuthFooter
         text="Don't have an account? "
         linkText="Sign up"
-        onPress={() => router.push('/signup')}
+        onPress={handleSignUpPress}
       />
     </SafeAreaView>
   );

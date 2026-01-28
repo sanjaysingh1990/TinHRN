@@ -1,5 +1,6 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import React, { useEffect, useState } from 'react';
+import * as Haptics from 'expo-haptics';
+import React, { useEffect } from 'react';
 import {
   SectionList,
   StatusBar,
@@ -9,8 +10,8 @@ import {
   View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import container from '../../../../container';
 import { useTheme } from '../../../../hooks/useTheme';
+import { useViewModel } from '../../../../hooks/useViewModel';
 import { Booking } from '../../domain/models/Booking';
 import { MyBookingsViewModelToken } from '../../mybookings.di';
 import BookingCard from '../components/BookingCard';
@@ -19,88 +20,46 @@ import { MyBookingsViewModel } from '../viewmodels/MyBookingsViewModel';
 
 const MyBookingsScreen = () => {
   const { colors, isDarkMode } = useTheme();
-  const [upcomingBookings, setUpcomingBookings] = useState<Booking[]>([]);
-  const [pastBookings, setPastBookings] = useState<Booking[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [upcomingLastDoc, setUpcomingLastDoc] = useState<any>(null);
-  const [pastLastDoc, setPastLastDoc] = useState<any>(null);
-  const [hasMoreUpcoming, setHasMoreUpcoming] = useState(true);
-  const [hasMorePast, setHasMorePast] = useState(true);
+  const viewModel = useViewModel<MyBookingsViewModel>(MyBookingsViewModelToken);
 
   useEffect(() => {
-    loadBookings();
-  }, []);
+    viewModel.loadBookings();
+  }, [viewModel]);
 
-  const loadBookings = async () => {
-    setLoading(true);
-    try {
-      const viewModel = container.resolve<MyBookingsViewModel>(MyBookingsViewModelToken);
-      const [upcomingResult, pastResult] = await Promise.all([
-        viewModel.getUpcomingBookings(5),
-        viewModel.getPastBookings(5)
-      ]);
-      
-      setUpcomingBookings(upcomingResult.bookings);
-      setPastBookings(pastResult.bookings);
-      setUpcomingLastDoc(upcomingResult.lastDoc);
-      setPastLastDoc(pastResult.lastDoc);
-      setHasMoreUpcoming(upcomingResult.bookings.length === 5);
-      setHasMorePast(pastResult.bookings.length === 5);
-    } catch (error) {
-      console.error('Error loading bookings:', error);
-    } finally {
-      setLoading(false);
-    }
+  const { upcomingBookings, pastBookings, isLoading, hasMoreUpcoming, hasMorePast } = viewModel;
+
+  const handleRefresh = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    viewModel.loadBookings();
   };
 
-  const loadMoreUpcoming = async () => {
-    if (!hasMoreUpcoming || !upcomingLastDoc) return;
-    
-    try {
-      const viewModel = container.resolve<MyBookingsViewModel>(MyBookingsViewModelToken);
-      const result = await viewModel.getUpcomingBookings(5, upcomingLastDoc);
-      
-      setUpcomingBookings(prev => [...prev, ...result.bookings]);
-      setUpcomingLastDoc(result.lastDoc);
-      setHasMoreUpcoming(result.bookings.length === 5);
-    } catch (error) {
-      console.error('Error loading more upcoming bookings:', error);
-    }
+  const handleLoadMoreUpcoming = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    viewModel.loadMoreUpcoming();
   };
 
-  const loadMorePast = async () => {
-    if (!hasMorePast || !pastLastDoc) return;
-    
-    try {
-      const viewModel = container.resolve<MyBookingsViewModel>(MyBookingsViewModelToken);
-      const result = await viewModel.getPastBookings(5, pastLastDoc);
-      
-      setPastBookings(prev => [...prev, ...result.bookings]);
-      setPastLastDoc(result.lastDoc);
-      setHasMorePast(result.bookings.length === 5);
-    } catch (error) {
-      console.error('Error loading more past bookings:', error);
-    }
+  const handleLoadMorePast = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    viewModel.loadMorePast();
   };
 
-  // Filter out empty sections
   const sections = [
     ...(upcomingBookings.length > 0 ? [{
       title: 'Upcoming',
       data: upcomingBookings,
-      loadMore: loadMoreUpcoming,
+      loadMore: handleLoadMoreUpcoming,
       hasMore: hasMoreUpcoming
     }] : []),
     ...(pastBookings.length > 0 ? [{
       title: 'Past',
       data: pastBookings,
-      loadMore: loadMorePast,
+      loadMore: handleLoadMorePast,
       hasMore: hasMorePast
     }] : []),
   ];
 
   const renderSectionHeader = ({ section }: { section: any }) => (
-    <View>
+    <View style={styles.sectionHeader}>
       <Text style={[styles.sectionTitle, { color: colors.text }]}>{section.title}</Text>
       {section.hasMore && (
         <TouchableOpacity onPress={section.loadMore} style={styles.loadMoreButton}>
@@ -123,10 +82,10 @@ const MyBookingsScreen = () => {
 
   const renderEmptyView = () => (
     <View style={styles.emptyContainer}>
-      <MaterialIcons 
-        name="event-busy" 
-        size={64} 
-        color={colors.secondary} 
+      <MaterialIcons
+        name="event-busy"
+        size={64}
+        color={colors.secondary}
       />
       <Text style={[styles.emptyText, { color: colors.text }]}>No data found</Text>
     </View>
@@ -138,7 +97,7 @@ const MyBookingsScreen = () => {
       <View style={[styles.header, { borderBottomColor: colors.borderColor }]}>
         <Text style={[styles.headerTitle, { color: colors.text }]}>My Bookings</Text>
       </View>
-      {loading ? (
+      {isLoading && (upcomingBookings.length === 0 && pastBookings.length === 0) ? (
         renderShimmerItems()
       ) : sections.length > 0 ? (
         <SectionList
@@ -148,8 +107,8 @@ const MyBookingsScreen = () => {
           keyExtractor={(item) => item.id.toString()}
           contentContainerStyle={styles.content}
           showsVerticalScrollIndicator={false}
-          onRefresh={loadBookings}
-          refreshing={loading}
+          onRefresh={handleRefresh}
+          refreshing={isLoading}
         />
       ) : (
         renderEmptyView()
@@ -173,22 +132,27 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 20,
+    marginBottom: 10,
+  },
   sectionTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 15,
-    marginTop: 20,
   },
   content: {
     padding: 16,
   },
   loadMoreButton: {
-    paddingVertical: 10,
-    alignItems: 'center',
-    marginBottom: 10,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
   },
   loadMoreText: {
     fontWeight: 'bold',
+    fontSize: 14,
   },
   emptyContainer: {
     flex: 1,

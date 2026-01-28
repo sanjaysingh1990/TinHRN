@@ -1,43 +1,60 @@
 import { inject, injectable } from 'tsyringe';
+import { BaseViewModel } from '../../../../core/presentation/BaseViewModel';
 import { AboutUs } from '../../domain/models/AboutUs';
 import { TeamMember } from '../../domain/models/TeamMember';
 import { IProfileRepository } from '../../domain/repositories/IProfileRepository';
 import { ProfileRepositoryToken } from '../../profile.di';
 
 @injectable()
-export class AboutUsViewModel {
+export class AboutUsViewModel extends BaseViewModel {
+  private _aboutData: AboutUs | null = null;
+  private _teamMembers: TeamMember[] = [];
+  private _isLoading = false;
+
   constructor(
     @inject(ProfileRepositoryToken) private profileRepository: IProfileRepository
-  ) {}
+  ) {
+    super();
+  }
 
-  async getTeamMembers(): Promise<TeamMember[]> {
+  get aboutData(): AboutUs | null {
+    return this._aboutData;
+  }
+
+  get teamMembers(): TeamMember[] {
+    return this._teamMembers;
+  }
+
+  get isLoading(): boolean {
+    return this._isLoading;
+  }
+
+  async loadData(): Promise<void> {
+    this._isLoading = true;
+    this.notifyUpdate();
+
     try {
-      return await this.profileRepository.getTeamMembers();
+      const [aboutData, teamMembers] = await Promise.all([
+        this.profileRepository.getAboutUsData(),
+        this.profileRepository.getTeamMembers()
+      ]);
+
+      this._aboutData = aboutData;
+      this._teamMembers = teamMembers;
     } catch (error) {
-      console.error('Error fetching team members:', error);
-      return [];
+      console.error('AboutUsViewModel: Error loading data:', error);
+    } finally {
+      this._isLoading = false;
+      this.notifyUpdate();
     }
   }
 
+  // Deprecated compatibility methods
+  async getTeamMembers(): Promise<TeamMember[]> {
+    return this.profileRepository.getTeamMembers();
+  }
+
   async getAboutUsData(): Promise<AboutUs> {
-    try {
-      const data = await this.profileRepository.getAboutUsData();
-      console.log('AboutUsViewModel: Data received from repository:', data);
-      return data;
-    } catch (error) {
-      console.error('Error fetching About Us data in ViewModel:', error);
-      // Return a default structure in case of error
-      return {
-        ourMission: {
-          heading: '',
-          description: ''
-        },
-        ourTeam: {
-          heading: '',
-          description: '',
-          members: []
-        }
-      };
-    }
+    return this.profileRepository.getAboutUsData();
   }
 }
