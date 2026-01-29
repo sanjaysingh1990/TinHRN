@@ -7,7 +7,7 @@ import { IGalleryRepository } from '../repositories/IGalleryRepository';
 export class GetGalleryDataUseCase {
   constructor(
     @inject(GalleryRepositoryToken) private galleryRepository: IGalleryRepository
-  ) {}
+  ) { }
 
   async execute(): Promise<GalleryData> {
     return await this.galleryRepository.getGalleryData();
@@ -18,9 +18,20 @@ export class GetGalleryDataUseCase {
 export class GetPostByIdUseCase {
   constructor(
     @inject(GalleryRepositoryToken) private galleryRepository: IGalleryRepository
-  ) {}
+  ) { }
 
   async execute(id: string): Promise<Post> {
     return await this.galleryRepository.getPostById(id);
+  }
+}
+
+@injectable()
+export class CreatePostUseCase {
+  constructor(
+    @inject(GalleryRepositoryToken) private galleryRepository: IGalleryRepository
+  ) { }
+
+  async execute(post: Omit<Post, 'id' | 'viewsCount' | 'userName' | 'userAvatar'>, onProgress?: (progress: number) => void): Promise<Post> {
+    return await this.galleryRepository.createPost(post, onProgress);
   }
 }

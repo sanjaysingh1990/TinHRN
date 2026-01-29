@@ -1,6 +1,7 @@
 import { MaterialIcons } from '@expo/vector-icons';
+import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   Dimensions,
   FlatList,
@@ -13,8 +14,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import container from '../../../../container';
 import { useTheme } from '../../../../hooks/useTheme';
+import { useViewModel } from '../../../../hooks/useViewModel';
 import { GalleryViewModelToken } from '../../data/di/tokens';
 import { Category, Post } from '../../domain/entities/Gallery';
 import { CategoryShimmer, FeaturedPostShimmer, GridItemShimmer } from '../components/GalleryShimmers';
@@ -25,34 +26,17 @@ const { width } = Dimensions.get('window');
 const GalleryScreen: React.FC = () => {
   const router = useRouter();
   const { colors, isDarkMode } = useTheme();
-  const [galleryViewModel] = useState(() => container.resolve<GalleryViewModel>(GalleryViewModelToken));
-  const [loading, setLoading] = useState(true);
-  const [featuredPost, setFeaturedPost] = useState<Post | null>(null);
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [recentUploads, setRecentUploads] = useState<Post[]>([]);
+  const viewModel = useViewModel<GalleryViewModel>(GalleryViewModelToken);
 
   useEffect(() => {
-    loadGalleryData();
+    viewModel.loadGalleryData();
   }, []);
 
-  const loadGalleryData = async () => {
-    setLoading(true);
-    try {
-      await galleryViewModel.loadGalleryData();
-      setFeaturedPost(galleryViewModel.featuredPost);
-      setCategories(galleryViewModel.categories);
-      setRecentUploads(galleryViewModel.recentUploads);
-    } catch (error) {
-      console.error('Error loading gallery data:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const handlePostPress = (post: Post) => {
+    Haptics.selectionAsync();
     router.push({
       pathname: '/post-details',
-      params: { 
+      params: {
         postId: post.id,
         title: post.title,
         imageUrl: post.imageUrl,
@@ -66,6 +50,7 @@ const GalleryScreen: React.FC = () => {
   };
 
   const handleCategoryPress = (category: Category) => {
+    Haptics.selectionAsync();
     router.push({
       pathname: '/category-posts',
       params: {
@@ -76,37 +61,37 @@ const GalleryScreen: React.FC = () => {
   };
 
   const handleAddPost = () => {
-    // TODO: Implement add post functionality
-    console.log('Add post button pressed');
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    router.push('/add-post');
   };
 
   const renderFeaturedPost = () => {
-    if (loading) {
+    if (viewModel.loading && !viewModel.featuredPost) {
       return <FeaturedPostShimmer />;
     }
 
-    if (!featuredPost) return null;
+    if (!viewModel.featuredPost) return null;
 
     return (
-      <TouchableOpacity 
+      <TouchableOpacity
         style={[styles.featuredContainer, { backgroundColor: colors.cardBackgroundColor, borderColor: colors.primary }]}
-        onPress={() => handlePostPress(featuredPost)}
+        onPress={() => handlePostPress(viewModel.featuredPost!)}
         activeOpacity={0.7}
       >
-        <Image source={{ uri: featuredPost.imageUrl }} style={styles.featuredImage} />
+        <Image source={{ uri: viewModel.featuredPost.imageUrl }} style={styles.featuredImage} />
         <View style={styles.featuredOverlay} />
         <View style={styles.featuredContent}>
           <View style={[styles.featuredTextContainer, { borderColor: colors.primary }]}>
             <Text style={[styles.featuredTitle, { color: '#FFFFFF' }]} numberOfLines={2}>
-              {featuredPost.title}
+              {viewModel.featuredPost.title}
             </Text>
             <Text style={[styles.featuredDescription, { color: '#F5F5F5' }]} numberOfLines={2}>
-              {featuredPost.description}
+              {viewModel.featuredPost.description}
             </Text>
           </View>
           <View style={styles.viewsOverlay}>
             <MaterialIcons name="visibility" size={16} color="#FFFFFF" />
-            <Text style={styles.viewsText}>{featuredPost.viewsCount.toLocaleString()}</Text>
+            <Text style={styles.viewsText}>{viewModel.featuredPost.viewsCount.toLocaleString()}</Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -114,8 +99,8 @@ const GalleryScreen: React.FC = () => {
   };
 
   const renderCategoryItem = ({ item }: { item: Category }) => (
-    <TouchableOpacity 
-      style={styles.categoryItem} 
+    <TouchableOpacity
+      style={styles.categoryItem}
       activeOpacity={0.7}
       onPress={() => handleCategoryPress(item)}
     >
@@ -140,13 +125,13 @@ const GalleryScreen: React.FC = () => {
   );
 
   const renderCategories = () => {
-    if (loading) {
+    if (viewModel.loading && viewModel.categories.length === 0) {
       return renderCategoriesShimmer();
     }
 
     return (
       <FlatList
-        data={categories}
+        data={viewModel.categories}
         renderItem={renderCategoryItem}
         keyExtractor={(item) => item.id}
         horizontal
@@ -157,8 +142,8 @@ const GalleryScreen: React.FC = () => {
   };
 
   const renderGridItem = ({ item }: { item: Post }) => (
-    <TouchableOpacity 
-      style={styles.gridItem} 
+    <TouchableOpacity
+      style={styles.gridItem}
       onPress={() => handlePostPress(item)}
       activeOpacity={0.7}
     >
@@ -182,13 +167,13 @@ const GalleryScreen: React.FC = () => {
   );
 
   const renderGrid = () => {
-    if (loading) {
+    if (viewModel.loading && viewModel.recentUploads.length === 0) {
       return renderGridShimmer();
     }
 
     return (
       <FlatList
-        data={recentUploads}
+        data={viewModel.recentUploads}
         renderItem={renderGridItem}
         keyExtractor={(item) => item.id}
         numColumns={2}
@@ -198,216 +183,13 @@ const GalleryScreen: React.FC = () => {
     );
   };
 
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: colors.background,
-    },
-    header: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      paddingHorizontal: 20,
-      paddingVertical: 16,
-      paddingTop: 40,
-      backgroundColor: colors.background,
-      borderBottomWidth: 1,
-      borderBottomColor: colors.borderColor,
-    },
-    headerTitle: {
-      fontSize: 20,
-      fontWeight: 'bold',
-      color: colors.text,
-      fontFamily: 'SplineSans',
-    },
-    moreButton: {
-      padding: 8,
-    },
-    scrollContainer: {
-      flex: 1,
-    },
-    featuredContainer: {
-      borderRadius: 16,
-      borderWidth: 2,
-      borderStyle: 'dashed',
-      overflow: 'hidden',
-      marginTop: 20,
-      marginBottom: 24,
-      marginHorizontal: 'auto', // Center horizontally
-      alignSelf: 'center', // Ensure center alignment
-      width: width - 40, // Fixed width with 20px margin on each side
-      aspectRatio: 1, // 1:1 square ratio
-    },
-    featuredImage: {
-      width: '100%',
-      height: '100%',
-    },
-    featuredOverlay: {
-      ...StyleSheet.absoluteFillObject,
-      backgroundColor: 'rgba(0, 0, 0, 0.4)',
-    },
-    featuredContent: {
-      ...StyleSheet.absoluteFillObject,
-      justifyContent: 'space-between',
-      padding: 16,
-    },
-    featuredTextContainer: {
-      borderLeftWidth: 3,
-      borderStyle: 'dashed',
-      paddingLeft: 12,
-      maxWidth: '80%',
-    },
-    featuredTitle: {
-      fontSize: 20,
-      fontWeight: 'bold',
-      marginBottom: 8,
-      fontFamily: 'SplineSans',
-    },
-    featuredDescription: {
-      fontSize: 14,
-      lineHeight: 18,
-      fontFamily: 'NotoSans',
-    },
-    viewsOverlay: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      alignSelf: 'flex-end',
-      backgroundColor: 'rgba(0, 0, 0, 0.6)',
-      paddingHorizontal: 8,
-      paddingVertical: 4,
-      borderRadius: 12,
-    },
-    viewsText: {
-      color: '#FFFFFF',
-      fontSize: 12,
-      marginLeft: 4,
-      fontWeight: '600',
-    },
-    sectionHeader: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      marginHorizontal: 20,
-      marginBottom: 16,
-    },
-    sectionTitle: {
-      fontSize: 18,
-      fontWeight: 'bold',
-      color: colors.text,
-      fontFamily: 'SplineSans',
-    },
-    seeAllText: {
-      fontSize: 14,
-      fontWeight: '600',
-      fontFamily: 'NotoSans',
-    },
-    categoriesContainer: {
-      paddingHorizontal: 20,
-      marginBottom: 24,
-    },
-    categoryItem: {
-      width: 144,
-      height: 192,
-      marginRight: 16,
-      borderRadius: 12,
-      overflow: 'hidden',
-    },
-    categoryImage: {
-      width: '100%',
-      height: '100%',
-    },
-    categoryOverlay: {
-      ...StyleSheet.absoluteFillObject,
-      backgroundColor: 'rgba(0, 0, 0, 0.3)',
-    },
-    categoryTextContainer: {
-      position: 'absolute',
-      bottom: 0,
-      left: 0,
-      right: 0,
-      padding: 12,
-    },
-    categoryCountContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      marginTop: 4,
-    },
-    categoryText: {
-      fontSize: 16,
-      fontWeight: 'bold',
-      fontFamily: 'SplineSans',
-    },
-    categoryCount: {
-      fontSize: 12,
-      fontFamily: 'NotoSans',
-    },
-    gridContainer: {
-      paddingHorizontal: 16,
-      paddingBottom: 20,
-    },
-    gridItem: {
-      flex: 1,
-      aspectRatio: 1,
-      margin: 4,
-      borderRadius: 12,
-      overflow: 'hidden',
-    },
-    gridImage: {
-      width: '100%',
-      height: '100%',
-    },
-    gridOverlay: {
-      ...StyleSheet.absoluteFillObject,
-      backgroundColor: 'rgba(0, 0, 0, 0.2)',
-    },
-    gridUserInfo: {
-      position: 'absolute',
-      bottom: 8,
-      left: 8,
-      right: 8,
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
-    gridUserAvatar: {
-      width: 20,
-      height: 20,
-      borderRadius: 10,
-      marginRight: 6,
-    },
-    gridUserName: {
-      fontSize: 10,
-      fontWeight: '600',
-      flex: 1,
-      fontFamily: 'NotoSans',
-    },
-    floatingButton: {
-      position: 'absolute',
-      bottom: 30,
-      right: 30,
-      width: 56,
-      height: 56,
-      borderRadius: 28,
-      backgroundColor: colors.primary,
-      justifyContent: 'center',
-      alignItems: 'center',
-      elevation: 8,
-      shadowColor: '#000',
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 3.84,
-    },
-  });
-
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} backgroundColor={colors.background} />
-      
+
       {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Himalayan Gallery</Text>
+      <View style={[styles.header, { borderBottomColor: colors.borderColor }]}>
+        <Text style={[styles.headerTitle, { color: colors.text }]}>Himalayan Gallery</Text>
         <TouchableOpacity style={styles.moreButton}>
           <MaterialIcons name="more-vert" size={24} color={colors.text} />
         </TouchableOpacity>
@@ -419,7 +201,7 @@ const GalleryScreen: React.FC = () => {
 
         {/* Categories Section */}
         <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Categories</Text>
+          <Text style={[styles.sectionTitle, { color: colors.text }]}>Categories</Text>
           <TouchableOpacity onPress={() => router.push('/category-full-view')} activeOpacity={0.7}>
             <Text style={[styles.seeAllText, { color: colors.primary }]}>See All</Text>
           </TouchableOpacity>
@@ -428,14 +210,14 @@ const GalleryScreen: React.FC = () => {
 
         {/* Recent Uploads Section */}
         <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Recent Uploads</Text>
+          <Text style={[styles.sectionTitle, { color: colors.text }]}>Recent Uploads</Text>
         </View>
         {renderGrid()}
       </ScrollView>
 
       {/* Floating Plus Button */}
-      <TouchableOpacity 
-        style={styles.floatingButton}
+      <TouchableOpacity
+        style={[styles.floatingButton, { backgroundColor: colors.primary }]}
         onPress={handleAddPost}
         activeOpacity={0.7}
       >
@@ -444,5 +226,202 @@ const GalleryScreen: React.FC = () => {
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+    // paddingTop: 40, // Removed because SafeAreaView handles it
+    borderBottomWidth: 1,
+  },
+  headerTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    fontFamily: 'SplineSans',
+  },
+  moreButton: {
+    padding: 8,
+  },
+  scrollContainer: {
+    flex: 1,
+  },
+  featuredContainer: {
+    borderRadius: 16,
+    borderWidth: 2,
+    borderStyle: 'dashed',
+    overflow: 'hidden',
+    marginTop: 20,
+    marginBottom: 24,
+    marginHorizontal: 'auto',
+    alignSelf: 'center',
+    width: width - 40,
+    aspectRatio: 1,
+  },
+  featuredImage: {
+    width: '100%',
+    height: '100%',
+  },
+  featuredOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+  },
+  featuredContent: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'space-between',
+    padding: 16,
+  },
+  featuredTextContainer: {
+    borderLeftWidth: 3,
+    borderStyle: 'dashed',
+    paddingLeft: 12,
+    maxWidth: '80%',
+  },
+  featuredTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 8,
+    fontFamily: 'SplineSans',
+  },
+  featuredDescription: {
+    fontSize: 14,
+    lineHeight: 18,
+    fontFamily: 'NotoSans',
+  },
+  viewsOverlay: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'flex-end',
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 12,
+  },
+  viewsText: {
+    color: '#FFFFFF',
+    fontSize: 12,
+    marginLeft: 4,
+    fontWeight: '600',
+  },
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginHorizontal: 20,
+    marginBottom: 16,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    fontFamily: 'SplineSans',
+  },
+  seeAllText: {
+    fontSize: 14,
+    fontWeight: '600',
+    fontFamily: 'NotoSans',
+  },
+  categoriesContainer: {
+    paddingHorizontal: 20,
+    marginBottom: 24,
+  },
+  categoryItem: {
+    width: 144,
+    height: 192,
+    marginRight: 16,
+    borderRadius: 12,
+    overflow: 'hidden',
+  },
+  categoryImage: {
+    width: '100%',
+    height: '100%',
+  },
+  categoryOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+  },
+  categoryTextContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    padding: 12,
+  },
+  categoryCountContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 4,
+  },
+  categoryText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    fontFamily: 'SplineSans',
+  },
+  categoryCount: {
+    fontSize: 12,
+    fontFamily: 'NotoSans',
+  },
+  gridContainer: {
+    paddingHorizontal: 16,
+    paddingBottom: 20,
+  },
+  gridItem: {
+    flex: 1,
+    aspectRatio: 1,
+    margin: 4,
+    borderRadius: 12,
+    overflow: 'hidden',
+  },
+  gridImage: {
+    width: '100%',
+    height: '100%',
+  },
+  gridOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+  },
+  gridUserInfo: {
+    position: 'absolute',
+    bottom: 8,
+    left: 8,
+    right: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  gridUserAvatar: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    marginRight: 6,
+  },
+  gridUserName: {
+    fontSize: 10,
+    fontWeight: '600',
+    flex: 1,
+    fontFamily: 'NotoSans',
+  },
+  floatingButton: {
+    position: 'absolute',
+    bottom: 30,
+    right: 30,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 8,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  },
+});
 
 export default GalleryScreen;

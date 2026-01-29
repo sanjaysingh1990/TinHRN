@@ -54,9 +54,10 @@ import { NotificationsViewModel } from "./features/notifications/presentation/vi
 import { BookingConfirmationViewModelToken } from "./features/bookingConfirmation/bookingConfirmation.di";
 import { BookingConfirmationViewModel } from "./features/bookingConfirmation/presentation/viewmodels/BookingConfirmationViewModel";
 
-import { GalleryRepositoryToken, GalleryViewModelToken, GetGalleryDataUseCaseToken, GetPostByIdUseCaseToken } from "./features/gallery/data/di/tokens";
+import { AddPostViewModelToken, CreatePostUseCaseToken, GalleryRepositoryToken, GalleryViewModelToken, GetGalleryDataUseCaseToken, GetPostByIdUseCaseToken } from "./features/gallery/data/di/tokens";
 import { GalleryRepository } from "./features/gallery/data/repositories/GalleryRepository";
-import { GetGalleryDataUseCase, GetPostByIdUseCase } from "./features/gallery/domain/usecases/GalleryUseCases";
+import { CreatePostUseCase, GetGalleryDataUseCase, GetPostByIdUseCase } from "./features/gallery/domain/usecases/GalleryUseCases";
+import { AddPostViewModel } from "./features/gallery/presentation/viewmodels/AddPostViewModel";
 import { GalleryViewModel } from "./features/gallery/presentation/viewmodels/GalleryViewModel";
 
 import { CustomizeTourRepositoryToken, CustomizeTourViewModelToken, PaymentServiceToken } from "./features/customizeTour/customizeTour.di";
@@ -130,7 +131,9 @@ container.register(BookingConfirmationViewModelToken, { useClass: BookingConfirm
 container.register(GalleryRepositoryToken, { useClass: GalleryRepository });
 container.register(GetGalleryDataUseCaseToken, { useClass: GetGalleryDataUseCase });
 container.register(GetPostByIdUseCaseToken, { useClass: GetPostByIdUseCase });
+container.register(CreatePostUseCaseToken, { useClass: CreatePostUseCase });
 container.register(GalleryViewModelToken, { useClass: GalleryViewModel });
+container.register(AddPostViewModelToken, { useClass: AddPostViewModel });
 
 container.register(CustomizeTourRepositoryToken, { useClass: CustomizeTourRepository });
 container.register(PaymentServiceToken, { useClass: PaymentService });

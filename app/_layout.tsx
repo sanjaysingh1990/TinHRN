@@ -11,9 +11,12 @@ import { RootState, store } from '../src/providers/store';
 import { theme } from '../src/theme';
 
 
+import { View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { PortalProvider } from '@gorhom/portal';
+
+import { GlobalProgressBar } from '../src/core/presentation/components/GlobalProgressBar';
 
 const AppContent = () => {
   const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
@@ -24,81 +27,91 @@ const AppContent = () => {
   }, [isDarkMode, colors.background]);
 
   return (
-    <Stack 
-      screenOptions={{ 
-        headerShown: false,
-        animation: 'slide_from_right',
-      }}
-    >
-      <Stack.Screen name="index" />
-      <Stack.Screen name="intro" />
-      <Stack.Screen name="login" />
-      <Stack.Screen name="signup" />
-      <Stack.Screen name="(tabs)" />
-      <Stack.Screen 
-        name="tour/[id]" 
-        options={{
-          presentation: 'modal',
-          animation: 'slide_from_bottom',
-        }}
-      />
-      <Stack.Screen 
-        name="booking-confirmation" 
-        options={{
-          presentation: 'modal',
-          animation: 'slide_from_bottom',
-        }}
-      />
-      <Stack.Screen 
-        name="about-us" 
-        options={{
-          presentation: 'modal',
+    <View style={{ flex: 1 }}>
+      <GlobalProgressBar />
+      <Stack
+        screenOptions={{
+          headerShown: false,
           animation: 'slide_from_right',
         }}
-      />
-      <Stack.Screen 
-        name="faq" 
-        options={{
-          presentation: 'modal',
-          animation: 'slide_from_right',
-        }}
-      />
-      <Stack.Screen 
-        name="post-details" 
-        options={{
-          presentation: 'modal',
-          animation: 'slide_from_right',
-        }}
-      />
-      <Stack.Screen 
-        name="category-full-view" 
-        options={{
-          presentation: 'modal',
-          animation: 'slide_from_right',
-        }}
-      />
-      <Stack.Screen 
-        name="category-posts" 
-        options={{
-          presentation: 'modal',
-          animation: 'slide_from_right',
-        }}
-      />
-      <Stack.Screen 
-        name="customize-tour" 
-        options={{
-          presentation: 'modal',
-          animation: 'slide_from_right',
-        }}
-      />
-      <Stack.Screen 
-        name="map-explore" 
-        options={{
-          presentation: 'modal',
-          animation: 'slide_from_right',
-        }}
-      />
-    </Stack>
+      >
+        <Stack.Screen name="index" />
+        <Stack.Screen name="intro" />
+        <Stack.Screen name="login" />
+        <Stack.Screen name="signup" />
+        <Stack.Screen name="(tabs)" />
+        <Stack.Screen
+          name="add-post"
+          options={{
+            presentation: 'modal',
+            animation: 'slide_from_bottom',
+          }}
+        />
+        <Stack.Screen
+          name="tour/[id]"
+          options={{
+            presentation: 'modal',
+            animation: 'slide_from_bottom',
+          }}
+        />
+        <Stack.Screen
+          name="booking-confirmation"
+          options={{
+            presentation: 'modal',
+            animation: 'slide_from_bottom',
+          }}
+        />
+        <Stack.Screen
+          name="about-us"
+          options={{
+            presentation: 'modal',
+            animation: 'slide_from_right',
+          }}
+        />
+        <Stack.Screen
+          name="faq"
+          options={{
+            presentation: 'modal',
+            animation: 'slide_from_right',
+          }}
+        />
+        <Stack.Screen
+          name="post-details"
+          options={{
+            presentation: 'modal',
+            animation: 'slide_from_right',
+          }}
+        />
+        <Stack.Screen
+          name="category-full-view"
+          options={{
+            presentation: 'modal',
+            animation: 'slide_from_right',
+          }}
+        />
+        <Stack.Screen
+          name="category-posts"
+          options={{
+            presentation: 'modal',
+            animation: 'slide_from_right',
+          }}
+        />
+        <Stack.Screen
+          name="customize-tour"
+          options={{
+            presentation: 'modal',
+            animation: 'slide_from_right',
+          }}
+        />
+        <Stack.Screen
+          name="map-explore"
+          options={{
+            presentation: 'modal',
+            animation: 'slide_from_right',
+          }}
+        />
+      </Stack>
+    </View>
   );
 };
 

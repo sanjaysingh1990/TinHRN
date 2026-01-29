@@ -121,7 +121,7 @@ export class GalleryRepository implements IGalleryRepository {
   ];
 
   async getGalleryData(): Promise<GalleryData> {
-    // Simulate 32 second delay as requested
+    // Simulate 2 second delay
     await new Promise(resolve => setTimeout(resolve, 2000));
 
     return {
@@ -140,5 +140,27 @@ export class GalleryRepository implements IGalleryRepository {
       throw new Error(`Post with id ${id} not found`);
     }
     return post;
+  }
+
+  async createPost(
+    postData: Omit<Post, 'id' | 'viewsCount' | 'userName' | 'userAvatar'>,
+    onProgress?: (progress: number) => void
+  ): Promise<Post> {
+    // Simulate upload progress
+    for (let i = 0; i <= 10; i++) {
+      await new Promise(resolve => setTimeout(resolve, 300));
+      if (onProgress) onProgress(i * 10);
+    }
+
+    const newPost: Post = {
+      ...postData,
+      id: Math.random().toString(36).substr(2, 9),
+      viewsCount: 0,
+      userName: 'Current User',
+      userAvatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&h=100&fit=crop&crop=face',
+    };
+
+    this.dummyPosts.unshift(newPost);
+    return newPost;
   }
 }

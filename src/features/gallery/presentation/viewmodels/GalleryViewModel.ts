@@ -1,10 +1,11 @@
 import { inject, injectable } from 'tsyringe';
+import { BaseViewModel } from '../../../../core/presentation/BaseViewModel';
 import { GetGalleryDataUseCaseToken, GetPostByIdUseCaseToken } from '../../data/di/tokens';
 import { Category, Post } from '../../domain/entities/Gallery';
 import { GetGalleryDataUseCase, GetPostByIdUseCase } from '../../domain/usecases/GalleryUseCases';
 
 @injectable()
-export class GalleryViewModel {
+export class GalleryViewModel extends BaseViewModel {
   private _loading = false;
   private _featuredPost: Post | null = null;
   private _categories: Category[] = [];
@@ -13,7 +14,9 @@ export class GalleryViewModel {
   constructor(
     @inject(GetGalleryDataUseCaseToken) private getGalleryDataUseCase: GetGalleryDataUseCase,
     @inject(GetPostByIdUseCaseToken) private getPostByIdUseCase: GetPostByIdUseCase
-  ) {}
+  ) {
+    super();
+  }
 
   get loading(): boolean {
     return this._loading;
@@ -33,6 +36,8 @@ export class GalleryViewModel {
 
   async loadGalleryData(): Promise<void> {
     this._loading = true;
+    this.notifyUpdate();
+
     try {
       const galleryData = await this.getGalleryDataUseCase.execute();
       this._featuredPost = galleryData.featuredPost;
@@ -42,6 +47,7 @@ export class GalleryViewModel {
       console.error('Error loading gallery data:', error);
     } finally {
       this._loading = false;
+      this.notifyUpdate();
     }
   }
 
