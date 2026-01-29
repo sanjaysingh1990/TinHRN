@@ -3,7 +3,7 @@ import * as Haptics from 'expo-haptics';
 import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     ActivityIndicator,
     Image,
@@ -22,6 +22,56 @@ import { useTheme } from '../../../../hooks/useTheme';
 import { useViewModel } from '../../../../hooks/useViewModel';
 import { AddPostViewModelToken } from '../../data/di/tokens';
 import { AddPostViewModel } from '../viewmodels/AddPostViewModel';
+
+/**
+ * Granular Category Selector component to ensure localized reactivity.
+ */
+const CategorySelector: React.FC<{ viewModel: AddPostViewModel }> = ({ viewModel }) => {
+    const { colors } = useTheme();
+    // Use local state to force a re-render and sync with the VM's internal value
+    const [selectedId, setSelectedId] = useState(viewModel.selectedCategoryId);
+
+    useEffect(() => {
+        // Subscribe to ViewModel updates to sync local state
+        const unsubscribe = viewModel.subscribe(() => {
+            setSelectedId(viewModel.selectedCategoryId);
+        });
+        return unsubscribe;
+    }, [viewModel]);
+
+    return (
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoryList}>
+            {viewModel.categories.map((category) => {
+                const isSelected = selectedId === category.id;
+                return (
+                    <TouchableOpacity
+                        key={`${category.id}-${isSelected}`}
+                        style={[
+                            styles.categoryItem,
+                            {
+                                backgroundColor: isSelected ? colors.primary : colors.inputBackground,
+                                borderColor: colors.borderColor
+                            }
+                        ]}
+                        onPress={() => {
+                            Haptics.selectionAsync();
+                            viewModel.setSelectedCategoryId(category.id);
+                            // Explicitly update local state for immediate feedback
+                            setSelectedId(category.id);
+                        }}
+                    >
+                        <Text style={[
+                            styles.categoryText,
+                            { color: isSelected ? '#FFF' : colors.text }
+                        ]}>
+                            {category.name}
+                        </Text>
+                    </TouchableOpacity>
+                );
+            })}
+        </ScrollView>
+    );
+};
 
 const AddPostScreen: React.FC = () => {
     const router = useRouter();
@@ -110,35 +160,10 @@ const AddPostScreen: React.FC = () => {
                         />
                     </View>
 
-                    {/* Category Selection */}
+                    {/* Category Selection - Isolated for robust reactivity */}
                     <View style={styles.inputGroup}>
                         <Text style={[styles.label, { color: colors.text }]}>Category</Text>
-                        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoryList}>
-                            {viewModel.categories.map((category) => (
-                                <TouchableOpacity
-                                    key={category.id}
-                                    style={[
-                                        styles.categoryItem,
-                                        {
-                                            backgroundColor: viewModel.selectedCategoryId === category.id ? colors.primary : colors.inputBackground,
-                                            borderColor: colors.borderColor
-                                        }
-                                    ]}
-                                    onPress={() => {
-                                        Haptics.selectionAsync();
-                                        viewModel.setSelectedCategoryId(category.id);
-                                        viewModel.notifyUpdate();
-                                    }}
-                                >
-                                    <Text style={[
-                                        styles.categoryText,
-                                        { color: viewModel.selectedCategoryId === category.id ? '#FFF' : colors.text }
-                                    ]}>
-                                        {category.name}
-                                    </Text>
-                                </TouchableOpacity>
-                            ))}
-                        </ScrollView>
+                        <CategorySelector viewModel={viewModel} />
                     </View>
 
                     {/* Description Input */}

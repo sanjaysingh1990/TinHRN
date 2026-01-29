@@ -17,13 +17,14 @@ export function useViewModel<T extends BaseViewModel>(token: InjectionToken<T>):
     const vm = useMemo(() => container.resolve(token), [token]);
 
     useEffect(() => {
-        // Set up the update callback to trigger a re-render
-        vm.setUpdateCallback(() => {
+        // Subscribe to ViewModel updates to trigger a re-render
+        const unsubscribe = vm.subscribe(() => {
             setTick(tick => tick + 1);
         });
 
         // Cleanup on unmount
         return () => {
+            unsubscribe();
             vm.onUnmount?.();
         };
     }, [vm]);

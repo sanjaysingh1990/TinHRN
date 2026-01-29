@@ -1,13 +1,16 @@
 
 export abstract class BaseViewModel {
-    private _updateCallback?: () => void;
+    private _listeners: (() => void)[] = [];
 
-    setUpdateCallback(callback: () => void): void {
-        this._updateCallback = callback;
+    subscribe(listener: () => void): () => void {
+        this._listeners.push(listener);
+        return () => {
+            this._listeners = this._listeners.filter(l => l !== listener);
+        };
     }
 
     public notifyUpdate(): void {
-        this._updateCallback?.();
+        this._listeners.forEach(listener => listener());
     }
 
     /**
