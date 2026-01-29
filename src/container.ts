@@ -76,6 +76,11 @@ import { BlogRepositoryImpl } from "./features/blog/data/repositories/BlogReposi
 import { BlogDetailViewModel } from "./features/blog/presentation/viewmodels/BlogDetailViewModel";
 import { BlogListViewModel } from "./features/blog/presentation/viewmodels/BlogListViewModel";
 
+// Search module dependencies
+import { SearchRepositoryToken, SearchViewModelToken } from "./features/search/data/di/tokens";
+import { MockSearchRepository } from "./features/search/data/repositories/SearchRepository";
+import { SearchViewModel } from "./features/search/presentation/viewmodels/SearchViewModel";
+
 // Register Auth dependencies first to ensure proper initialization
 container.register(AuthRepositoryToken, { useClass: AuthRepository });
 container.register(LoginUseCaseToken, { useClass: LoginUseCase });
@@ -147,5 +152,9 @@ container.register(AddReviewScreenViewModelToken, { useClass: AddReviewScreenVie
 container.register(BlogRepositoryToken, { useClass: BlogRepositoryImpl });
 container.register(BlogListViewModelToken, { useClass: BlogListViewModel });
 container.register(BlogDetailViewModelToken, { useClass: BlogDetailViewModel });
+
+// Search module dependencies registration
+container.register(SearchRepositoryToken, { useClass: MockSearchRepository });
+container.registerSingleton(SearchViewModelToken, SearchViewModel);
 
 export default container;

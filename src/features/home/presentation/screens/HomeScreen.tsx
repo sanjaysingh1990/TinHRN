@@ -6,6 +6,7 @@ import {
   FlatList,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -31,8 +32,8 @@ const HomeScreen: React.FC = () => {
 
   const { tours, isLoading, loadingMore, hasMore } = viewModel;
 
-  const handleSearch = (query: string) => {
-    viewModel.searchTours(query);
+  const handleSearchPress = () => {
+    router.push('/search');
   };
 
   const refreshTours = () => {
@@ -61,7 +62,11 @@ const HomeScreen: React.FC = () => {
 
   const renderHeader = useCallback(() => (
     <>
-      <SearchBar onSearch={handleSearch} searching={isLoading && tours.length > 0} />
+      <TouchableOpacity activeOpacity={0.9} onPress={handleSearchPress}>
+        <View pointerEvents="none">
+          <SearchBar onSearch={() => { }} searching={false} />
+        </View>
+      </TouchableOpacity>
       <HomeHero onExplorePress={() => router.push('/(tabs)/explore')} />
       <Text style={styles.sectionTitle}>Hot Tours</Text>
     </>
