@@ -31,7 +31,7 @@ export const GlobalProgressBar: React.FC = () => {
             {
                 backgroundColor: colors.background,
                 borderBottomColor: colors.borderColor,
-                paddingTop: insets.top + 10
+                paddingTop: insets.top
             }
         ]}>
             <View style={styles.content}>
@@ -60,16 +60,20 @@ export const GlobalProgressBar: React.FC = () => {
 
 const styles = StyleSheet.create({
     container: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
         paddingHorizontal: 16,
-        paddingVertical: 10,
+        paddingBottom: 2, // Even tighter for perfect gap
         borderBottomWidth: 1,
-        width: '100%',
+        zIndex: 1000,
     },
     content: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 6,
+        marginBottom: 0,
     },
     title: {
         fontSize: 12,

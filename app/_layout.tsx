@@ -11,24 +11,31 @@ import { RootState, store } from '../src/providers/store';
 import { theme } from '../src/theme';
 
 
+import { PortalProvider } from '@gorhom/portal';
 import { View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-
-import { PortalProvider } from '@gorhom/portal';
-
+import container from '../src/container';
 import { GlobalProgressBar } from '../src/core/presentation/components/GlobalProgressBar';
+import { UploadService } from '../src/core/services/UploadService';
 
 const AppContent = () => {
   const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const colors = theme[isDarkMode ? 'dark' : 'light'];
+  const [isUploading, setIsUploading] = React.useState(false);
+
+  useEffect(() => {
+    const uploadService = container.resolve(UploadService);
+    return uploadService.subscribe((status) => {
+      setIsUploading(status.isUploading);
+    });
+  }, []);
 
   useEffect(() => {
     SystemUI.setBackgroundColorAsync(colors.background);
   }, [isDarkMode, colors.background]);
 
   return (
-    <View style={{ flex: 1 }}>
-      <GlobalProgressBar />
+    <View style={{ flex: 1, paddingTop: isUploading ? 28 : 0 }}>
       <Stack
         screenOptions={{
           headerShown: false,
@@ -111,6 +118,7 @@ const AppContent = () => {
           }}
         />
       </Stack>
+      <GlobalProgressBar />
     </View>
   );
 };

@@ -70,7 +70,7 @@ export class UploadService {
         this._listeners.push(listener);
         listener(this.status);
         return () => {
-            this._listeners = this._listeners.filter(l => l !== l);
+            this._listeners = this._listeners.filter(l => l !== listener);
         };
     }
 
