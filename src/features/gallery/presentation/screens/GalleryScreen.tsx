@@ -6,14 +6,14 @@ import {
   Dimensions,
   FlatList,
   Image,
-  SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../../../../hooks/useTheme';
 import { useViewModel } from '../../../../hooks/useViewModel';
 import { GalleryViewModelToken } from '../../data/di/tokens';
@@ -184,7 +184,7 @@ const GalleryScreen: React.FC = () => {
   };
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['top', 'left', 'right']}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} backgroundColor={colors.background} />
 
       {/* Header */}
@@ -234,19 +234,20 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingVertical: 16,
-    // paddingTop: 40, // Removed because SafeAreaView handles it
+    justifyContent: 'center',
+    padding: 15,
     borderBottomWidth: 1,
   },
   headerTitle: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
     fontFamily: 'SplineSans',
+    marginTop: 10,
   },
   moreButton: {
-    padding: 8,
+    position: 'absolute',
+    right: 20,
+    bottom: 12,
   },
   scrollContainer: {
     flex: 1,

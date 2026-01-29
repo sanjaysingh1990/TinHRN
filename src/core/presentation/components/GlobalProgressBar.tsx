@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Animated, StyleSheet, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import container from '../../../container';
 import { useTheme } from '../../../hooks/useTheme';
 import { UploadService, UploadStatus } from '../../services/UploadService';
 
 export const GlobalProgressBar: React.FC = () => {
     const { colors } = useTheme();
+    const insets = useSafeAreaInsets();
     const [status, setStatus] = useState<UploadStatus>({ isUploading: false, progress: 0 });
     const [width] = useState(new Animated.Value(0));
 
@@ -24,7 +26,14 @@ export const GlobalProgressBar: React.FC = () => {
     if (!status.isUploading && status.progress === 0) return null;
 
     return (
-        <View style={[styles.container, { backgroundColor: colors.background, borderBottomColor: colors.borderColor }]}>
+        <View style={[
+            styles.container,
+            {
+                backgroundColor: colors.background,
+                borderBottomColor: colors.borderColor,
+                paddingTop: insets.top + 10
+            }
+        ]}>
             <View style={styles.content}>
                 <Text style={[styles.title, { color: colors.text }]} numberOfLines={1}>
                     {status.isUploading ? `Uploading: ${status.title}` : status.error ? 'Upload Failed' : 'Upload Complete'}

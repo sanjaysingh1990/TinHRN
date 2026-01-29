@@ -1,13 +1,14 @@
 import React, { useRef, useState } from 'react';
 import {
-    Animated,
-    Dimensions,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Animated,
+  Dimensions,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import PagerView from 'react-native-pager-view';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../../../../hooks/useTheme';
 import ExploreScreen from '../screens/ExploreScreen';
 import MapViewExploreScreenFallback from '../screens/MapViewExploreScreenFallback';
@@ -20,6 +21,7 @@ interface ExploreTabViewProps {
 
 const ExploreTabView: React.FC<ExploreTabViewProps> = ({ onSearchPress }) => {
   const { colors, isDarkMode } = useTheme();
+  const insets = useSafeAreaInsets();
   const [activeTab, setActiveTab] = useState(0);
   const pagerRef = useRef<PagerView>(null);
   const animatedValue = useRef(new Animated.Value(0)).current;
@@ -32,7 +34,7 @@ const ExploreTabView: React.FC<ExploreTabViewProps> = ({ onSearchPress }) => {
   const handleTabPress = (index: number) => {
     setActiveTab(index);
     pagerRef.current?.setPage(index);
-    
+
     // Animate indicator
     Animated.spring(animatedValue, {
       toValue: index,
@@ -45,7 +47,7 @@ const ExploreTabView: React.FC<ExploreTabViewProps> = ({ onSearchPress }) => {
   const handlePageSelected = (e: any) => {
     const index = e.nativeEvent.position;
     setActiveTab(index);
-    
+
     // Animate indicator
     Animated.spring(animatedValue, {
       toValue: index,
@@ -67,7 +69,7 @@ const ExploreTabView: React.FC<ExploreTabViewProps> = ({ onSearchPress }) => {
       right: 0,
       backgroundColor: 'transparent',
       borderBottomWidth: 0,
-      paddingTop: 40,
+      paddingTop: insets.top + 10,
       paddingHorizontal: 20,
       paddingBottom: 0,
       zIndex: 1000,
@@ -112,7 +114,7 @@ const ExploreTabView: React.FC<ExploreTabViewProps> = ({ onSearchPress }) => {
     },
     listTabContent: {
       flex: 1,
-      marginTop: 120,
+      marginTop: insets.top + 80,
     },
   });
 
