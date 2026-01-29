@@ -1,6 +1,6 @@
 import React, { createContext, ReactNode, useContext, useState } from 'react';
-import { en } from '../features/profile/presentation/locales/en';
-import { hi } from '../features/profile/presentation/locales/hi';
+import { en } from '../core/presentation/locales/en';
+import { hi } from '../core/presentation/locales/hi';
 
 type Locale = 'en' | 'hi';
 
@@ -24,11 +24,11 @@ export const I18nProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const t = (key: string) => {
     const keys = key.split('.');
     let value: any = locales[locale];
-    
+
     for (const k of keys) {
       value = value?.[k];
     }
-    
+
     return value || key;
   };
 

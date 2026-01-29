@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { useI18n } from '../../../../hooks/useI18n';
 import { useTheme } from '../../../../hooks/useTheme';
 import { useViewModel } from '../../../../hooks/useViewModel';
 import { Notification } from '../../domain/models/Notification';
@@ -22,6 +23,7 @@ import { NotificationsViewModel } from '../viewmodels/NotificationsViewModel';
 const NotificationsScreen: React.FC = () => {
   const router = useRouter();
   const { colors, isDarkMode } = useTheme();
+  const { t } = useI18n();
   const viewModel = useViewModel<NotificationsViewModel>(NotificationsViewModelToken);
 
   useEffect(() => {
@@ -63,7 +65,7 @@ const NotificationsScreen: React.FC = () => {
         >
           <MaterialIcons name="arrow-back" size={24} color={colors.text} />
         </TouchableOpacity>
-        <Text style={[styles.headerTitle, { color: colors.text }]}>Notifications</Text>
+        <Text style={[styles.headerTitle, { color: colors.text }]}>{t('notifications.title')}</Text>
         <View style={styles.headerSpacer} />
       </View>
 

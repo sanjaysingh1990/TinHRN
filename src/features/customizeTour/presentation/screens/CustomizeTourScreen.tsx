@@ -2,26 +2,27 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
-    Alert,
-    Dimensions,
-    SafeAreaView,
-    ScrollView,
-    StatusBar,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Alert,
+  Dimensions,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import container from '../../../../container';
+import { useI18n } from '../../../../hooks/useI18n';
 import { useTheme } from '../../../../hooks/useTheme';
 import { showErrorToast } from '../../../../utils/toast';
 import { CustomizeTourViewModelToken } from '../../customizeTour.di';
 import { AddOn, SupportOption, TentOption } from '../../domain/entities/CustomizeTour';
 import {
-    AddOnsShimmer,
-    CalendarShimmer,
-    SupportCardsShimmer,
-    TentOptionsShimmer,
+  AddOnsShimmer,
+  CalendarShimmer,
+  SupportCardsShimmer,
+  TentOptionsShimmer,
 } from '../components/CustomizeTourShimmers';
 import PaymentScreen from '../components/PaymentScreen';
 import { CustomizeTourViewModel } from '../viewmodels/CustomizeTourViewModel';
@@ -30,17 +31,18 @@ const { width } = Dimensions.get('window');
 
 const CustomizeTourScreen: React.FC = () => {
   const router = useRouter();
-  const { 
-    tourId, 
-    tourName, 
-    tourImage, 
-    tourDuration, 
-    tourDifficulty, 
+  const {
+    tourId,
+    tourName,
+    tourImage,
+    tourDuration,
+    tourDifficulty,
     tourAltitude,
     bestTime
   } = useLocalSearchParams();
   const { colors, isDarkMode } = useTheme();
-  const [customizeTourViewModel] = useState(() => 
+  const { t } = useI18n();
+  const [customizeTourViewModel] = useState(() =>
     container.resolve<CustomizeTourViewModel>(CustomizeTourViewModelToken)
   );
   const [loading, setLoading] = useState(true);
@@ -55,20 +57,20 @@ const CustomizeTourScreen: React.FC = () => {
     customizeTourViewModel.setUpdateCallback(() => {
       setForceUpdate(prev => prev + 1);
     });
-    
+
     // Set tour ID, tour name, and tour image in ViewModel
     if (tourId) {
       customizeTourViewModel.setTourId(tourId as string);
     }
-    
+
     if (tourName) {
       customizeTourViewModel.setTourName(tourName as string);
     }
-    
+
     if (tourImage) {
       customizeTourViewModel.setTourImage(tourImage as string);
     }
-    
+
     // Parse bestTime data
     if (bestTime) {
       try {
@@ -79,7 +81,7 @@ const CustomizeTourScreen: React.FC = () => {
         setBestTimeMonths([]);
       }
     }
-    
+
     loadData();
   }, []);
 
@@ -147,7 +149,7 @@ const CustomizeTourScreen: React.FC = () => {
     ];
 
     // Check if current month is in bestTimeMonths
-    const isCurrentMonthAvailable = bestTimeMonths.length === 0 || 
+    const isCurrentMonthAvailable = bestTimeMonths.length === 0 ||
       bestTimeMonths.includes(monthNames[currentMonth.getMonth()]);
 
     const getDaysInMonth = (date: Date) => {
@@ -163,12 +165,12 @@ const CustomizeTourScreen: React.FC = () => {
       today.setHours(0, 0, 0, 0);
 
       const days = [];
-      
+
       // Add empty cells for days before the first day of month
       for (let i = 0; i < startDayOfWeek; i++) {
         days.push(null);
       }
-      
+
       // Add days of the month
       for (let day = 1; day <= daysInMonth; day++) {
         const date = new Date(year, month, day);
@@ -180,10 +182,10 @@ const CustomizeTourScreen: React.FC = () => {
         const isEndDate = customizeTourViewModel.selection.endDate?.toDateString() === date.toDateString();
         const isInSelectedRange = customizeTourViewModel.selection.startDate && customizeTourViewModel.selection.endDate &&
           date > customizeTourViewModel.selection.startDate && date < customizeTourViewModel.selection.endDate;
-        
+
         days.push({ day, date, isAvailable, isStartDate, isEndDate, isInSelectedRange, isPastDate });
       }
-      
+
       return days;
     };
 
@@ -284,7 +286,7 @@ const CustomizeTourScreen: React.FC = () => {
     return (
       <View style={styles.calendarContainer}>
         <View style={styles.calendarHeader}>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.navButton}
             onPress={() => {
               const prevMonth = new Date(currentMonth);
@@ -295,12 +297,12 @@ const CustomizeTourScreen: React.FC = () => {
           >
             <MaterialIcons name="chevron-left" size={24} color={isDarkMode ? '#111714' : '#ffffff'} />
           </TouchableOpacity>
-          
+
           <Text style={styles.monthText}>
             {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
           </Text>
-          
-          <TouchableOpacity 
+
+          <TouchableOpacity
             style={styles.navButton}
             onPress={() => {
               const nextMonth = new Date(currentMonth);
@@ -313,9 +315,9 @@ const CustomizeTourScreen: React.FC = () => {
         </View>
 
         {!isCurrentMonthAvailable && bestTimeMonths.length > 0 && (
-          <Text style={{ 
-            color: colors.secondary, 
-            textAlign: 'center', 
+          <Text style={{
+            color: colors.secondary,
+            textAlign: 'center',
             marginBottom: 10,
             fontStyle: 'italic'
           }}>
@@ -336,10 +338,10 @@ const CustomizeTourScreen: React.FC = () => {
             }
 
             const { day, date, isAvailable, isStartDate, isEndDate, isInSelectedRange, isPastDate } = dayData;
-            
+
             let dayCellStyle = styles.availableDay;
             let dayTextStyle = styles.availableDayText;
-            
+
             if (isStartDate || isEndDate) {
               dayCellStyle = styles.startDate; // Both start and end use the same style
               dayTextStyle = styles.selectedDayText;
@@ -353,7 +355,7 @@ const CustomizeTourScreen: React.FC = () => {
               dayCellStyle = styles.unavailableDay;
               dayTextStyle = styles.unavailableDayText;
             }
-            
+
             return (
               <TouchableOpacity
                 key={index}
@@ -361,15 +363,15 @@ const CustomizeTourScreen: React.FC = () => {
                 disabled={!isAvailable}
                 onPress={() => {
                   if (!isAvailable) return;
-                  
+
                   // If no start date selected, set as start date
                   if (!customizeTourViewModel.selection.startDate) {
                     customizeTourViewModel.selectStartDate(date);
-                  } 
+                  }
                   // If start date is selected but no end date, set as end date (if after start)
                   else if (!customizeTourViewModel.selection.endDate && date >= customizeTourViewModel.selection.startDate) {
                     customizeTourViewModel.selectEndDate(date);
-                  } 
+                  }
                   // If both dates selected, reset and set as new start date
                   else if (customizeTourViewModel.selection.startDate && customizeTourViewModel.selection.endDate) {
                     customizeTourViewModel.selectStartDate(date);
@@ -444,7 +446,7 @@ const CustomizeTourScreen: React.FC = () => {
       <View style={styles.tentContainer}>
         {data.tentOptions.map((tent: TentOption) => {
           const isSelected = customizeTourViewModel.selection.selectedTent?.id === tent.id;
-          
+
           return (
             <TouchableOpacity
               key={tent.id}
@@ -464,7 +466,7 @@ const CustomizeTourScreen: React.FC = () => {
                 styles.tentPrice,
                 isSelected ? styles.selectedTentPrice : styles.unselectedTentPrice
               ]}>
-                ${tent.pricePerNight}/night • Up to {tent.maxOccupancy} guests
+                ${tent.pricePerNight}/{t('customizeTour.perNight')} • Up to {tent.maxOccupancy} {t('customizeTour.guests')}
               </Text>
             </TouchableOpacity>
           );
@@ -610,10 +612,10 @@ const CustomizeTourScreen: React.FC = () => {
             onPress={() => handleSupportAction(option)}
           >
             <View style={styles.supportIcon}>
-              <MaterialIcons 
-                name={option.icon as any} 
-                size={24} 
-                color={isDarkMode ? '#111714' : '#ffffff'} 
+              <MaterialIcons
+                name={option.icon as any}
+                size={24}
+                color={isDarkMode ? '#111714' : '#ffffff'}
               />
             </View>
             <View style={styles.supportContent}>
@@ -706,38 +708,38 @@ const CustomizeTourScreen: React.FC = () => {
     return (
       <SafeAreaView style={mainStyles.container}>
         <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} backgroundColor={colors.background} />
-        
+
         {/* Header */}
         <View style={mainStyles.header}>
           <TouchableOpacity style={mainStyles.backButton} onPress={() => router.back()}>
             <MaterialIcons name="arrow-back" size={24} color={colors.text} />
           </TouchableOpacity>
-          <Text style={mainStyles.headerTitle}>Customize Your Tour</Text>
+          <Text style={mainStyles.headerTitle}>{t('customizeTour.title')}</Text>
           <View style={mainStyles.placeholder} />
         </View>
 
         <ScrollView style={mainStyles.scrollContainer} showsVerticalScrollIndicator={false}>
           {/* Step 1: Choose Dates */}
-          <Text style={mainStyles.sectionTitle}>Step 1: Choose Dates</Text>
+          <Text style={mainStyles.sectionTitle}>{t('customizeTour.step1')}</Text>
           {renderCalendar()}
 
           {/* Step 2: Select Your Tent */}
-          <Text style={mainStyles.sectionTitle}>Step 2: Select Your Tent</Text>
+          <Text style={mainStyles.sectionTitle}>{t('customizeTour.step2')}</Text>
           {renderTentOptions()}
 
           {/* Step 3: Add-ons */}
-          <Text style={mainStyles.sectionTitle}>Step 3: Add-ons</Text>
+          <Text style={mainStyles.sectionTitle}>{t('customizeTour.step3')}</Text>
           {renderAddOns()}
 
           {/* Help Section */}
-          <Text style={mainStyles.sectionTitle}>Need Help?</Text>
+          <Text style={mainStyles.sectionTitle}>{t('customizeTour.needHelp')}</Text>
           {renderSupportCards()}
         </ScrollView>
 
         {/* Footer */}
         <View style={mainStyles.footer}>
           <Text style={mainStyles.totalPrice}>
-            Total: ${customizeTourViewModel.selection.totalPrice}
+            {t('customizeTour.total')}: ${customizeTourViewModel.selection.totalPrice}
           </Text>
           <TouchableOpacity
             style={[
@@ -748,7 +750,7 @@ const CustomizeTourScreen: React.FC = () => {
             disabled={!customizeTourViewModel.isSelectionComplete() || customizeTourViewModel.isBookingLoading}
           >
             <Text style={mainStyles.continueButtonText}>
-              {customizeTourViewModel.isBookingLoading ? 'Booking...' : 'Continue to Payment'}
+              {customizeTourViewModel.isBookingLoading ? t('customizeTour.booking') : t('customizeTour.continueToPayment')}
             </Text>
           </TouchableOpacity>
         </View>

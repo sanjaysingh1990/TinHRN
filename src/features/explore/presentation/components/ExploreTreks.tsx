@@ -1,6 +1,7 @@
 import * as Haptics from 'expo-haptics';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { useI18n } from '../../../../hooks/useI18n';
 import { useTheme } from '../../../../hooks/useTheme';
 import { TopTrek } from '../../domain/entities/Explore';
 import TrekCard from './TrekCard';
@@ -14,6 +15,7 @@ interface ExploreTreksProps {
 
 const ExploreTreks: React.FC<ExploreTreksProps> = ({ treks, isLoading, onTrekExplore }) => {
     const { colors } = useTheme();
+    const { t } = useI18n();
 
     const data = isLoading ? Array.from({ length: 5 }, (_, i) => i) : treks;
 
@@ -26,7 +28,7 @@ const ExploreTreks: React.FC<ExploreTreksProps> = ({ treks, isLoading, onTrekExp
 
     return (
         <View style={styles.section}>
-            <Text style={[styles.sectionTitle, { color: colors.text }]}>Top Treks</Text>
+            <Text style={[styles.sectionTitle, { color: colors.text }]}>{t('home.hotTours')}</Text>
             <View style={styles.treksContainer}>
                 {data.map((item, index) => (
                     <View key={index}>

@@ -2,6 +2,7 @@ import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import { ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useI18n } from '../../../../hooks/useI18n';
 import { useTheme } from '../../../../hooks/useTheme';
 
 interface HomeHeroProps {
@@ -10,6 +11,7 @@ interface HomeHeroProps {
 
 const HomeHero: React.FC<HomeHeroProps> = ({ onExplorePress }) => {
     const { colors } = useTheme();
+    const { t } = useI18n();
 
     const handlePress = () => {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
@@ -27,10 +29,10 @@ const HomeHero: React.FC<HomeHeroProps> = ({ onExplorePress }) => {
                 style={StyleSheet.absoluteFillObject}
             />
             <View style={styles.heroContent}>
-                <Text style={styles.heroTitle}>Discover the Himalayas</Text>
-                <Text style={styles.heroSubtitle}>Your next adventure awaits</Text>
+                <Text style={styles.heroTitle}>{t('home.heroTitle')}</Text>
+                <Text style={styles.heroSubtitle}>{t('home.heroSubtitle')}</Text>
                 <TouchableOpacity style={[styles.heroButton, { backgroundColor: colors.primary }]} onPress={handlePress}>
-                    <Text style={[styles.heroButtonText, { color: colors.background }]}>Explore Now</Text>
+                    <Text style={[styles.heroButtonText, { color: colors.background }]}>{t('home.exploreNow')}</Text>
                 </TouchableOpacity>
             </View>
         </View>

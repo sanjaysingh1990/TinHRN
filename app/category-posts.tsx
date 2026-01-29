@@ -2,30 +2,32 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
-    FlatList,
-    Image,
-    SafeAreaView,
-    StatusBar,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  FlatList,
+  Image,
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import container from '../src/container';
 import { GalleryViewModelToken } from '../src/features/gallery/data/di/tokens';
 import { Post } from '../src/features/gallery/domain/entities/Gallery';
 import { GridItemShimmer } from '../src/features/gallery/presentation/components/GalleryShimmers';
 import { GalleryViewModel } from '../src/features/gallery/presentation/viewmodels/GalleryViewModel';
+import { useI18n } from '../src/hooks/useI18n';
 import { useTheme } from '../src/hooks/useTheme';
 
 const CategoryPostsScreen: React.FC = () => {
   const router = useRouter();
   const { colors, isDarkMode } = useTheme();
+  const { t } = useI18n();
   const { categoryId, categoryName } = useLocalSearchParams<{
     categoryId: string;
     categoryName: string;
   }>();
-  
+
   const [galleryViewModel] = useState(() => container.resolve<GalleryViewModel>(GalleryViewModelToken));
   const [loading, setLoading] = useState(true);
   const [posts, setPosts] = useState<Post[]>([]);
@@ -58,7 +60,7 @@ const CategoryPostsScreen: React.FC = () => {
   const handlePostPress = (post: Post) => {
     router.push({
       pathname: '/post-details',
-      params: { 
+      params: {
         postId: post.id,
         title: post.title,
         imageUrl: post.imageUrl,
@@ -72,8 +74,8 @@ const CategoryPostsScreen: React.FC = () => {
   };
 
   const renderPostItem = ({ item }: { item: Post }) => (
-    <TouchableOpacity 
-      style={styles.postItem} 
+    <TouchableOpacity
+      style={styles.postItem}
       onPress={() => handlePostPress(item)}
       activeOpacity={0.7}
     >
@@ -231,14 +233,14 @@ const CategoryPostsScreen: React.FC = () => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} backgroundColor={colors.background} />
-      
+
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
           <MaterialIcons name="arrow-back" size={24} color={colors.text} />
         </TouchableOpacity>
         <Text style={styles.headerTitle} numberOfLines={1}>
-          {categoryName || 'Category Posts'}
+          {categoryName || t('gallery.title')}
         </Text>
         <View style={styles.placeholder} />
       </View>

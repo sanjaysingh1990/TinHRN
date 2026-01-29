@@ -12,6 +12,7 @@ import {
     View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useI18n } from '../../../../hooks/useI18n';
 import { useTheme } from '../../../../hooks/useTheme';
 import { useViewModel } from '../../../../hooks/useViewModel';
 import { SearchViewModelToken } from '../../data/di/tokens';
@@ -22,6 +23,7 @@ import { SearchViewModel } from '../viewmodels/SearchViewModel';
 const SearchScreen: React.FC = () => {
     const router = useRouter();
     const { colors, isDarkMode } = useTheme();
+    const { t } = useI18n();
     const viewModel = useViewModel<SearchViewModel>(SearchViewModelToken);
     const inputRef = useRef<TextInput>(null);
 
@@ -223,7 +225,7 @@ const SearchScreen: React.FC = () => {
             return (
                 <View style={styles.emptyContainer}>
                     <MaterialIcons name="search" size={64} color={colors.borderColor} />
-                    <Text style={styles.emptyText}>Find your next adventure</Text>
+                    <Text style={styles.emptyText}>{t('search.emptyTitle')}</Text>
                 </View>
             );
         }
@@ -231,7 +233,7 @@ const SearchScreen: React.FC = () => {
         return (
             <View style={styles.emptyContainer}>
                 <MaterialIcons name="search-off" size={64} color={colors.borderColor} />
-                <Text style={styles.emptyText}>No results found for "{query}"</Text>
+                <Text style={styles.emptyText}>{t('search.emptySubtitle')} "{query}"</Text>
             </View>
         );
     };
@@ -246,7 +248,7 @@ const SearchScreen: React.FC = () => {
                     <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
                         <MaterialIcons name="arrow-back" size={24} color={colors.text} />
                     </TouchableOpacity>
-                    <Text style={styles.headerTitle}>Search Tour</Text>
+                    <Text style={styles.headerTitle}>{t('search.title')}</Text>
                 </View>
 
                 {/* Search Bar Row */}
@@ -256,7 +258,7 @@ const SearchScreen: React.FC = () => {
                         <TextInput
                             ref={inputRef}
                             style={styles.searchInput}
-                            placeholder="Tours or destinations..."
+                            placeholder={t('search.placeholder')}
                             placeholderTextColor={colors.secondary}
                             value={query}
                             onChangeText={(text) => viewModel.setQuery(text)}
@@ -283,7 +285,7 @@ const SearchScreen: React.FC = () => {
                 contentContainerStyle={styles.listContent}
                 ListHeaderComponent={() => results.length > 0 && (
                     <Text style={{ padding: 15, fontSize: 14, fontWeight: 'bold', color: colors.secondary }}>
-                        {results.length} SEARCH RESULTS
+                        {results.length} {t('search.resultsHeader')}
                     </Text>
                 )}
                 ListEmptyComponent={renderEmpty}

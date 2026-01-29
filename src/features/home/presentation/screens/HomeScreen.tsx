@@ -10,6 +10,7 @@ import {
   View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useI18n } from '../../../../hooks/useI18n';
 import { useTheme } from '../../../../hooks/useTheme';
 import { useViewModel } from '../../../../hooks/useViewModel';
 import { Tour } from '../../domain/entities/Tour';
@@ -24,6 +25,7 @@ import { HomeViewModel } from '../viewmodels/HomeViewModel';
 const HomeScreen: React.FC = () => {
   const router = useRouter();
   const { colors, colorScheme } = useTheme();
+  const { t } = useI18n();
   const viewModel = useViewModel<HomeViewModel>(HomeViewModelToken);
 
   useEffect(() => {
@@ -68,7 +70,7 @@ const HomeScreen: React.FC = () => {
         </View>
       </TouchableOpacity>
       <HomeHero onExplorePress={() => router.push('/(tabs)/explore')} />
-      <Text style={styles.sectionTitle}>Hot Tours</Text>
+      <Text style={styles.sectionTitle}>{t('home.hotTours')}</Text>
     </>
   ), [colors, tours.length, isLoading]);
 

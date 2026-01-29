@@ -2,16 +2,17 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React from 'react';
 import {
-    Dimensions,
-    Image,
-    SafeAreaView,
-    ScrollView,
-    StatusBar,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Dimensions,
+  Image,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
+import { useI18n } from '../../../../hooks/useI18n';
 import { useTheme } from '../../../../hooks/useTheme';
 
 const { width, height } = Dimensions.get('window');
@@ -19,6 +20,7 @@ const { width, height } = Dimensions.get('window');
 const PostDetailsScreen: React.FC = () => {
   const router = useRouter();
   const { colors, isDarkMode } = useTheme();
+  const { t } = useI18n();
   const params = useLocalSearchParams();
 
   const {
@@ -165,13 +167,13 @@ const PostDetailsScreen: React.FC = () => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} backgroundColor={colors.background} />
-      
+
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
           <MaterialIcons name="arrow-back" size={24} color={colors.text} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle} numberOfLines={1}>Post Details</Text>
+        <Text style={styles.headerTitle} numberOfLines={1}>{t('gallery.postDetails')}</Text>
         <TouchableOpacity style={styles.shareButton}>
           <MaterialIcons name="share" size={24} color={colors.text} />
         </TouchableOpacity>
@@ -206,7 +208,7 @@ const PostDetailsScreen: React.FC = () => {
             <Image source={{ uri: userAvatar as string }} style={styles.authorAvatar} />
             <View style={styles.authorInfo}>
               <Text style={styles.authorName}>{userName}</Text>
-              <Text style={styles.authorLabel}>Photographer</Text>
+              <Text style={styles.authorLabel}>{t('gallery.photographer')}</Text>
             </View>
             <TouchableOpacity style={styles.contactButton}>
               <MaterialIcons name="message" size={24} color={colors.primary} />

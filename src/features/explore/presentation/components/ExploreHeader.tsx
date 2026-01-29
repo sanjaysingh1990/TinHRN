@@ -3,6 +3,7 @@ import * as Haptics from 'expo-haptics';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useI18n } from '../../../../hooks/useI18n';
 import { useTheme } from '../../../../hooks/useTheme';
 
 interface ExploreHeaderProps {
@@ -13,6 +14,7 @@ interface ExploreHeaderProps {
 
 const ExploreHeader: React.FC<ExploreHeaderProps> = ({ hideHeader, isDarkMode, onSearchPress }) => {
     const { colors } = useTheme();
+    const { t } = useI18n();
 
     if (hideHeader) return null;
 
@@ -25,7 +27,7 @@ const ExploreHeader: React.FC<ExploreHeaderProps> = ({ hideHeader, isDarkMode, o
         <>
             <StatusBar style={isDarkMode ? 'light' : 'dark'} />
             <View style={styles.header}>
-                <Text style={[styles.headerTitle, { color: colors.text }]}>Explore</Text>
+                <Text style={[styles.headerTitle, { color: colors.text }]}>{t('explore.title')}</Text>
                 <TouchableOpacity
                     style={[styles.searchButton, { backgroundColor: colors.cardBackgroundColor, borderColor: colors.borderColor }]}
                     onPress={handleSearchPress}

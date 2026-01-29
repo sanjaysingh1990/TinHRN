@@ -4,6 +4,7 @@ import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { ActivityIndicator, Alert, Image, SafeAreaView, StatusBar, Text, TouchableOpacity, View } from 'react-native';
+import { useI18n } from '../../../../hooks/useI18n';
 import { useTheme } from '../../../../hooks/useTheme';
 import { useViewModel } from '../../../../hooks/useViewModel';
 import { LoginViewModelToken } from '../../auth.di';
@@ -19,6 +20,7 @@ import { LoginViewModel } from '../viewmodels/LoginViewModel';
 const LoginScreen: React.FC = () => {
   const router = useRouter();
   const { colors, isDarkMode } = useTheme();
+  const { t } = useI18n();
   const styles = getAuthStyles(colors, isDarkMode ? 'dark' : 'light');
   const { isLoading: authLoading } = useAuth();
 
@@ -90,15 +92,15 @@ const LoginScreen: React.FC = () => {
           resizeMode="contain"
         />
       </View>
-      <Text style={styles.title}>Welcome Back</Text>
-      <Text style={styles.subtitle}>Log in to continue your adventure.</Text>
+      <Text style={styles.title}>{t('auth.loginTitle')}</Text>
+      <Text style={styles.subtitle}>{t('auth.loginSubtitle')}</Text>
 
       <TouchableOpacity style={styles.forgotPassword} onPress={handleForgotPassword}>
-        <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+        <Text style={styles.forgotPasswordText}>{t('auth.forgotPassword')}</Text>
       </TouchableOpacity>
 
       <AuthInput
-        placeholder="Email or Username"
+        placeholder={t('auth.emailPlaceholder')}
         value={formData.email}
         onChangeText={viewModel.setEmail.bind(viewModel)}
         onFocus={() => setEmailFocused(true)}
@@ -115,7 +117,7 @@ const LoginScreen: React.FC = () => {
 
       <View style={styles.passwordContainer}>
         <AuthInput
-          placeholder="Password"
+          placeholder={t('auth.passwordPlaceholder')}
           value={formData.password}
           onChangeText={viewModel.setPassword.bind(viewModel)}
           onFocus={() => setPasswordFocused(true)}
@@ -138,7 +140,7 @@ const LoginScreen: React.FC = () => {
       )}
 
       <AuthButton
-        title={viewState.isLoading ? "Logging In..." : "Log In"}
+        title={viewState.isLoading ? t('auth.loggingIn') : t('auth.loginButton')}
         onPress={handleLogin}
         accessibilityLabel="Login button"
         disabled={viewState.isLoading}
@@ -146,22 +148,22 @@ const LoginScreen: React.FC = () => {
 
       <View style={styles.dividerContainer}>
         <View style={styles.stitch} />
-        <Text style={styles.dividerText}>Or log in with</Text>
+        <Text style={styles.dividerText}>{t('auth.socialLogin')}</Text>
         <View style={styles.stitch} />
       </View>
 
       {authLoading ? (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={colors.primary} />
-          <Text style={[styles.loadingText, { color: colors.text }]}>Signing in...</Text>
+          <Text style={[styles.loadingText, { color: colors.text }]}>{t('auth.signingIn')}</Text>
         </View>
       ) : (
         <SocialButtons />
       )}
 
       <AuthFooter
-        text="Don't have an account? "
-        linkText="Sign up"
+        text={t('auth.noAccount')}
+        linkText={t('auth.signUp')}
         onPress={handleSignUpPress}
       />
     </SafeAreaView>

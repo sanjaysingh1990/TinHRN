@@ -14,6 +14,7 @@ import {
   View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useI18n } from '../../../../hooks/useI18n';
 import { useTheme } from '../../../../hooks/useTheme';
 import { useViewModel } from '../../../../hooks/useViewModel';
 import { GalleryViewModelToken } from '../../data/di/tokens';
@@ -26,6 +27,7 @@ const { width } = Dimensions.get('window');
 const GalleryScreen: React.FC = () => {
   const router = useRouter();
   const { colors, isDarkMode } = useTheme();
+  const { t } = useI18n();
   const viewModel = useViewModel<GalleryViewModel>(GalleryViewModelToken);
 
   useEffect(() => {
@@ -189,7 +191,7 @@ const GalleryScreen: React.FC = () => {
 
       {/* Header */}
       <View style={[styles.header, { borderBottomColor: colors.borderColor }]}>
-        <Text style={[styles.headerTitle, { color: colors.text }]}>Himalayan Gallery</Text>
+        <Text style={[styles.headerTitle, { color: colors.text }]}>{t('gallery.title')}</Text>
         <TouchableOpacity style={styles.moreButton}>
           <MaterialIcons name="more-vert" size={24} color={colors.text} />
         </TouchableOpacity>
@@ -201,16 +203,16 @@ const GalleryScreen: React.FC = () => {
 
         {/* Categories Section */}
         <View style={styles.sectionHeader}>
-          <Text style={[styles.sectionTitle, { color: colors.text }]}>Categories</Text>
+          <Text style={[styles.sectionTitle, { color: colors.text }]}>{t('gallery.categories')}</Text>
           <TouchableOpacity onPress={() => router.push('/category-full-view')} activeOpacity={0.7}>
-            <Text style={[styles.seeAllText, { color: colors.primary }]}>See All</Text>
+            <Text style={[styles.seeAllText, { color: colors.primary }]}>{t('common.seeAll')}</Text>
           </TouchableOpacity>
         </View>
         {renderCategories()}
 
         {/* Recent Uploads Section */}
         <View style={styles.sectionHeader}>
-          <Text style={[styles.sectionTitle, { color: colors.text }]}>Recent Uploads</Text>
+          <Text style={[styles.sectionTitle, { color: colors.text }]}>{t('gallery.views')}</Text>
         </View>
         {renderGrid()}
       </ScrollView>

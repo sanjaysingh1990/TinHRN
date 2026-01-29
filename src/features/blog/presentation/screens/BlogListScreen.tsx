@@ -2,19 +2,21 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { FlatList, StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
+import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ShimmerPlaceHolder from 'react-native-shimmer-placeholder';
 import container from '../../../../container';
+import { useI18n } from '../../../../hooks/useI18n';
 import { useTheme } from '../../../../hooks/useTheme';
 import { BlogListViewModelToken } from '../../blog.di';
-import { BlogListViewModel } from '../viewmodels/BlogListViewModel';
 import { Blog } from '../../domain/models/Blog';
+import { BlogListViewModel } from '../viewmodels/BlogListViewModel';
 
 const BlogListScreen: React.FC = () => {
   const router = useRouter();
   const { colors, isDarkMode } = useTheme();
-  
+  const { t } = useI18n();
+
   // Local state for UI concerns (following the same pattern as HomeScreen)
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -35,18 +37,18 @@ const BlogListScreen: React.FC = () => {
       setLoading(true);
     }
     setError(null);
-    
+
     try {
       console.log('[BlogListScreen] Calling blogListViewModel.fetchBlogs()');
       await blogListViewModel.fetchBlogs();
       console.log('[BlogListScreen] blogListViewModel.fetchBlogs completed, blogs count:', blogListViewModel.blogs.length);
-      
+
       // Update local state with data from ViewModel
       setBlogs(blogListViewModel.blogs);
       setError(blogListViewModel.error);
     } catch (err) {
       console.error('[BlogListScreen] Error loading blogs:', err);
-      setError('Failed to load blogs. Please try again.');
+      setError(t('blog.failedToLoad'));
     } finally {
       setLoading(false);
       setRefreshing(false); // Always set refreshing to false when done
@@ -91,8 +93,8 @@ const BlogListScreen: React.FC = () => {
       <View style={styles.imageContainer}>
         {/* Show actual image when available, otherwise show placeholder */}
         {item.thumbnail ? (
-          <Image 
-            source={{ uri: item.thumbnail }} 
+          <Image
+            source={{ uri: item.thumbnail }}
             style={styles.image}
             resizeMode="cover"
           />
@@ -100,7 +102,7 @@ const BlogListScreen: React.FC = () => {
           <View style={[styles.imagePlaceholder, { backgroundColor: colors.borderColor }]} />
         )}
       </View>
-      
+
       <View style={styles.contentContainer}>
         {/* Show all tags instead of just the first one */}
         {item.tags && item.tags.length > 0 && (
@@ -112,27 +114,27 @@ const BlogListScreen: React.FC = () => {
             ))}
           </View>
         )}
-        
+
         <Text style={[styles.title, { color: colors.text }]} numberOfLines={2}>
           {item.title}
         </Text>
-        
+
         <Text style={[styles.excerpt, { color: colors.secondary }]} numberOfLines={3}>
           {item.excerpt}
         </Text>
-        
+
         <View style={styles.footer}>
           <Text style={[styles.date, { color: colors.secondary }]}>
             {formatDate(item.createdAt)}
           </Text>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.readMoreButton}
             onPress={() => router.push({
               pathname: '/blog/[id]',
               params: { id: item.id }
             })}
           >
-            <Text style={[styles.readMoreText, { color: '#cf7317' }]}>Read More</Text>
+            <Text style={[styles.readMoreText, { color: '#cf7317' }]}>{t('blog.readMore')}</Text>
             <MaterialIcons name="arrow-forward" size={16} color="#cf7317" />
           </TouchableOpacity>
         </View>
@@ -148,7 +150,7 @@ const BlogListScreen: React.FC = () => {
         LinearGradient={LinearGradient}
         style={styles.imagePlaceholder}
       />
-      
+
       <View style={styles.contentContainer}>
         <ShimmerPlaceHolder
           visible={false}
@@ -156,21 +158,21 @@ const BlogListScreen: React.FC = () => {
           LinearGradient={LinearGradient}
           style={styles.shimmerTag}
         />
-        
+
         <ShimmerPlaceHolder
           visible={false}
           shimmerColors={isDarkMode ? ['#211911', '#332517', '#211911'] : ['#f8f7f6', '#e0dcd8', '#f8f7f6']}
           LinearGradient={LinearGradient}
           style={styles.shimmerTitle}
         />
-        
+
         <ShimmerPlaceHolder
           visible={false}
           shimmerColors={isDarkMode ? ['#211911', '#332517', '#211911'] : ['#f8f7f6', '#e0dcd8', '#f8f7f6']}
           LinearGradient={LinearGradient}
           style={styles.shimmerExcerpt}
         />
-        
+
         <ShimmerPlaceHolder
           visible={false}
           shimmerColors={isDarkMode ? ['#211911', '#332517', '#211911'] : ['#f8f7f6', '#e0dcd8', '#f8f7f6']}
@@ -188,7 +190,7 @@ const BlogListScreen: React.FC = () => {
       // Only apply safe area padding to top and sides, not bottom to avoid extra space with tab bar
       <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['top', 'left', 'right']}>
         <View style={styles.header}>
-          <Text style={[styles.headerTitle, { color: colors.text }]}>Blog</Text>
+          <Text style={[styles.headerTitle, { color: colors.text }]}>{t('blog.title')}</Text>
         </View>
         <FlatList
           data={[1, 2, 3, 4]}
@@ -209,7 +211,7 @@ const BlogListScreen: React.FC = () => {
         <MaterialIcons name="error-outline" size={48} color={isDarkMode ? '#ff6b6b' : '#ff4757'} />
         <Text style={[styles.errorText, { color: colors.text, marginBottom: 16 }]}>{error}</Text>
         <TouchableOpacity style={[styles.retryButton, { backgroundColor: '#cf7317' }]} onPress={loadBlogs}>
-          <Text style={styles.retryButtonText}>Retry</Text>
+          <Text style={styles.retryButtonText}>{t('blog.retry')}</Text>
         </TouchableOpacity>
       </SafeAreaView>
     );
@@ -220,9 +222,9 @@ const BlogListScreen: React.FC = () => {
     // Only apply safe area padding to top and sides, not bottom to avoid extra space with tab bar
     <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['top', 'left', 'right']}>
       <View style={styles.header}>
-        <Text style={[styles.headerTitle, { color: colors.text }]}>Blog</Text>
+        <Text style={[styles.headerTitle, { color: colors.text }]}>{t('blog.title')}</Text>
       </View>
-      
+
       <FlatList
         data={blogs}
         renderItem={renderBlogCard}
@@ -234,7 +236,7 @@ const BlogListScreen: React.FC = () => {
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
             <MaterialIcons name="article" size={48} color={colors.secondary} />
-            <Text style={[styles.emptyText, { color: colors.text }]}>No blogs available</Text>
+            <Text style={[styles.emptyText, { color: colors.text }]}>{t('blog.noBlogs')}</Text>
           </View>
         }
       />

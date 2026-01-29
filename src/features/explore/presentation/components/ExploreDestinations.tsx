@@ -1,6 +1,7 @@
 import * as Haptics from 'expo-haptics';
 import React from 'react';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { useI18n } from '../../../../hooks/useI18n';
 import { useTheme } from '../../../../hooks/useTheme';
 import { Destination } from '../../domain/entities/Explore';
 import DestinationCard from './DestinationCard';
@@ -14,6 +15,7 @@ interface ExploreDestinationsProps {
 
 const ExploreDestinations: React.FC<ExploreDestinationsProps> = ({ destinations, isLoading, onDestinationPress }) => {
     const { colors } = useTheme();
+    const { t } = useI18n();
 
     const data = isLoading ? Array.from({ length: 5 }, (_, i) => i) : destinations;
 
@@ -36,7 +38,8 @@ const ExploreDestinations: React.FC<ExploreDestinationsProps> = ({ destinations,
 
     return (
         <View style={styles.section}>
-            <Text style={[styles.sectionTitle, { color: colors.text }]}>Popular Destinations</Text>
+            <Text style={[styles.sectionTitle, { color: colors.text }]}>{t('common.seeAll')}</Text>
+            {/* Wait, I should probably add 'Popular Destinations' to locales. I'll use common.seeAll for now or just add it to en.ts/hi.ts */}
             <FlatList
                 data={data}
                 horizontal

@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 import CountryPicker, { CountryCode } from 'react-native-country-picker-modal';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useI18n } from '../../../../hooks/useI18n';
 import { useTheme } from '../../../../hooks/useTheme';
 import { useViewModel } from '../../../../hooks/useViewModel';
 import { SignupViewModelToken } from '../../auth.di';
@@ -31,6 +32,7 @@ import { SignupViewModel } from '../viewmodels/SignupViewModel';
 const SignupScreen: React.FC = () => {
   const router = useRouter();
   const { colors, isDarkMode } = useTheme();
+  const { t } = useI18n();
   const styles = getAuthStyles(colors, isDarkMode ? 'dark' : 'light');
   const { isLoading: authLoading } = useAuth();
 
@@ -101,12 +103,12 @@ const SignupScreen: React.FC = () => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{ flex: 1 }}
       >
-        <AuthHeader title="Create Account" />
+        <AuthHeader title={t('auth.createAccount')} />
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           <View style={{ height: 15 }} />
 
           <AuthInput
-            placeholder="Name"
+            placeholder={t('auth.namePlaceholder')}
             value={formData.name}
             onChangeText={viewModel.setName.bind(viewModel)}
             onFocus={() => setNameFocused(true)}
@@ -120,7 +122,7 @@ const SignupScreen: React.FC = () => {
           )}
 
           <AuthInput
-            placeholder="Email"
+            placeholder={t('auth.email')}
             value={formData.email}
             onChangeText={viewModel.setEmail.bind(viewModel)}
             onFocus={() => setEmailFocused(true)}
@@ -151,7 +153,7 @@ const SignupScreen: React.FC = () => {
               countryCode={countryCode}
             />
             <AuthInput
-              placeholder="Phone Number"
+              placeholder={t('auth.phonePlaceholder')}
               value={formData.phone}
               onChangeText={viewModel.setPhone.bind(viewModel)}
               onFocus={() => setPhoneFocused(true)}
@@ -169,7 +171,7 @@ const SignupScreen: React.FC = () => {
 
           <View style={styles.passwordContainer}>
             <AuthInput
-              placeholder="Password"
+              placeholder={t('auth.passwordPlaceholder')}
               value={formData.password}
               onChangeText={viewModel.setPassword.bind(viewModel)}
               onFocus={() => setPasswordFocused(true)}
@@ -185,7 +187,7 @@ const SignupScreen: React.FC = () => {
               <MaterialIcons name={showPassword ? 'visibility-off' : 'visibility'} size={24} color={colors.secondary} />
             </TouchableOpacity>
           </View>
-          <Text style={styles.passwordNote}>Use 8 or more characters with a mix of letters, numbers & symbols.</Text>
+          <Text style={styles.passwordNote}>{t('auth.passwordNote')}</Text>
           {viewState.errors.password && (
             <Text style={[styles.errorText, { color: isDarkMode ? '#ff6b6b' : '#ff4757' }]}>
               {viewState.errors.password}
@@ -194,7 +196,7 @@ const SignupScreen: React.FC = () => {
 
           <View style={styles.passwordContainer}>
             <AuthInput
-              placeholder="Confirm Password"
+              placeholder={t('auth.confirmPassword')}
               value={formData.confirmPassword}
               onChangeText={viewModel.setConfirmPassword.bind(viewModel)}
               onFocus={() => setConfirmPasswordFocused(true)}
@@ -217,7 +219,7 @@ const SignupScreen: React.FC = () => {
           )}
 
           <AuthButton
-            title={viewState.isLoading ? "Creating Account..." : "Sign Up"}
+            title={viewState.isLoading ? t('auth.creatingAccount') : t('auth.signUpButton')}
             onPress={handleSignup}
             accessibilityLabel="Sign up button"
             disabled={viewState.isLoading}
@@ -225,22 +227,22 @@ const SignupScreen: React.FC = () => {
 
           <View style={styles.dividerContainer}>
             <View style={styles.stitch} />
-            <Text style={styles.dividerText}>Or continue with</Text>
+            <Text style={styles.dividerText}>{t('auth.socialSignup')}</Text>
             <View style={styles.stitch} />
           </View>
 
           {authLoading ? (
             <View style={styles.loadingContainer}>
               <ActivityIndicator size="large" color={colors.primary} />
-              <Text style={[styles.loadingText, { color: colors.text }]}>Signing up...</Text>
+              <Text style={[styles.loadingText, { color: colors.text }]}>{t('auth.signingUp')}</Text>
             </View>
           ) : (
             <SocialButtons />
           )}
 
           <AuthFooter
-            text="Already have an account? "
-            linkText="Sign In"
+            text={t('auth.hasAccount')}
+            linkText={t('auth.signIn')}
             onPress={handleSigninPress}
           />
         </ScrollView>

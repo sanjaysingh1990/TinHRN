@@ -34,7 +34,7 @@ import { ProfileViewModel } from '../viewmodels/ProfileViewModel';
 const ProfileScreen = () => {
   const router = useRouter();
   const { isDarkMode, colors, toggleDarkMode } = useTheme();
-  const { setLocale } = useI18n();
+  const { setLocale, t, locale } = useI18n();
   const { logout } = useAuth();
 
   const viewModel = useViewModel<ProfileViewModel>(ProfileViewModelToken);
@@ -49,8 +49,8 @@ const ProfileScreen = () => {
 
   const { profile, achievements, favorites, isLoading } = viewModel;
 
-  const handleLanguageSelect = (lang: string) => {
-    setLocale(lang === 'hi' ? 'hi' : 'en');
+  const handleLanguageSelect = (lang: 'en' | 'hi') => {
+    setLocale(lang);
     bottomSheetRef.current?.close();
   };
 
@@ -73,12 +73,12 @@ const ProfileScreen = () => {
   const handleLogout = async () => {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
     Alert.alert(
-      'Logout',
-      'Are you sure you want to logout?',
+      t('profile.logout'),
+      t('profile.logoutConfirm'),
       [
-        { text: 'Cancel', style: 'cancel' },
+        { text: t('common.cancel'), style: 'cancel' },
         {
-          text: 'OK',
+          text: t('common.ok'),
           onPress: async () => {
             try {
               Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
@@ -138,8 +138,7 @@ const ProfileScreen = () => {
         <ScrollView style={styles.scrollView}>
           <ProfileHeader userProfile={profile} loading={isLoading && !profile} />
           <View style={styles.content}>
-
-            <ProfileSection title="ACHIEVEMENTS">
+            <ProfileSection title={t('profile.sections.achievements')}>
               {isLoading && achievements.length === 0 ? (
                 <AchievementsShimmer />
               ) : (
@@ -151,7 +150,7 @@ const ProfileScreen = () => {
               )}
             </ProfileSection>
 
-            <ProfileSection title="FAVORITES">
+            <ProfileSection title={t('profile.favorites').toUpperCase()}>
               {isLoading && favorites.length === 0 ? (
                 <FavoritesShimmer />
               ) : (
@@ -165,16 +164,16 @@ const ProfileScreen = () => {
               )}
             </ProfileSection>
 
-            <ProfileSection title="ACCOUNT">
-              <AccountItem icon="person-outline" title="Personal Info" onPress={() => Haptics.selectionAsync()} />
-              <AccountItem icon="history" title="Booking History" onPress={() => handleItemPress('/booking-history')} />
-              <AccountItem icon="payment" title="Payment Methods" onPress={() => Haptics.selectionAsync()} noBorder />
+            <ProfileSection title={t('profile.sections.account')}>
+              <AccountItem icon="person-outline" title={t('profile.personalInfo')} onPress={() => Haptics.selectionAsync()} />
+              <AccountItem icon="history" title={t('profile.bookingHistory')} onPress={() => handleItemPress('/booking-history')} />
+              <AccountItem icon="payment" title={t('profile.paymentMethods')} onPress={() => Haptics.selectionAsync()} noBorder />
             </ProfileSection>
 
-            <ProfileSection title="PREFERENCES">
+            <ProfileSection title={t('profile.sections.preferences')}>
               <PreferenceItem
                 icon="notifications-none"
-                title="Notifications"
+                title={t('profile.notifications')}
                 value={notifications}
                 onValueChange={(val) => {
                   Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -183,27 +182,27 @@ const ProfileScreen = () => {
               />
               <PreferenceItem
                 icon="brightness-4"
-                title="Dark Mode"
+                title={t('profile.darkMode')}
                 value={isDarkMode}
                 onValueChange={() => {
                   Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
                   toggleDarkMode();
                 }}
               />
-              <AccountItem icon="language" title="Language" onPress={() => {
+              <AccountItem icon="language" title={t('profile.language')} onPress={() => {
                 Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
                 bottomSheetRef.current?.snapToIndex(0);
               }} noBorder />
             </ProfileSection>
 
-            <ProfileSection title="OTHERS">
-              <AccountItem icon="info-outline" title="About Us" onPress={() => handleItemPress('/about-us')} />
-              <AccountItem icon="help-outline" title="FAQ" onPress={() => handleItemPress('/faq')} />
-              <AccountItem icon="description" title="Terms and Conditions" onPress={handleTermsAndConditions} noBorder />
+            <ProfileSection title={t('profile.sections.others')}>
+              <AccountItem icon="info-outline" title={t('profile.aboutUs')} onPress={() => handleItemPress('/about-us')} />
+              <AccountItem icon="help-outline" title={t('profile.faqs')} onPress={() => handleItemPress('/faq')} />
+              <AccountItem icon="description" title={t('profile.termsAndConditions')} onPress={handleTermsAndConditions} noBorder />
             </ProfileSection>
 
             <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-              <Text style={styles.logoutButtonText}>Logout</Text>
+              <Text style={styles.logoutButtonText}>{t('profile.logout')}</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>

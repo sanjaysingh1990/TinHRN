@@ -113,7 +113,7 @@ const FaqScreen: React.FC = () => {
         >
           <MaterialIcons name="arrow-back" size={24} color={colors.text} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>FAQ</Text>
+        <Text style={styles.headerTitle}>{t('faq.title')}</Text>
       </View>
 
       <View style={styles.content}>

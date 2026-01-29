@@ -17,6 +17,7 @@ import {
 } from 'react-native';
 
 import container from '../../../../container';
+import { useI18n } from '../../../../hooks/useI18n';
 import { useTheme } from '../../../../hooks/useTheme';
 import { TourDetails } from '../../domain/entities/TourDetails';
 import { TourDetailsViewModelToken } from '../../tour-details.di';
@@ -316,6 +317,7 @@ const getStyles = (colors: any, isDarkMode: boolean) => StyleSheet.create({
 const TourDetailsScreen = () => {
   const router = useRouter();
   const { colors, isDarkMode } = useTheme();
+  const { t } = useI18n();
   const { id, name, image } = useLocalSearchParams();
   const [details, setDetails] = useState<TourDetails | null>(null);
   const [loading, setLoading] = useState(true);
@@ -337,26 +339,26 @@ const TourDetailsScreen = () => {
 
   const loadReviews = async (loadMore = false) => {
     if (reviewsLoading || (!loadMore && allReviews.length > 0)) return;
-    
+
     setReviewsLoading(true);
     try {
       const viewModel = container.resolve<TourDetailsViewModel>(TourDetailsViewModelToken);
       const reviews = await viewModel.getTourReviews(
-        id as string, 
-        10, 
+        id as string,
+        10,
         loadMore ? lastReviewDoc : undefined
       );
-      
+
       if (loadMore) {
         setAllReviews(prev => [...prev, ...reviews]);
       } else {
         setAllReviews(reviews);
       }
-      
+
       if (reviews.length > 0) {
         setLastReviewDoc(reviews[reviews.length - 1].doc);
       }
-      
+
       setHasMoreReviews(reviews.length === 10);
     } catch (error) {
       console.error('Error loading reviews:', error);
@@ -366,16 +368,16 @@ const TourDetailsScreen = () => {
   };
 
   const onBackPress = () => router.back();
-  
+
   const onSettingsPress = () => {
     router.push('/customize-tour');
   };
-  
+
   const onBookPress = async () => {
     // Navigate to customization screen with tour info
     router.push({
       pathname: '/customize-tour',
-      params: { 
+      params: {
         tourId: id as string,
         tourName: name as string,
         tourImage: image as string,
@@ -390,7 +392,7 @@ const TourDetailsScreen = () => {
   const onReviewPress = () => {
     router.push({
       pathname: '/add-review',
-      params: { 
+      params: {
         tourId: id as string
       }
     });
@@ -413,7 +415,7 @@ const TourDetailsScreen = () => {
 
   const renderChips = (items: string[], title: string) => {
     if (!items || items.length === 0) return null;
-    
+
     return (
       <View style={styles.card}>
         <View style={styles.badge}>
@@ -432,7 +434,7 @@ const TourDetailsScreen = () => {
 
   const renderSeeMoreButton = (onPress: () => void) => (
     <TouchableOpacity onPress={onPress} style={styles.seeMoreButton}>
-      <Text style={styles.seeMoreText}>See More</Text>
+      <Text style={styles.seeMoreText}>{t('tourDetails.seeMore')}</Text>
       <MaterialIcons name="arrow-forward" size={16} color={colors.primary} />
     </TouchableOpacity>
   );
@@ -446,7 +448,7 @@ const TourDetailsScreen = () => {
     >
       <View style={styles.modalContainer}>
         <View style={styles.modalHeader}>
-          <Text style={styles.modalTitle}>Full Itinerary</Text>
+          <Text style={styles.modalTitle}>{t('tourDetails.fullItinerary')}</Text>
           <TouchableOpacity onPress={() => setItineraryModalVisible(false)}>
             <MaterialIcons name="close" size={24} color={colors.text} />
           </TouchableOpacity>
@@ -461,7 +463,7 @@ const TourDetailsScreen = () => {
                 {index < array.length - 1 && <View style={styles.itineraryLine} />}
               </View>
               <View style={styles.itineraryContent}>
-                <Text style={styles.itineraryDay}>Day {item.day}</Text>
+                <Text style={styles.itineraryDay}>{t('tourDetails.day')} {item.day}</Text>
                 <Text style={styles.itineraryTitle}>{item.activity || item.title}</Text>
                 {item.location ? <Text style={styles.itineraryDetail}>Location: {item.location}</Text> : null}
                 {item.accommodation ? <Text style={styles.itineraryDetail}>Accommodation: {item.accommodation}</Text> : null}
@@ -485,12 +487,12 @@ const TourDetailsScreen = () => {
     >
       <View style={styles.modalContainer}>
         <View style={styles.modalHeader}>
-          <Text style={styles.modalTitle}>All Reviews</Text>
+          <Text style={styles.modalTitle}>{t('tourDetails.allReviews')}</Text>
           <TouchableOpacity onPress={() => setReviewsModalVisible(false)}>
             <MaterialIcons name="close" size={24} color={colors.text} />
           </TouchableOpacity>
         </View>
-        <ScrollView 
+        <ScrollView
           style={styles.modalContent}
           refreshControl={
             <RefreshControl
@@ -514,13 +516,13 @@ const TourDetailsScreen = () => {
             </View>
           ))}
           {hasMoreReviews && (
-            <TouchableOpacity 
-              onPress={() => loadReviews(true)} 
+            <TouchableOpacity
+              onPress={() => loadReviews(true)}
               style={styles.loadMoreButton}
               disabled={reviewsLoading}
             >
               <Text style={styles.loadMoreText}>
-                {reviewsLoading ? 'Loading...' : 'Load More Reviews'}
+                {reviewsLoading ? 'Loading...' : t('tourDetails.loadMoreReviews')}
               </Text>
             </TouchableOpacity>
           )}
@@ -535,10 +537,10 @@ const TourDetailsScreen = () => {
   return (
     <View style={styles.container}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} backgroundColor={colors.background} />
-      
+
       <ItineraryModal />
       <ReviewsModal />
-      
+
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
         <ImageBackground
           source={{ uri: image as string || details?.image || 'https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' }}
@@ -550,7 +552,7 @@ const TourDetailsScreen = () => {
             {/* Overview Section */}
             <View style={styles.card}>
               <View style={styles.badge}>
-                <Text style={styles.badgeText}>OVERVIEW</Text>
+                <Text style={styles.badgeText}>{t('tourDetails.overview').toUpperCase()}</Text>
               </View>
               <Text style={styles.cardTitle}>{name || details?.name}</Text>
               <Text style={styles.cardSubtitle}>{details?.duration} • Max Altitude: {details?.altitude}</Text>
@@ -574,7 +576,7 @@ const TourDetailsScreen = () => {
             {/* Itinerary Section */}
             <View style={styles.card}>
               <View style={styles.sectionHeader}>
-                <Text style={styles.sectionTitle}>ITINERARY</Text>
+                <Text style={styles.sectionTitle}>{t('tourDetails.itinerary').toUpperCase()}</Text>
                 {details && details.itinerary.length > 5 && renderSeeMoreButton(() => setItineraryModalVisible(true))}
               </View>
               {(details?.itinerary.slice(0, 5) || []).map((item, index, array) => (
@@ -586,7 +588,7 @@ const TourDetailsScreen = () => {
                     {index < array.length - 1 && <View style={styles.itineraryLine} />}
                   </View>
                   <View style={styles.itineraryContent}>
-                    <Text style={styles.itineraryDay}>Day {item.day}</Text>
+                    <Text style={styles.itineraryDay}>{t('tourDetails.day')} {item.day}</Text>
                     <Text style={styles.itineraryTitle}>{item.activity || item.title}</Text>
                     {item.location ? <Text style={styles.itineraryDetail}>Location: {item.location}</Text> : null}
                     {item.accommodation ? <Text style={styles.itineraryDetail}>Accommodation: {item.accommodation}</Text> : null}
@@ -601,14 +603,14 @@ const TourDetailsScreen = () => {
             {/* Pricing Section */}
             <View style={styles.card}>
               <View style={styles.badge}>
-                <Text style={styles.badgeText}>PRICING</Text>
+                <Text style={styles.badgeText}>{t('tourDetails.pricing').toUpperCase()}</Text>
               </View>
               <View style={styles.pricingRow}>
-                <Text style={styles.pricingLabel}>Standard Package</Text>
+                <Text style={styles.pricingLabel}>{t('tourDetails.standard')}</Text>
                 <Text style={styles.pricingValue}>{details?.pricing.standard}</Text>
               </View>
               <View style={styles.pricingRow}>
-                <Text style={styles.pricingLabel}>Premium Package</Text>
+                <Text style={styles.pricingLabel}>{t('tourDetails.premium')}</Text>
                 <Text style={styles.pricingValue}>{details?.pricing.premium}</Text>
               </View>
             </View>
@@ -617,7 +619,7 @@ const TourDetailsScreen = () => {
             {details?.reviews && details.reviews.length > 0 && (
               <View style={styles.card}>
                 <View style={styles.sectionHeader}>
-                  <Text style={styles.sectionTitle}>Reviews</Text>
+                  <Text style={styles.sectionTitle}>{t('tourDetails.reviews')}</Text>
                   {details.reviews.length >= 5 && renderSeeMoreButton(() => {
                     loadReviews();
                     setReviewsModalVisible(true);
@@ -648,7 +650,7 @@ const TourDetailsScreen = () => {
         <TouchableOpacity onPress={onBackPress} style={styles.headerButton}>
           <MaterialIcons name="arrow-back" size={24} color="#fff" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Tour Details</Text>
+        <Text style={styles.headerTitle}>{t('tourDetails.title')}</Text>
         <TouchableOpacity onPress={onReviewPress} style={styles.headerButton}>
           <MaterialIcons name="rate-review" size={24} color="#fff" />
         </TouchableOpacity>
@@ -656,18 +658,18 @@ const TourDetailsScreen = () => {
 
       {/* Sticky Footer Button */}
       <View style={styles.footer}>
-        <TouchableOpacity 
-          onPress={onBookPress} 
+        <TouchableOpacity
+          onPress={onBookPress}
           style={[styles.bookButton, bookingLoading && styles.bookButtonLoading]}
           disabled={bookingLoading}
         >
           {bookingLoading ? (
             <View style={styles.buttonContent}>
               <MaterialIcons name="hourglass-empty" size={20} color={isDarkMode ? '#111714' : '#fff'} style={styles.loadingIcon} />
-              <Text style={styles.bookButtonText}>Booking...</Text>
+              <Text style={styles.bookButtonText}>{t('tourDetails.booking')}</Text>
             </View>
           ) : (
-            <Text style={styles.bookButtonText}>Next</Text>
+            <Text style={styles.bookButtonText}>{t('tourDetails.next')}</Text>
           )}
         </TouchableOpacity>
       </View>

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import React, { useState } from 'react';
+import { ActivityIndicator, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
+import { useI18n } from '../../../../hooks/useI18n';
 import { useTheme } from '../../../../hooks/useTheme';
 
 interface SearchBarProps {
@@ -10,6 +11,7 @@ interface SearchBarProps {
 
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch, searching }) => {
   const { colors, isDarkMode } = useTheme();
+  const { t } = useI18n();
   const [searchText, setSearchText] = useState('');
 
   const handleSearch = () => {
@@ -68,7 +70,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, searching }) => {
         <MaterialIcons name="search" size={24} color={colors.secondary} />
         <TextInput
           style={styles.searchInput}
-          placeholder="Search destinations"
+          placeholder={t('home.searchPlaceholder')}
           placeholderTextColor={colors.secondary}
           value={searchText}
           onChangeText={setSearchText}

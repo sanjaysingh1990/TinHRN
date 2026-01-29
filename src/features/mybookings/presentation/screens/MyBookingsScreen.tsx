@@ -10,6 +10,7 @@ import {
   View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useI18n } from '../../../../hooks/useI18n';
 import { useTheme } from '../../../../hooks/useTheme';
 import { useViewModel } from '../../../../hooks/useViewModel';
 import { Booking } from '../../domain/models/Booking';
@@ -20,6 +21,7 @@ import { MyBookingsViewModel } from '../viewmodels/MyBookingsViewModel';
 
 const MyBookingsScreen = () => {
   const { colors, isDarkMode } = useTheme();
+  const { t } = useI18n();
   const viewModel = useViewModel<MyBookingsViewModel>(MyBookingsViewModelToken);
 
   useEffect(() => {
@@ -45,13 +47,13 @@ const MyBookingsScreen = () => {
 
   const sections = [
     ...(upcomingBookings.length > 0 ? [{
-      title: 'Upcoming',
+      title: t('bookings.upcoming'),
       data: upcomingBookings,
       loadMore: handleLoadMoreUpcoming,
       hasMore: hasMoreUpcoming
     }] : []),
     ...(pastBookings.length > 0 ? [{
-      title: 'Past',
+      title: t('bookings.past'),
       data: pastBookings,
       loadMore: handleLoadMorePast,
       hasMore: hasMorePast
@@ -87,7 +89,7 @@ const MyBookingsScreen = () => {
         size={64}
         color={colors.secondary}
       />
-      <Text style={[styles.emptyText, { color: colors.text }]}>No data found</Text>
+      <Text style={[styles.emptyText, { color: colors.text }]}>{t('bookings.empty')}</Text>
     </View>
   );
 
@@ -95,7 +97,7 @@ const MyBookingsScreen = () => {
     <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.background }]}>
       <StatusBar barStyle={isDarkMode ? "light-content" : "dark-content"} />
       <View style={[styles.header, { borderBottomColor: colors.borderColor }]}>
-        <Text style={[styles.headerTitle, { color: colors.text }]}>My Bookings</Text>
+        <Text style={[styles.headerTitle, { color: colors.text }]}>{t('bookings.title')}</Text>
       </View>
       {isLoading && (upcomingBookings.length === 0 && pastBookings.length === 0) ? (
         renderShimmerItems()
