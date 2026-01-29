@@ -21,6 +21,23 @@ export class AddPostViewModel extends BaseViewModel {
         super();
     }
 
+    async loadCategories() {
+        if (this.galleryViewModel.categories.length === 0) {
+            await this.galleryViewModel.loadGalleryData();
+            this.notifyUpdate();
+        }
+    }
+
+    get categories() { return this.galleryViewModel.categories; }
+
+    resetForm() {
+        this._title = '';
+        this._description = '';
+        this._selectedCategoryId = '';
+        this._imageUrl = '';
+        this._isSubmitting = false;
+        this.notifyUpdate();
+    }
     get title() { return this._title; }
     get description() { return this._description; }
     get selectedCategoryId() { return this._selectedCategoryId; }

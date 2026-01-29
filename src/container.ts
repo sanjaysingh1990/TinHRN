@@ -132,8 +132,8 @@ container.register(GalleryRepositoryToken, { useClass: GalleryRepository });
 container.register(GetGalleryDataUseCaseToken, { useClass: GetGalleryDataUseCase });
 container.register(GetPostByIdUseCaseToken, { useClass: GetPostByIdUseCase });
 container.register(CreatePostUseCaseToken, { useClass: CreatePostUseCase });
-container.register(GalleryViewModelToken, { useClass: GalleryViewModel });
-container.register(AddPostViewModelToken, { useClass: AddPostViewModel });
+container.registerSingleton(GalleryViewModelToken, GalleryViewModel);
+container.registerSingleton(AddPostViewModelToken, AddPostViewModel);
 
 container.register(CustomizeTourRepositoryToken, { useClass: CustomizeTourRepository });
 container.register(PaymentServiceToken, { useClass: PaymentService });

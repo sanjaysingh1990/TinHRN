@@ -6,7 +6,7 @@ export abstract class BaseViewModel {
         this._updateCallback = callback;
     }
 
-    protected notifyUpdate(): void {
+    public notifyUpdate(): void {
         this._updateCallback?.();
     }
 

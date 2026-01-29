@@ -146,10 +146,13 @@ export class GalleryRepository implements IGalleryRepository {
     postData: Omit<Post, 'id' | 'viewsCount' | 'userName' | 'userAvatar'>,
     onProgress?: (progress: number) => void
   ): Promise<Post> {
-    // Simulate upload progress
-    for (let i = 0; i <= 10; i++) {
-      await new Promise(resolve => setTimeout(resolve, 300));
-      if (onProgress) onProgress(i * 10);
+    // Simulate upload progress (~1 minute)
+    const steps = 60;
+    const delayPerStep = 1000; // 1 second
+
+    for (let i = 0; i <= steps; i++) {
+      await new Promise(resolve => setTimeout(resolve, delayPerStep));
+      if (onProgress) onProgress((i / steps) * 100);
     }
 
     const newPost: Post = {
