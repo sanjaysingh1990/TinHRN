@@ -46,7 +46,7 @@ interface MapViewExploreScreenProps {
 
 const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader = false }) => {
   const { colors, isDarkMode } = useTheme();
-  
+
   const [viewModel] = useState(() => container.resolve<MapViewExploreScreenViewModel>(MapViewExploreScreenViewModelToken));
   const [loading, setLoading] = useState(true);
   const [exploreData, setExploreData] = useState<ExploreLocation[]>([]);
@@ -54,7 +54,7 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
   const [selectedLocation, setSelectedLocation] = useState<ExploreLocation | null>(null);
   const [showFilterSheet, setShowFilterSheet] = useState(false);
   const mapRef = useRef<any>(null);
-  
+
   // Animation for pulsating marker
   const pulseAnimation = useRef(new Animated.Value(1)).current;
   const flatListRef = useRef<FlatList>(null);
@@ -66,7 +66,7 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
     latitudeDelta: 3.0,
     longitudeDelta: 3.0,
   });
-  
+
   // Create styles object early
   const styles = StyleSheet.create({
     container: {
@@ -156,15 +156,24 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
       justifyContent: 'center',
       alignItems: 'center',
     },
-    secondaryMarker: {
-      width: 20,
-      height: 20,
-      borderRadius: 10,
-      backgroundColor: colors.secondary,
+    markerContainer: {
+      padding: 6,
+      borderRadius: 20,
       borderWidth: 2,
-      borderColor: '#ffffff',
-      justifyContent: 'center',
+      borderColor: '#FFFFFF',
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+      elevation: 5,
+      flexDirection: 'row',
       alignItems: 'center',
+    },
+    markerDuration: {
+      fontSize: 10,
+      fontWeight: 'bold',
+      marginLeft: 2,
+      fontFamily: 'SplineSans',
     },
     bottomContainer: {
       position: 'absolute',
@@ -221,7 +230,7 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
       fontFamily: 'NotoSans',
     },
   });
-  
+
   const handleFilterPress = () => {
     setShowFilterSheet(true);
   };
@@ -232,9 +241,9 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
   };
 
   const renderExploreCard = ({ item, index }: { item: ExploreLocation; index: number }) => (
-    <TouchableOpacity 
-      style={[styles.exploreCard, { 
-        backgroundColor: colors.cardBackgroundColor, 
+    <TouchableOpacity
+      style={[styles.exploreCard, {
+        backgroundColor: colors.cardBackgroundColor,
         borderColor: colors.borderColor,
         marginLeft: index === 0 ? 20 : 8,
         marginRight: index === exploreData.length - 1 ? 20 : 8,
@@ -254,19 +263,33 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
     </TouchableOpacity>
   );
 
+  const onMomentumScrollEnd = (event: any) => {
+    const index = Math.round(event.nativeEvent.contentOffset.x / 256);
+    if (exploreData[index]) {
+      const location = exploreData[index];
+      setSelectedLocation(location);
+      mapRef.current?.animateToRegion({
+        latitude: location.latitude,
+        longitude: location.longitude,
+        latitudeDelta: 0.1,
+        longitudeDelta: 0.1,
+      }, 500);
+    }
+  };
+
   const renderShimmerCard = ({ index }: { index: number }) => (
     <View style={{ marginLeft: index === 0 ? 20 : 8, marginRight: 8 }}>
       <ExploreCardShimmer key={`shimmer-${index}`} />
     </View>
   );
-  
+
   const handleCardPress = (location: ExploreLocation, index: number) => {
     handleLocationPress(location, index);
   };
-  
+
   const handleLocationPress = (location: ExploreLocation, index: number) => {
     setSelectedLocation(location);
-    
+
     // Animate map to location
     if (mapRef.current) {
       mapRef.current.animateToRegion({
@@ -279,10 +302,10 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
 
     // Scroll to corresponding card
     if (flatListRef.current) {
-      flatListRef.current.scrollToIndex({ 
-        index, 
+      flatListRef.current.scrollToIndex({
+        index,
         animated: true,
-        viewPosition: 0.5 
+        viewPosition: 0.5
       });
     }
   };
@@ -315,9 +338,118 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
 
   const handleMyLocation = () => {
     if (mapRef.current) {
-      mapRef.current.animateToRegion(region, 1000);
+      mapRef.current.animateToRegion({
+        latitude: 32.2396, // Manali area
+        longitude: 77.1887,
+        latitudeDelta: 0.1,
+        longitudeDelta: 0.1,
+      }, 1000);
+      setSelectedLocation(null);
     }
   };
+
+  const darkMapStyle = [
+    {
+      "elementType": "geometry",
+      "stylers": [{ "color": "#212121" }]
+    },
+    {
+      "elementType": "labels.icon",
+      "stylers": [{ "visibility": "off" }]
+    },
+    {
+      "elementType": "labels.text.fill",
+      "stylers": [{ "color": "#757575" }]
+    },
+    {
+      "elementType": "labels.text.stroke",
+      "stylers": [{ "color": "#212121" }]
+    },
+    {
+      "featureType": "administrative",
+      "elementType": "geometry",
+      "stylers": [{ "color": "#757575" }]
+    },
+    {
+      "featureType": "administrative.country",
+      "elementType": "labels.text.fill",
+      "stylers": [{ "color": "#9e9e9e" }]
+    },
+    {
+      "featureType": "administrative.land_parcel",
+      "stylers": [{ "visibility": "off" }]
+    },
+    {
+      "featureType": "administrative.locality",
+      "elementType": "labels.text.fill",
+      "stylers": [{ "color": "#bdbdbd" }]
+    },
+    {
+      "featureType": "poi",
+      "elementType": "labels.text.fill",
+      "stylers": [{ "color": "#757575" }]
+    },
+    {
+      "featureType": "poi.park",
+      "elementType": "geometry",
+      "stylers": [{ "color": "#181818" }]
+    },
+    {
+      "featureType": "poi.park",
+      "elementType": "labels.text.fill",
+      "stylers": [{ "color": "#616161" }]
+    },
+    {
+      "featureType": "poi.park",
+      "elementType": "labels.text.stroke",
+      "stylers": [{ "color": "#1b1b1b" }]
+    },
+    {
+      "featureType": "road",
+      "elementType": "geometry.fill",
+      "stylers": [{ "color": "#2c2c2c" }]
+    },
+    {
+      "featureType": "road",
+      "elementType": "labels.text.fill",
+      "stylers": [{ "color": "#8a8a8a" }]
+    },
+    {
+      "featureType": "road.arterial",
+      "elementType": "geometry",
+      "stylers": [{ "color": "#373737" }]
+    },
+    {
+      "featureType": "road.highway",
+      "elementType": "geometry",
+      "stylers": [{ "color": "#3c3c3c" }]
+    },
+    {
+      "featureType": "road.highway.controlled_access",
+      "elementType": "geometry",
+      "stylers": [{ "color": "#4e4e4e" }]
+    },
+    {
+      "featureType": "road.local",
+      "elementType": "labels.text.fill",
+      "stylers": [{ "color": "#616161" }]
+    },
+    {
+      "featureType": "transit",
+      "elementType": "labels.text.fill",
+      "stylers": [{ "color": "#757575" }]
+    },
+    {
+      "featureType": "water",
+      "elementType": "geometry",
+      "stylers": [{ "color": "#000000" }]
+    },
+    {
+      "featureType": "water",
+      "elementType": "labels.text.fill",
+      "stylers": [{ "color": "#3d3d3d" }]
+    }
+  ];
 
   useEffect(() => {
     // Set up ViewModel callback
@@ -359,12 +491,12 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
     return (
       <SafeAreaView style={styles.container}>
         {!hideHeader && (
-          <StatusBar 
-            barStyle={isDarkMode ? 'light-content' : 'dark-content'} 
+          <StatusBar
+            barStyle={isDarkMode ? 'light-content' : 'dark-content'}
             backgroundColor={colors.background}
           />
         )}
-        
+
         {/* Fallback Map Background */}
         <View style={{
           flex: 1,
@@ -378,15 +510,15 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
             Use "npx expo run:ios" or "npx expo run:android" for development build with Google Maps
           </Text>
         </View>
-        
+
         {/* Search Bar */}
         <View style={styles.searchRow}>
           <View style={styles.searchContainer}>
-            <MaterialIcons 
-              name="search" 
-              size={20} 
-              color={colors.secondaryTextColor} 
-              style={{ marginRight: 8 }} 
+            <MaterialIcons
+              name="search"
+              size={20}
+              color={colors.secondaryTextColor}
+              style={{ marginRight: 8 }}
             />
             <TextInput
               style={styles.searchInput}
@@ -400,7 +532,7 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
             <MaterialIcons name="tune" size={24} color={colors.text} />
           </TouchableOpacity>
         </View>
-        
+
         {/* Bottom Cards */}
         <View style={styles.bottomContainer}>
           <Text style={styles.sectionTitle}>Discover Places</Text>
@@ -424,11 +556,11 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
               contentContainerStyle={{ paddingRight: 20 }}
               decelerationRate="fast"
               snapToAlignment="start"
-              onScrollToIndexFailed={() => {}}
+              onScrollToIndexFailed={() => { }}
             />
           )}
         </View>
-        
+
         {/* Filter Bottom Sheet */}
         <ExploreFilterBottomSheet
           visible={showFilterSheet}
@@ -442,17 +574,18 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
   return (
     <SafeAreaView style={styles.container}>
       {!hideHeader && (
-        <StatusBar 
-          barStyle={isDarkMode ? 'light-content' : 'dark-content'} 
+        <StatusBar
+          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
           backgroundColor={colors.background}
         />
       )}
-      
+
       {/* Google Maps */}
       <MapView
         ref={mapRef}
         style={styles.map}
         initialRegion={region}
+        customMapStyle={isDarkMode ? darkMapStyle : []}
         showsUserLocation={true}
         showsMyLocationButton={false}
         showsCompass={false}
@@ -467,16 +600,16 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
           }}
           anchor={{ x: 0.5, y: 0.5 }}
         >
-          <Animated.View 
+          <Animated.View
             style={[
               styles.primaryMarker,
               { transform: [{ scale: pulseAnimation }] }
             ]}
           >
-            <MaterialIcons 
-              name="place" 
-              size={16} 
-              color={isDarkMode ? '#171511' : '#ffffff'} 
+            <MaterialIcons
+              name="place"
+              size={16}
+              color={isDarkMode ? '#171511' : '#ffffff'}
             />
           </Animated.View>
         </Marker>
@@ -492,12 +625,23 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
             onPress={() => handleLocationPress(location, index)}
             anchor={{ x: 0.5, y: 0.5 }}
           >
-            <View style={styles.secondaryMarker}>
-              <MaterialIcons 
-                name="explore" 
-                size={12} 
-                color={isDarkMode ? '#171511' : '#ffffff'} 
+            <View style={[
+              styles.markerContainer,
+              { backgroundColor: selectedLocation?.id === location.id ? colors.primary : colors.cardBackgroundColor }
+            ]}>
+              <MaterialIcons
+                name="terrain"
+                size={16}
+                color={selectedLocation?.id === location.id ? (isDarkMode ? '#111714' : '#FFFFFF') : colors.primary}
               />
+              {location.duration && (
+                <Text style={[
+                  styles.markerDuration,
+                  { color: selectedLocation?.id === location.id ? (isDarkMode ? '#111714' : '#FFFFFF') : colors.text }
+                ]}>
+                  {location.duration}d
+                </Text>
+              )}
             </View>
           </Marker>
         ))}
@@ -506,11 +650,11 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
       {/* Search Bar */}
       <View style={styles.searchRow}>
         <View style={styles.searchContainer}>
-          <MaterialIcons 
-            name="search" 
-            size={20} 
-            color={colors.secondaryTextColor} 
-            style={{ marginRight: 8 }} 
+          <MaterialIcons
+            name="search"
+            size={20}
+            color={colors.secondaryTextColor}
+            style={{ marginRight: 8 }}
           />
           <TextInput
             style={styles.searchInput}
@@ -561,11 +705,12 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
             contentContainerStyle={{ paddingRight: 20 }}
             decelerationRate="fast"
             snapToAlignment="start"
-            onScrollToIndexFailed={() => {}} // Handle potential scroll errors gracefully
+            onMomentumScrollEnd={onMomentumScrollEnd}
+            onScrollToIndexFailed={() => { }} // Handle potential scroll errors gracefully
           />
         )}
       </View>
-      
+
       {/* Filter Bottom Sheet */}
       <ExploreFilterBottomSheet
         visible={showFilterSheet}

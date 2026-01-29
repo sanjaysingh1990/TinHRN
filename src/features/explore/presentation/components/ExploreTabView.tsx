@@ -11,7 +11,7 @@ import PagerView from 'react-native-pager-view';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../../../../hooks/useTheme';
 import ExploreScreen from '../screens/ExploreScreen';
-import MapViewExploreScreenFallback from '../screens/MapViewExploreScreenFallback';
+import MapViewExploreScreenWrapper from '../screens/MapViewExploreScreenWrapper';
 
 const { width } = Dimensions.get('window');
 
@@ -156,7 +156,7 @@ const ExploreTabView: React.FC<ExploreTabViewProps> = ({ onSearchPress }) => {
         </View>
 
         <View key="map" style={styles.tabContent}>
-          <MapViewExploreScreenFallback hideHeader={true} />
+          <MapViewExploreScreenWrapper hideHeader={true} />
         </View>
       </PagerView>
     </View>

@@ -13,7 +13,7 @@ interface WrapperState {
 class MapViewExploreScreenWrapper extends React.Component<MapViewExploreScreenWrapperProps, WrapperState> {
   constructor(props: MapViewExploreScreenWrapperProps) {
     super(props);
-    this.state = { 
+    this.state = {
       hasError: false,
       MapComponent: null
     };
@@ -41,7 +41,7 @@ class MapViewExploreScreenWrapper extends React.Component<MapViewExploreScreenWr
 
   render() {
     const { MapComponent, hasError } = this.state;
-    
+
     if (hasError || !MapComponent) {
       return <MapViewExploreScreenFallback {...this.props} />;
     }
@@ -54,3 +54,5 @@ class MapViewExploreScreenWrapper extends React.Component<MapViewExploreScreenWr
     }
   }
 }
+
+export default MapViewExploreScreenWrapper;

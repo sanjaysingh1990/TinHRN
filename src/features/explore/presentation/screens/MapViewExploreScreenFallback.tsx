@@ -1,17 +1,17 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
-    Dimensions,
-    FlatList,
-    Image,
-    ImageBackground,
-    SafeAreaView,
-    StatusBar,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Dimensions,
+  FlatList,
+  Image,
+  ImageBackground,
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
 } from 'react-native';
 import container from '../../../../container';
 import { useTheme } from '../../../../hooks/useTheme';
@@ -34,6 +34,7 @@ const MapViewExploreScreenFallback: React.FC<MapViewExploreScreenFallbackProps> 
   const [exploreData, setExploreData] = useState<ExploreLocation[]>([]);
   const [searchText, setSearchText] = useState('');
   const [showFilterSheet, setShowFilterSheet] = useState(false);
+  const flatListRef = useRef<FlatList>(null);
 
   useEffect(() => {
     // Set up ViewModel callback
@@ -50,19 +51,15 @@ const MapViewExploreScreenFallback: React.FC<MapViewExploreScreenFallbackProps> 
     };
   }, []);
 
-  const handleFilterPress = () => {
-    setShowFilterSheet(true);
-  };
-
   const handleApplyFilters = (filters: FilterState) => {
     viewModel.applyFilters(filters);
     setShowFilterSheet(false);
   };
 
   const renderExploreCard = ({ item, index }: { item: ExploreLocation; index: number }) => (
-    <TouchableOpacity 
-      style={[styles.exploreCard, { 
-        backgroundColor: colors.cardBackgroundColor, 
+    <TouchableOpacity
+      style={[styles.exploreCard, {
+        backgroundColor: colors.cardBackgroundColor,
         borderColor: colors.borderColor,
         marginLeft: index === 0 ? 20 : 8,
         marginRight: index === exploreData.length - 1 ? 20 : 8,
@@ -222,12 +219,12 @@ const MapViewExploreScreenFallback: React.FC<MapViewExploreScreenFallbackProps> 
   return (
     <SafeAreaView style={styles.container}>
       {!hideHeader && (
-        <StatusBar 
-          barStyle={isDarkMode ? 'light-content' : 'dark-content'} 
+        <StatusBar
+          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
           backgroundColor={colors.background}
         />
       )}
-      
+
       {/* Map Container with Placeholder */}
       <View style={styles.mapContainer}>
         <ImageBackground
@@ -247,11 +244,11 @@ const MapViewExploreScreenFallback: React.FC<MapViewExploreScreenFallbackProps> 
       {/* Search Bar */}
       <View style={styles.searchRow}>
         <View style={styles.searchContainer}>
-          <MaterialIcons 
-            name="search" 
-            size={20} 
-            color={colors.secondaryTextColor} 
-            style={{ marginRight: 8 }} 
+          <MaterialIcons
+            name="search"
+            size={20}
+            color={colors.secondaryTextColor}
+            style={{ marginRight: 8 }}
           />
           <TextInput
             style={styles.searchInput}
@@ -261,7 +258,7 @@ const MapViewExploreScreenFallback: React.FC<MapViewExploreScreenFallbackProps> 
             onChangeText={setSearchText}
           />
         </View>
-        <TouchableOpacity style={styles.filterButton} onPress={handleFilterPress}>
+        <TouchableOpacity style={styles.filterButton} onPress={() => setShowFilterSheet(true)}>
           <MaterialIcons name="tune" size={24} color={colors.text} />
         </TouchableOpacity>
       </View>
@@ -279,6 +276,7 @@ const MapViewExploreScreenFallback: React.FC<MapViewExploreScreenFallbackProps> 
           />
         ) : (
           <FlatList
+            ref={flatListRef}
             data={exploreData}
             horizontal
             showsHorizontalScrollIndicator={false}
@@ -291,7 +289,7 @@ const MapViewExploreScreenFallback: React.FC<MapViewExploreScreenFallbackProps> 
           />
         )}
       </View>
-      
+
       {/* Filter Bottom Sheet */}
       <ExploreFilterBottomSheet
         visible={showFilterSheet}
