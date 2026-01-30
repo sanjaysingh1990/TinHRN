@@ -8,3 +8,4 @@ export const SendPasswordResetEmailUseCaseToken = Symbol.for("SendPasswordResetE
 // ViewModels
 export const LoginViewModelToken = Symbol.for("LoginViewModel");
 export const SignupViewModelToken = Symbol.for("SignupViewModel");
+export const ForgotPasswordViewModelToken = Symbol.for("ForgotPasswordViewModel");

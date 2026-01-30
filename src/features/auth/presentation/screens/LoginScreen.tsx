@@ -3,7 +3,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { ActivityIndicator, Alert, Image, SafeAreaView, StatusBar, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Image, StatusBar, Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useI18n } from '../../../../hooks/useI18n';
 import { useTheme } from '../../../../hooks/useTheme';
 import { useViewModel } from '../../../../hooks/useViewModel';
@@ -66,7 +67,7 @@ const LoginScreen: React.FC = () => {
 
   const handleForgotPassword = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    Alert.alert('Forgot Password', 'This feature will be implemented soon.');
+    router.push('/forgot-password');
   };
 
   const handleSignUpPress = () => {
