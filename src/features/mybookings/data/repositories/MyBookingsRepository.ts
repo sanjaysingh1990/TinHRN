@@ -1,4 +1,4 @@
-import { collection, getDocs, limit, orderBy, query, startAfter, Timestamp, where } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, limit, orderBy, query, startAfter, Timestamp, updateDoc, where } from 'firebase/firestore';
 import { inject, injectable } from 'tsyringe';
 import { AuthRepositoryToken } from '../../../../features/auth/auth.di';
 import { IAuthRepository } from '../../../../features/auth/domain/repositories/IAuthRepository';
@@ -10,7 +10,7 @@ import { IMyBookingsRepository } from '../../domain/repositories/IMyBookingsRepo
 export class MyBookingsRepository implements IMyBookingsRepository {
   constructor(
     @inject(AuthRepositoryToken) private authRepository: IAuthRepository
-  ) {}
+  ) { }
 
   async getUpcomingBookings(pageSize: number = 5, lastDoc?: any): Promise<{ bookings: Booking[]; lastDoc?: any }> {
     try {
@@ -37,7 +37,7 @@ export class MyBookingsRepository implements IMyBookingsRepository {
       }
 
       const querySnapshot = await getDocs(q);
-      
+
       const bookings: Booking[] = [];
       let lastVisible = null;
 
@@ -51,13 +51,17 @@ export class MyBookingsRepository implements IMyBookingsRepository {
 
         bookings.push({
           id: doc.id,
+          tourId: data.tourId || '',
+          bookingReference: data.bookingReference || '',
           vendor: data.vendor || "Tent'in Himalayas",
           tourName: data.tourName || 'Untitled Tour',
           tourImage: data.tourImage || '',
           startDate: startDate,
           endDate: endDate,
           status: data.status || 'confirmed',
-          type: 'upcoming'
+          type: 'upcoming',
+          totalPrice: data.totalAmount,
+          customization: data.customisation
         });
       });
 
@@ -93,7 +97,7 @@ export class MyBookingsRepository implements IMyBookingsRepository {
       }
 
       const querySnapshot = await getDocs(q);
-      
+
       const bookings: Booking[] = [];
       let lastVisible = null;
 
@@ -107,13 +111,17 @@ export class MyBookingsRepository implements IMyBookingsRepository {
 
         bookings.push({
           id: doc.id,
+          tourId: data.tourId || '',
+          bookingReference: data.bookingReference || '',
           vendor: data.vendor || "Tent'in Himalayas",
           tourName: data.tourName || 'Untitled Tour',
           tourImage: data.tourImage || '',
           startDate: startDate,
           endDate: endDate,
           status: data.status || 'confirmed',
-          type: 'past'
+          type: 'past',
+          totalPrice: data.totalAmount,
+          customization: data.customisation
         });
       });
 
@@ -142,7 +150,7 @@ export class MyBookingsRepository implements IMyBookingsRepository {
       );
 
       const querySnapshot = await getDocs(q);
-      
+
       const bookings: Booking[] = [];
 
       querySnapshot.forEach((doc) => {
@@ -158,19 +166,81 @@ export class MyBookingsRepository implements IMyBookingsRepository {
 
         bookings.push({
           id: doc.id,
+          tourId: data.tourId || '',
+          bookingReference: data.bookingReference || '',
           vendor: data.vendor || "Tent'in Himalayas",
           tourName: data.tourName || 'Untitled Tour',
           tourImage: data.tourImage || '',
           startDate: startDate,
           endDate: endDate,
           status: data.status || 'confirmed',
-          type: type
+          type: type,
+          totalPrice: data.totalAmount,
+          customization: data.customisation
         });
       });
 
       return bookings;
     } catch (error) {
       console.error('Error fetching all bookings:', error);
+      throw error;
+    }
+  }
+
+
+  async cancelBooking(bookingId: string): Promise<void> {
+    try {
+      // Get current user ID
+      const currentUser = await this.authRepository.getCurrentUser();
+      if (!currentUser) throw new Error('User not authenticated');
+
+      const bookingRef = doc(firestore, 'bookings', bookingId);
+
+      // Update status to 'cancelled'
+      await updateDoc(bookingRef, {
+        status: 'cancelled',
+        updatedAt: Timestamp.now()
+      });
+
+    } catch (error) {
+      console.error('Error cancelling booking:', error);
+      throw error;
+    }
+  }
+
+  async getBookingById(bookingId: string): Promise<Booking | null> {
+    try {
+      const currentUser = await this.authRepository.getCurrentUser();
+      if (!currentUser) throw new Error('User not authenticated');
+
+      const docRef = doc(firestore, 'bookings', bookingId);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        const startDate = data.startDate instanceof Timestamp ? data.startDate.toDate() : data.startDate;
+        const endDate = data.endDate instanceof Timestamp ? data.endDate.toDate() : data.endDate;
+        const type = endDate >= new Date() ? 'upcoming' : 'past';
+
+        return {
+          id: docSnap.id,
+          tourId: data.tourId || '',
+          bookingReference: data.bookingReference || '',
+          vendor: data.vendor || "Tent'in Himalayas",
+          tourName: data.tourName || 'Untitled Tour',
+          tourImage: data.tourImage || '',
+          startDate: startDate,
+          endDate: endDate,
+          status: data.status || 'confirmed',
+          type: type,
+          totalPrice: data.totalAmount,
+          customization: data.customisation
+        };
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.error('Error fetching booking by ID:', error);
       throw error;
     }
   }

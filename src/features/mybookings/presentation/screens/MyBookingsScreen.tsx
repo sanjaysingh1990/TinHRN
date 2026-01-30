@@ -1,7 +1,11 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
+import { useRouter } from 'expo-router';
 import React, { useEffect } from 'react';
 import {
+  Alert,
+  Linking,
+  Platform,
   SectionList,
   StatusBar,
   StyleSheet,
@@ -22,6 +26,7 @@ import { MyBookingsViewModel } from '../viewmodels/MyBookingsViewModel';
 const MyBookingsScreen = () => {
   const { colors, isDarkMode } = useTheme();
   const { t } = useI18n();
+  const router = useRouter();
   const viewModel = useViewModel<MyBookingsViewModel>(MyBookingsViewModelToken);
 
   useEffect(() => {
@@ -43,6 +48,53 @@ const MyBookingsScreen = () => {
   const handleLoadMorePast = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     viewModel.loadMorePast();
+  };
+
+  const handleManage = (booking: Booking) => {
+    // Navigate to CustomizeTourScreen or TourDetailsScreen
+    // For now, we'll navigate to TourDetailsScreen with the booking info
+    router.push({
+      pathname: `/tour/${booking.tourId}` as any,
+      params: {
+        bookingId: booking.id,
+        mode: 'manage'
+      }
+    });
+  };
+
+  const handleAddToCalendar = (booking: Booking) => {
+    const { startDate, endDate, tourName, vendor } = booking;
+
+    // Basic calendar event intent
+    // This is a simple implementation. For robust calendar support, use expo-calendar.
+    const title = encodeURIComponent(`Trip: ${tourName}`);
+    const location = encodeURIComponent("Himalayas");
+    const details = encodeURIComponent(`Booking Reference: ${booking.bookingReference}\nVendor: ${vendor}`);
+
+    // Format dates as YYYYMMDDTHHMMSSZ
+    const formatDate = (date: Date) => date.toISOString().replace(/-|:|\.\d+/g, '');
+    const start = formatDate(new Date(startDate));
+    const end = formatDate(new Date(endDate));
+
+    let url = '';
+
+    if (Platform.OS === 'ios') {
+      url = `calshow:${start}`; // iOS opens calendar at specific date
+    } else if (Platform.OS === 'android') {
+      url = `content://com.android.calendar/time/${new Date(startDate).getTime()}`; // Android intent
+    }
+
+    Linking.openURL(url).catch(err => {
+      console.error('Error opening calendar:', err);
+      Alert.alert('Error', 'Could not open calendar app.');
+    });
+  };
+
+  const handleViewDetails = (booking: Booking) => {
+    router.push({
+      pathname: '/booking-details',
+      params: { bookingId: booking.id }
+    } as any);
   };
 
   const sections = [
@@ -72,7 +124,12 @@ const MyBookingsScreen = () => {
   );
 
   const renderBookingItem = ({ item }: { item: Booking }) => (
-    <BookingCard booking={item} />
+    <BookingCard
+      booking={item}
+      onManage={handleManage}
+      onAddToCalendar={handleAddToCalendar}
+      onViewDetails={handleViewDetails}
+    />
   );
 
   const renderShimmerItems = () => (

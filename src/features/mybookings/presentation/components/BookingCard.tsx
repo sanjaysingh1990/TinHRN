@@ -6,9 +6,12 @@ import { Booking } from '../../domain/models/Booking';
 
 interface BookingCardProps {
   booking: Booking;
+  onManage?: (booking: Booking) => void;
+  onAddToCalendar?: (booking: Booking) => void;
+  onViewDetails?: (booking: Booking) => void;
 }
 
-const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
+const BookingCard: React.FC<BookingCardProps> = ({ booking, onManage, onAddToCalendar, onViewDetails }) => {
   const { colors, isDarkMode } = useTheme();
   const isUpcoming = booking.type === 'upcoming';
 
@@ -97,24 +100,28 @@ const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
         <View style={styles.actions}>
           {isUpcoming ? (
             <>
-              <TouchableOpacity style={styles.button}>
+              <TouchableOpacity style={styles.button} onPress={() => onManage?.(booking)}>
                 <MaterialIcons name="edit" size={16} color={isDarkMode ? '#111714' : '#fff'} />
                 <Text style={styles.buttonText}>Manage</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.button}>
+              <TouchableOpacity style={styles.button} onPress={() => onViewDetails?.(booking)}>
+                <MaterialIcons name="visibility" size={16} color={isDarkMode ? '#111714' : '#fff'} />
+                <Text style={styles.buttonText}>View Details</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.button} onPress={() => onAddToCalendar?.(booking)}>
                 <MaterialIcons name="calendar-today" size={16} color={isDarkMode ? '#111714' : '#fff'} />
                 <Text style={styles.buttonText}>Add to Calendar</Text>
               </TouchableOpacity>
             </>
           ) : (
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={() => onViewDetails?.(booking)}>
               <MaterialIcons name="visibility" size={16} color={isDarkMode ? '#111714' : '#fff'} />
               <Text style={styles.buttonText}>View Details</Text>
             </TouchableOpacity>
           )}
         </View>
       </View>
-    </View>
+    </View >
   );
 };
 

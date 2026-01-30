@@ -164,7 +164,7 @@ const SearchScreen: React.FC = () => {
     const handleResultPress = (item: SearchResult) => {
         if (item.type === 'tour') {
             router.push({
-                pathname: `/tour/${item.id}`,
+                pathname: `/tour/${item.id}` as any,
                 params: {
                     name: item.title,
                     image: item.imageUrl
@@ -174,7 +174,7 @@ const SearchScreen: React.FC = () => {
             // For now, destinations also open a generic detail or we can add a specific one
             // Let's assume they open tour details for now as mock
             router.push({
-                pathname: `/tour/${item.id}`,
+                pathname: `/tour/${item.id}` as any,
                 params: {
                     name: item.title,
                     image: item.imageUrl

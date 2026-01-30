@@ -1,10 +1,11 @@
 import { inject, injectable } from 'tsyringe';
 import { BaseViewModel } from '../../../../core/presentation/BaseViewModel';
 import { Booking } from '../../domain/models/Booking';
+import { IMyBookingsRepository } from '../../domain/repositories/IMyBookingsRepository';
 import { GetAllBookingsUseCase } from '../../domain/usecases/GetAllBookingsUseCase';
 import { GetPastBookingsUseCase } from '../../domain/usecases/GetPastBookingsUseCase';
 import { GetUpcomingBookingsUseCase } from '../../domain/usecases/GetUpcomingBookingsUseCase';
-import { GetAllBookingsUseCaseToken, GetPastBookingsUseCaseToken, GetUpcomingBookingsUseCaseToken } from '../../mybookings.di';
+import { GetAllBookingsUseCaseToken, GetPastBookingsUseCaseToken, GetUpcomingBookingsUseCaseToken, MyBookingsRepositoryToken } from '../../mybookings.di';
 
 @injectable()
 export class MyBookingsViewModel extends BaseViewModel {
@@ -20,7 +21,8 @@ export class MyBookingsViewModel extends BaseViewModel {
   constructor(
     @inject(GetUpcomingBookingsUseCaseToken) private getUpcomingBookingsUseCase: GetUpcomingBookingsUseCase,
     @inject(GetPastBookingsUseCaseToken) private getPastBookingsUseCase: GetPastBookingsUseCase,
-    @inject(GetAllBookingsUseCaseToken) private getAllBookingsUseCase: GetAllBookingsUseCase
+    @inject(GetAllBookingsUseCaseToken) private getAllBookingsUseCase: GetAllBookingsUseCase,
+    @inject(MyBookingsRepositoryToken) private myBookingsRepository: IMyBookingsRepository
   ) {
     super();
   }
@@ -111,5 +113,14 @@ export class MyBookingsViewModel extends BaseViewModel {
 
   async getAllBookings(): Promise<{ upcoming: Booking[]; past: Booking[] }> {
     return await this.getAllBookingsUseCase.execute();
+  }
+
+  async getBooking(id: string): Promise<Booking | null> {
+    try {
+      return await this.myBookingsRepository.getBookingById(id);
+    } catch (error) {
+      console.error('MyBookingsViewModel: Error fetching booking details:', error);
+      return null;
+    }
   }
 }

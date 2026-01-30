@@ -15,7 +15,7 @@ import {
 import container from '../../../../container';
 import { useI18n } from '../../../../hooks/useI18n';
 import { useTheme } from '../../../../hooks/useTheme';
-import { showErrorToast } from '../../../../utils/toast';
+import { showErrorToast, showSuccessToast } from '../../../../utils/toast';
 import { CustomizeTourViewModelToken } from '../../customizeTour.di';
 import { AddOn, SupportOption, TentOption } from '../../domain/entities/CustomizeTour';
 import {
@@ -38,7 +38,9 @@ const CustomizeTourScreen: React.FC = () => {
     tourDuration,
     tourDifficulty,
     tourAltitude,
-    bestTime
+    bestTime,
+    mode,
+    bookingId
   } = useLocalSearchParams();
   const { colors, isDarkMode } = useTheme();
   const { t } = useI18n();
@@ -82,8 +84,28 @@ const CustomizeTourScreen: React.FC = () => {
       }
     }
 
-    loadData();
+    if (mode === 'edit' && bookingId) {
+      loadBookingData(bookingId as string);
+    } else {
+      loadData();
+    }
   }, []);
+
+  const loadBookingData = async (id: string) => {
+    setLoading(true);
+    try {
+      await customizeTourViewModel.loadBookingForEdit(id);
+      if (customizeTourViewModel.selection.startDate) {
+        setCurrentMonth(new Date(customizeTourViewModel.selection.startDate));
+      }
+    } catch (error) {
+      console.error('Error loading booking:', error);
+      showErrorToast("Failed to load booking details");
+      router.back();
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const loadData = async () => {
     setLoading(true);
@@ -102,21 +124,46 @@ const CustomizeTourScreen: React.FC = () => {
       return;
     }
 
+    // If in edit mode and no price increase, update directly
+    if (customizeTourViewModel.isEditMode && customizeTourViewModel.priceDifference <= 0) {
+      handleEditSuccess();
+      return;
+    }
+
     // Show payment screen instead of directly booking
     setShowPaymentScreen(true);
+  };
+
+  const handleEditSuccess = async () => {
+    try {
+      const result = await customizeTourViewModel.updateBooking();
+      if (result.success) {
+        showSuccessToast("Booking updated successfully");
+        router.dismissAll();
+        router.replace('/(tabs)/bookings');
+      } else {
+        showErrorToast("Failed to update booking");
+      }
+    } catch (error: any) {
+      showErrorToast(error.message || "Update failed");
+    }
   };
 
   const handlePaymentSuccess = async () => {
     console.log('Payment successful, proceeding with booking');
     try {
-      const result = await customizeTourViewModel.bookTour();
-      if (result.success) {
-        // Navigate to the Bookings tab in the Home screen
-        console.log('Booking successful, navigating to bookings');
-        router.replace('/(tabs)/bookings');
+      if (customizeTourViewModel.isEditMode) {
+        await handleEditSuccess();
       } else {
-        console.error('Booking failed:', result);
-        showErrorToast('Failed to complete your booking. Please try again.');
+        const result = await customizeTourViewModel.bookTour();
+        if (result.success) {
+          // Navigate to the Bookings tab in the Home screen
+          console.log('Booking successful, navigating to bookings');
+          router.replace('/(tabs)/bookings');
+        } else {
+          console.error('Booking failed:', result);
+          showErrorToast('Failed to complete your booking. Please try again.');
+        }
       }
     } catch (error: any) {
       console.error('Booking error:', error);
@@ -364,18 +411,34 @@ const CustomizeTourScreen: React.FC = () => {
                 onPress={() => {
                   if (!isAvailable) return;
 
-                  // If no start date selected, set as start date
+                  const isCurrentStartDate = customizeTourViewModel.selection.startDate?.toDateString() === date.toDateString();
+                  const isCurrentEndDate = customizeTourViewModel.selection.endDate?.toDateString() === date.toDateString();
+
+                  // 1. If tapping start date: Clear everything
+                  if (isCurrentStartDate) {
+                    customizeTourViewModel.selectStartDate(null);
+                    customizeTourViewModel.selectEndDate(null);
+                    return;
+                  }
+
+                  // 2. If tapping end date: Clear end date only
+                  if (isCurrentEndDate) {
+                    customizeTourViewModel.selectEndDate(null);
+                    return;
+                  }
+
+                  // 3. If no start date selected, set as start date
                   if (!customizeTourViewModel.selection.startDate) {
                     customizeTourViewModel.selectStartDate(date);
                   }
-                  // If start date is selected but no end date, set as end date (if after start)
+                  // 4. If start date is selected but no end date, set as end date (if after start)
                   else if (!customizeTourViewModel.selection.endDate && date >= customizeTourViewModel.selection.startDate) {
                     customizeTourViewModel.selectEndDate(date);
                   }
-                  // If both dates selected, reset and set as new start date
-                  else if (customizeTourViewModel.selection.startDate && customizeTourViewModel.selection.endDate) {
+                  // 5. If both dates selected (and tapping a new date), reset and set as new start date
+                  else {
                     customizeTourViewModel.selectStartDate(date);
-                    customizeTourViewModel.selectEndDate(null as any); // Reset end date
+                    customizeTourViewModel.selectEndDate(null);
                   }
                 }}
               >
@@ -714,7 +777,9 @@ const CustomizeTourScreen: React.FC = () => {
           <TouchableOpacity style={mainStyles.backButton} onPress={() => router.back()}>
             <MaterialIcons name="arrow-back" size={24} color={colors.text} />
           </TouchableOpacity>
-          <Text style={mainStyles.headerTitle}>{t('customizeTour.title')}</Text>
+          <Text style={mainStyles.headerTitle}>
+            {customizeTourViewModel.isEditMode ? 'Edit Booking' : t('customizeTour.title')}
+          </Text>
           <View style={mainStyles.placeholder} />
         </View>
 
@@ -744,13 +809,27 @@ const CustomizeTourScreen: React.FC = () => {
           <TouchableOpacity
             style={[
               mainStyles.continueButton,
-              (!customizeTourViewModel.isSelectionComplete() || customizeTourViewModel.isBookingLoading) && mainStyles.continueButtonDisabled
+              (!customizeTourViewModel.isSelectionComplete() ||
+                customizeTourViewModel.isBookingLoading ||
+                (customizeTourViewModel.isEditMode && !customizeTourViewModel.hasChanges)) &&
+              mainStyles.continueButtonDisabled
             ]}
             onPress={handleContinue}
-            disabled={!customizeTourViewModel.isSelectionComplete() || customizeTourViewModel.isBookingLoading}
+            disabled={
+              !customizeTourViewModel.isSelectionComplete() ||
+              customizeTourViewModel.isBookingLoading ||
+              (customizeTourViewModel.isEditMode && !customizeTourViewModel.hasChanges)
+            }
           >
             <Text style={mainStyles.continueButtonText}>
-              {customizeTourViewModel.isBookingLoading ? t('customizeTour.booking') : t('customizeTour.continueToPayment')}
+              {customizeTourViewModel.isBookingLoading
+                ? (customizeTourViewModel.isEditMode ? 'Updating...' : t('customizeTour.booking'))
+                : (customizeTourViewModel.isEditMode
+                  ? (customizeTourViewModel.priceDifference > 0
+                    ? `Pay Difference $${customizeTourViewModel.priceDifference} & Update`
+                    : 'Update Booking')
+                  : t('customizeTour.continueToPayment'))
+              }
             </Text>
           </TouchableOpacity>
         </View>
@@ -762,7 +841,7 @@ const CustomizeTourScreen: React.FC = () => {
   if (showPaymentScreen) {
     return (
       <PaymentScreen
-        totalPrice={customizeTourViewModel.selection.totalPrice}
+        totalPrice={customizeTourViewModel.isEditMode ? customizeTourViewModel.priceDifference : customizeTourViewModel.selection.totalPrice}
         onPaymentSuccess={handlePaymentSuccess}
         onPaymentCancel={handlePaymentCancel}
         processPayment={customizeTourViewModel.processPayment.bind(customizeTourViewModel)}

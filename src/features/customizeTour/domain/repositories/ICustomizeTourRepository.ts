@@ -5,4 +5,5 @@ export interface ICustomizeTourRepository {
   saveCustomization(selection: CustomizationSelection): Promise<{ success: boolean; customizationId: string }>;
   processPayment(amount: number, currency: string, customerEmail: string): Promise<{ success: boolean; error?: string }>;
   bookTour(tourId: string, tourName: string, tourImage: string, selection: CustomizationSelection): Promise<{ success: boolean; bookingId: string }>;
+  updateBooking(bookingId: string, selection: CustomizationSelection, additionalPayment?: number): Promise<{ success: boolean }>;
 }

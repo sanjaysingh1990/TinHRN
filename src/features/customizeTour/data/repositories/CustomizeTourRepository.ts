@@ -16,16 +16,16 @@ import { PaymentService } from '../services/PaymentService';
 
 @injectable()
 export class CustomizeTourRepository implements ICustomizeTourRepository {
-  
+
   constructor(
     @inject(AuthRepositoryToken) private authRepository: IAuthRepository,
     @inject(PaymentServiceToken) private paymentService: PaymentService
-  ) {}
-  
+  ) { }
+
   async getCustomizationData(): Promise<CustomizeTourData> {
     // Simulate 2-second API delay
     await new Promise(resolve => setTimeout(resolve, 2000));
-    
+
     return {
       availableDates: [], // No longer generating random dates
       tentOptions: this.getDummyTentOptions(),
@@ -37,7 +37,7 @@ export class CustomizeTourRepository implements ICustomizeTourRepository {
   async saveCustomization(selection: CustomizationSelection): Promise<{ success: boolean; customizationId: string }> {
     // Simulate API call delay
     await new Promise(resolve => setTimeout(resolve, 1000));
-    
+
     return {
       success: true,
       customizationId: `custom_${Date.now()}`
@@ -50,7 +50,7 @@ export class CustomizeTourRepository implements ICustomizeTourRepository {
       if (!amount || amount <= 0) {
         return { success: false, error: 'Invalid payment amount' };
       }
-      
+
       if (!customerEmail || !customerEmail.includes('@')) {
         return { success: false, error: 'Invalid email address' };
       }
@@ -59,16 +59,16 @@ export class CustomizeTourRepository implements ICustomizeTourRepository {
       console.log('Initializing payment sheet with amount:', amount, 'currency:', currency);
       const initResult = await this.paymentService.initializePaymentSheet(amount, currency, customerEmail);
       console.log('Payment sheet initialization result:', initResult);
-      
+
       if (!initResult.success) {
         return { success: false, error: initResult.error || 'Failed to initialize payment' };
       }
-      
+
       // Present the payment sheet to the user
       console.log('Presenting payment sheet');
       const presentResult = await this.paymentService.presentPaymentSheet();
       console.log('Payment sheet presentation result:', presentResult);
-      
+
       return presentResult;
     } catch (error: any) {
       console.error('Error processing payment:', error);
@@ -82,13 +82,13 @@ export class CustomizeTourRepository implements ICustomizeTourRepository {
       // Get current user ID
       const currentUser = await this.authRepository.getCurrentUser();
       const userId = currentUser?.id || 'unknown-user';
-      
+
       // Create booking document in Firestore
       const bookingsCollection = collection(firestore, 'bookings');
-      
+
       // Generate a unique booking reference
       const bookingReference = 'THB-' + Math.random().toString(36).substr(2, 8).toUpperCase();
-      
+
       // Calculate duration
       let duration = '1 Night';
       if (selection.startDate && selection.endDate) {
@@ -96,7 +96,7 @@ export class CustomizeTourRepository implements ICustomizeTourRepository {
         const days = Math.ceil(timeDiff / (1000 * 3600 * 24));
         duration = `${days} Days`;
       }
-      
+
       // Calculate total amount
       let totalAmount = 0;
       let nights = 1;
@@ -105,14 +105,14 @@ export class CustomizeTourRepository implements ICustomizeTourRepository {
         nights = Math.ceil(timeDiff / (1000 * 3600 * 24));
         nights = Math.max(1, nights);
       }
-      
+
       if (selection.selectedTent) {
         totalAmount += selection.selectedTent.pricePerNight * nights;
       }
       selection.selectedAddOns.forEach(addOn => {
         totalAmount += addOn.price;
       });
-      
+
       // Create booking document
       const bookingDoc = await addDoc(bookingsCollection, {
         userId: userId, // Use actual user ID
@@ -151,12 +151,12 @@ export class CustomizeTourRepository implements ICustomizeTourRepository {
           }))
         }
       });
-      
+
       // As per requirements, add bookingId inside the document using the created document ID
       await updateDoc(doc(firestore, 'bookings', bookingDoc.id), {
         bookingId: bookingDoc.id
       });
-      
+
       return {
         success: true,
         bookingId: bookingDoc.id
@@ -259,5 +259,70 @@ export class CustomizeTourRepository implements ICustomizeTourRepository {
         contact: '+1-800-HIMALAYA'
       }
     ];
+  }
+
+  async updateBooking(bookingId: string, selection: CustomizationSelection, additionalPayment: number = 0): Promise<{ success: boolean }> {
+    try {
+      const bookingRef = doc(firestore, 'bookings', bookingId);
+
+      // Calculate duration
+      let duration = '1 Night';
+      if (selection.startDate && selection.endDate) {
+        const timeDiff = selection.endDate.getTime() - selection.startDate.getTime();
+        const days = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        duration = `${days} Days`;
+      }
+
+      // Calculate total amount
+      let totalAmount = 0;
+      let nights = 1;
+      if (selection.startDate && selection.endDate) {
+        const timeDiff = selection.endDate.getTime() - selection.startDate.getTime();
+        nights = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        nights = Math.max(1, nights);
+      }
+
+      if (selection.selectedTent) {
+        totalAmount += selection.selectedTent.pricePerNight * nights;
+      }
+      selection.selectedAddOns.forEach(addOn => {
+        totalAmount += addOn.price;
+      });
+
+      const updateData: any = {
+        startDate: selection.startDate || new Date(),
+        endDate: selection.endDate || new Date(),
+        duration: duration,
+        totalAmount: totalAmount,
+        updatedAt: serverTimestamp(),
+        customisation: {
+          tentType: selection.selectedTent ? {
+            type: selection.selectedTent.name,
+            price: selection.selectedTent.pricePerNight
+          } : {
+            type: '',
+            price: 0
+          },
+          addons: selection.selectedAddOns.map(addOn => ({
+            addonName: addOn.name,
+            addonDescription: addOn.description,
+            addOnPrice: addOn.price
+          }))
+        }
+      };
+
+      // If additional payment was made, record it (in a real app, we'd add it to a payments subcollection)
+      if (additionalPayment > 0) {
+        // We could verify the payment here or add a payment record
+        console.log(`Additional payment of ${additionalPayment} recorded for booking ${bookingId}`);
+      }
+
+      await updateDoc(bookingRef, updateData);
+
+      return { success: true };
+    } catch (error) {
+      console.error('Error updating booking:', error);
+      throw error;
+    }
   }
 }

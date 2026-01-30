@@ -3,6 +3,7 @@ import { BlurView } from 'expo-blur';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
+  Alert,
   Dimensions,
   Image,
   ImageBackground,
@@ -15,6 +16,8 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+
+import { showErrorToast, showSuccessToast } from '../../../../utils/toast';
 
 import container from '../../../../container';
 import { useI18n } from '../../../../hooks/useI18n';
@@ -31,6 +34,12 @@ const getStyles = (colors: any, isDarkMode: boolean) => StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
+  },
+  cancelButton: {
+    backgroundColor: '#FF3B30', // Red color for cancel
+    borderRadius: 12,
+    paddingVertical: 16,
+    alignItems: 'center',
   },
   scrollView: {
     flex: 1,
@@ -318,7 +327,7 @@ const TourDetailsScreen = () => {
   const router = useRouter();
   const { colors, isDarkMode } = useTheme();
   const { t } = useI18n();
-  const { id, name, image } = useLocalSearchParams();
+  const { id, name, image, mode, bookingId } = useLocalSearchParams();
   const [details, setDetails] = useState<TourDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const [bookingLoading, setBookingLoading] = useState(false);
@@ -391,11 +400,57 @@ const TourDetailsScreen = () => {
 
   const onReviewPress = () => {
     router.push({
-      pathname: '/add-review',
+      pathname: '/tour-reviews' as any,
       params: {
-        tourId: id as string
+        tourId: id as string,
+        tourImage: image as string
       }
     });
+  };
+
+  const onEditBooking = () => {
+    router.push({
+      pathname: '/customize-tour',
+      params: {
+        tourId: id as string,
+        tourName: (name as string) || (details?.name as string),
+        tourImage: (image as string) || (details?.image as string),
+        mode: 'edit',
+        bookingId: bookingId as string
+      }
+    });
+  };
+
+  const onCancelBooking = () => {
+    Alert.alert(
+      "Cancel Booking",
+      "Are you sure you want to cancel this booking?",
+      [
+        {
+          text: "No",
+          style: "cancel"
+        },
+        {
+          text: "Yes, Cancel",
+          style: "destructive",
+          onPress: async () => {
+            if (!bookingId) return;
+            setBookingLoading(true);
+            try {
+              const viewModel = container.resolve<TourDetailsViewModel>(TourDetailsViewModelToken);
+              await viewModel.cancelBooking(bookingId as string);
+              showSuccessToast("Booking cancelled successfully");
+              router.back();
+            } catch (error: any) {
+              console.error("Cancellation error:", error);
+              showErrorToast(error.message || "Failed to cancel booking");
+            } finally {
+              setBookingLoading(false);
+            }
+          }
+        }
+      ]
+    );
   };
 
   const renderStars = (rating: number) => {
@@ -658,20 +713,47 @@ const TourDetailsScreen = () => {
 
       {/* Sticky Footer Button */}
       <View style={styles.footer}>
-        <TouchableOpacity
-          onPress={onBookPress}
-          style={[styles.bookButton, bookingLoading && styles.bookButtonLoading]}
-          disabled={bookingLoading}
-        >
-          {bookingLoading ? (
-            <View style={styles.buttonContent}>
-              <MaterialIcons name="hourglass-empty" size={20} color={isDarkMode ? '#111714' : '#fff'} style={styles.loadingIcon} />
-              <Text style={styles.bookButtonText}>{t('tourDetails.booking')}</Text>
-            </View>
-          ) : (
-            <Text style={styles.bookButtonText}>{t('tourDetails.next')}</Text>
-          )}
-        </TouchableOpacity>
+        {mode === 'manage' ? (
+          <View style={{ gap: 12 }}>
+            <TouchableOpacity
+              onPress={onEditBooking}
+              style={[styles.bookButton, { backgroundColor: colors.secondary }, bookingLoading && styles.bookButtonLoading]}
+              disabled={bookingLoading}
+            >
+              <Text style={styles.bookButtonText}>Edit Booking</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={onCancelBooking}
+              style={[styles.cancelButton, bookingLoading && styles.bookButtonLoading]}
+              disabled={bookingLoading}
+            >
+              {bookingLoading ? (
+                <View style={styles.buttonContent}>
+                  <MaterialIcons name="hourglass-empty" size={20} color="#fff" style={styles.loadingIcon} />
+                  <Text style={styles.bookButtonText}>Cancelling...</Text>
+                </View>
+              ) : (
+                <Text style={styles.bookButtonText}>Cancel Booking</Text>
+              )}
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <TouchableOpacity
+            onPress={onBookPress}
+            style={[styles.bookButton, bookingLoading && styles.bookButtonLoading]}
+            disabled={bookingLoading}
+          >
+            {bookingLoading ? (
+              <View style={styles.buttonContent}>
+                <MaterialIcons name="hourglass-empty" size={20} color={isDarkMode ? '#111714' : '#fff'} style={styles.loadingIcon} />
+                <Text style={styles.bookButtonText}>{t('tourDetails.booking')}</Text>
+              </View>
+            ) : (
+              <Text style={styles.bookButtonText}>{t('tourDetails.next')}</Text>
+            )}
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );
