@@ -88,6 +88,17 @@ export const en = {
             title: "Frequently Asked Questions",
             subtitle: "Find answers to common questions about our Himalayan treks, safety measures, and booking policies.",
         },
+        edit: {
+            title: "Edit Profile",
+            name: "Full Name",
+            namePlaceholder: "Enter your name",
+            email: "Email Address (Read-only)",
+            save: "Save Changes",
+            camera: "Take Photo",
+            gallery: "Choose from Gallery",
+            permissionDenied: "Permission to access camera or gallery was denied.",
+            success: "Profile updated successfully",
+        },
     },
     bookings: {
         title: "My Bookings",

@@ -136,7 +136,11 @@ const ProfileScreen = () => {
       <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
         <StatusBar barStyle={isDarkMode ? "light-content" : "dark-content"} />
         <ScrollView style={styles.scrollView}>
-          <ProfileHeader userProfile={profile} loading={isLoading && !profile} />
+          <ProfileHeader
+            userProfile={profile}
+            loading={isLoading && !profile}
+            onEditPress={() => handleItemPress('/edit-profile')}
+          />
           <View style={styles.content}>
             <ProfileSection title={t('profile.sections.achievements')}>
               {isLoading && achievements.length === 0 ? (
@@ -165,7 +169,7 @@ const ProfileScreen = () => {
             </ProfileSection>
 
             <ProfileSection title={t('profile.sections.account')}>
-              <AccountItem icon="person-outline" title={t('profile.personalInfo')} onPress={() => Haptics.selectionAsync()} />
+              <AccountItem icon="person-outline" title={t('profile.personalInfo')} onPress={() => handleItemPress('/edit-profile')} />
               <AccountItem icon="history" title={t('profile.bookingHistory')} onPress={() => handleItemPress('/booking-history')} />
               <AccountItem icon="payment" title={t('profile.paymentMethods')} onPress={() => Haptics.selectionAsync()} noBorder />
             </ProfileSection>

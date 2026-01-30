@@ -33,11 +33,13 @@ import { GetAchievementsUseCase } from "./features/profile/domain/usecases/GetAc
 import { GetFaqListUseCase } from "./features/profile/domain/usecases/GetFaqListUseCase";
 import { GetFavoritesUseCase } from "./features/profile/domain/usecases/GetFavoritesUseCase";
 import { GetUserProfileUseCase } from "./features/profile/domain/usecases/GetUserProfileUseCase";
+import { UpdateUserProfileUseCase } from "./features/profile/domain/usecases/UpdateUserProfileUseCase";
 import { AboutUsViewModel } from "./features/profile/presentation/viewmodels/AboutUsViewModel";
 import { BookingHistoryViewModel } from "./features/profile/presentation/viewmodels/BookingHistoryViewModel";
+import { EditProfileViewModel } from "./features/profile/presentation/viewmodels/EditProfileViewModel";
 import { FaqViewModel } from "./features/profile/presentation/viewmodels/FaqViewModel";
 import { ProfileViewModel } from "./features/profile/presentation/viewmodels/ProfileViewModel";
-import { AboutUsViewModelToken, BookingHistoryViewModelToken, FaqViewModelToken, GetAchievementsUseCaseToken, GetFaqListUseCaseToken, GetFavoritesUseCaseToken, GetUserProfileUseCaseToken, ProfileRepositoryToken, ProfileViewModelToken } from "./features/profile/profile.di";
+import { AboutUsViewModelToken, BookingHistoryViewModelToken, EditProfileViewModelToken, FaqViewModelToken, GetAchievementsUseCaseToken, GetFaqListUseCaseToken, GetFavoritesUseCaseToken, GetUserProfileUseCaseToken, ProfileRepositoryToken, ProfileViewModelToken, UpdateUserProfileUseCaseToken } from "./features/profile/profile.di";
 
 import { MyBookingsRepository } from "./features/mybookings/data/repositories/MyBookingsRepository";
 import { GetAllBookingsOrderedByCreatedAtUseCase } from "./features/mybookings/domain/usecases/GetAllBookingsOrderedByCreatedAtUseCase";
@@ -117,7 +119,9 @@ container.register(GetAchievementsUseCaseToken, { useClass: GetAchievementsUseCa
 container.register(GetFavoritesUseCaseToken, { useClass: GetFavoritesUseCase });
 container.register(GetFaqListUseCaseToken, { useClass: GetFaqListUseCase });
 container.register(GetUserProfileUseCaseToken, { useClass: GetUserProfileUseCase });
+container.register(UpdateUserProfileUseCaseToken, { useClass: UpdateUserProfileUseCase });
 container.register(ProfileViewModelToken, { useClass: ProfileViewModel });
+container.register(EditProfileViewModelToken, { useClass: EditProfileViewModel });
 container.register(AboutUsViewModelToken, { useClass: AboutUsViewModel });
 container.register(FaqViewModelToken, { useClass: FaqViewModel });
 container.register(BookingHistoryViewModelToken, { useClass: BookingHistoryViewModel });

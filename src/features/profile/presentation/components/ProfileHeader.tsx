@@ -6,11 +6,12 @@ import { useTheme } from '../../../../hooks/useTheme';
 interface ProfileHeaderProps {
   userProfile?: any;
   loading?: boolean;
+  onEditPress?: () => void;
 }
 
-const ProfileHeader: React.FC<ProfileHeaderProps> = ({ userProfile, loading }) => {
+const ProfileHeader: React.FC<ProfileHeaderProps> = ({ userProfile, loading, onEditPress }) => {
   const { colors, isDarkMode } = useTheme();
-  
+
   const styles = StyleSheet.create({
     container: {
       alignItems: 'center',
@@ -61,7 +62,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ userProfile, loading }) =
       />
       <Text style={styles.name}>{displayName}</Text>
       <Text style={styles.email}>{displayEmail}</Text>
-      <TouchableOpacity style={styles.editButton}>
+      <TouchableOpacity style={styles.editButton} onPress={onEditPress}>
         <MaterialIcons name="edit" size={16} color={isDarkMode ? '#111714' : '#fff'} />
         <Text style={styles.editButtonText}>Edit Profile</Text>
       </TouchableOpacity>
