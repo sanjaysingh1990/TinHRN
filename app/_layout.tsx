@@ -12,6 +12,7 @@ import { theme } from '../src/theme';
 
 
 import { PortalProvider } from '@gorhom/portal';
+import { StripeProvider } from '@stripe/stripe-react-native';
 import { View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import container from '../src/container';
@@ -130,7 +131,12 @@ export default function RootLayout() {
         <Provider store={store}>
           <AuthProvider>
             <I18nProvider>
-              <AppContent />
+              <StripeProvider
+                publishableKey="pk_test_51Pz4JbRvCfHkDdNn0XvDz6F3vY7Q2p9aB8cD1eF5gH6iJ7kL8mN9oP0qR1sT2uV3wX4yZ5"
+                merchantIdentifier="merchant.com.tentinhimalayas"
+              >
+                <AppContent />
+              </StripeProvider>
             </I18nProvider>
           </AuthProvider>
         </Provider>

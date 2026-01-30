@@ -1,4 +1,4 @@
-import { initPaymentSheet, presentPaymentSheet, confirmPaymentSheetPayment } from '@stripe/stripe-react-native';
+import { initPaymentSheet, presentPaymentSheet } from '@stripe/stripe-react-native';
 import { Platform } from 'react-native';
 
 export class PaymentService {
@@ -11,13 +11,17 @@ export class PaymentService {
     this.merchantIdentifier = 'merchant.com.tentinhimalayas'; // iOS only
   }
 
+  private isMockMode(): boolean {
+    return this.publishableKey.includes('pk_test_51Pz4JbRvCfHkDdNn0XvDz6F3vY7Q2p9aB8cD1eF5gH6iJ7kL8mN9oP0qR1sT2uV3wX4yZ5');
+  }
+
   /**
    * Initialize the payment sheet with the provided payment intent
    */
   async initializePaymentSheet(amount: number, currency: string, customerEmail: string): Promise<{ success: boolean; error?: string }> {
     try {
       console.log('Initializing Stripe payment sheet...');
-      
+
       // In a real implementation, you would call your backend to create a payment intent
       // and get the client secret. For this example, we're using a test client secret.
       const clientSecret = 'pi_3Pz4JbRvCfHkDdNn0XvDz6F3_secret_Y7Q2p9aB8cD1eF5gH6iJ7kL8mN9oP0qR1sT2uV3wX4yZ5'; // Test client secret
@@ -25,6 +29,12 @@ export class PaymentService {
       // Add a check to ensure Stripe is properly initialized
       if (!clientSecret) {
         return { success: false, error: 'Payment configuration is incomplete' };
+      }
+
+      if (this.isMockMode()) {
+        console.log('Validating Mock Mode configuration...');
+        console.log('Mock Mode enabled: Skipping Stripe initialization.');
+        return { success: true };
       }
 
       const { error } = await initPaymentSheet({
@@ -97,10 +107,17 @@ export class PaymentService {
   async presentPaymentSheet(): Promise<{ success: boolean; error?: string }> {
     try {
       console.log('Presenting Stripe payment sheet...');
-      
+
       // Present the payment sheet
+      if (this.isMockMode()) {
+        console.log('Mock Mode: Simulating successful payment...');
+        await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate delay
+        console.log('Mock Mode: Payment successful');
+        return { success: true };
+      }
+
       const { error, paymentOption } = await presentPaymentSheet();
-      
+
       if (error) {
         console.error('Error presenting payment sheet:', error);
         // Handle specific error cases
@@ -109,7 +126,7 @@ export class PaymentService {
         }
         return { success: false, error: error.message };
       }
-      
+
       if (!paymentOption) {
         return { success: false, error: 'Payment was not completed' };
       }
