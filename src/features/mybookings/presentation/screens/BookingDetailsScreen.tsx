@@ -36,7 +36,7 @@ const BookingDetailsScreen = () => {
     useEffect(() => {
         const loadBooking = async () => {
             if (!bookingId) {
-                Alert.alert('Error', 'No booking ID provided');
+                Alert.alert(t('bookingDetails.error'), t('bookingDetails.noId'));
                 router.back();
                 return;
             }
@@ -76,9 +76,9 @@ const BookingDetailsScreen = () => {
     if (!booking) {
         return (
             <View style={[styles.container, { backgroundColor: colors.background, justifyContent: 'center', alignItems: 'center' }]}>
-                <Text style={{ color: colors.text }}>Booking not found</Text>
+                <Text style={{ color: colors.text }}>{t('bookingDetails.notFound')}</Text>
                 <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-                    <Text style={{ color: colors.primary }}>Go Back</Text>
+                    <Text style={{ color: colors.primary }}>{t('bookingDetails.goBack')}</Text>
                 </TouchableOpacity>
             </View>
         );
@@ -95,7 +95,7 @@ const BookingDetailsScreen = () => {
                 <TouchableOpacity onPress={() => router.back()} style={styles.backButtonIcon}>
                     <MaterialIcons name="arrow-back" size={24} color={colors.text} />
                 </TouchableOpacity>
-                <Text style={[styles.headerTitle, { color: colors.text }]}>Booking Details</Text>
+                <Text style={[styles.headerTitle, { color: colors.text }]}>{t('bookingDetails.title')}</Text>
                 <View style={{ width: 40 }} />
             </View>
 
@@ -105,7 +105,7 @@ const BookingDetailsScreen = () => {
                     <Image source={{ uri: booking.tourImage }} style={styles.tourImage} />
                     <View style={styles.tourInfo}>
                         <Text style={[styles.tourName, { color: colors.text }]}>{booking.tourName}</Text>
-                        <Text style={[styles.vendor, { color: colors.secondary }]}>by {booking.vendor}</Text>
+                        <Text style={[styles.vendor, { color: colors.secondary }]}>{t('bookingDetails.by')} {booking.vendor}</Text>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <View style={[styles.statusBadge, { backgroundColor: booking.status === 'confirmed' ? 'rgba(0, 128, 0, 0.2)' : 'rgba(255, 0, 0, 0.2)' }]}>
                                 <Text style={[styles.statusText, { color: booking.status === 'confirmed' ? 'green' : 'red' }]}>
@@ -118,7 +118,7 @@ const BookingDetailsScreen = () => {
                                     onPress={() => router.push(`/tour/${booking.tourId}` as any)}
                                 >
                                     <MaterialIcons name="refresh" size={16} color={colors.primary} />
-                                    <Text style={[styles.bookAgainText, { color: colors.primary }]}>Book tour again</Text>
+                                    <Text style={[styles.bookAgainText, { color: colors.primary }]}>{t('bookingDetails.bookAgain')}</Text>
                                 </TouchableOpacity>
                             )}
                         </View>
@@ -127,43 +127,43 @@ const BookingDetailsScreen = () => {
 
                 {/* Booking Info */}
                 <View style={[styles.card, { backgroundColor: colors.cardBackgroundColor, borderColor: colors.borderColor }]}>
-                    <Text style={[styles.cardTitle, { color: colors.text }]}>Booking Information</Text>
+                    <Text style={[styles.cardTitle, { color: colors.text }]}>{t('bookingDetails.bookingInfo')}</Text>
 
                     <View style={styles.row}>
-                        <Text style={[styles.label, { color: colors.secondary }]}>Reference</Text>
+                        <Text style={[styles.label, { color: colors.secondary }]}>{t('bookingDetails.reference')}</Text>
                         <Text style={[styles.value, { color: colors.text }]}>{booking.bookingReference}</Text>
                     </View>
 
                     <View style={styles.divider} />
 
                     <View style={styles.row}>
-                        <Text style={[styles.label, { color: colors.secondary }]}>Check-in</Text>
+                        <Text style={[styles.label, { color: colors.secondary }]}>{t('bookingDetails.checkIn')}</Text>
                         <Text style={[styles.value, { color: colors.text }]}>{formatDate(booking.startDate)}</Text>
                     </View>
 
                     <View style={styles.row}>
-                        <Text style={[styles.label, { color: colors.secondary }]}>Check-out</Text>
+                        <Text style={[styles.label, { color: colors.secondary }]}>{t('bookingDetails.checkOut')}</Text>
                         <Text style={[styles.value, { color: colors.text }]}>{formatDate(booking.endDate)}</Text>
                     </View>
 
                     <View style={styles.row}>
-                        <Text style={[styles.label, { color: colors.secondary }]}>Duration</Text>
+                        <Text style={[styles.label, { color: colors.secondary }]}>{t('bookingDetails.duration')}</Text>
                         <Text style={[styles.value, { color: colors.text }]}>
-                            {Math.ceil((new Date(booking.endDate).getTime() - new Date(booking.startDate).getTime()) / (1000 * 60 * 60 * 24))} Night(s)
+                            {Math.ceil((new Date(booking.endDate).getTime() - new Date(booking.startDate).getTime()) / (1000 * 60 * 60 * 24))} {t('bookingDetails.nights')}
                         </Text>
                     </View>
                 </View>
 
                 {/* Customization Details */}
                 <View style={[styles.card, { backgroundColor: colors.cardBackgroundColor, borderColor: colors.borderColor }]}>
-                    <Text style={[styles.cardTitle, { color: colors.text }]}>Your Selection</Text>
+                    <Text style={[styles.cardTitle, { color: colors.text }]}>{t('bookingDetails.yourSelection')}</Text>
 
                     {booking.customization?.tentType && (
                         <View style={styles.itemRow}>
                             <MaterialIcons name="home" size={20} color={colors.primary} />
                             <View style={{ marginLeft: 10, flex: 1 }}>
                                 <Text style={[styles.itemText, { color: colors.text }]}>{booking.customization.tentType.type}</Text>
-                                <Text style={[styles.itemPrice, { color: colors.secondary }]}>${booking.customization.tentType.price} /night</Text>
+                                <Text style={[styles.itemPrice, { color: colors.secondary }]}>${booking.customization.tentType.price} {t('bookingDetails.perNight')}</Text>
                             </View>
                         </View>
                     )}
@@ -171,7 +171,7 @@ const BookingDetailsScreen = () => {
                     {booking.customization?.addons && booking.customization.addons.length > 0 && (
                         <>
                             <View style={[styles.divider, { marginVertical: 10 }]} />
-                            <Text style={[styles.subTitle, { color: colors.text }]}>Add-ons</Text>
+                            <Text style={[styles.subTitle, { color: colors.text }]}>{t('bookingDetails.addons')}</Text>
                             {booking.customization.addons.map((addon, index) => (
                                 <View key={index} style={styles.itemRow}>
                                     <MaterialIcons name="add-circle-outline" size={20} color={colors.primary} />
@@ -187,26 +187,45 @@ const BookingDetailsScreen = () => {
 
                 {/* Payment Summary */}
                 <View style={[styles.card, { backgroundColor: colors.cardBackgroundColor, borderColor: colors.borderColor }]}>
-                    <Text style={[styles.cardTitle, { color: colors.text }]}>Payment Summary</Text>
+                    <Text style={[styles.cardTitle, { color: colors.text }]}>{t('bookingDetails.paymentSummary')}</Text>
                     <View style={styles.row}>
-                        <Text style={[styles.label, { color: colors.secondary }]}>Total Amount</Text>
+                        <Text style={[styles.label, { color: colors.secondary }]}>{t('bookingDetails.totalAmount')}</Text>
                         <Text style={[styles.totalAmount, { color: colors.primary }]}>${booking.totalPrice}</Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={[styles.label, { color: colors.secondary }]}>Payment Status</Text>
-                        <Text style={[styles.value, { color: 'green', fontWeight: 'bold' }]}>PAID</Text>
+                        <Text style={[styles.label, { color: colors.secondary }]}>{t('bookingDetails.paymentStatus')}</Text>
+                        <Text style={[styles.value, { color: 'green', fontWeight: 'bold' }]}>{t('bookingDetails.paid')}</Text>
                     </View>
                 </View>
 
             </ScrollView>
 
             {/* Footer Action */}
-            {isUpcoming && booking.status !== 'cancelled' && (
+            {isUpcoming && booking.status !== 'cancelled' ? (
                 <View style={[styles.footer, { backgroundColor: colors.background, borderTopColor: colors.borderColor }]}>
                     <TouchableOpacity style={[styles.actionButton, { backgroundColor: colors.primary }]} onPress={handleManage}>
-                        <Text style={styles.actionButtonText}>Manage Booking</Text>
+                        <Text style={styles.actionButtonText}>{t('bookingDetails.manageBooking')}</Text>
                     </TouchableOpacity>
                 </View>
+            ) : (
+                !isUpcoming && booking.status === 'confirmed' && (
+                    <View style={[styles.footer, { backgroundColor: colors.background, borderTopColor: colors.borderColor }]}>
+                        <TouchableOpacity
+                            style={[styles.actionButton, { backgroundColor: colors.primary }]}
+                            onPress={() => router.push({
+                                pathname: '/add-review',
+                                params: {
+                                    tourId: booking.tourId,
+                                    bookingId: booking.id,
+                                    tourName: booking.tourName,
+                                    tourImage: booking.tourImage
+                                }
+                            } as any)}
+                        >
+                            <Text style={styles.actionButtonText}>{t('bookingDetails.writeReview')}</Text>
+                        </TouchableOpacity>
+                    </View>
+                )
             )}
         </SafeAreaView>
     );

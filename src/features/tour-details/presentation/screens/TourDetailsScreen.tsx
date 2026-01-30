@@ -398,15 +398,7 @@ const TourDetailsScreen = () => {
     });
   };
 
-  const onReviewPress = () => {
-    router.push({
-      pathname: '/tour-reviews' as any,
-      params: {
-        tourId: id as string,
-        tourImage: image as string
-      }
-    });
-  };
+
 
   const onEditBooking = () => {
     router.push({
@@ -706,9 +698,7 @@ const TourDetailsScreen = () => {
           <MaterialIcons name="arrow-back" size={24} color="#fff" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>{t('tourDetails.title')}</Text>
-        <TouchableOpacity onPress={onReviewPress} style={styles.headerButton}>
-          <MaterialIcons name="rate-review" size={24} color="#fff" />
-        </TouchableOpacity>
+        <View style={{ width: 40 }} />
       </View>
 
       {/* Sticky Footer Button */}

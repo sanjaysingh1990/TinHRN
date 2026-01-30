@@ -69,18 +69,19 @@ const BookingCard: React.FC<BookingCardProps> = ({ booking, onManage, onAddToCal
       // Removed rounded borders styling
     },
     actions: {
-      flexDirection: 'column',
-      alignItems: 'flex-start',
+      flexDirection: 'row',
+      alignItems: 'center',
       marginTop: 10,
     },
     button: {
       flexDirection: 'row',
       alignItems: 'center',
+      justifyContent: 'center',
       backgroundColor: colors.primary,
-      paddingVertical: 8,
-      paddingHorizontal: 12,
-      borderRadius: 4, // Keep little rounded corners
-      marginBottom: 10,
+      width: 36,
+      height: 36,
+      borderRadius: 18,
+      marginRight: 12,
     },
     buttonText: {
       color: isDarkMode ? '#111714' : '#fff',
@@ -100,22 +101,35 @@ const BookingCard: React.FC<BookingCardProps> = ({ booking, onManage, onAddToCal
         <View style={styles.actions}>
           {isUpcoming ? (
             <>
-              <TouchableOpacity style={styles.button} onPress={() => onManage?.(booking)}>
-                <MaterialIcons name="edit" size={16} color={isDarkMode ? '#111714' : '#fff'} />
-                <Text style={styles.buttonText}>Manage</Text>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => onManage?.(booking)}
+                activeOpacity={0.7}
+              >
+                <MaterialIcons name="edit" size={18} color={isDarkMode ? '#111714' : '#fff'} />
               </TouchableOpacity>
-              <TouchableOpacity style={styles.button} onPress={() => onViewDetails?.(booking)}>
-                <MaterialIcons name="visibility" size={16} color={isDarkMode ? '#111714' : '#fff'} />
-                <Text style={styles.buttonText}>View Details</Text>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => onViewDetails?.(booking)}
+                activeOpacity={0.7}
+              >
+                <MaterialIcons name="visibility" size={18} color={isDarkMode ? '#111714' : '#fff'} />
               </TouchableOpacity>
-              <TouchableOpacity style={styles.button} onPress={() => onAddToCalendar?.(booking)}>
-                <MaterialIcons name="calendar-today" size={16} color={isDarkMode ? '#111714' : '#fff'} />
-                <Text style={styles.buttonText}>Add to Calendar</Text>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => onAddToCalendar?.(booking)}
+                activeOpacity={0.7}
+              >
+                <MaterialIcons name="calendar-today" size={18} color={isDarkMode ? '#111714' : '#fff'} />
               </TouchableOpacity>
             </>
           ) : (
-            <TouchableOpacity style={styles.button} onPress={() => onViewDetails?.(booking)}>
-              <MaterialIcons name="visibility" size={16} color={isDarkMode ? '#111714' : '#fff'} />
+            <TouchableOpacity
+              style={[styles.button, { width: 'auto', paddingHorizontal: 12, borderRadius: 8 }]}
+              onPress={() => onViewDetails?.(booking)}
+              activeOpacity={0.7}
+            >
+              <MaterialIcons name="visibility" size={18} color={isDarkMode ? '#111714' : '#fff'} />
               <Text style={styles.buttonText}>View Details</Text>
             </TouchableOpacity>
           )}

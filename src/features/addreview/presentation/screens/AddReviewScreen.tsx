@@ -2,135 +2,137 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
-    Animated,
-    Dimensions,
-    SafeAreaView,
-    StatusBar,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View
+  Animated,
+  Dimensions,
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
 } from 'react-native';
 import container from '../../../../container';
 import { GetCurrentUserUseCaseToken } from '../../../../features/auth/auth.di';
 import { GetCurrentUserUseCase } from '../../../../features/auth/domain/usecases/GetCurrentUserUseCase';
+import { useI18n } from '../../../../hooks/useI18n';
 import { useTheme } from '../../../../hooks/useTheme';
 import { AddReviewScreenViewModelToken } from '../../addreview.di';
 import { AddReviewScreenViewModel } from '../viewmodels/AddReviewScreenViewModel';
 
 // Add ErrorToast component
-const ErrorToast: React.FC<{ 
-  message: string; 
-  visible: boolean; 
-  onHide: () => void; 
+const ErrorToast: React.FC<{
+  message: string;
+  visible: boolean;
+  onHide: () => void;
   duration?: number;
-}> = ({ 
-  message, 
-  visible, 
-  onHide, 
-  duration = 4000 
+}> = ({
+  message,
+  visible,
+  onHide,
+  duration = 4000
 }) => {
-  const { colors, isDarkMode } = useTheme();
-  const fadeAnim = React.useRef(new Animated.Value(0)).current;
-  const translateY = React.useRef(new Animated.Value(-100)).current;
+    const { colors, isDarkMode } = useTheme();
+    const fadeAnim = React.useRef(new Animated.Value(0)).current;
+    const translateY = React.useRef(new Animated.Value(-100)).current;
 
-  useEffect(() => {
-    if (visible) {
-      // Show animation
+    useEffect(() => {
+      if (visible) {
+        // Show animation
+        Animated.parallel([
+          Animated.timing(fadeAnim, {
+            toValue: 1,
+            duration: 300,
+            useNativeDriver: true,
+          }),
+          Animated.timing(translateY, {
+            toValue: 0,
+            duration: 300,
+            useNativeDriver: true,
+          }),
+        ]).start();
+
+        // Auto hide after duration
+        const timer = setTimeout(() => {
+          hideToast();
+        }, duration);
+
+        return () => clearTimeout(timer);
+      }
+    }, [visible]);
+
+    const hideToast = () => {
       Animated.parallel([
         Animated.timing(fadeAnim, {
-          toValue: 1,
-          duration: 300,
-          useNativeDriver: true,
-        }),
-        Animated.timing(translateY, {
           toValue: 0,
           duration: 300,
           useNativeDriver: true,
         }),
-      ]).start();
+        Animated.timing(translateY, {
+          toValue: -100,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+      ]).start(() => {
+        onHide();
+      });
+    };
 
-      // Auto hide after duration
-      const timer = setTimeout(() => {
-        hideToast();
-      }, duration);
+    if (!visible) return null;
 
-      return () => clearTimeout(timer);
-    }
-  }, [visible]);
-
-  const hideToast = () => {
-    Animated.parallel([
-      Animated.timing(fadeAnim, {
-        toValue: 0,
-        duration: 300,
-        useNativeDriver: true,
-      }),
-      Animated.timing(translateY, {
-        toValue: -100,
-        duration: 300,
-        useNativeDriver: true,
-      }),
-    ]).start(() => {
-      onHide();
-    });
-  };
-
-  if (!visible) return null;
-
-  return (
-    <Animated.View
-      style={[
-        {
-          position: 'absolute',
-          top: 60,
-          left: 20,
-          right: 20,
-          padding: 16,
-          borderRadius: 12,
-          borderWidth: 1,
-          zIndex: 1000,
-          elevation: 1000,
-          shadowColor: '#000',
-          shadowOffset: {
-            width: 0,
-            height: 2,
+    return (
+      <Animated.View
+        style={[
+          {
+            position: 'absolute',
+            top: 60,
+            left: 20,
+            right: 20,
+            padding: 16,
+            borderRadius: 12,
+            borderWidth: 1,
+            zIndex: 1000,
+            elevation: 1000,
+            shadowColor: '#000',
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 4,
+            backgroundColor: isDarkMode ? '#ff6b6b' : '#ff4757',
+            borderColor: isDarkMode ? '#ff8e8e' : '#ff3838',
+            opacity: fadeAnim,
+            transform: [{ translateY }],
           },
-          shadowOpacity: 0.25,
-          shadowRadius: 4,
-          backgroundColor: isDarkMode ? '#ff6b6b' : '#ff4757',
-          borderColor: isDarkMode ? '#ff8e8e' : '#ff3838',
-          opacity: fadeAnim,
-          transform: [{ translateY }],
-        },
-      ]}
-    >
-      <Text style={{
-        color: 'white',
-        fontSize: 14,
-        fontWeight: '500',
-        textAlign: 'center',
-      }}>{message}</Text>
-    </Animated.View>
-  );
-};
+        ]}
+      >
+        <Text style={{
+          color: 'white',
+          fontSize: 14,
+          fontWeight: '500',
+          textAlign: 'center',
+        }}>{message}</Text>
+      </Animated.View>
+    );
+  };
 
 const { width } = Dimensions.get('window');
 
 const AddReviewScreen: React.FC = () => {
   const router = useRouter();
   const { colors, isDarkMode } = useTheme();
+  const { t } = useI18n();
   const { tourId } = useLocalSearchParams();
   const [viewModel] = useState(() => container.resolve<AddReviewScreenViewModel>(AddReviewScreenViewModelToken));
   const [getCurrentUserUseCase] = useState(() => container.resolve<GetCurrentUserUseCase>(GetCurrentUserUseCaseToken));
-  
+
   const [user, setUser] = useState<any>(null);
   const [rating, setRating] = useState(0); // Local state for rating
   const [reviewText, setReviewText] = useState(''); // Local state for review text
   const [showErrorToast, setShowErrorToast] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -138,11 +140,11 @@ const AddReviewScreen: React.FC = () => {
         setUser(currentUser);
       } catch (error) {
         console.error('Error fetching user:', error);
-        setErrorMessage('Failed to fetch user information');
+        setErrorMessage(t('reviews.errorFetchUser'));
         setShowErrorToast(true);
       }
     };
-    
+
     fetchUser();
   }, []);
 
@@ -163,21 +165,21 @@ const AddReviewScreen: React.FC = () => {
 
   const handleSubmit = async () => {
     if (!user) {
-      setErrorMessage('User not found');
+      setErrorMessage(t('reviews.errorUser'));
       setShowErrorToast(true);
       return;
     }
-    
+
     if (!tourId) {
-      setErrorMessage('Tour ID not found');
+      setErrorMessage(t('reviews.errorTour'));
       setShowErrorToast(true);
       return;
     }
-    
+
     // Update ViewModel with current local state before submitting
     viewModel.setRating(rating);
     viewModel.setReviewText(reviewText);
-    console.log("user",user);
+    console.log("user", user);
     // Use local rating state instead of viewModel.rating
     const success = await viewModel.submitReview(
       tourId as string,
@@ -185,10 +187,10 @@ const AddReviewScreen: React.FC = () => {
       user.name || 'Anonymous',
       user.photoURL || ''
     );
-    
+
     if (success) {
       // Show success message and navigate back
-      setErrorMessage('Review submitted successfully');
+      setErrorMessage(t('reviews.success'));
       setShowErrorToast(true);
       setTimeout(() => {
         router.back();
@@ -206,7 +208,7 @@ const AddReviewScreen: React.FC = () => {
           const starValue = index + 1;
           // isSelected should be true if the starValue is less than or equal to the current rating
           const isSelected = starValue <= rating;
-          
+
           return (
             <TouchableOpacity
               key={starValue}
@@ -329,45 +331,45 @@ const AddReviewScreen: React.FC = () => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <StatusBar 
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'} 
-        backgroundColor={colors.background} 
+      <StatusBar
+        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+        backgroundColor={colors.background}
       />
-      
+
       {/* Error Toast */}
-      <ErrorToast 
+      <ErrorToast
         message={errorMessage}
         visible={showErrorToast}
         onHide={() => setShowErrorToast(false)}
       />
-      
+
       <View style={styles.container}>
         {/* Header */}
         <View style={styles.header}>
-          <TouchableOpacity 
-            onPress={() => router.back()} 
+          <TouchableOpacity
+            onPress={() => router.back()}
             style={styles.backButton}
           >
             <MaterialIcons name="arrow-back" size={24} color={colors.text} />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Leave a Review</Text>
+          <Text style={styles.headerTitle}>{t('reviews.title')}</Text>
         </View>
-        
+
         {/* Content */}
         <View style={styles.content}>
-          <Text style={styles.sectionTitle}>How was your trek?</Text>
+          <Text style={styles.sectionTitle}>{t('reviews.question')}</Text>
           <Text style={styles.sectionSubtitle}>
-            Your review helps others choose the perfect adventure
+            {t('reviews.subtitle')}
           </Text>
-          
+
           {/* Star Rating */}
           {renderStars()}
-          
+
           {/* Review Text Area */}
           <View style={styles.textAreaContainer}>
             <TextInput
               style={styles.textArea}
-              placeholder="Share your experience..."
+              placeholder={t('reviews.placeholder')}
               placeholderTextColor={colors.secondary}
               multiline
               numberOfLines={4}
@@ -377,7 +379,7 @@ const AddReviewScreen: React.FC = () => {
               textAlignVertical="top" // Ensure text starts at the top
             />
           </View>
-          
+
           {/* Submit Button */}
           <TouchableOpacity
             style={[
@@ -390,10 +392,10 @@ const AddReviewScreen: React.FC = () => {
             {viewModel.loading ? (
               <View style={styles.loadingContainer}>
                 <MaterialIcons name="hourglass-empty" size={20} color={isDarkMode ? '#111714' : '#fff'} />
-                <Text style={styles.loadingText}>Submitting...</Text>
+                <Text style={styles.loadingText}>{t('reviews.submitting')}</Text>
               </View>
             ) : (
-              <Text style={styles.submitButtonText}>Submit Review</Text>
+              <Text style={styles.submitButtonText}>{t('reviews.submit')}</Text>
             )}
           </TouchableOpacity>
         </View>
