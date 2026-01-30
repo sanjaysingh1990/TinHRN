@@ -1,6 +1,8 @@
 import { MaterialIcons } from '@expo/vector-icons';
+import * as Location from 'expo-location';
 import React, { useEffect, useRef, useState } from 'react';
 import {
+  Alert,
   Animated,
   Dimensions,
   FlatList,
@@ -17,12 +19,14 @@ import {
 // Dynamic import for react-native-maps to avoid module errors
 let MapView: any = null;
 let Marker: any = null;
+let Polyline: any = null;
 let isMapAvailable = false;
 
 try {
   const maps = require('react-native-maps');
   MapView = maps.default;
   Marker = maps.Marker;
+  Polyline = maps.Polyline;
   isMapAvailable = true;
   console.log('react-native-maps loaded successfully');
 } catch (error) {
@@ -44,6 +48,24 @@ interface MapViewExploreScreenProps {
   hideHeader?: boolean;
 }
 
+interface UserLocation {
+  latitude: number;
+  longitude: number;
+}
+
+// Haversine formula to calculate distance between two coordinates in kilometers
+const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number): number => {
+  const R = 6371; // Earth's radius in kilometers
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+};
+
 const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader = false }) => {
   const { colors, isDarkMode } = useTheme();
 
@@ -53,6 +75,9 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
   const [searchText, setSearchText] = useState('');
   const [selectedLocation, setSelectedLocation] = useState<ExploreLocation | null>(null);
   const [showFilterSheet, setShowFilterSheet] = useState(false);
+  const [userLocation, setUserLocation] = useState<UserLocation | null>(null);
+  const [distance, setDistance] = useState<number | null>(null);
+  const [showPath, setShowPath] = useState(false);
   const mapRef = useRef<any>(null);
 
   // Animation for pulsating marker
@@ -66,6 +91,36 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
     latitudeDelta: 3.0,
     longitudeDelta: 3.0,
   });
+
+  // Request location permission and get current location
+  const requestLocationPermission = async (): Promise<UserLocation | null> => {
+    try {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert(
+          'Location Permission Required',
+          'Please enable location permission to see distance and path to destinations.',
+          [{ text: 'OK' }]
+        );
+        return null;
+      }
+
+      const location = await Location.getCurrentPositionAsync({
+        accuracy: Location.Accuracy.Balanced,
+      });
+
+      const coords: UserLocation = {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      };
+      setUserLocation(coords);
+      return coords;
+    } catch (error) {
+      console.warn('Error getting location:', error);
+      Alert.alert('Location Error', 'Unable to get your current location.');
+      return null;
+    }
+  };
 
   // Create styles object early
   const styles = StyleSheet.create({
@@ -156,6 +211,16 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
       justifyContent: 'center',
       alignItems: 'center',
     },
+    userLocationMarker: {
+      width: 20,
+      height: 20,
+      borderRadius: 10,
+      backgroundColor: '#4285F4',
+      borderWidth: 3,
+      borderColor: '#ffffff',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
     markerContainer: {
       padding: 6,
       borderRadius: 20,
@@ -229,6 +294,34 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
       lineHeight: 16,
       fontFamily: 'NotoSans',
     },
+    distanceBadge: {
+      position: 'absolute',
+      top: hideHeader ? 200 : 220,
+      left: 20,
+      backgroundColor: colors.primary,
+      paddingHorizontal: 12,
+      paddingVertical: 8,
+      borderRadius: 20,
+      flexDirection: 'row',
+      alignItems: 'center',
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+      elevation: 5,
+      zIndex: 1000,
+    },
+    distanceText: {
+      fontSize: 14,
+      fontWeight: 'bold',
+      color: isDarkMode ? '#111714' : '#FFFFFF',
+      marginLeft: 6,
+      fontFamily: 'SplineSans',
+    },
+    clearPathButton: {
+      marginLeft: 8,
+      padding: 2,
+    },
   });
 
   const handleFilterPress = () => {
@@ -244,7 +337,7 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
     <TouchableOpacity
       style={[styles.exploreCard, {
         backgroundColor: colors.cardBackgroundColor,
-        borderColor: colors.borderColor,
+        borderColor: selectedLocation?.id === item.id ? colors.primary : colors.borderColor,
         marginLeft: index === 0 ? 20 : 8,
         marginRight: index === exploreData.length - 1 ? 20 : 8,
       }]}
@@ -259,6 +352,11 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
         <Text style={[styles.cardDescription, { color: colors.secondaryTextColor }]} numberOfLines={2}>
           {item.description}
         </Text>
+        {selectedLocation?.id === item.id && distance !== null && (
+          <Text style={[styles.cardDescription, { color: colors.primary, marginTop: 4 }]}>
+            📍 {distance.toFixed(1)} km away
+          </Text>
+        )}
       </View>
     </TouchableOpacity>
   );
@@ -267,13 +365,7 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
     const index = Math.round(event.nativeEvent.contentOffset.x / 256);
     if (exploreData[index]) {
       const location = exploreData[index];
-      setSelectedLocation(location);
-      mapRef.current?.animateToRegion({
-        latitude: location.latitude,
-        longitude: location.longitude,
-        latitudeDelta: 0.1,
-        longitudeDelta: 0.1,
-      }, 500);
+      handleCardPress(location, index);
     }
   };
 
@@ -283,21 +375,49 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
     </View>
   );
 
-  const handleCardPress = (location: ExploreLocation, index: number) => {
-    handleLocationPress(location, index);
-  };
-
-  const handleLocationPress = (location: ExploreLocation, index: number) => {
+  const handleCardPress = async (location: ExploreLocation, index: number) => {
     setSelectedLocation(location);
 
-    // Animate map to location
-    if (mapRef.current) {
-      mapRef.current.animateToRegion({
-        latitude: location.latitude,
-        longitude: location.longitude,
-        latitudeDelta: 0.5,
-        longitudeDelta: 0.5,
-      }, 1000);
+    // Request location permission and get current location
+    let currentLocation = userLocation;
+    if (!currentLocation) {
+      currentLocation = await requestLocationPermission();
+    }
+
+    // Calculate distance if we have user location
+    if (currentLocation) {
+      const dist = calculateDistance(
+        currentLocation.latitude,
+        currentLocation.longitude,
+        location.latitude,
+        location.longitude
+      );
+      setDistance(dist);
+      setShowPath(true);
+
+      // Fit map to show both markers
+      if (mapRef.current) {
+        mapRef.current.fitToCoordinates(
+          [
+            { latitude: currentLocation.latitude, longitude: currentLocation.longitude },
+            { latitude: location.latitude, longitude: location.longitude }
+          ],
+          {
+            edgePadding: { top: 150, right: 50, bottom: 200, left: 50 },
+            animated: true,
+          }
+        );
+      }
+    } else {
+      // Without location, just animate to the destination
+      if (mapRef.current) {
+        mapRef.current.animateToRegion({
+          latitude: location.latitude,
+          longitude: location.longitude,
+          latitudeDelta: 0.5,
+          longitudeDelta: 0.5,
+        }, 1000);
+      }
     }
 
     // Scroll to corresponding card
@@ -308,6 +428,16 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
         viewPosition: 0.5
       });
     }
+  };
+
+  const handleLocationPress = async (location: ExploreLocation, index: number) => {
+    await handleCardPress(location, index);
+  };
+
+  const clearPath = () => {
+    setShowPath(false);
+    setDistance(null);
+    setSelectedLocation(null);
   };
 
   const handleZoomIn = () => {
@@ -336,15 +466,15 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
     }
   };
 
-  const handleMyLocation = () => {
-    if (mapRef.current) {
+  const handleMyLocation = async () => {
+    const location = await requestLocationPermission();
+    if (location && mapRef.current) {
       mapRef.current.animateToRegion({
-        latitude: 32.2396, // Manali area
-        longitude: 77.1887,
-        latitudeDelta: 0.1,
-        longitudeDelta: 0.1,
+        latitude: location.latitude,
+        longitude: location.longitude,
+        latitudeDelta: 0.05,
+        longitudeDelta: 0.05,
       }, 1000);
-      setSelectedLocation(null);
     }
   };
 
@@ -586,12 +716,40 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
         style={styles.map}
         initialRegion={region}
         customMapStyle={isDarkMode ? darkMapStyle : []}
-        showsUserLocation={true}
+        showsUserLocation={false}
         showsMyLocationButton={false}
         showsCompass={false}
         showsScale={false}
-        onPress={() => setSelectedLocation(null)}
+        onPress={() => clearPath()}
       >
+        {/* User location marker */}
+        {userLocation && showPath && (
+          <Marker
+            coordinate={{
+              latitude: userLocation.latitude,
+              longitude: userLocation.longitude,
+            }}
+            anchor={{ x: 0.5, y: 0.5 }}
+          >
+            <View style={styles.userLocationMarker}>
+              <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: '#fff' }} />
+            </View>
+          </Marker>
+        )}
+
+        {/* Path line between user and destination */}
+        {userLocation && selectedLocation && showPath && Polyline && (
+          <Polyline
+            coordinates={[
+              { latitude: userLocation.latitude, longitude: userLocation.longitude },
+              { latitude: selectedLocation.latitude, longitude: selectedLocation.longitude }
+            ]}
+            strokeColor={colors.primary}
+            strokeWidth={3}
+            lineDashPattern={[10, 5]}
+          />
+        )}
+
         {/* Primary pulsating marker at center */}
         <Marker
           coordinate={{
@@ -669,6 +827,17 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
         </TouchableOpacity>
       </View>
 
+      {/* Distance Badge */}
+      {showPath && distance !== null && selectedLocation && (
+        <View style={styles.distanceBadge}>
+          <MaterialIcons name="directions" size={18} color={isDarkMode ? '#111714' : '#FFFFFF'} />
+          <Text style={styles.distanceText}>{distance.toFixed(1)} km</Text>
+          <TouchableOpacity style={styles.clearPathButton} onPress={clearPath}>
+            <MaterialIcons name="close" size={16} color={isDarkMode ? '#111714' : '#FFFFFF'} />
+          </TouchableOpacity>
+        </View>
+      )}
+
       {/* Zoom Controls */}
       <View style={styles.controls}>
         <TouchableOpacity style={styles.controlButton} onPress={handleZoomIn}>
@@ -684,7 +853,9 @@ const MapViewExploreScreen: React.FC<MapViewExploreScreenProps> = ({ hideHeader 
 
       {/* Bottom Cards */}
       <View style={styles.bottomContainer}>
-        <Text style={styles.sectionTitle}>Discover Places</Text>
+        <Text style={styles.sectionTitle}>
+          {selectedLocation ? `📍 ${selectedLocation.title}` : 'Discover Places'}
+        </Text>
         {loading ? (
           <FlatList
             data={Array.from({ length: 3 }, (_, i) => i)}
