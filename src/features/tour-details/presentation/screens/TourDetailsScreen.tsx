@@ -522,7 +522,7 @@ const TourDetailsScreen = () => {
               disabled={reviewsLoading}
             >
               <Text style={styles.loadMoreText}>
-                {reviewsLoading ? 'Loading...' : t('tourDetails.loadMoreReviews')}
+                {reviewsLoading ? t('common.loading') : t('tourDetails.loadMoreReviews')}
               </Text>
             </TouchableOpacity>
           )}
@@ -562,16 +562,16 @@ const TourDetailsScreen = () => {
             </View>
 
             {/* Highlights Section */}
-            {renderChips(details?.highlights || [], 'Highlights')}
+            {renderChips(details?.highlights || [], t('tourDetails.highlights'))}
 
             {/* Includes Section */}
-            {renderChips(details?.includes || [], 'Includes')}
+            {renderChips(details?.includes || [], t('tourDetails.includes'))}
 
             {/* Excludes Section */}
-            {renderChips(details?.excludes || [], 'Excludes')}
+            {renderChips(details?.excludes || [], t('tourDetails.excludes'))}
 
             {/* Best Time Section */}
-            {renderChips(details?.bestTime || [], 'Best Time')}
+            {renderChips(details?.bestTime || [], t('tourDetails.bestTime'))}
 
             {/* Itinerary Section */}
             <View style={styles.card}>
