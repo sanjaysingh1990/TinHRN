@@ -1,12 +1,13 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
+import { Image } from 'expo-image';
+import * as ImageManipulator from 'expo-image-manipulator';
 import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
     ActivityIndicator,
     Alert,
-    Image,
     KeyboardAvoidingView,
     Platform,
     ScrollView,
@@ -14,11 +15,12 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
-    View
+    View,
 } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import container from '../../../../container';
+import ImageCropper from '../../../../core/presentation/components/ImageCropper';
 import { useI18n } from '../../../../hooks/useI18n';
 import { useTheme } from '../../../../hooks/useTheme';
 import { EditProfileViewModelToken } from '../../profile.di';
@@ -33,6 +35,9 @@ const EditProfileScreen: React.FC = () => {
 
     const bottomSheetRef = useRef<BottomSheet>(null);
     const snapPoints = useMemo(() => ['25%'], []);
+
+    const [cropperVisible, setCropperVisible] = useState(false);
+    const [pickedImageUri, setPickedImageUri] = useState<string | null>(null);
 
     useEffect(() => {
         const unsubscribe = viewModel.subscribe(() => setUpdate(prev => prev + 1));
@@ -52,22 +57,41 @@ const EditProfileScreen: React.FC = () => {
             return;
         }
 
-        const result = useCamera
-            ? await ImagePicker.launchCameraAsync({
-                allowsEditing: true,
-                aspect: [1, 1],
-                quality: 0.3,
+        const result = await (useCamera
+            ? ImagePicker.launchCameraAsync({
+                allowsEditing: false,
+                quality: 1,
             })
-            : await ImagePicker.launchImageLibraryAsync({
-                allowsEditing: true,
-                aspect: [1, 1],
-                quality: 0.3,
-            });
+            : ImagePicker.launchImageLibraryAsync({
+                allowsEditing: false,
+                quality: 1,
+            }));
 
         if (!result.canceled && result.assets && result.assets[0].uri) {
-            console.log('[EditProfileScreen] Image picked, starting upload...', result.assets[0].uri);
-            await viewModel.uploadImage(result.assets[0].uri);
+            try {
+                const asset = result.assets[0];
+                console.log('[EditProfileScreen] Pre-compressing image for cropper:', asset.uri);
+
+                // Ultra-aggressive pre-compression to avoid crashes
+                const preCompressed = await ImageManipulator.manipulateAsync(
+                    asset.uri,
+                    [{ resize: { width: 800 } }], // Reduced from 1200
+                    { compress: 0.5, format: ImageManipulator.SaveFormat.WEBP } // Reduced from 0.8
+                );
+
+                setPickedImageUri(preCompressed.uri);
+                setCropperVisible(true);
+            } catch (error) {
+                console.error('[EditProfileScreen] Pre-compression failed:', error);
+                Alert.alert(t('common.error'), 'Failed to prepare image');
+            }
         }
+    };
+
+    const handleCropDone = async (uri: string) => {
+        setCropperVisible(false);
+        console.log('[EditProfileScreen] Crop complete. Uploading...', uri);
+        await viewModel.uploadImage(uri);
     };
 
     const handleSave = async () => {
@@ -271,6 +295,13 @@ const EditProfileScreen: React.FC = () => {
                             </TouchableOpacity>
                         </BottomSheetView>
                     </BottomSheet>
+
+                    <ImageCropper
+                        visible={cropperVisible}
+                        imageUri={pickedImageUri}
+                        onCrop={handleCropDone}
+                        onCancel={() => setCropperVisible(false)}
+                    />
                 </KeyboardAvoidingView>
             </SafeAreaView>
         </GestureHandlerRootView>

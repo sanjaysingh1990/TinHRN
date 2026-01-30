@@ -60,7 +60,8 @@
     "reflect-metadata": "^0.2.2",
     "tsyringe": "^4.10.0",
     "expo-image-picker": "~17.0.10",
-    "expo-location": "~19.0.8"
+    "expo-location": "~19.0.8",
+    "expo-image-manipulator": "~14.0.8"
   },
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.28.0",
